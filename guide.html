@@ -1,0 +1,733 @@
+<!-- Guide De pratiquant à athlète : à coller tel quel dans un bloc « Code HTML » d'une page Systeme.io vide -->
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>De pratiquant à athlète</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800&display=swap">
+<style>
+/* Layout: une fiche de coaching LF en ligne. Bandeaux bleu acier comme les fiches clients, cellules, libellés en capitales. */
+:root{
+  /* THE LF METHOD : deux couleurs en aplats, pétrole et crème (voir marque/DA.md). Look sombre assumé, un seul thème. */
+  --paper:#192E33;      /* pétrole, fond */
+  --sheet:#213B41;      /* pétrole relevé, bandeaux */
+  --sheet-deep:#2C4A51;
+  --ink:#EBE3D0;        /* crème logo */
+  --ink-soft:#AEB9B2;
+  --line:#3A5359;
+  --signal:#EBE3D0;
+  --cream-paper:#E5DDC7;
+  --good:#9CD1AC;
+  --warn:#E8B077;
+  --display:"Outfit","Avenir Next","Century Gothic",Arial,sans-serif;
+  --body:Verdana,Geneva,"DejaVu Sans",sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{background:var(--paper);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.65;margin:0}
+.wrap{max-width:860px;margin:0 auto;padding-inline:16px;padding-block:0 64px}
+h1,h2,h3{font-family:var(--display);text-transform:uppercase;letter-spacing:.04em;line-height:1.05;text-wrap:balance;margin:0}
+h2{font-size:clamp(28px,5.5vw,40px);font-weight:700}
+h3{font-size:20px;font-weight:600;margin-top:8px}
+p{margin:0;max-width:65ch}
+a{color:var(--signal)}
+.label{font-size:11px;letter-spacing:.14em;text-transform:uppercase;font-weight:bold;color:var(--ink-soft)}
+:focus-visible{outline:3px solid var(--signal);outline-offset:2px}
+
+/* En-tête */
+.top{display:flex;justify-content:space-between;align-items:center;gap:12px;padding-block:18px;border-bottom:2px solid var(--ink)}
+.mark{display:flex;align-items:center;gap:10px;font-family:var(--display);font-weight:600;font-size:15px;letter-spacing:.16em}
+.mark img{height:34px;width:auto}
+.top nav{display:flex;gap:14px;flex-wrap:wrap}
+.top nav a{font-size:12px;text-transform:uppercase;letter-spacing:.1em;color:var(--ink);text-decoration:none;font-weight:bold}
+.top nav a:hover{color:var(--signal)}
+
+.hero{display:grid;gap:18px;padding-block:40px 28px}
+.hero h1{font-size:clamp(44px,10vw,88px);font-weight:700}
+.hero h1 em{font-style:normal;background:var(--ink);color:var(--paper);display:inline-block;line-height:.86;padding:.1em .08em .02em}
+.hero .lede{font-size:16px;color:var(--ink-soft)}
+.contrast{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--line)}
+.contrast div{padding:10px 14px;border-bottom:1px solid var(--line);font-size:13px}
+.contrast div:nth-child(odd){border-right:1px solid var(--line)}
+.contrast .h{background:var(--sheet);font-weight:bold;text-transform:uppercase;letter-spacing:.1em;font-size:11px}
+.contrast div:nth-last-child(-n+2){border-bottom:0}
+
+/* Sections */
+section.block{padding-block:40px;border-top:1px solid var(--line);display:grid;gap:18px}
+.band{display:flex;align-items:baseline;gap:14px;background:var(--sheet);padding:12px 16px;flex-wrap:wrap}
+.band .label{color:var(--ink)}
+
+/* Test */
+.quiz{display:grid;border:1px solid var(--line)}
+.q{display:grid;grid-template-columns:34px 1fr auto;gap:12px;align-items:center;padding:10px 12px;border-bottom:1px solid var(--line)}
+.q:last-child{border-bottom:0}
+.q .n{font-family:var(--display);font-weight:800;font-size:20px;color:var(--ink-soft);font-variant-numeric:tabular-nums}
+.q p{font-size:14px;min-width:0}
+.yn{display:flex;border:1px solid var(--ink)}
+.yn button{all:unset;cursor:pointer;padding:6px 12px;font-size:12px;font-weight:bold;letter-spacing:.08em}
+.yn button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.yn button:focus-visible{outline:3px solid var(--signal)}
+.score{display:grid;grid-template-columns:auto 1fr;gap:18px;align-items:center;background:var(--sheet);padding:18px}
+.score .big{font-family:var(--display);font-weight:800;font-size:72px;line-height:1;font-variant-numeric:tabular-nums}
+.gauge{height:10px;background:var(--paper);border:1px solid var(--ink);position:relative;margin-top:8px}
+.gauge i{position:absolute;inset:0 auto 0 0;background:var(--ink);transition:width .3s}
+.gauge-scale{display:flex;justify-content:space-between;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);margin-top:4px}
+
+/* Piliers */
+.tabs{display:flex;flex-wrap:wrap;border:1px solid var(--ink)}
+.tabs button{all:unset;cursor:pointer;flex:1 1 140px;padding:10px 12px;border-right:1px solid var(--ink);font-family:var(--display);font-weight:600;font-size:18px;text-transform:uppercase;text-align:center}
+.tabs button:last-child{border-right:0}
+.tabs button[aria-selected="true"]{background:var(--ink);color:var(--paper)}
+.tabs button:focus-visible{outline:3px solid var(--signal);outline-offset:-3px}
+.pane{display:grid;gap:16px}
+.pane ul,.pane ol{margin:0;padding-left:20px;max-width:65ch}
+.pane li{margin-block:4px}
+details{border:1px solid var(--line)}
+details summary{cursor:pointer;padding:10px 14px;font-weight:bold;font-size:13px;text-transform:uppercase;letter-spacing:.08em;background:var(--sheet)}
+details > div{padding:14px;display:grid;gap:10px}
+
+/* Outils */
+.tool{border:2px solid var(--ink);display:grid}
+.tool-head{background:var(--ink);color:var(--paper);padding:8px 14px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;font-weight:bold}
+.tool-body{padding:16px;display:grid;gap:14px}
+.fields{display:flex;flex-wrap:wrap;gap:12px}
+.field{display:grid;gap:4px}
+.field label{font-size:10px;letter-spacing:.12em;text-transform:uppercase;font-weight:bold;color:var(--ink-soft)}
+input[type=number],textarea{font:inherit;font-variant-numeric:tabular-nums;background:var(--paper);color:var(--ink);border:1px solid var(--line);padding:8px 10px;width:84px}
+textarea{width:100%;min-height:64px;resize:vertical;font-size:14px}
+.verdict{padding:12px 14px;background:var(--sheet);font-size:14px}
+.verdict b{font-family:var(--display);font-size:20px;text-transform:uppercase;letter-spacing:.03em;display:block}
+.verdict.good b{color:var(--good)} .verdict.warn b{color:var(--warn)}
+.choices{display:flex;flex-wrap:wrap;gap:10px}
+.btn{all:unset;cursor:pointer;border:1px solid var(--ink);padding:10px 14px;font-size:13px;font-weight:bold}
+.btn:hover{background:var(--sheet)}
+.btn:focus-visible{outline:3px solid var(--signal)}
+.btn.solid{background:var(--ink);color:var(--paper)}
+
+/* Tri des raisons */
+.cards{display:flex;flex-wrap:wrap;gap:8px}
+.card{all:unset;cursor:pointer;border:1px solid var(--line);padding:8px 12px;font-size:13px;background:var(--paper)}
+.card.sel{border-color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink)}
+.card.ok{background:var(--sheet);border-color:var(--sheet-deep);cursor:default}
+.card.no{border-color:var(--warn)}
+.bins{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.bin{border:1px dashed var(--ink-soft);padding:10px;display:grid;gap:6px;align-content:start;min-height:80px}
+.bin .label{color:var(--ink)}
+.bin span{font-size:12px}
+
+/* Road to stage */
+.steps{display:grid;border-left:2px solid var(--ink);margin-left:8px}
+.step{position:relative;padding:0 0 18px 22px;display:grid;gap:4px}
+.step::before{content:"";position:absolute;left:-8px;top:4px;width:14px;height:14px;background:var(--paper);border:2px solid var(--ink)}
+.step.done::before{background:var(--ink)}
+.step label{display:flex;gap:8px;align-items:center;font-size:12px;color:var(--ink-soft);cursor:pointer}
+
+/* Plan 30 jours */
+.weeks{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));gap:14px}
+.week{border:1px solid var(--ink);display:grid;align-content:start}
+.week-h{display:flex;justify-content:space-between;align-items:baseline;gap:8px;background:var(--sheet);padding:10px 14px}
+.week-h h3{margin:0;font-size:20px}
+.week-h span{color:var(--ink);font-size:12px;font-variant-numeric:tabular-nums;font-weight:bold}
+.task{display:flex;gap:10px;align-items:flex-start;padding:9px 14px;border-top:1px solid var(--line);font-size:13px;cursor:pointer}
+.task input{margin-top:3px;accent-color:var(--ink);width:16px;height:16px;flex:none}
+.task.checked span{text-decoration:line-through;color:var(--ink-soft)}
+.progress{display:flex;align-items:center;gap:12px}
+.progress .gauge{flex:1;margin:0}
+.progress b{font-variant-numeric:tabular-nums}
+
+/* Hero extras + résultat du test */
+.for{display:grid;gap:6px}
+.for ul{margin:0;padding-left:20px;max-width:65ch;font-size:14px}
+.start{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+a.btn{text-decoration:none}
+.next{border:1px solid var(--ink);padding:16px;display:grid;gap:12px}
+.base{font-size:13px;color:var(--ink-soft);display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.yn2{display:flex;border:1px solid var(--ink)}
+.yn2 button{all:unset;cursor:pointer;padding:6px 10px;font-size:11px;font-weight:bold;letter-spacing:.06em}
+.yn2 button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.yn2 button.right{background:var(--good);color:var(--paper)}
+.yn2 button.wrong{background:var(--warn);color:var(--paper)}
+.yn2 button:focus-visible{outline:3px solid var(--signal)}
+/* Capture + avis */
+.locked .gated{display:none!important}
+.gate,.feedback{border:2px solid var(--ink);padding:16px;display:grid;gap:12px;position:relative}
+.gate input[type=text],.gate input[type=email]{font:inherit;background:var(--paper);color:var(--ink);border:1px solid var(--line);padding:10px;width:100%}
+.consent{display:flex;gap:10px;align-items:flex-start;font-size:12px;color:var(--ink-soft)}
+.consent input{margin-top:3px;accent-color:var(--ink);flex:none}
+.gate-err{color:var(--warn);font-size:13px}
+.gate button,.feedback button{justify-self:start}
+.rate{display:flex;gap:6px;flex-wrap:wrap}
+.rate button{all:unset;cursor:pointer;width:40px;height:40px;display:grid;place-items:center;border:1px solid var(--ink);font-weight:bold}
+.rate button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.rate button:focus-visible{outline:3px solid var(--signal)}
+/* Qui suis-je */
+.about{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--ink)}
+.about > div{padding:16px;display:grid;gap:6px;align-content:start}
+.about > div:first-child{border-right:1px solid var(--ink)}
+.about ul{margin:0;padding-left:18px;font-size:14px}
+@media (max-width:560px){.about{grid-template-columns:1fr}.about > div:first-child{border-right:0;border-bottom:1px solid var(--ink)}}
+/* CTA */
+.cta{background:var(--ink);color:var(--paper);padding:28px 20px;display:grid;gap:16px}
+.cta h2{color:var(--paper)}
+.cta p{color:var(--paper);opacity:.85}
+.cta .row{display:flex;flex-wrap:wrap;gap:12px}
+.cta a.go{background:var(--paper);color:var(--ink);text-decoration:none;padding:14px 18px;font-weight:bold;font-size:14px;letter-spacing:.04em;text-transform:uppercase}
+.cta .dm{border:1px solid var(--paper);padding:13px 16px;font-size:14px}
+.cta .dm b{font-family:var(--display);font-size:20px;letter-spacing:.06em}
+footer{font-size:11px;color:var(--ink-soft);padding-top:24px}
+
+@media (max-width:560px){
+  .top nav{display:none}
+  .q{grid-template-columns:26px 1fr}
+  .q .yn,.q .yn2{grid-column:2;justify-self:start}
+  .score{grid-template-columns:1fr}
+  .bins{grid-template-columns:1fr}
+  .contrast div{font-size:12px;padding:8px 10px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+/* Systeme.io : la page hôte garde son propre fond et sa police, on les force sur un conteneur */
+html,body{background:#192E33!important;overflow-x:hidden}
+#lfg{background:var(--paper);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.65;width:100vw;margin-left:calc(50% - 50vw);text-align:left;min-height:100vh}
+</style>
+
+<div id="lfg"><div class="wrap">
+  <header class="top">
+    <div class="mark"><img src="data:image/png;base64,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" alt="LF">THE LF METHOD</div>
+  </header>
+
+  <div class="hero">
+    <div class="label">Guide gratuit · Bodybuilding naturel · par Leni Fauconnier</div>
+    <h1>De pratiquant à <em>athlète</em></h1>
+    <p class="lede">La différence entre un pratiquant et un athlète n'est pas le niveau, c'est la manière de fonctionner. Fais le test, explore les cinq piliers avec les outils, puis coche ton plan sur 30 jours. Tes réponses restent enregistrées sur ton téléphone.</p>
+    <div class="for">
+      <div class="label">Ce guide est pour toi si</div>
+      <ul>
+        <li>tu t'entraînes depuis au moins un an et tu sens que tu plafonnes ;</li>
+        <li>tu veux progresser en naturel, sans raccourci ;</li>
+        <li>tu penses à une première compétition, maintenant ou plus tard ;</li>
+        <li>tu as une vie chargée et tu veux que chaque séance compte.</li>
+      </ul>
+    </div>
+    <div class="start"><a class="btn solid" href="#test">Commencer le test</a><span class="label">2 minutes · le reste à ton rythme</span></div>
+    <div class="contrast" role="table" aria-label="Pratiquant et athlète">
+      <div class="h" role="columnheader">Le pratiquant</div><div class="h" role="columnheader">L'athlète</div>
+      <div role="cell">S'entraîne</div><div role="cell">Se prépare</div>
+      <div role="cell">Suit un programme</div><div role="cell">Comprend pourquoi il le suit</div>
+      <div role="cell">Juge sa séance à la sensation</div><div role="cell">La juge à ce qu'il peut mesurer</div>
+    </div>
+  </div>
+
+  <!-- TEST -->
+  <section class="block" id="test">
+    <div class="band"><span class="label">Chapitre 0</span><h2>Le test</h2></div>
+    <p>Réponds honnêtement. Ton score se calcule en direct. Garde-le : tu referas le test à la fin des 30 jours.</p>
+    <div class="quiz" id="quiz"></div>
+      <form class="gate" id="gate" novalidate>
+      <div class="label">Ton résultat est prêt</div>
+      <p style="font-size:14px">Entre ton email pour voir ton score, ton profil et par où commencer, et pour débloquer les 5 piliers avec leurs outils et ton plan sur 30 jours. Gratuit.</p>
+      <div class="fields">
+        <div class="field"><label for="gPrenom">Prénom</label><input type="text" id="gPrenom" autocomplete="given-name" required></div>
+        <div class="field" style="flex:1 1 220px"><label for="gEmail">Email</label><input type="email" id="gEmail" autocomplete="email" required></div>
+      </div>
+      <input type="text" id="gHp" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px">
+      <label class="consent" for="gOk"><input type="checkbox" id="gOk"> J'accepte de recevoir le guide et des emails de LF Coaching (conseils, contenus, offres). Désinscription en un clic à tout moment.</label>
+      <button class="btn solid" type="submit">Voir mon résultat</button>
+      <p class="gate-err" id="gErr" role="alert" hidden></p>
+    </form>
+    <div class="score gated" id="scoreBox" aria-live="polite">
+      <div class="big"><span id="scoreN">0</span><small style="font-size:28px">/10</small></div>
+      <div>
+        <div class="label" id="scoreLabel">Réponds aux questions</div>
+        <p id="scoreText" style="font-size:14px;margin-top:4px">Chaque « oui » te rapproche du profil d'athlète.</p>
+        <div class="gauge"><i id="gaugeBar" style="width:0%"></i></div>
+        <div class="gauge-scale"><span>Pratiquant</span><span>Avancé</span><span>Athlète</span></div>
+      </div>
+    </div>
+    <div class="next gated" id="scoreNext" hidden>
+      <div class="label">Par où commencer</div>
+      <p id="nextText" style="font-size:14px"></p>
+      <div class="choices" id="nextBtns"></div>
+      <div class="base" id="baseBox"></div>
+    </div>
+</section>
+
+  <!-- PILIERS -->
+  <section class="block gated" id="piliers">
+    <div class="band"><span class="label">Les 5 piliers</span><h2>La méthode</h2></div>
+    <div class="tabs" role="tablist" id="tabs">
+      <button role="tab" aria-selected="true" aria-controls="p1" id="t1">1 · Entraînement</button>
+      <button role="tab" aria-selected="false" aria-controls="p2" id="t2">2 · Nutrition</button>
+      <button role="tab" aria-selected="false" aria-controls="p3" id="t3">3 · Mesure</button>
+      <button role="tab" aria-selected="false" aria-controls="p4" id="t4">4 · Mental</button>
+      <button role="tab" aria-selected="false" aria-controls="p5" id="t5">5 · Road to Stage</button>
+    </div>
+
+    <!-- P1 -->
+    <div class="pane" role="tabpanel" id="p1" aria-labelledby="t1">
+      <h3>S'entraîner avec une intention</h3>
+      <p>Une ligne de programme n'est pas « développé incliné, 3 x 8 ». C'est une tâche complète : exercice, ordre, séries, répétitions, repos, réglages, amplitude et intention. Si tu changes la moitié de ces paramètres à chaque séance, tu ne peux plus comparer. Et sans comparaison, tu ne sais pas si tu progresses.</p>
+
+      <div class="tool" id="validTool">
+        <div class="tool-head">Mise en situation</div>
+        <div class="tool-body">
+          <p>Semaine dernière : <b>80 kg x 11</b> répétitions propres, amplitude complète. Aujourd'hui : <b>85 kg x 10</b>, amplitude un peu plus courte. Tu as progressé ?</p>
+          <div class="choices">
+            <button class="btn" data-a="oui">Oui, c'est plus lourd</button>
+            <button class="btn" data-a="non">Impossible à dire</button>
+          </div>
+          <div class="verdict" id="validOut" hidden></div>
+        </div>
+      </div>
+
+      <details>
+        <summary>Choisir ses exercices par fonction</summary>
+        <div>
+          <p>Chaque muscle a une ou plusieurs fonctions. Avant de choisir un exercice, un athlète se pose trois questions :</p>
+          <ol>
+            <li><b>Quelle fonction</b> je veux entraîner ? (ex. extension de hanche pour les fessiers)</li>
+            <li><b>Dans quelle longueur musculaire</b> ? Un incline curl charge le biceps étiré, un spider curl le biceps raccourci.</li>
+            <li><b>Est-ce que je peux le charger et progresser dessus</b> semaine après semaine ?</li>
+          </ol>
+          <p>Exemple pour le dos : tirage vertical prise large pour les grands ronds et le haut des dorsaux, pull-over pour les dorsaux en position étirée, tirage horizontal coudes serrés pour le bas des dorsaux, coudes ouverts pour les trapèzes médians et l'arrière d'épaule.</p>
+        </div>
+      </details>
+      <details>
+        <summary>Les 5 questions devant n'importe quelle machine</summary>
+        <div>
+          <p>Une Basic-Fit bien utilisée suffit pour construire un physique de compétiteur. Ce qui compte, c'est de savoir lire une machine :</p>
+          <ol>
+            <li><b>Trajectoire</b> : suit-elle l'orientation des fibres du muscle visé ?</li>
+            <li><b>Profil de résistance</b> : où est le pic de tension ?</li>
+            <li><b>Stabilité</b> : les appuis me laissent-ils me concentrer sur le muscle ?</li>
+            <li><b>Réglages</b> : puis-je aligner l'axe de la machine avec mon articulation ?</li>
+            <li><b>Potentiel de surcharge</b> : puis-je progresser par petits incréments ?</li>
+          </ol>
+        </div>
+      </details>
+      <details>
+        <summary>Standardiser l'exécution et s'échauffer</summary>
+        <div>
+          <p>« Contrôlé » ne veut pas dire « lent ». Contrôlé veut dire reproductible : mêmes réglages, même amplitude, même trajectoire. Note la hauteur du siège, le cran du dossier, la position des pieds.</p>
+          <p>Avant ta première série de travail : articulations mobilisées, muscle ciblé activé, une ou deux séries d'approche. Cinq à dix minutes suffisent.</p>
+        </div>
+      </details>
+
+      <div class="tool">
+        <div class="tool-head">Outil · Double progression</div>
+        <div class="tool-body">
+          <p style="font-size:14px">Entre ta fourchette, ta charge et les répétitions faites à ta dernière séance. L'outil te dit quoi faire à la prochaine.</p>
+          <div class="fields">
+            <div class="field"><label for="dpMin">Reps min</label><input type="number" id="dpMin" value="8" min="1"></div>
+            <div class="field"><label for="dpMax">Reps max</label><input type="number" id="dpMax" value="12" min="1"></div>
+            <div class="field"><label for="dpLoad">Charge (kg)</label><input type="number" id="dpLoad" value="30" min="0" step="0.5"></div>
+            <div class="field"><label for="dpInc">Plus petit saut (kg)</label><input type="number" id="dpInc" value="5" min="0" step="0.25"></div>
+          </div>
+          <div class="fields">
+            <div class="field"><label for="dpS1">Série 1</label><input type="number" id="dpS1" value="12" min="0"></div>
+            <div class="field"><label for="dpS2">Série 2</label><input type="number" id="dpS2" value="12" min="0"></div>
+            <div class="field"><label for="dpS3">Série 3</label><input type="number" id="dpS3" value="11" min="0"></div>
+          </div>
+          <div class="verdict" id="dpOut" aria-live="polite"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- P2 -->
+    <div class="pane" role="tabpanel" id="p2" aria-labelledby="t2" hidden>
+      <h3>Manger comme un athlète, pas comme un régime</h3>
+      <p>Avant les compléments, le timing ou les aliments « miracles », un athlète maîtrise trois choses.</p>
+      <ol>
+        <li><b>Ses apports énergétiques</b> : savoir à peu près combien il mange, et dans quelle direction il va (prise de muscle, maintien, perte de gras).</li>
+        <li><b>Ses macronutriments</b> : la répartition entre protéines, glucides et lipides, adaptée à son objectif, à son volume d'entraînement, à sa digestion et à ses préférences.</li>
+        <li><b>Sa constance</b> : une alimentation qu'il peut tenir la semaine et le week-end.</li>
+      </ol>
+      <div class="tool">
+        <div class="tool-head">Les trois macros</div>
+        <div class="tool-body">
+          <div class="cards" id="macroCards">
+            <button class="card" data-m="p">Protéines</button>
+            <button class="card" data-m="g">Glucides</button>
+            <button class="card" data-m="l">Lipides</button>
+          </div>
+          <div class="verdict" id="macroOut">Touche une macro pour voir son rôle. Aucune des trois n'est à diaboliser.</div>
+        </div>
+      </div>
+      <div class="tool">
+        <div class="tool-head">Check · Ton plan est-il tenable ?</div>
+        <div class="tool-body">
+          <p style="font-size:14px">Un plan parfait sur le papier mais intenable n'est pas un bon plan. Réponds pour ta semaine actuelle.</p>
+          <div class="quiz" id="sustain"></div>
+          <div class="verdict" id="sustainOut" aria-live="polite">Réponds aux 5 questions.</div>
+        </div>
+      </div>
+      <details>
+        <summary>Suivre sans devenir obsédé</summary>
+        <div>
+          <p>Tu n'as pas besoin de tout peser toute ta vie. Mais au moins une fois, tu dois savoir ce que tu manges vraiment. Deux semaines de suivi honnête t'apprennent plus que deux ans d'approximations. Ensuite, simplifie : repas types, portions de référence, aliments de base que tu connais par cœur.</p>
+        </div>
+      </details>
+      <details>
+        <summary>Faim, digestion, énergie : ce sont des données</summary>
+        <div>
+          <p>Un athlète observe sa faim, sa satiété, sa digestion, son énergie à l'entraînement et son sommeil. Un plan parfait sur le papier mais intenable n'est pas un bon plan.</p>
+          <p>La sèche commence bien avant la sèche : plus tu construis ton physique et tes habitudes maintenant, plus ta future préparation sera courte et sereine.</p>
+        </div>
+      </details>
+    </div>
+
+    <!-- P3 -->
+    <div class="pane" role="tabpanel" id="p3" aria-labelledby="t3" hidden>
+      <h3>Tes données valent plus que tes sensations</h3>
+      <p>Une donnée n'est utile que si elle peut changer une décision. Le kit de base d'un athlète :</p>
+      <ul>
+        <li><b>Poids</b> : 3 à 7 pesées par semaine, au réveil, après les toilettes. On regarde la moyenne hebdomadaire.</li>
+        <li><b>Photos</b> : chaque semaine au moment de ton bilan, même lumière, même heure, mêmes poses.</li>
+        <li><b>Performances</b> : charges, répétitions et réglages à chaque séance.</li>
+        <li><b>Récupération</b> : sommeil (7 heures ou plus), pas, fatigue.</li>
+      </ul>
+      <div class="tool">
+        <div class="tool-head">Outil · Moyenne de la semaine</div>
+        <div class="tool-body">
+          <p style="font-size:14px">Les valeurs déjà remplies sont un exemple. Remplace-les par tes pesées.</p>
+          <div class="fields" id="wIn"></div>
+          <div class="fields"><div class="field"><label for="wPrev">Moyenne semaine passée</label><input type="number" id="wPrev" value="78.6" step="0.1"></div></div>
+          <div class="verdict" id="wOut" aria-live="polite"></div>
+        </div>
+      </div>
+      <div class="tool">
+        <div class="tool-head">Quiz · Observation ou conclusion ?</div>
+        <div class="tool-body">
+          <p style="font-size:14px">Une observation se mesure. Une conclusion s'interprète. Un athlète ne conclut qu'après avoir croisé plusieurs semaines de données.</p>
+          <div class="quiz" id="obs"></div>
+          <div class="verdict" id="obsOut" aria-live="polite" hidden></div>
+        </div>
+      </div>
+      <details>
+        <summary>Observation n'est pas conclusion</summary>
+        <div>
+          <p>« +0,8 kg ce matin » est une observation. « J'ai pris 0,8 kg de gras » est une conclusion fausse. Le poids du jour varie avec l'eau, le sel, les glucides, la digestion et le stress. Regarde la tendance sur plusieurs semaines, croisée avec les photos et les performances.</p>
+          <p>Tu changes de salle et la machine n'est pas la même ? Tu ne conclus pas que tu as perdu de la force : tu crées une nouvelle référence.</p>
+        </div>
+      </details>
+    </div>
+
+    <!-- P4 -->
+    <div class="pane" role="tabpanel" id="p4" aria-labelledby="t4" hidden>
+      <h3>Pourquoi tu commences ?</h3>
+      <p>Avant le programme et la diète, la vraie première question est : pourquoi tu veux faire ça ? Une raison fragile ne t'interdit pas de commencer, mais elle doit être identifiée. La préparation amplifie ce qui est déjà là.</p>
+      <div class="tool">
+        <div class="tool-head">Exercice · Solide ou fragile ?</div>
+        <div class="tool-body">
+          <p style="font-size:14px">Voici 8 raisons de se lancer. Pour chacune, dis si c'est une raison <b>solide</b> (elle tient même quand c'est dur) ou <b>fragile</b> (elle risque de lâcher en cours de route).</p>
+          <div class="quiz" id="reasons"></div>
+          <div class="verdict" id="reasonOut" aria-live="polite" hidden></div>
+        </div>
+      </div>
+      <div class="tool">
+        <div class="tool-head">Tes 4 questions · gardées sur ton téléphone</div>
+        <div class="tool-body" id="why"></div>
+      </div>
+      <details>
+        <summary>Ta relation à ton corps et à la nourriture</summary>
+        <div><p>Obsession du miroir, culpabilité après un repas, peur de reprendre du poids, isolement pour ne pas « craquer » : ce sont des signaux à prendre au sérieux, pas des preuves de motivation. Si ça te parle, parles-en à ton coach ou à un professionnel de santé.</p></div>
+      </details>
+      <details>
+        <summary>Gérer les jours sans</summary>
+        <div><p>Il y aura des semaines où rien ne bouge, des séances ratées, des écarts. L'athlète ne juge pas son projet sur une journée. Il revient au plan à la séance suivante, sans compenser ni se punir.</p></div>
+      </details>
+      <details>
+        <summary>Comprendre, devenir autonome, communiquer</summary>
+        <div>
+          <p>Un athlète cherche à comprendre le raisonnement, pour appliquer mieux et devenir progressivement autonome sur les ajustements simples. Chaque changement reste transparent.</p>
+          <p>Un bon retour à ton coach suit cet ordre : contexte, observation, ce qui a changé, question ou proposition. Au lieu de « cette machine ne va pas », écris : « Sur le leg curl assis, je ne sens pas les ischios en fin d'amplitude. J'ai reculé le siège d'un cran, c'est mieux mais je perds de l'amplitude. Je t'envoie une vidéo : je garde ce réglage ou on change d'exercice ? »</p>
+          <p>Le bodybuilding naturel est un sport de patience. L'excellence vient de centaines de séances bien exécutées.</p>
+        </div>
+      </details>
+    </div>
+
+    <!-- P5 -->
+    <div class="pane" role="tabpanel" id="p5" aria-labelledby="t5" hidden>
+      <h3>Road to Stage : ta première compétition</h3>
+      <p>Tu n'es pas obligé de viser la scène pour fonctionner comme un athlète. Mais si l'idée te parle, voici les cinq étapes. Coche celles que tu as déjà validées.</p>
+      <div class="steps" id="steps"></div>
+      <div class="verdict"><b>Tu vises la scène ?</b>C'est exactement ce que je prépare avec mes athlètes. <a href="#suite">Voir comment on peut travailler ensemble</a>.</div>
+    </div>
+  </section>
+
+  <!-- BONUS -->
+  <section class="block gated">
+    <div class="band"><span class="label">Bonus</span><h2>Peu de temps ?</h2></div>
+    <p>Étudiant, salarié ou entrepreneur : tu n'as pas besoin de deux heures par jour à la salle. L'athlète qui a peu de temps fait moins de choses, mais mieux.</p>
+    <ul style="margin:0;padding-left:20px;max-width:65ch">
+      <li><b>3 à 4 séances par semaine</b> bien construites.</li>
+      <li><b>Peu d'exercices, bien choisis</b>, que tu peux charger et comparer.</li>
+      <li><b>Des séances préparées à l'avance</b> : réglages et charges cibles connus avant d'arriver.</li>
+      <li><b>Une alimentation simplifiée</b> : quelques repas types qui respectent tes calories et tes macros, du batch cooking une à deux fois par semaine.</li>
+      <li><b>Un suivi léger mais régulier</b> : pesée au réveil, photos à chaque bilan hebdomadaire, carnet sur ton téléphone.</li>
+    </ul>
+  </section>
+
+  <!-- QUI SUIS-JE -->
+  <section class="block gated" id="moi">
+    <div class="band"><span class="label">Ton coach</span><h2>Qui suis-je ?</h2></div>
+    <p>Je m'appelle Leni Fauconnier. Passionné de musculation, de diététique et d'optimisation, je me suis formé pour aider un maximum de personnes à atteindre leurs objectifs. Ma méthode est basée sur la science, le terrain et des formations spécialisées. Ce guide, c'est la base de ce que je transmets à mes athlètes.</p>
+    <div class="about">
+      <div><div class="label">Qualifications</div><ul><li>Personal trainer EREPS niveau 4</li><li>Personal trainer NASM certifié</li></ul></div>
+      <div><div class="label">Sur scène</div><ul><li>Athlète naturel compétitif</li><li>WNBF, bodybuilding -23</li><li>BIFBB, médaille d'or Men's Physique -23</li></ul></div>
+    </div>
+  </section>
+
+  <!-- PLAN -->
+  <section class="block gated" id="plan">
+    <div class="band"><span class="label">Plan d'action</span><h2>Tes 30 jours</h2></div>
+    <div class="progress"><span class="label">Avancement</span><div class="gauge"><i id="planBar" style="width:0%"></i></div><b id="planPct">0/17</b></div>
+    <div class="weeks" id="weeks"></div>
+  </section>
+
+  <!-- CTA -->
+  <section class="block" id="suite" style="border-top:0">
+    <div class="cta">
+      <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGsAAAB4CAYAAAD1/Qw5AAAT8ElEQVR42u1dXZBc1XH+vj53dlcSYqWVkCAk8Q84xobdFYy2LEe2F4MxwUCBBQPYiVOpvDlOleOHvORFpaqkbOch5aqkKi+piivlH8yAbCPbIfyUNUVssKQBSQsCWYptEoNASLvC+t2Ze7rzcM/dHYkF7bmr0f7NqZrSaubOvXPv1/2d7j7dfYh2jErFoVr1ff03fJlJ6RvmUw9AADDyTAaiCfDxNLW/+d2L9f8J5zAswuHactZ9+wybN8vphx58tmfN5eMi7haYaQAsZhCAUNwHSdxzyRVrtp16/fXRcB7rgHWhRq1mqFTcmZ8++XTPmsvfEJE7A2CMBky14UrJSk2x9vThQ1VUKoJ9+xYdWGz7FcrlEur15sqB8jfEuS9bmnqQsUJiIAHVN50/c9Wb+/adWIx0KG2/Qv0OD0DE6T+q+hMgi1CYASDIM8mSJYpFOtoPFrYYAH2vyJtQewtkvDabKUXMgKcO1eunUKm4xThnXQSwMqr9vyTpI3lJwWcsMBCKh7GIR/vBGh4WAPQnG7fQuV6o+ci5Uiki6tPXuqRZAwBUq9oBqx3jxhsVgJmwUuj7ZgoREHj0jb17T2J4OFmsfla7wSK2bNE111231oBPmiqCgRFxBgrMQKIKAFizZlEC1X6whocdAKTsuk1cshyq8RRIEfP+10dLfHoxU2D7waoFLSDuK0RdgQKN9kPU683FTIEAkLTXCqz6vsHBKw38BFRZgAKdmTdo8tBZ4Hc0qy0USFN3u4hbBtW0gBVIU9s/tmrpzhz8DlhttAIB3Aub9LeiKJACGn6AWi3N57/FPNhGIdCV167/AzrbD2AJ8pBRBFwgIWrrj4zUn0MWdO5oVpscYRjtLrpkCayQI0yo7j0yUt8dvusXu2a1B6xaTTP7AJtgBWyCQIEAqwC0Q4Hto0EBoL2Dg+91luwH0FWIAsGUagNHX6i/nJ+zo1ltokCnpbvpki6YxVqBniI0090doNoNVmYFErD7YAXCS5bFloTc2gp+Z1x4GhQAuuq68jUmGMFk2sB0rxOMfDaoGDw6smt/R7PapVlBC1TkbrokibYCs0VGQvW5oyO7fgls7gDVNrBqtcy8Nv9ZmKHAqrCBAoN8H4BheLvMgDHO95LzfNb6mskx7/Teud+T8/2mC0iDFQdU/cr+cj/J3YCxIM2mIv7DR3bvPtChwLPHhQvkDh8magBpn6VLxNJmCjLm/J7inPn0FwEoFgRKVl9TXgsAFDFTZf5363u2JHsfJyc/A4CzPsvVVMR4+t2PkfFEWz+niNkSZX7+/HfYkvBZOAYnASxrOdHJyWvm/56U09bNpaXkAlKgAhUH+9WmzAqMjgVm6WbCR8L851CrpRHzZYJaLe0bWP8XJvJP5n0T9C4zTMEJ3KkGAdAM3+uCAZ4t/h2RihiMJA0W3PpEDQaCZgCBVCaZg1Cf6OQ9GARQoAGiBAN00tTyYpZCsrQSAF1QNGEwCAhFV/7ccuzVulEyWOPUhQLLAfC9g79ZB2O/qRoQZbIbSGfen0mMP2yNgkS5DLUaAf1LUHozppdp2qJ8238nZI3nHsZ3Pic5vesxwi43A52DpumPL4yBMTxMABDVu+mcxMcCMyvQoDsOj+z6FTZHW4GCLVv00nL5/SCHzPss4m82318KMzVVdcC/yQWiQI/h4YSwey1zhCMpMLMCCWapZtsjrcA8atLAvZSkqyVNe56/zOicQHXfkS4+O3OwQsJl3+jx9RT5ENQr4nLoDWRiPh3XZtejhSgwdxlg96OIsMzVYTCIwMBHUK83Zw7W4cP5g6lAnMAiLTgzpTiY2TPHXnrmlQLmugCw3oH111NkMJsv4RYEVKSzNPVU/d6FcYqzVdzEgDsLxQLDrxCEVLPYWGA4XqCbKBPz5UIY2TxuVh998fmXEGmxvZMViBWjxz9K5z5gqrE1WAYRp6meMiSPnk1pERRYLpdg3ATV9gSnZ0WvzEAByIdyV2ZmN1ap5FbnfaQgTOyRFCiA6c9GR3b8NliBFnH9bL5s4gYRfshMtZBmz1UK9Om4wm3N5/GZ3Vi1qu8ZHu4hcSe0IAWCIO1BAIy2AvP50lCBCKOFZe5qldI5wLD9rb07fp27MjMAK5PqY2PH/xji3mOZFRhPgT79netOfgLAIimQqNX81Vdf3W3EXVDDAtGqFinGd1pdmeI3N5xJtQPuD5ZyMQqEbX9z587Xo2uuKhUBYGNLL90oIlebecXCmK/CPJ7+riH+P1vn8aQw6rVaunbglmUNG70jUGAhc9kUD53jAkRijvuz+dIrWAgshZlNISitZbD53y0xxOiA0jud/+xyW9KTkhj18RO7d7+Zr2YUB6tSEVSrmtrYzeLc75mmHqArQoHdkj5RwAokqlV/Rbm89EwDt0N9QWExpTjBXPKhDQmdg1N9GADz1YyZaFYm1NQHMqnO4tqRE6hYak+9MbL3cKv0RAiLPzOOGyVxV5qmWsANMUoiqr4O4H8zZ95AUidDYEHqM0efCCuqWXR14jg3GXGFwbKw+8Tn4VLZ+62aaXnkN9RLtxhHPm0uQ/Pxc+fxpBAFVqu+d3BwBQy3WnEKJCYc4UnpiTsD788eEGIpMFtMUv27sb31r87FievoFPQZr//5ulF/uULnHjKfxvo22UKR2rFGFz5wol4/EhliIgD0Dg72iiYHKFwd5hxOU6s9XeJM/dOje+ufwObNgu3bZc4V6WV1aGf9pnjNCjdlYg+QsPCQJYICPVySQNMnTtTrR/LWQRHC4lCrpeLdp6XkVhfoq2EgYcS3AWRAxSxyzuKQIhS4fGhoFZU3WVZz5eLpzxAokNFWYK4B5OemaZmdc8dMLG2eIdIfAdDoCP+8ASvUXCVn9FYmbkWBslODiDOfjvrMCrQiVuCygYE1oN0UPV+aedIZwNronj2vYp4l5EgBqTbQ7isk1WY+SwSR/3prz55j0Y5wKFDoVne7uOTSAsKS2V0I/TTmWbavRB1brfplAx9dA/Cmgr6NBCP/4UKOcO1GDVRWpE2DgXSa+pOS6E+Cb6cLE6zQfKRbm3eIS5ZbfPMRy5qP+MMc7yriCAuwRfv6+38fwI3mfTwFigDA9qPPP/9a0OoFClYmhWaiD2RrLdEutIc4COyxo/t/frwABYYCveQOutKSQouMJEg8VMiwmUdgTZadgh839YyOGBDMMvDkkUL+3Y2BAk0qBborGEQSS/2x7hKKRPjnEVj5ROzsDrqkp0jZKShO1R9K2HgKgEU2HxFs2aKXXVu+isRG896iHPFg2Bjw00P1+pF8eWdhghWkmoZ7i5adZivC9pNC/ZeCsKRim+iS7gLCkqV8mmVaPXx4XmY/yXSlesX1178HxEdNI6V6wgo00Pi9sxzb6c+XgbJ4T4FUM6OIM+/HGql7bL5S4PTAClageClceQ9xot6/WpLmz3PHdvpfz/IyVg4OXUuiHJ1qZuYhAhiePP7yzqPzubGkTEOqW5qPGFCg+QhFYMC2QIFxvlmo0aLpJiYTBXqRhg0A6oPz1QqcJlhZokZvf//7AQwFCox72KTAFA72cAA/lgIVFTiY3ZOtSMc2PhGnmr6BntKT85kCgfNF3Ye3C2pQh6676JKeAjVXSsla0I368afDezEPywHwqw6sG7Is2zZukdHM07kEqT05uuO2E/iTvm4sXz77EfbDhxmExi4cWBkFCoh7C9ZcaVYVptuwb18jXwuLsAKJWg2q7vPiHCxtaqSwSLbWZf8CbFE8hnHM45GczxFePTDwRwp8pEDNFUCIqRrypJg4KzCTvquv7qbZXZbFImNrvkTVHwf4vlX95bUwcMI00SDVWQmbeVKdmUBAMxWQRtAmjms5K0j18HAQAjRPbwAtW753dIR5qDmjg0wKuMEIExGRLq86MrZ31wuIiPwn72oF1mrqLblLksQVoUCIE1O/f6yHO4IVOH1HOORZrOhZsYHCLC8xDqxQ+sbldO47U965TZKtO2uadS3eGTBVgxzXMt23/p0f5qYoqWZwVo0EPDaG+ySq1RlqVk6BYKVQGY2ZkiIw/f5EF84iK7LUByAlgfoUBfMCw8Y1F3dMtZ8D6Uk61XTP2Iv1aDdm6psP6bor+8vXivCGUHAQu3TuTL1JUSswpJoRuBPxFHjuQ3IX/YUp3jMTiHMTRYORbszUDyDPOafdB3GuYMEBobr7yDVX7Q7XiUk1cwB4umk3iXNXFqhOmYsjr5tu0rC1hb1mCFYoOwVQKVhzZRABwK2oVn3BFVkT45+BYlgIvTCyXEkC+szRkV2/LFA3PSVYDoCtOPrWRor7YCGpDhV7Jun3M/CjrEBBteqXXzO0CsSnTT2LpmbPTczwbQAWXTEzJQh5zRXlC4VqriYaEWPP2J49LyK2EXGIRSY9eiudW1koz2JOxoro1PsTrsltE+w1Q7CIatWvLJd7Qea+jYtVd1BAwTMAGB0LDEk59PYAFo46eYoDYU8debl+KLpocEqwwoNlA7eIc6uLS7VBYX0ADCdOMOr3VCd6wd9UcDlm7o3wBCyrt2IRCny7n5Vn28I+l5+/kJmsagK57bIPD13+Zn3n6wBcTq/vOo4fT/DYY034ZJOUkmUFHPE5agWK09Qf5pJkRutpPDe8dPm6dZc11B0A2RuVQz5FAFfNfuEMXzyyd9fzMV/u6y8/TScfs0yz3TynwJRJ4ixNvzU68tyfFw4OnKVZWXjJUu8+xcT1FtybcQJ4UzUR+Yia1vsGys8Cdgzvrq3MjCV2A9hoWeW9KyzNcwswWtFV8nfQLAfAr+wvPyyJ2xTAmiEFmQIUimDaBWsGmPrilJNtNjNntJEUqKav9ZT4gUP1+qmZnCtpAc0vv2ZoFaE3Fyw4mOqnSmYfeo2S9aLXJknnnPl01MAmzPJ14lnSKHo4OIDfnNirslp8P5Vkwgqs1dKkK/0UXWnFDClwCu2la7OnZCANsFPq/d+m3a7ac/LkuCSJSak0y5TocWh3/TSic0/eCawJHuW9mI/JJFn/J2fqvzS2t/4fAHAcC2/kiy62fGhoVWlcD4BcOQMrcHbIhqSqvnZp3/KrXgHSliSfuWO+X4ggSF5z5RrpbSG8k2I+hXcmUs34+Cu12pnAEjlYc+V1YSJWeXhHVB6Yl9l0zJrN0vBdLPBBALjsw0OX+0R/CfKSQrmBszeypX6134yefusaHDw4jqnXaBfEEADwiX2Gzi1Hthwynygwy6EX24qDB8cX+gaeEm66AmD+LUSQYqqAhn4aC3wDT64dGHhfw0ovkFiK+H2uZpUCKSLe+xeOjVy1DqgqFvi2uEnT3N3ipMfUN0Jrm5ncMAtoRzHnOySQEroVqPqZBEjnDVgG+SsREZBdszLt+IJOfdbp0kMk7GFcW/B7liSE/YOmqZpZtwElySQ9dMg0AkKjCRSgQwNZO6nEaHkmpAFGM5wm6WFICUtDOpaB3mCSIaLqICJm5kh6A7pg9jWKXBrpiHuKOFO/Y2zPzpA6sPA3mElGR5775mxdvO/66z9ETZaYadxcObnnx0Sz34VOgQCQoFJxF71m6dVXHQ7+aRP+R19CIiU0fdyKMOnU+zMq/geLhQJny1gnAFxRLi8Zb+AlCP8wZFBNMy/BPMU5Vb99bO9zn8TmzYItWxYFWBc/GSX0th1P8TE694eIzUu0rKsZKFl4afv2RbOB56zdqBk+j8kWeNOHipKo98fHx23bYqLA2QBrIi+RwO3RK9JmSicmZk+cerl+aD629Jk/YIXlGDb8LZQieYl5hRMfxCIcFxesvAUe5J6QQBMTLTEInaX+iHXhcQCI7FLTASuWAnv7+1daVnBQoKuZgwHbxur1t+ZzP4u5D1ZIzRZ23you6SuQmi0wzRcZiUU4Lh5Y+fKF2f0FNELhnJj3ryy9pPTfiG/U1QErzhGu+tXl8hUgbjbvGdnVTEmBEdt+++yzpxf6IuPsghUoUBv4tDi3HGZxSTmkhD03v3eWli6ycXEqNCbyEidqrqIadZEU9f7AmD+zI2jpotzCXS7KNapV3ze44UoTftxUYxs7KsTBiK2hS82iswIvHlih7NS08RmRZFm0FUg6qFdI8t3FTIGxdDQTgdCVAzc8KZLcbN77lqY85xueIk5VnxvbWy9jAaeZzQXNEgBZF1BgY+YIRzV2NFBat8V1WMSjvWDl26invENcqSeysWPoUpM22EweySiwph2w2uYIZ42QlahEN0LOw0tqe4689IuDRZp8dEz3KEHYor39699PYENU5b1ZVnVJgpSvAzDs2ydY5KN9DyDfRp32WTo3/fbeoWAalDE0G18Y3bvrkdz874DVNgqs5XsiTq8FXhaiMCalxMx+hjTdePSF57+12BYYZwGs0AJvYP11JM/f3tsspXNCEWqqXx1tnLxp9MXnX8LwcNLRqHbPWaERMswqTJLkXZqPZDsxJKXE1L9M5V+Pjex8KtClLIZcwNnXrLe1wJtirjJLSRGKiKn/V0tsw9GRnU8F2kOH+i5OBMMB8H39N2yAuGfwtmzbgJ5LxLw/YLSvjO2p/zj7LHK/4o5mzdgKzJMrPh82i/FnaZM4oYhA/T+jR9aP7an/OO/c2QHq4moWAdjagYFlDUv2U+RKmGnYOJt0Cc37FyH2ldHd9Wx3uhk28uhoVtGRZduigeRj4tyVUPX51uwg1bz/uktPbRjdXX8izGnsADXrEQzeD9BP+E2qO83zy2Mv7HymRZs6lt4s0iAB2BXl8tIzDRyUUnKFed+A8e9HS/q1lt7u0XtwdMaFNywSAFgxsP4Lq8sbrG+w/Gjv4NC6c6zEzpgz89/wcLJyoPzvq9YNffEcENl5PDMf/w8b9wqTVpewbgAAAABJRU5ErkJggg==" alt="" style="height:44px;width:auto"><div class="label" style="color:var(--paper)">Et maintenant ?</div>
+      <h2>Tu veux aller plus loin ?</h2>
+      <p>Si tu envisages ta première compétition de bodybuilding naturel, c'est exactement ce que je fais avec mes athlètes : un accompagnement personnalisé et pensé sur la durée. On construit ton physique, puis ta préparation, jusqu'à la scène et au-delà. Programmation, nutrition, suivi dans une application dédiée, bilans réguliers, échanges WhatsApp, posing et stratégie de compétition, avec le pourquoi de chaque décision.</p>
+      <div class="row">
+        <a class="go" href="https://cal.com/leni-fauconnier/decouverte" target="_blank" rel="noopener">Réserver mon appel découverte</a>
+        <div class="dm">Ou écris <b>ATHLÈTE</b> en privé sur Instagram : <b>@leni_fit_</b></div>
+      </div>
+      <p style="font-size:13px">On fait le point sur ton niveau, ton objectif et ce qu'il te faudrait pour y arriver. Si je ne suis pas la bonne personne pour t'aider, je te le dirai.</p>
+    </div>
+    <div class="cta client-only" hidden id="clientCta">
+      <div class="label" style="color:var(--paper)">Tu es déjà coaché</div>
+      <h2>La suite, on la fait ensemble</h2>
+      <p>Ce guide pose les bases de notre façon de travailler. Note tes questions et ton score du test, on en parle à ton prochain bilan. La suite, ce sont les modules de la LF Athlete Academy.</p>
+    </div>
+    <form class="feedback" id="fb" novalidate>
+      <div class="label">Ton avis sur ce guide</div>
+      <p style="font-size:14px">Deux questions, 20 secondes. Ça m'aide à l'améliorer.</p>
+      <div class="rate" role="group" aria-label="Note sur 5" id="fbRate"></div>
+      <div class="field"><label for="fbTxt">Ce qui t'a le plus servi, ou ce qui manque</label><textarea id="fbTxt"></textarea></div>
+      <button class="btn" type="submit">Envoyer mon avis</button>
+      <p class="label" id="fbOk" hidden>Merci, c'est reçu.</p>
+    </form>
+    <footer>THE LF METHOD · Leni Fauconnier · Ce guide est fourni à titre éducatif et ne remplace pas un avis médical. Consulte un professionnel de santé avant de modifier fortement ton alimentation ou ton entraînement.</footer>
+  </section>
+</div>
+</div>
+
+<script>
+(function(){
+  var KEY='lf-guide-athlete-v1', S={};
+  try{S=JSON.parse(localStorage.getItem(KEY))||{}}catch(e){S={}}
+  function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
+  function $(id){return document.getElementById(id)}
+  var HOOK='https://hook.eu1.make.com/yuj106tsuw4yoglspqcu4ee14zmbcmn1';
+  var qs={};try{new URLSearchParams(location.search).forEach(function(v,k){qs[k]=v})}catch(e){}
+  var isClient=location.hash==='#client'||qs.client==='1';
+  var SOURCE=qs.source||qs.utm_source||(location.hash&&!isClient?location.hash.slice(1):'')||'direct';
+  function send(data){try{var b=new URLSearchParams();for(var k in data)b.append(k,data[k]==null?'':data[k]);
+    return fetch(HOOK,{method:'POST',mode:'no-cors',body:b}).catch(function(){})}catch(e){return Promise.resolve()}}
+  function profil(n){return n<=3?'pratiquant':n<=7?'avance':'athlete'}
+  function curScore(){var n=0;for(var k in S.quiz)if(S.quiz[k]==='oui')n++;return n}
+  function el(tag,cls,html){var e=document.createElement(tag);if(cls)e.className=cls;if(html!=null)e.innerHTML=html;return e}
+
+  /* TEST */
+  var Q=["Je peux dire, pour chaque exercice de mon programme, quel muscle et quelle fonction il cible.",
+  "Je note mes charges, répétitions et réglages à chaque séance.",
+  "Je sais si j'ai progressé sur un exercice par rapport à il y a 4 semaines, chiffres à l'appui.",
+  "Mon exécution est la même d'une séance à l'autre (amplitude, trajectoire, réglages).",
+  "Je connais approximativement mes apports en calories et en macronutriments (protéines, glucides, lipides) sur une journée type.",
+  "Je dors en moyenne 7 heures ou plus.",
+  "Je me pèse ou me mesure dans des conditions comparables.",
+  "Je fais des photos de suivi standardisées (même lumière, mêmes poses).",
+  "J'ai déjà travaillé mes poses, même seul devant un miroir.",
+  "Je sais dans quelle fédération et quelle catégorie je pourrais concourir."];
+  S.quiz=S.quiz||{};
+  var quiz=$('quiz');
+  Q.forEach(function(t,i){
+    var row=el('div','q');
+    row.appendChild(el('span','n',String(i+1).padStart(2,'0')));
+    var p=el('p');p.textContent=t;row.appendChild(p);
+    var yn=el('div','yn');yn.setAttribute('role','group');yn.setAttribute('aria-label','Question '+(i+1));
+    ['oui','non'].forEach(function(v){
+      var b=el('button',null,v.toUpperCase());b.type='button';
+      b.setAttribute('aria-pressed',S.quiz[i]===v?'true':'false');
+      b.onclick=function(){S.quiz[i]=v;save();yn.querySelectorAll('button').forEach(function(x){x.setAttribute('aria-pressed',x===b?'true':'false')});score()};
+      yn.appendChild(b)});
+    row.appendChild(yn);quiz.appendChild(row)});
+  function score(){
+    var n=0,answered=0;for(var k in S.quiz){answered++;if(S.quiz[k]==='oui')n++}
+    if(answered>=10&&S.email&&!S.scoreSent&&!isClient){S.scoreSent=true;save();var d={type:'score',email:S.email,score:n,profil:profil(n),source:SOURCE};setTimeout(function(){send(d)},2500)}
+    $('scoreN').textContent=n;$('gaugeBar').style.width=(n*10)+'%';
+    var L,T;
+    if(answered===0){L='Réponds aux questions';T="Chaque « oui » te rapproche du profil d'athlète."}
+    else if(n<=3){L='Profil : pratiquant';T="Tu as de la motivation, il te manque la structure. C'est là que se cachent les progrès les plus rapides."}
+    else if(n<=7){L='Profil : pratiquant avancé';T="De bonnes bases, mais tu laisses des résultats sur la table par manque de mesure ou de cohérence. Les piliers 3 et 5 vont te faire passer un cap."}
+    else{L="Profil : athlète";T="Tu fonctionnes déjà comme un compétiteur. La question devient : quand, où, et avec quel accompagnement pour réussir ta première compétition ?"}
+    if(answered>0&&answered<10)L+=' · '+answered+'/10 répondues';
+    $('scoreLabel').textContent=L;$('scoreText').textContent=T;
+    var nx=$('scoreNext');nx.hidden=answered<10;if(answered<10)return;
+    var MAP=[[0,'t1'],[1,'t1'],[3,'t1'],[4,'t2'],[2,'t3'],[5,'t3'],[6,'t3'],[7,'t3'],[8,'t5'],[9,'t5']];
+    var NAMES={t1:'Pilier 1 · Entraînement',t2:'Pilier 2 · Nutrition',t3:'Pilier 3 · Mesure',t4:'Pilier 4 · Mental',t5:'Pilier 5 · Road to Stage'};
+    var miss={};MAP.forEach(function(m){if(S.quiz[m[0]]!=='oui')miss[m[1]]=(miss[m[1]]||0)+1});
+    var order=Object.keys(miss).sort(function(a,b){return miss[b]-miss[a]});
+    var btns=$('nextBtns');btns.innerHTML='';
+    if(order.length===0){$('nextText').textContent="Tu coches tout. Lis quand même le pilier 4 sur la mentalité, puis passe directement à la suite : ta première compétition se prépare avec du recul extérieur.";order=['t4']}
+    else $('nextText').textContent="D'après tes « non », commence par "+(order.length>1?"ces piliers, dans cet ordre :":"ce pilier :");
+    order.slice(0,3).forEach(function(t){var b=el('button','btn');b.type='button';b.textContent=NAMES[t];b.onclick=function(){openTab($(t));$('piliers').scrollIntoView({behavior:'smooth'})};btns.appendChild(b)});
+    if(n>=8){var a=el('a','btn solid');a.href='https://cal.com/leni-fauconnier/decouverte';a.target='_blank';a.rel='noopener';a.textContent='Parler de ta première compétition';btns.appendChild(a)}
+    var bb=$('baseBox');bb.innerHTML='';
+    if(S.base){var d=n-S.base.n;bb.appendChild(el('span',null,'Score de départ : <b>'+S.base.n+'/10</b> le '+S.base.date+(d!==0?' · évolution : <b>'+(d>0?'+':'')+d+'</b>':' · pas encore d\'évolution')))}
+    var sb=el('button','btn');sb.type='button';sb.textContent=S.base?'Remplacer mon score de départ':'Enregistrer comme score de départ';
+    sb.onclick=function(){var t=new Date();S.base={n:n,date:t.toLocaleDateString('fr-BE',{day:'2-digit',month:'2-digit'})};save();score()};bb.appendChild(sb)}
+
+  /* TABS */
+  var tabs=[].slice.call(document.querySelectorAll('#tabs [role=tab]'));
+  function openTab(t){tabs.forEach(function(x){var on=x===t;x.setAttribute('aria-selected',on);x.tabIndex=on?0:-1;$(x.getAttribute('aria-controls')).hidden=!on});S.tab=t.id;save()}
+  tabs.forEach(function(t,i){t.onclick=function(){openTab(t)};t.onkeydown=function(e){var d=e.key==='ArrowRight'?1:e.key==='ArrowLeft'?-1:0;if(d){var n=tabs[(i+d+tabs.length)%tabs.length];n.focus();openTab(n)}}});
+  if(S.tab&&$(S.tab))openTab($(S.tab));else openTab(tabs[0]);
+  score();
+
+  /* Mise en situation */
+  document.querySelectorAll('#validTool [data-a]').forEach(function(b){b.onclick=function(){
+    var o=$('validOut');o.hidden=false;
+    if(b.dataset.a==='non'){o.className='verdict good';o.innerHTML="<b>Réponse d'athlète</b>Amplitude différente, tâche différente : la comparaison n'est pas valable. Reviens à une exécution identique, puis compare."}
+    else{o.className='verdict warn';o.innerHTML="<b>Réponse de pratiquant</b>Plus lourd ne veut pas dire progrès si l'amplitude a changé. Ce n'est plus le même exercice, donc impossible de comparer."}}});
+
+  /* Double progression */
+  var dpIds=['dpMin','dpMax','dpLoad','dpInc','dpS1','dpS2','dpS3'];
+  S.dp=S.dp||{};
+  dpIds.forEach(function(id){if(S.dp[id]!=null)$(id).value=S.dp[id];$(id).oninput=function(){S.dp[id]=$(id).value;save();dp()}});
+  function num(id){return parseFloat(String($(id).value).replace(',','.'))}
+  function fmt(x){return (Math.round(x*100)/100).toString().replace('.',',')}
+  function dp(){
+    var mn=num('dpMin'),mx=num('dpMax'),ld=num('dpLoad'),inc=num('dpInc'),s=[num('dpS1'),num('dpS2'),num('dpS3')],o=$('dpOut');
+    if([mn,mx,ld,inc].some(isNaN)||s.some(isNaN)||mn>=mx){o.className='verdict';o.innerHTML='<b>À compléter</b>Remplis toutes les cases, avec un minimum de répétitions plus petit que le maximum.';return}
+    var low=Math.min.apply(null,s);
+    if(low>=mx){
+      var pct=ld>0?inc/ld*100:0,next=ld+inc;
+      var html='<b>Augmente la charge</b>Prochaine séance : '+fmt(next)+' kg, et tu repars vers '+mn+' répétitions.';
+      if(pct>10){o.className='verdict warn';html+=' Attention : ce saut représente +'+Math.round(pct)+' % d\'un coup. Sur cet exercice, la charge ne peut pas augmenter progressivement. Cherche des micro-plaques ou un exercice qui permet des sauts plus fins.'}
+      else o.className='verdict good';
+      o.innerHTML=html}
+    else{
+      var idx=s.indexOf(low)+1;
+      o.className='verdict';o.innerHTML='<b>Garde '+fmt(ld)+' kg</b>Objectif : gagner des répétitions, en priorité sur la série '+idx+' ('+low+' reps). Tu augmenteras quand toutes les séries atteindront '+mx+' répétitions propres.'}}
+  dp();
+
+  /* Macros */
+  var M={p:"<b>Protéines</b>Elles construisent et préservent le muscle. Indispensables en prise de muscle comme en sèche.",
+  g:"<b>Glucides</b>Ils alimentent la performance à l'entraînement. Les supprimer, c'est souvent perdre en qualité de séance.",
+  l:"<b>Lipides</b>Ils soutiennent l'équilibre hormonal. Trop bas trop longtemps, et la récupération en souffre."};
+  document.querySelectorAll('#macroCards .card').forEach(function(c){c.onclick=function(){
+    document.querySelectorAll('#macroCards .card').forEach(function(x){x.classList.toggle('sel',x===c)});
+    $('macroOut').innerHTML=M[c.dataset.m]+'<br><span style="font-size:13px">La bonne répartition dépend de ton objectif, de ton volume d\'entraînement, de ta digestion et de tes préférences.</span>'}});
+
+  /* Tenable ? */
+  var SU=["J'ai rarement faim au point de craquer.","Ma digestion est confortable.","J'ai de l'énergie à l'entraînement.","Je dors bien.","Je tiens mon alimentation le week-end aussi."];
+  S.su=S.su||{};
+  SU.forEach(function(t,i){var row=el('div','q');row.appendChild(el('span','n',String(i+1)));var p=el('p');p.textContent=t;row.appendChild(p);
+    var yn=el('div','yn');['oui','non'].forEach(function(v){var b=el('button',null,v.toUpperCase());b.type='button';b.setAttribute('aria-pressed',S.su[i]===v?'true':'false');
+      b.onclick=function(){S.su[i]=v;save();yn.querySelectorAll('button').forEach(function(x){x.setAttribute('aria-pressed',x===b?'true':'false')});sustain()};yn.appendChild(b)});
+    row.appendChild(yn);$('sustain').appendChild(row)});
+  function sustain(){var a=0,no=[];SU.forEach(function(t,i){if(S.su[i])a++;if(S.su[i]==='non')no.push(i)});var o=$('sustainOut');
+    if(a<5){o.className='verdict';o.textContent='Réponds aux 5 questions ('+a+'/5).';return}
+    if(no.length===0){o.className='verdict good';o.innerHTML='<b>Plan tenable</b>Tes signaux sont bons. Garde ce cap et continue de les noter chaque jour.'}
+    else if(no.length<=2){o.className='verdict warn';o.innerHTML='<b>À ajuster</b>'+no.length+' signal(aux) au rouge. Ce n\'est pas un manque de volonté : c\'est une donnée qui dit que le plan doit être adapté (répartition des repas, des macros, choix des aliments).'}
+    else{o.className='verdict warn';o.innerHTML='<b>Plan difficile à tenir</b>Plusieurs signaux au rouge. Un plan que tu ne peux pas tenir ne donnera pas de résultats durables. C\'est le moment de le revoir, idéalement avec un regard extérieur.'}}
+  sustain();
+
+  /* Observation ou conclusion */
+  var OB=[["« +0,8 kg ce matin. »","o"],["« J'ai pris 0,8 kg de gras. »","c"],["« Ma moyenne de la semaine a baissé de 0,3 kg. »","o"],["« J'ai fait une répétition de moins, je perds du muscle. »","c"],["« J'ai changé de salle, le leg curl n'est pas le même. »","o"]];
+  var obsDone=0;
+  OB.forEach(function(q,i){var row=el('div','q');row.appendChild(el('span','n',String(i+1)));var p=el('p');p.textContent=q[0];row.appendChild(p);
+    var g=el('div','yn2');[['o','OBSERVATION'],['c','CONCLUSION']].forEach(function(c){var b=el('button',null,c[1]);b.type='button';
+      b.onclick=function(){if(g.dataset.done)return;g.dataset.done=1;obsDone++;b.classList.add(c[0]===q[1]?'right':'wrong');
+        var o=$('obsOut');o.hidden=false;
+        if(c[0]===q[1]){o.className='verdict good';o.innerHTML='<b>Juste</b>'+(q[1]==='o'?'C\'est un fait mesuré, sans interprétation.':'C\'est une interprétation tirée d\'une seule donnée. Il faut croiser plusieurs semaines, les photos et les performances.')}
+        else{o.className='verdict warn';o.innerHTML='<b>Pas tout à fait</b>'+(q[1]==='o'?'C\'est un fait mesuré. Le piège serait d\'en tirer une conclusion trop vite.':'C\'est une conclusion : elle interprète une seule donnée. Le poids du jour varie avec l\'eau, le sel, la digestion.')}
+        if(obsDone===OB.length)o.innerHTML+='<br><span style="font-size:13px">Règle d\'athlète : on observe chaque jour, on conclut sur la tendance.</span>'};g.appendChild(b)});
+    row.appendChild(g);$('obs').appendChild(row)});
+
+  /* Poids */
+  var J=['Lun','Mar','Mer','Jeu','Ven','Sam','Dim'],ex=[79.1,78.6,78.9,79.4,78.8,78.5,78.7];
+  S.w=S.w||{};
+  J.forEach(function(j,i){var f=el('div','field');var id='w'+i;f.innerHTML='<label for="'+id+'">'+j+'</label><input type="number" step="0.1" id="'+id+'">';$('wIn').appendChild(f);
+    var inp=f.querySelector('input');inp.value=S.w[id]!=null?S.w[id]:ex[i];inp.oninput=function(){S.w[id]=inp.value;save();wavg()}});
+  if(S.w.wPrev!=null)$('wPrev').value=S.w.wPrev;
+  $('wPrev').oninput=function(){S.w.wPrev=$('wPrev').value;save();wavg()};
+  function wavg(){
+    var v=J.map(function(_,i){return num('w'+i)}).filter(function(x){return !isNaN(x)}),o=$('wOut');
+    if(v.length<3){o.className='verdict';o.innerHTML='<b>Pas assez de pesées</b>Il en faut au moins 3 dans la semaine pour une moyenne fiable.';return}
+    var a=v.reduce(function(s,x){return s+x},0)/v.length,mx=Math.max.apply(null,v),mn=Math.min.apply(null,v),p=num('wPrev');
+    var h='<b>Moyenne : '+fmt(Math.round(a*10)/10)+' kg</b>'+v.length+' pesées. Écart entre le jour le plus haut et le plus bas : '+fmt(Math.round((mx-mn)*10)/10)+' kg. Cet écart, c\'est surtout de l\'eau, du sel et de la digestion.';
+    if(!isNaN(p)){var d=Math.round((a-p)*10)/10;h+=' Par rapport à la semaine passée : '+(d>0?'+':'')+fmt(d)+' kg. Croise cette tendance avec tes photos et tes performances avant de conclure.'}
+    o.className='verdict';o.innerHTML=h}
+  wavg();
+
+  /* Raisons */
+  var R=[["Me prouver quelque chose à moi-même","s"],["Régler un mal-être avec mon corps","f"],["Vivre l'expérience de la scène","s"],["Avoir l'approbation des autres","f"],["Aller au bout d'un projet","s"],["Ressembler aux physiques des réseaux","f"],["Aimer le processus autant que le résultat","s"],["Fuir un autre problème","f"]];
+  var rDone=0;
+  R.forEach(function(r,i){var row=el('div','q');row.appendChild(el('span','n',String(i+1)));
+    var box=el('div');box.style.minWidth='0';var p=el('p');p.textContent=r[0];box.appendChild(p);var fb=el('p');fb.style.cssText='font-size:12px;color:var(--ink-soft);margin-top:2px';fb.hidden=true;box.appendChild(fb);row.appendChild(box);
+    var g=el('div','yn2');[['s','SOLIDE'],['f','FRAGILE']].forEach(function(c){var b=el('button',null,c[1]);b.type='button';
+      b.onclick=function(){if(g.dataset.done)return;g.dataset.done=1;rDone++;var ok=c[0]===r[1];b.classList.add(ok?'right':'wrong');
+        if(!ok)g.querySelectorAll('button').forEach(function(x){if(x!==b)x.classList.add('right')});
+        fb.hidden=false;fb.textContent=(ok?'Juste. ':'Plutôt '+(r[1]==='s'?'solide':'fragile')+'. ')+(r[1]==='s'?'Elle vient de toi et tient même quand personne ne regarde.':'Elle dépend du regard des autres ou d\'un mal-être, et pèse lourd quand la préparation devient dure.');
+        if(rDone===R.length){var o=$('reasonOut');o.hidden=false;o.className='verdict';o.innerHTML='<b>À retenir</b>Une raison fragile ne t\'interdit pas de commencer. Elle doit simplement être identifiée, parce que la fatigue, la faim et le miroir pèsent plus lourd quand le projet repose sur un besoin de validation. Et toi, ta raison principale, elle est de quel côté ?'}};
+      g.appendChild(b)});
+    row.appendChild(g);$('reasons').appendChild(row)});
+
+  /* 4 questions */
+  var W=["Pourquoi je veux vraiment faire ça ?","Est-ce que je le ferais si personne ne le voyait ?","Qu'est-ce que je suis prêt à mettre de côté, et pendant combien de temps ?","Comment je réagis quand ça ne se passe pas comme prévu ?"];
+  S.why=S.why||{};
+  W.forEach(function(q,i){var f=el('div','field');var id='why'+i;f.innerHTML='<label for="'+id+'">'+(i+1)+'. '+q+'</label><textarea id="'+id+'" placeholder="Ta réponse, pour toi seul"></textarea>';$('why').appendChild(f);var t=f.querySelector('textarea');t.value=S.why[id]||'';t.oninput=function(){S.why[id]=t.value;save()}});
+
+  /* Road to stage */
+  var ST=[["Choisir sa fédération et sa catégorie","Plusieurs fédérations naturelles existent, avec des catégories (bodybuilding, classic physique, men's physique), des critères et des contrôles antidopage différents. Renseigne-toi sur les règlements et les compétitions proches avant de fixer une date."],
+  ["Être honnête sur son point de départ","Ai-je assez de masse musculaire pour atteindre les objectifs que je me suis fixés ? Puis-je arriver sec à la date visée sans diète extrême ? Mes habitudes sont-elles déjà solides ? Si non, c'est le signal d'une phase de construction d'abord."],
+  ["Commencer le posing maintenant","Le posing est une compétence technique qui demande des mois : poses imposées, transitions, routine libre, tenir les poses sous la fatigue. Dix minutes après tes séances, dès aujourd'hui."],
+  ["Construire un plan à rebours","Une fois la date choisie, on raisonne à l'envers : semaine de pic, préparation, phase de construction, points de contrôle. Chaque phase a un objectif et des critères pour savoir si tu es dans les temps."],
+  ["Ne pas partir seul","Ajustements caloriques, fatigue, catégorie, posing, semaine de pic, retour après la scène : quelqu'un qui interprète tes données avec du recul change tout, surtout la première fois."]];
+  S.steps=S.steps||{};
+  ST.forEach(function(s,i){var d=el('div','step'+(S.steps[i]?' done':''));var id='st'+i;
+    d.innerHTML='<div class="label">Étape '+(i+1)+'</div><h3 style="margin:0;font-size:20px"></h3><p style="font-size:14px"></p><label for="'+id+'"><input type="checkbox" id="'+id+'"> C\'est validé pour moi</label>';
+    d.querySelector('h3').textContent=s[0];d.querySelector('p').textContent=s[1];
+    var cb=d.querySelector('input');cb.checked=!!S.steps[i];cb.onchange=function(){S.steps[i]=cb.checked;save();d.classList.toggle('done',cb.checked)};
+    $('steps').appendChild(d)});
+
+  /* Plan 30 jours */
+  var P=[["Semaine 1","Faire l'état des lieux",["Faire le test du chapitre 0 et noter ton score.","Prendre tes photos de départ (face, profil, dos, même lumière).","Te peser chaque matin pendant 7 jours et calculer ta moyenne.","Noter toutes tes séances : exercices, charges, répétitions, réglages."]],
+  ["Semaine 2","Mettre de l'intention",["Pour chaque exercice, écrire la fonction et le muscle ciblés.","Analyser 3 machines de ta salle avec les 5 questions du pilier 1.","Mettre en place la double progression sur tes exercices principaux.","Ajouter un échauffement structuré de 5 à 10 minutes."]],
+  ["Semaine 3","Structurer ta nutrition",["Suivre honnêtement ton alimentation pendant 7 jours.","Calculer tes apports moyens en calories, protéines, glucides et lipides.","Construire 3 repas types que tu peux répéter facilement.","Noter chaque jour faim, digestion, énergie et sommeil."]],
+  ["Semaine 4","Penser comme un compétiteur",["Refaire tes photos et comparer ta moyenne de poids avec la semaine 1.","Comparer tes performances sur 3 exercices clés, à exécution égale.","Faire 10 minutes de posing après au moins 3 séances.","Te renseigner sur 2 fédérations naturelles et leurs catégories.","Refaire le test du chapitre 0. Ton score a-t-il bougé ?"]]];
+  S.plan=S.plan||{};var total=0;
+  P.forEach(function(w,wi){var box=el('div','week');var h=el('div','week-h');h.innerHTML='<div><div class="label">'+w[0]+'</div><h3></h3></div><span id="wk'+wi+'"></span>';h.querySelector('h3').textContent=w[1];box.appendChild(h);
+    w[2].forEach(function(t,ti){total++;var id='pl'+wi+'_'+ti;var lab=el('label','task');lab.setAttribute('for',id);lab.innerHTML='<input type="checkbox" id="'+id+'"><span></span>';lab.querySelector('span').textContent=t;
+      var cb=lab.querySelector('input');cb.checked=!!S.plan[id];lab.classList.toggle('checked',cb.checked);
+      cb.onchange=function(){S.plan[id]=cb.checked;save();lab.classList.toggle('checked',cb.checked);plan()};box.appendChild(lab)});
+    $('weeks').appendChild(box)});
+  function plan(){var n=0;P.forEach(function(w,wi){var c=0;w[2].forEach(function(_,ti){if(S.plan['pl'+wi+'_'+ti])c++});n+=c;$('wk'+wi).textContent=c+'/'+w[2].length});
+    $('planPct').textContent=n+'/'+total;$('planBar').style.width=(n/total*100)+'%'}
+  plan();
+  /* Capture */
+  function applyLock(){var unlocked=isClient||S.unlocked;document.body.classList.toggle('locked',!unlocked);$('gate').hidden=!!unlocked;
+    if(isClient){$('clientCta').hidden=false;var c=document.querySelector('#suite .cta:not(.client-only)');if(c)c.hidden=true}}
+  applyLock();
+  $('gate').addEventListener('submit',function(e){e.preventDefault();
+    var p=$('gPrenom').value.trim(),m=$('gEmail').value.trim(),err=$('gErr');
+    if($('gHp').value)return;
+    if(!p){err.hidden=false;err.textContent='Indique ton prénom.';return}
+    if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(m)){err.hidden=false;err.textContent='Cet email ne semble pas valide. Vérifie-le.';return}
+    if(!$('gOk').checked){err.hidden=false;err.textContent='Coche la case pour recevoir le guide par email.';return}
+    err.hidden=true;
+    send({type:'lead',prenom:p,email:m,score:'',profil:'',source:SOURCE,consentement:'oui'});
+    S.unlocked=true;S.email=m;save();applyLock();score();$('scoreBox').scrollIntoView({behavior:'smooth',block:'start'})});
+  /* Avis */
+  var fbNote=0;for(var r=1;r<=5;r++)(function(r){var b=el('button',null,String(r));b.type='button';b.setAttribute('aria-pressed','false');b.setAttribute('aria-label',r+' sur 5');
+    b.onclick=function(){fbNote=r;$('fbRate').querySelectorAll('button').forEach(function(x,i){x.setAttribute('aria-pressed',i<r?'true':'false')})};$('fbRate').appendChild(b)})(r);
+  $('fb').addEventListener('submit',function(e){e.preventDefault();var t=$('fbTxt').value.trim();if(!fbNote&&!t)return;
+    send({type:'avis',note:fbNote,texte:t,email:S.email||'',client:isClient?'oui':'non',score:curScore(),source:SOURCE});
+    $('fbOk').hidden=false;$('fb').querySelector('button[type=submit]').disabled=true});
+})();
+</script>
