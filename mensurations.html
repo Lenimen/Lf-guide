@@ -1,0 +1,444 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Prendre ses mensurations</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800&display=swap">
+<style>
+/* THE LF METHOD : pétrole et crème en aplats (voir marque/DA.md). Même look que guide.html, un seul thème sombre. */
+:root{
+  --paper:#192E33;
+  --sheet:#213B41;
+  --ink:#EBE3D0;
+  --ink-soft:#AEB9B2;
+  --line:#3A5359;
+  --display:"Outfit","Avenir Next","Century Gothic",Arial,sans-serif;
+  --body:Verdana,Geneva,"DejaVu Sans",sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{background:var(--paper);overflow-x:hidden}
+body{color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.6;margin:0}
+.wrap{max-width:760px;margin:0 auto;padding:0 16px 64px}
+h1,h2,h3{font-family:var(--display);text-transform:uppercase;letter-spacing:.04em;line-height:1.05;text-wrap:balance;margin:0}
+h2{font-size:clamp(26px,5.5vw,36px);font-weight:700}
+p{margin:0;max-width:65ch}
+a{color:var(--ink)}
+.label{font-size:11px;letter-spacing:.14em;text-transform:uppercase;font-weight:bold;color:var(--ink-soft)}
+:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
+
+.top{display:flex;align-items:center;gap:10px;padding-block:18px;border-bottom:2px solid var(--ink);font-family:var(--display);font-weight:600;font-size:15px;letter-spacing:.16em}
+.top img{height:34px;width:auto}
+
+.hero{display:grid;gap:16px;padding-block:36px 24px}
+.hero h1{font-size:clamp(40px,10vw,76px);font-weight:700}
+.hero h1 em{font-style:normal;background:var(--ink);color:var(--paper);display:inline-block;line-height:.86;padding:.1em .08em .02em}
+.hero .lede{color:var(--ink-soft)}
+
+section.block{padding-block:32px;border-top:1px solid var(--line);display:grid;gap:18px}
+.band{display:flex;align-items:baseline;gap:14px;background:var(--sheet);padding:12px 16px;flex-wrap:wrap}
+.band .label{color:var(--ink)}
+
+/* Matériel et règles */
+.rules{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));border:1px solid var(--line)}
+.rules div{padding:14px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);display:grid;gap:6px;align-content:start}
+.rules b{font-family:var(--display);text-transform:uppercase;letter-spacing:.06em;font-size:15px}
+.rules p{font-size:13px;color:var(--ink-soft)}
+
+/* Vue d'ensemble */
+.overview{display:grid;grid-template-columns:minmax(150px,220px) 1fr;gap:20px;align-items:center}
+.toc{list-style:none;margin:0;padding:0;display:grid;border:1px solid var(--line)}
+.toc li{border-bottom:1px solid var(--line)}
+.toc li:last-child{border-bottom:0}
+.toc a{display:flex;gap:12px;align-items:baseline;padding:9px 12px;text-decoration:none;font-size:14px}
+.toc a span{font-family:var(--display);font-weight:800;color:var(--ink-soft);font-variant-numeric:tabular-nums}
+.toc a:hover{background:var(--sheet)}
+
+/* Schémas */
+svg .body *{fill:var(--sheet);stroke:var(--line);stroke-width:1.5;stroke-linejoin:round}
+svg .tape{fill:none;stroke:var(--ink);stroke-width:3.2;stroke-linecap:round}
+svg .back{fill:none;stroke:var(--ink);stroke-width:1.6;stroke-dasharray:3 3;opacity:.55}
+svg .dot{fill:var(--ink)}
+svg .side{fill:var(--ink-soft);font:bold 13px var(--body);text-anchor:middle}
+.ov{width:100%;height:auto;max-height:420px}
+
+/* Fiches mesure */
+.list{display:grid;gap:18px}
+.m{border:1px solid var(--line);scroll-margin-top:12px}
+.m-head{display:flex;align-items:baseline;gap:12px;background:var(--sheet);padding:10px 14px}
+.m-head .n{font-family:var(--display);font-weight:800;font-size:22px;color:var(--ink-soft);font-variant-numeric:tabular-nums}
+.m-head h3{font-size:20px;font-weight:600}
+.m-body{display:grid;grid-template-columns:140px 1fr;gap:16px;padding:14px;align-items:start}
+.fig{width:100%;height:auto;background:var(--paper);border:1px solid var(--line)}
+.m-text{display:grid;gap:10px;min-width:0}
+.m-text p{font-size:14px}
+.tip,.avoid{color:var(--ink-soft)}
+.tip b,.avoid b{display:block;color:var(--ink);font-size:10px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:2px}
+.field{display:grid;gap:4px;margin-top:4px}
+.field label{font-size:10px;letter-spacing:.12em;text-transform:uppercase;font-weight:bold;color:var(--ink-soft)}
+.inp{display:flex;align-items:center;gap:8px}
+.inp input{font:inherit;font-size:18px;font-variant-numeric:tabular-nums;background:var(--paper);color:var(--ink);border:1px solid var(--ink);padding:8px 10px;width:120px;text-align:right}
+.inp span{font-size:13px;color:var(--ink-soft)}
+
+/* Récap */
+.recap{border:2px solid var(--ink);display:grid}
+.recap-head{background:var(--ink);color:var(--paper);padding:8px 14px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;font-weight:bold}
+.recap-body{padding:16px;display:grid;gap:14px}
+.recap table{border-collapse:collapse;width:100%;font-size:14px}
+.recap td{padding:6px 0;border-bottom:1px solid var(--line)}
+.recap td:last-child{text-align:right;font-variant-numeric:tabular-nums;font-weight:bold}
+.btns{display:flex;flex-wrap:wrap;gap:10px}
+button.act{all:unset;cursor:pointer;padding:12px 16px;font-weight:bold;font-size:13px;letter-spacing:.06em;text-transform:uppercase;background:var(--ink);color:var(--paper)}
+button.act.ghost{background:transparent;color:var(--ink);border:1px solid var(--ink)}
+button.act:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
+.msg{font-size:13px;color:var(--ink-soft);min-height:1.2em}
+
+footer{font-size:11px;color:var(--ink-soft);padding-top:24px}
+
+@media (max-width:560px){
+  .overview{grid-template-columns:120px 1fr;gap:12px}
+  .toc a{padding:7px 10px;font-size:13px}
+  .m-body{grid-template-columns:110px 1fr;gap:12px;padding:12px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top"><img src="data:image/png;base64,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" alt="LF">THE LF METHOD</header>
+
+  <div class="hero">
+    <div class="label">Guide rapide · Bilan · par Leni Fauconnier</div>
+    <h1>Prendre ses <em>mensurations</em></h1>
+    <p class="lede">Onze mesures, cinq minutes, toujours dans les mêmes conditions. C'est ce qui rend tes bilans comparables d'une fois à l'autre : une mesure prise n'importe comment ne veut rien dire.</p>
+  </div>
+
+  <section class="block">
+    <div class="band"><span class="label">01</span><h2>Avant de commencer</h2></div>
+    <div class="rules">
+      <div><b>Le matin, à jeun</b><p>Après être passé aux toilettes, avant de manger, de boire et de t'entraîner.</p></div>
+      <div><b>Un mètre ruban souple</b><p>Un mètre de couture, toujours le même. Pas de mètre de chantier.</p></div>
+      <div><b>Sur la peau</b><p>Ruban au contact, sans l'enfoncer : il ne doit ni flotter ni marquer la peau.</p></div>
+      <div><b>Bien à plat</b><p>Ruban horizontal tout autour. Vérifie dans un miroir ou fais-toi aider.</p></div>
+      <div><b>Relâché</b><p>Muscles détendus, respiration normale. On lit à la fin d'une expiration.</p></div>
+      <div><b>Deux fois</b><p>Mesure deux fois. Si l'écart dépasse 0,5 cm, mesure une troisième fois et garde la valeur qui revient.</p></div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="band"><span class="label">02</span><h2>Les 11 mesures</h2></div>
+    <p>Dans l'ordre du bilan. Touche une mesure pour voir où et comment la prendre. Sur les schémas, le corps est vu de face : <b>D</b> est ton côté droit.</p>
+    <div class="overview">
+      <svg class="ov" viewBox="0 0 200 420" role="img" aria-label="Les 11 mesures sur le corps"><g class="body">
+<circle cx="100" cy="36" r="21"/>
+<path d="M91 54h18v16H91z"/>
+<path d="M62 74C80 67 120 67 138 74C150 79 152 96 148 112L140 158C138 178 140 194 146 212L150 236H50L54 212C60 194 62 178 60 158L52 112C48 96 50 79 62 74Z"/>
+<path d="M58 78C42 84 38 108 38 140L34 196L30 250L42 252L48 198L54 150L58 118Z"/>
+<path d="M142 78C158 84 162 108 162 140L166 196L170 250L158 252L152 198L146 150L142 118Z"/>
+<path d="M52 236H98L96 296L92 322L91 392L72 394L68 324L60 300Z"/>
+<path d="M148 236H102L104 296L108 322L109 392L128 394L132 324L140 300Z"/>
+</g>
+<text x="40" y="414" class="side">D</text><text x="160" y="414" class="side">G</text><path class="back" d="M38 90A62 7 0 0 1 162 90"/><path class="tape" d="M38 90A62 7 0 0 0 162 90"/><path class="back" d="M51 110A49 6 0 0 1 149 110"/><path class="tape" d="M51 110A49 6 0 0 0 149 110"/><path class="back" d="M35 128A10 4 0 0 1 55 128"/><path class="tape" d="M35 128A10 4 0 0 0 55 128"/><path class="back" d="M145 128A10 4 0 0 1 165 128"/><path class="tape" d="M145 128A10 4 0 0 0 165 128"/><path class="back" d="M59 178A41 6 0 0 1 141 178"/><path class="tape" d="M59 178A41 6 0 0 0 141 178"/><circle class="dot" cx="100" cy="178" r="2.6"/><path class="back" d="M55 204A45 6 0 0 1 145 204"/><path class="tape" d="M55 204A45 6 0 0 0 145 204"/><circle class="dot" cx="64" cy="204" r="2.6"/><circle class="dot" cx="136" cy="204" r="2.6"/><path class="back" d="M50 228A50 6 0 0 1 150 228"/><path class="tape" d="M50 228A50 6 0 0 0 150 228"/><path class="back" d="M54 266A22 5 0 0 1 98 266"/><path class="tape" d="M54 266A22 5 0 0 0 98 266"/><path class="back" d="M102 266A22 5 0 0 1 146 266"/><path class="tape" d="M102 266A22 5 0 0 0 146 266"/><path class="back" d="M68 346A12 4 0 0 1 92 346"/><path class="tape" d="M68 346A12 4 0 0 0 92 346"/><path class="back" d="M108 346A12 4 0 0 1 132 346"/><path class="tape" d="M108 346A12 4 0 0 0 132 346"/></svg>
+      <ol class="toc"><li><a href="#epaule"><span>01</span>Épaule</a></li><li><a href="#poitrine"><span>02</span>Poitrine</a></li><li><a href="#bras-d"><span>03</span>Bras droit</a></li><li><a href="#bras-g"><span>04</span>Bras gauche</a></li><li><a href="#nombril"><span>05</span>Nombril</a></li><li><a href="#hanche"><span>06</span>Hanche</a></li><li><a href="#fesses"><span>07</span>Fesses</a></li><li><a href="#cuisse-d"><span>08</span>Cuisse droite</a></li><li><a href="#cuisse-g"><span>09</span>Cuisse gauche</a></li><li><a href="#mollet-d"><span>10</span>Mollet droit</a></li><li><a href="#mollet-g"><span>11</span>Mollet gauche</a></li></ol>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="band"><span class="label">03</span><h2>Mesure par mesure</h2></div>
+    <p>Tu peux noter tes valeurs au fur et à mesure : elles restent sur ton téléphone et s'affichent dans le récap en bas.</p>
+    <div class="list">
+<article class="m" id="epaule">
+  <div class="m-head"><span class="n">01</span><h3>Tour d'épaule</h3></div>
+  <div class="m-body">
+    <svg class="fig" viewBox="10 0 180 230" role="img" aria-label="Schéma : tour d'épaule"><g class="body">
+<circle cx="100" cy="36" r="21"/>
+<path d="M91 54h18v16H91z"/>
+<path d="M62 74C80 67 120 67 138 74C150 79 152 96 148 112L140 158C138 178 140 194 146 212L150 236H50L54 212C60 194 62 178 60 158L52 112C48 96 50 79 62 74Z"/>
+<path d="M58 78C42 84 38 108 38 140L34 196L30 250L42 252L48 198L54 150L58 118Z"/>
+<path d="M142 78C158 84 162 108 162 140L166 196L170 250L158 252L152 198L146 150L142 118Z"/>
+<path d="M52 236H98L96 296L92 322L91 392L72 394L68 324L60 300Z"/>
+<path d="M148 236H102L104 296L108 322L109 392L128 394L132 324L140 300Z"/>
+</g>
+<text x="40" y="414" class="side">D</text><text x="160" y="414" class="side">G</text><path class="back" d="M38 90A62 7 0 0 1 162 90"/><path class="tape" d="M38 90A62 7 0 0 0 162 90"/></svg>
+    <div class="m-text">
+      <p>Bras relâchés le long du corps, le ruban passe sur la partie la plus large des épaules (le gros du deltoïde), devant et derrière.</p>
+      <p class="tip"><b>Astuce</b> Fais-toi aider ou vérifie dans le miroir : derrière, le ruban a tendance à remonter vers la nuque.</p>
+      <p class="avoid"><b>À éviter</b> Ne hausse pas les épaules et ne gonfle pas le dos.</p>
+      <div class="field"><label for="v-epaule">Ma mesure</label><div class="inp"><input id="v-epaule" data-k="epaule" data-t="Tour d'épaule" type="number" inputmode="decimal" step="0.1" min="0" placeholder="0.0"><span>cm</span></div></div>
+    </div>
+  </div>
+</article>
+<article class="m" id="poitrine">
+  <div class="m-head"><span class="n">02</span><h3>Tour de poitrine</h3></div>
+  <div class="m-body">
+    <svg class="fig" viewBox="10 0 180 230" role="img" aria-label="Schéma : tour de poitrine"><g class="body">
+<circle cx="100" cy="36" r="21"/>
+<path d="M91 54h18v16H91z"/>
+<path d="M62 74C80 67 120 67 138 74C150 79 152 96 148 112L140 158C138 178 140 194 146 212L150 236H50L54 212C60 194 62 178 60 158L52 112C48 96 50 79 62 74Z"/>
+<path d="M58 78C42 84 38 108 38 140L34 196L30 250L42 252L48 198L54 150L58 118Z"/>
+<path d="M142 78C158 84 162 108 162 140L166 196L170 250L158 252L152 198L146 150L142 118Z"/>
+<path d="M52 236H98L96 296L92 322L91 392L72 394L68 324L60 300Z"/>
+<path d="M148 236H102L104 296L108 322L109 392L128 394L132 324L140 300Z"/>
+</g>
+<text x="40" y="414" class="side">D</text><text x="160" y="414" class="side">G</text><path class="back" d="M51 110A49 6 0 0 1 149 110"/><path class="tape" d="M51 110A49 6 0 0 0 149 110"/></svg>
+    <div class="m-text">
+      <p>Sous les aisselles, au niveau des tétons, bras relâchés. Lis la mesure à la fin d'une expiration normale.</p>
+      <p class="tip"><b>Astuce</b> Lève les bras pour placer le ruban, puis redescends-les avant de lire.</p>
+      <p class="avoid"><b>À éviter</b> Ne bloque pas ta respiration poitrine gonflée.</p>
+      <div class="field"><label for="v-poitrine">Ma mesure</label><div class="inp"><input id="v-poitrine" data-k="poitrine" data-t="Tour de poitrine" type="number" inputmode="decimal" step="0.1" min="0" placeholder="0.0"><span>cm</span></div></div>
+    </div>
+  </div>
+</article>
+<article class="m" id="bras-d">
+  <div class="m-head"><span class="n">03</span><h3>Tour de bras droit</h3></div>
+  <div class="m-body">
+    <svg class="fig" viewBox="10 0 180 230" role="img" aria-label="Schéma : tour de bras droit"><g class="body">
+<circle cx="100" cy="36" r="21"/>
+<path d="M91 54h18v16H91z"/>
+<path d="M62 74C80 67 120 67 138 74C150 79 152 96 148 112L140 158C138 178 140 194 146 212L150 236H50L54 212C60 194 62 178 60 158L52 112C48 96 50 79 62 74Z"/>
+<path d="M58 78C42 84 38 108 38 140L34 196L30 250L42 252L48 198L54 150L58 118Z"/>
+<path d="M142 78C158 84 162 108 162 140L166 196L170 250L158 252L152 198L146 150L142 118Z"/>
+<path d="M52 236H98L96 296L92 322L91 392L72 394L68 324L60 300Z"/>
+<path d="M148 236H102L104 296L108 322L109 392L128 394L132 324L140 300Z"/>
+</g>
+<text x="40" y="414" class="side">D</text><text x="160" y="414" class="side">G</text><path class="back" d="M35 128A10 4 0 0 1 55 128"/><path class="tape" d="M35 128A10 4 0 0 0 55 128"/></svg>
+    <div class="m-text">
+      <p>Bras droit détendu le long du corps, au point le plus épais, à peu près à mi-chemin entre l'épaule et le coude.</p>
+      <p class="tip"><b>Astuce</b> Ruban bien perpendiculaire au bras, pas en biais.</p>
+      <p class="avoid"><b>À éviter</b> Ne contracte pas : on compare toujours un bras relâché à un bras relâché.</p>
+      <div class="field"><label for="v-bras-d">Ma mesure</label><div class="inp"><input id="v-bras-d" data-k="bras-d" data-t="Tour de bras droit" type="number" inputmode="decimal" step="0.1" min="0" placeholder="0.0"><span>cm</span></div></div>
+    </div>
+  </div>
+</article>
+<article class="m" id="bras-g">
+  <div class="m-head"><span class="n">04</span><h3>Tour de bras gauche</h3></div>
+  <div class="m-body">
+    <svg class="fig" viewBox="10 0 180 230" role="img" aria-label="Schéma : tour de bras gauche"><g class="body">
+<circle cx="100" cy="36" r="21"/>
+<path d="M91 54h18v16H91z"/>
+<path d="M62 74C80 67 120 67 138 74C150 79 152 96 148 112L140 158C138 178 140 194 146 212L150 236H50L54 212C60 194 62 178 60 158L52 112C48 96 50 79 62 74Z"/>
+<path d="M58 78C42 84 38 108 38 140L34 196L30 250L42 252L48 198L54 150L58 118Z"/>
+<path d="M142 78C158 84 162 108 162 140L166 196L170 250L158 252L152 198L146 150L142 118Z"/>
+<path d="M52 236H98L96 296L92 322L91 392L72 394L68 324L60 300Z"/>
+<path d="M148 236H102L104 296L108 322L109 392L128 394L132 324L140 300Z"/>
+</g>
+<text x="40" y="414" class="side">D</text><text x="160" y="414" class="side">G</text><path class="back" d="M145 128A10 4 0 0 1 165 128"/><path class="tape" d="M145 128A10 4 0 0 0 165 128"/></svg>
+    <div class="m-text">
+      <p>Même chose que le droit, sur le bras gauche, à la même hauteur.</p>
+      <p class="tip"><b>Astuce</b> Un écart d'environ 1 cm entre les deux bras est normal.</p>
+      <p class="avoid"><b>À éviter</b> Ne mesure pas un bras contracté et l'autre relâché.</p>
+      <div class="field"><label for="v-bras-g">Ma mesure</label><div class="inp"><input id="v-bras-g" data-k="bras-g" data-t="Tour de bras gauche" type="number" inputmode="decimal" step="0.1" min="0" placeholder="0.0"><span>cm</span></div></div>
+    </div>
+  </div>
+</article>
+<article class="m" id="nombril">
+  <div class="m-head"><span class="n">05</span><h3>Tour de nombril</h3></div>
+  <div class="m-body">
+    <svg class="fig" viewBox="20 100 160 170" role="img" aria-label="Schéma : tour de nombril"><g class="body">
+<circle cx="100" cy="36" r="21"/>
+<path d="M91 54h18v16H91z"/>
+<path d="M62 74C80 67 120 67 138 74C150 79 152 96 148 112L140 158C138 178 140 194 146 212L150 236H50L54 212C60 194 62 178 60 158L52 112C48 96 50 79 62 74Z"/>
+<path d="M58 78C42 84 38 108 38 140L34 196L30 250L42 252L48 198L54 150L58 118Z"/>
+<path d="M142 78C158 84 162 108 162 140L166 196L170 250L158 252L152 198L146 150L142 118Z"/>
+<path d="M52 236H98L96 296L92 322L91 392L72 394L68 324L60 300Z"/>
+<path d="M148 236H102L104 296L108 322L109 392L128 394L132 324L140 300Z"/>
+</g>
+<text x="40" y="414" class="side">D</text><text x="160" y="414" class="side">G</text><path class="back" d="M59 178A41 6 0 0 1 141 178"/><path class="tape" d="M59 178A41 6 0 0 0 141 178"/><circle class="dot" cx="100" cy="178" r="2.6"/></svg>
+    <div class="m-text">
+      <p>Ruban horizontal pile au niveau du nombril, ventre détendu, à la fin d'une expiration normale.</p>
+      <p class="tip"><b>Astuce</b> C'est la mesure la plus parlante pour suivre une sèche : prends-la avec soin.</p>
+      <p class="avoid"><b>À éviter</b> Ne rentre pas le ventre et ne serre pas le ruban.</p>
+      <div class="field"><label for="v-nombril">Ma mesure</label><div class="inp"><input id="v-nombril" data-k="nombril" data-t="Tour de nombril" type="number" inputmode="decimal" step="0.1" min="0" placeholder="0.0"><span>cm</span></div></div>
+    </div>
+  </div>
+</article>
+<article class="m" id="hanche">
+  <div class="m-head"><span class="n">06</span><h3>Tour de hanche</h3></div>
+  <div class="m-body">
+    <svg class="fig" viewBox="20 100 160 170" role="img" aria-label="Schéma : tour de hanche"><g class="body">
+<circle cx="100" cy="36" r="21"/>
+<path d="M91 54h18v16H91z"/>
+<path d="M62 74C80 67 120 67 138 74C150 79 152 96 148 112L140 158C138 178 140 194 146 212L150 236H50L54 212C60 194 62 178 60 158L52 112C48 96 50 79 62 74Z"/>
+<path d="M58 78C42 84 38 108 38 140L34 196L30 250L42 252L48 198L54 150L58 118Z"/>
+<path d="M142 78C158 84 162 108 162 140L166 196L170 250L158 252L152 198L146 150L142 118Z"/>
+<path d="M52 236H98L96 296L92 322L91 392L72 394L68 324L60 300Z"/>
+<path d="M148 236H102L104 296L108 322L109 392L128 394L132 324L140 300Z"/>
+</g>
+<text x="40" y="414" class="side">D</text><text x="160" y="414" class="side">G</text><path class="back" d="M55 204A45 6 0 0 1 145 204"/><path class="tape" d="M55 204A45 6 0 0 0 145 204"/><circle class="dot" cx="64" cy="204" r="2.6"/><circle class="dot" cx="136" cy="204" r="2.6"/></svg>
+    <div class="m-text">
+      <p>Au niveau des os du bassin : pose tes mains sur les côtés de la taille et descends jusqu'à sentir l'os (le haut du bassin). Le ruban passe juste dessus, à l'horizontale.</p>
+      <p class="tip"><b>Astuce</b> Pieds joints, poids réparti sur les deux jambes.</p>
+      <p class="avoid"><b>À éviter</b> Ne confonds pas avec le tour de fesses, qui est plus bas.</p>
+      <div class="field"><label for="v-hanche">Ma mesure</label><div class="inp"><input id="v-hanche" data-k="hanche" data-t="Tour de hanche" type="number" inputmode="decimal" step="0.1" min="0" placeholder="0.0"><span>cm</span></div></div>
+    </div>
+  </div>
+</article>
+<article class="m" id="fesses">
+  <div class="m-head"><span class="n">07</span><h3>Tour de fesses</h3></div>
+  <div class="m-body">
+    <svg class="fig" viewBox="20 100 160 170" role="img" aria-label="Schéma : tour de fesses"><g class="body">
+<circle cx="100" cy="36" r="21"/>
+<path d="M91 54h18v16H91z"/>
+<path d="M62 74C80 67 120 67 138 74C150 79 152 96 148 112L140 158C138 178 140 194 146 212L150 236H50L54 212C60 194 62 178 60 158L52 112C48 96 50 79 62 74Z"/>
+<path d="M58 78C42 84 38 108 38 140L34 196L30 250L42 252L48 198L54 150L58 118Z"/>
+<path d="M142 78C158 84 162 108 162 140L166 196L170 250L158 252L152 198L146 150L142 118Z"/>
+<path d="M52 236H98L96 296L92 322L91 392L72 394L68 324L60 300Z"/>
+<path d="M148 236H102L104 296L108 322L109 392L128 394L132 324L140 300Z"/>
+</g>
+<text x="40" y="414" class="side">D</text><text x="160" y="414" class="side">G</text><path class="back" d="M50 228A50 6 0 0 1 150 228"/><path class="tape" d="M50 228A50 6 0 0 0 150 228"/></svg>
+    <div class="m-text">
+      <p>Pieds joints, au point le plus saillant des fesses (regarde-toi de profil dans le miroir pour le trouver).</p>
+      <p class="tip"><b>Astuce</b> Fessiers relâchés, ruban horizontal tout autour.</p>
+      <p class="avoid"><b>À éviter</b> Le ruban plonge souvent vers le bas derrière : vérifie dans le miroir.</p>
+      <div class="field"><label for="v-fesses">Ma mesure</label><div class="inp"><input id="v-fesses" data-k="fesses" data-t="Tour de fesses" type="number" inputmode="decimal" step="0.1" min="0" placeholder="0.0"><span>cm</span></div></div>
+    </div>
+  </div>
+</article>
+<article class="m" id="cuisse-d">
+  <div class="m-head"><span class="n">08</span><h3>Tour de cuisse droite</h3></div>
+  <div class="m-body">
+    <svg class="fig" viewBox="30 200 140 222" role="img" aria-label="Schéma : tour de cuisse droite"><g class="body">
+<circle cx="100" cy="36" r="21"/>
+<path d="M91 54h18v16H91z"/>
+<path d="M62 74C80 67 120 67 138 74C150 79 152 96 148 112L140 158C138 178 140 194 146 212L150 236H50L54 212C60 194 62 178 60 158L52 112C48 96 50 79 62 74Z"/>
+<path d="M58 78C42 84 38 108 38 140L34 196L30 250L42 252L48 198L54 150L58 118Z"/>
+<path d="M142 78C158 84 162 108 162 140L166 196L170 250L158 252L152 198L146 150L142 118Z"/>
+<path d="M52 236H98L96 296L92 322L91 392L72 394L68 324L60 300Z"/>
+<path d="M148 236H102L104 296L108 322L109 392L128 394L132 324L140 300Z"/>
+</g>
+<text x="40" y="414" class="side">D</text><text x="160" y="414" class="side">G</text><path class="back" d="M54 266A22 5 0 0 1 98 266"/><path class="tape" d="M54 266A22 5 0 0 0 98 266"/></svg>
+    <div class="m-text">
+      <p>Debout, poids sur les deux jambes, cuisse détendue. Le ruban passe à mi-chemin entre le pli de l'aine et le haut du genou.</p>
+      <p class="tip"><b>Astuce</b> La première fois, note la hauteur (exemple : 20 cm au-dessus de la rotule) et reprends toujours la même.</p>
+      <p class="avoid"><b>À éviter</b> Ne mets pas le poids sur la jambe mesurée et ne contracte pas.</p>
+      <div class="field"><label for="v-cuisse-d">Ma mesure</label><div class="inp"><input id="v-cuisse-d" data-k="cuisse-d" data-t="Tour de cuisse droite" type="number" inputmode="decimal" step="0.1" min="0" placeholder="0.0"><span>cm</span></div></div>
+    </div>
+  </div>
+</article>
+<article class="m" id="cuisse-g">
+  <div class="m-head"><span class="n">09</span><h3>Tour de cuisse gauche</h3></div>
+  <div class="m-body">
+    <svg class="fig" viewBox="30 200 140 222" role="img" aria-label="Schéma : tour de cuisse gauche"><g class="body">
+<circle cx="100" cy="36" r="21"/>
+<path d="M91 54h18v16H91z"/>
+<path d="M62 74C80 67 120 67 138 74C150 79 152 96 148 112L140 158C138 178 140 194 146 212L150 236H50L54 212C60 194 62 178 60 158L52 112C48 96 50 79 62 74Z"/>
+<path d="M58 78C42 84 38 108 38 140L34 196L30 250L42 252L48 198L54 150L58 118Z"/>
+<path d="M142 78C158 84 162 108 162 140L166 196L170 250L158 252L152 198L146 150L142 118Z"/>
+<path d="M52 236H98L96 296L92 322L91 392L72 394L68 324L60 300Z"/>
+<path d="M148 236H102L104 296L108 322L109 392L128 394L132 324L140 300Z"/>
+</g>
+<text x="40" y="414" class="side">D</text><text x="160" y="414" class="side">G</text><path class="back" d="M102 266A22 5 0 0 1 146 266"/><path class="tape" d="M102 266A22 5 0 0 0 146 266"/></svg>
+    <div class="m-text">
+      <p>Même chose que la droite, à la même hauteur au-dessus de la rotule.</p>
+      <p class="tip"><b>Astuce</b> Garde la même distance notée pour les deux cuisses.</p>
+      <p class="avoid"><b>À éviter</b> Ne change pas de hauteur d'un bilan à l'autre.</p>
+      <div class="field"><label for="v-cuisse-g">Ma mesure</label><div class="inp"><input id="v-cuisse-g" data-k="cuisse-g" data-t="Tour de cuisse gauche" type="number" inputmode="decimal" step="0.1" min="0" placeholder="0.0"><span>cm</span></div></div>
+    </div>
+  </div>
+</article>
+<article class="m" id="mollet-d">
+  <div class="m-head"><span class="n">10</span><h3>Tour de mollet droit</h3></div>
+  <div class="m-body">
+    <svg class="fig" viewBox="30 200 140 222" role="img" aria-label="Schéma : tour de mollet droit"><g class="body">
+<circle cx="100" cy="36" r="21"/>
+<path d="M91 54h18v16H91z"/>
+<path d="M62 74C80 67 120 67 138 74C150 79 152 96 148 112L140 158C138 178 140 194 146 212L150 236H50L54 212C60 194 62 178 60 158L52 112C48 96 50 79 62 74Z"/>
+<path d="M58 78C42 84 38 108 38 140L34 196L30 250L42 252L48 198L54 150L58 118Z"/>
+<path d="M142 78C158 84 162 108 162 140L166 196L170 250L158 252L152 198L146 150L142 118Z"/>
+<path d="M52 236H98L96 296L92 322L91 392L72 394L68 324L60 300Z"/>
+<path d="M148 236H102L104 296L108 322L109 392L128 394L132 324L140 300Z"/>
+</g>
+<text x="40" y="414" class="side">D</text><text x="160" y="414" class="side">G</text><path class="back" d="M68 346A12 4 0 0 1 92 346"/><path class="tape" d="M68 346A12 4 0 0 0 92 346"/></svg>
+    <div class="m-text">
+      <p>Debout, pieds écartés largeur de hanches, poids réparti. Le ruban passe au point le plus large du mollet.</p>
+      <p class="tip"><b>Astuce</b> Fais glisser le ruban de haut en bas : garde la plus grande valeur.</p>
+      <p class="avoid"><b>À éviter</b> Ne te mets pas sur la pointe des pieds.</p>
+      <div class="field"><label for="v-mollet-d">Ma mesure</label><div class="inp"><input id="v-mollet-d" data-k="mollet-d" data-t="Tour de mollet droit" type="number" inputmode="decimal" step="0.1" min="0" placeholder="0.0"><span>cm</span></div></div>
+    </div>
+  </div>
+</article>
+<article class="m" id="mollet-g">
+  <div class="m-head"><span class="n">11</span><h3>Tour de mollet gauche</h3></div>
+  <div class="m-body">
+    <svg class="fig" viewBox="30 200 140 222" role="img" aria-label="Schéma : tour de mollet gauche"><g class="body">
+<circle cx="100" cy="36" r="21"/>
+<path d="M91 54h18v16H91z"/>
+<path d="M62 74C80 67 120 67 138 74C150 79 152 96 148 112L140 158C138 178 140 194 146 212L150 236H50L54 212C60 194 62 178 60 158L52 112C48 96 50 79 62 74Z"/>
+<path d="M58 78C42 84 38 108 38 140L34 196L30 250L42 252L48 198L54 150L58 118Z"/>
+<path d="M142 78C158 84 162 108 162 140L166 196L170 250L158 252L152 198L146 150L142 118Z"/>
+<path d="M52 236H98L96 296L92 322L91 392L72 394L68 324L60 300Z"/>
+<path d="M148 236H102L104 296L108 322L109 392L128 394L132 324L140 300Z"/>
+</g>
+<text x="40" y="414" class="side">D</text><text x="160" y="414" class="side">G</text><path class="back" d="M108 346A12 4 0 0 1 132 346"/><path class="tape" d="M108 346A12 4 0 0 0 132 346"/></svg>
+    <div class="m-text">
+      <p>Même chose que le droit, au point le plus large du mollet gauche.</p>
+      <p class="tip"><b>Astuce</b> Même position, même poids sur chaque jambe.</p>
+      <p class="avoid"><b>À éviter</b> Ne mesure pas assis.</p>
+      <div class="field"><label for="v-mollet-g">Ma mesure</label><div class="inp"><input id="v-mollet-g" data-k="mollet-g" data-t="Tour de mollet gauche" type="number" inputmode="decimal" step="0.1" min="0" placeholder="0.0"><span>cm</span></div></div>
+    </div>
+  </div>
+</article>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="band"><span class="label">04</span><h2>Ton récap</h2></div>
+    <div class="recap">
+      <div class="recap-head">Mensurations du <span id="date"></span></div>
+      <div class="recap-body">
+        <table id="recap"></table>
+        <div class="btns">
+          <button class="act" type="button" id="copy">Copier mes mesures</button>
+          <button class="act ghost" type="button" id="reset">Tout effacer</button>
+        </div>
+        <p class="msg" id="msg" role="status"></p>
+      </div>
+    </div>
+    <p>Reporte ensuite tes valeurs dans ton bilan, dans le même ordre.</p>
+  </section>
+
+  <footer>THE LF METHOD · Leni Fauconnier · @leni_fit_</footer>
+</div>
+<script>
+(function(){
+  var KEY='lf-mensurations';
+  var inputs=[].slice.call(document.querySelectorAll('input[data-k]'));
+  var store={};
+  try{store=JSON.parse(localStorage.getItem(KEY)||'{}')||{}}catch(e){store={}}
+  var d=new Date();
+  var dateTxt=d.toLocaleDateString('fr-BE',{day:'numeric',month:'long',year:'numeric'});
+  document.getElementById('date').textContent=dateTxt;
+  function fmt(v){return v===''||v==null?'—':String(v).replace('.',',')+' cm'}
+  function render(){
+    var rows=inputs.map(function(i){return '<tr><td>'+i.dataset.t+'</td><td>'+fmt(i.value)+'</td></tr>'});
+    document.getElementById('recap').innerHTML=rows.join('');
+  }
+  inputs.forEach(function(i){
+    if(store[i.dataset.k]!=null)i.value=store[i.dataset.k];
+    i.addEventListener('input',function(){
+      store[i.dataset.k]=i.value;
+      try{localStorage.setItem(KEY,JSON.stringify(store))}catch(e){}
+      render();
+    });
+  });
+  render();
+  var msg=document.getElementById('msg');
+  document.getElementById('copy').addEventListener('click',function(){
+    var txt='Mensurations du '+dateTxt+' (à jeun)\n'+inputs.map(function(i){return i.dataset.t+' : '+fmt(i.value)}).join('\n');
+    var done=function(){msg.textContent='Copié. Colle-le où tu veux.'};
+    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(txt).then(done,function(){fallback(txt);done()})}else{fallback(txt);done()}
+  });
+  function fallback(t){var a=document.createElement('textarea');a.value=t;a.style.position='fixed';a.style.opacity='0';document.body.appendChild(a);a.select();try{document.execCommand('copy')}catch(e){}a.remove()}
+  document.getElementById('reset').addEventListener('click',function(){
+    if(!confirm('Effacer toutes les valeurs notées ?'))return;
+    inputs.forEach(function(i){i.value=''});store={};
+    try{localStorage.removeItem(KEY)}catch(e){}
+    render();msg.textContent='Valeurs effacées.';
+  });
+})();
+</script>
+</body>
+</html>
