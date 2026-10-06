@@ -132,7 +132,7 @@ body{color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.6;mar
     {k:'coach',t:'Tu as déjà été coaché ?',o:['Jamais','Oui, et j\'ai été déçu','Oui, c\'était bien mais c\'est fini']},
     {k:'seances',t:'Combien de séances par semaine, en vrai ?',o:['2 à 3','4 à 5','6 ou plus']},
     {k:'decideur',t:'Un investissement comme celui-ci, tu le décides avec qui ?',o:['Seul','Avec mes parents','Avec mon ou ma partenaire']},
-    {k:'budget',t:'L\'accompagnement démarre à 150 € par mois. Pour toi, c\'est :',hint:'Paiement possible en 1, 2 ou 3 fois sans frais.',o:['Ok si c\'est le bon accompagnement','Jouable en plusieurs fois','Pas possible en ce moment']},
+    {k:'budget',t:'Imaginons que ton accompagnement te coûterait autour de 900 € sur les 6 prochains mois. Ce serait possible pour toi ?',hint:'C\'est un ordre d\'idée, le détail se voit en appel.',o:['Oui, si c\'est le bon accompagnement','Oui, en le répartissant sur plusieurs mois','Non, pas en ce moment']},
     {k:'pourquoi',t:'Pourquoi maintenant, et pas dans 6 mois ?',type:'text',hint:'Une ou deux phrases suffisent.'}
   ];
   var A={};
@@ -203,7 +203,7 @@ body{color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.6;mar
   prev.addEventListener('click',function(){if(i>0){save();i--;draw()}});
 
   function verdict(){
-    if(A.budget==='Pas possible en ce moment')return 'budget';
+    if(A.budget==='Non, pas en ce moment')return 'budget';
     if(A.objectif==='Perdre du poids vite')return 'objectif';
     if(A.compet==='Ça ne m\'intéresse pas'&&A.objectif==='Je ne sais pas encore')return 'flou';
     return 'ok';
