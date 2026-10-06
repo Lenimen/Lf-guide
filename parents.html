@@ -1,0 +1,207 @@
+<!-- Page « Pour les parents » THE LF METHOD : à charger dans une page Systeme.io via chargeur. Personnalisable avec ?prenom=Tom. Prix réglé dans la variable PRIX en bas. -->
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Pour les parents</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800&display=swap">
+<style>
+/* Layout : une lettre posée et une fiche de garanties, pensée pour un parent qui lit sur téléphone. Crème papier pour les encarts « ce qui est garanti », pétrole pour le reste. Un seul thème. */
+:root{
+  --paper:#192E33;
+  --sheet:#213B41;
+  --ink:#EBE3D0;
+  --ink-soft:#AEB9B2;
+  --line:#3A5359;
+  --cream:#E5DDC7;
+  --display:"Outfit","Avenir Next","Century Gothic",Arial,sans-serif;
+  --body:Verdana,Geneva,"DejaVu Sans",sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{background:var(--paper);overflow-x:hidden}
+body{color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.65;margin:0}
+#lfp{background:var(--paper);color:var(--ink);font-family:var(--body)}
+#lfp .wrap{max-width:760px;margin:0 auto;padding-inline:16px;padding-block:0 64px}
+#lfp h1,#lfp h2,#lfp h3{font-family:var(--display);text-transform:uppercase;letter-spacing:.04em;line-height:1.08;text-wrap:balance;margin:0}
+#lfp h2{font-size:clamp(24px,5vw,34px);font-weight:700}
+#lfp h3{font-size:17px;font-weight:600}
+#lfp p{margin:0;max-width:64ch}
+#lfp a{color:var(--ink)}
+#lfp .label{font-size:11px;letter-spacing:.14em;text-transform:uppercase;font-weight:bold;color:var(--ink-soft)}
+#lfp :focus-visible{outline:3px solid var(--ink);outline-offset:2px}
+#lfp .top{display:flex;align-items:center;justify-content:space-between;gap:10px;padding-block:18px;border-bottom:2px solid var(--ink)}
+#lfp .mark{display:flex;align-items:center;gap:10px;font-family:var(--display);font-weight:600;font-size:15px;letter-spacing:.16em}
+#lfp .mark img{height:34px;width:auto}
+#lfp .hero{display:grid;gap:14px;padding-block:32px 26px}
+#lfp .hero h1{font-size:clamp(32px,7.5vw,56px);font-weight:700}
+#lfp .hero h1 em{font-style:normal;background:var(--ink);color:var(--paper);display:inline-block;line-height:.9;padding:.08em .08em .02em}
+#lfp .lede{color:var(--ink-soft);font-size:16px}
+#lfp section.block{padding-block:32px;border-top:1px solid var(--line);display:grid;gap:16px}
+
+/* Encarts crème */
+#lfp .card{background:var(--cream);color:var(--paper);padding:18px;display:grid;gap:12px}
+#lfp .card .label{color:var(--paper);opacity:.75}
+#lfp .card ul{margin:0;padding-left:20px;display:grid;gap:6px}
+#lfp .card a{color:var(--paper)}
+
+#lfp .grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:12px}
+#lfp .cell{border:1px solid var(--line);padding:14px;display:grid;gap:6px;align-content:start}
+#lfp .cell p{font-size:14px;color:var(--ink-soft)}
+
+/* Semaine type */
+#lfp .week{display:grid;border-left:2px solid var(--ink);margin-left:6px}
+#lfp .day{position:relative;padding:0 0 16px 20px;display:grid;gap:2px}
+#lfp .day::before{content:"";position:absolute;left:-7px;top:6px;width:12px;height:12px;background:var(--ink)}
+#lfp .day b{font-family:var(--display);text-transform:uppercase;letter-spacing:.06em}
+#lfp .day span{font-size:14px;color:var(--ink-soft)}
+
+/* Prix */
+#lfp .pay{display:flex;border:1px solid var(--ink);flex-wrap:wrap}
+#lfp .pay button{all:unset;cursor:pointer;flex:1 1 90px;text-align:center;padding:10px;font-family:var(--display);font-weight:600;text-transform:uppercase;letter-spacing:.06em;border-right:1px solid var(--ink)}
+#lfp .pay button:last-child{border-right:0}
+#lfp .pay button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+#lfp .pay button:focus-visible{outline:3px solid var(--ink);outline-offset:-3px}
+#lfp .sched{display:grid;border:1px solid var(--line)}
+#lfp .sched div{display:flex;justify-content:space-between;gap:10px;padding:10px 14px;border-bottom:1px solid var(--line);font-variant-numeric:tabular-nums}
+#lfp .sched div:last-child{border-bottom:0}
+#lfp .big{font-family:var(--display);font-weight:800;font-size:44px;line-height:1;font-variant-numeric:tabular-nums}
+
+details{border:1px solid var(--line)}
+#lfp details summary{cursor:pointer;padding:12px 14px;font-weight:bold;font-size:14px;background:var(--sheet)}
+#lfp details > div{padding:14px;font-size:14px;color:var(--ink-soft);display:grid;gap:8px}
+
+#lfp .btn{all:unset;cursor:pointer;border:1px solid var(--ink);padding:12px 16px;font-size:13px;font-weight:bold;text-align:center}
+#lfp .btn.solid{background:var(--ink);color:var(--paper)}
+#lfp a.btn{text-decoration:none}
+#lfp .row{display:flex;flex-wrap:wrap;gap:10px}
+#lfp .sign{font-family:var(--display);font-size:20px;letter-spacing:.06em;text-transform:uppercase}
+#lfp .small{font-size:12px;color:var(--ink-soft)}
+</style>
+
+<div id="lfp">
+<div class="wrap">
+  <header class="top">
+    <div class="mark"><img src="data:image/png;base64,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" alt="LF">THE LF METHOD</div>
+    <span class="label">Pour les parents</span>
+  </header>
+
+  <section class="hero">
+    <span class="label">Une page écrite pour vous</span>
+    <h1><span data-name>Votre enfant</span> veut <em>passer à la vitesse supérieure</em></h1>
+    <p class="lede">Je m'appelle Leni Fauconnier, je suis coach en musculation et athlète de bodybuilding naturel. <span data-name>Votre enfant</span> m'a parlé de son projet. Cette page répond aux questions que les parents me posent le plus souvent, en 3 minutes de lecture.</p>
+  </section>
+
+  <section class="block">
+    <h2>Qui je suis</h2>
+    <div class="grid2">
+      <div class="cell"><span class="label">Diplômes</span><p>Personal trainer EREPS niveau 4. Certifié NASM.</p></div>
+      <div class="cell"><span class="label">Terrain</span><p>Athlète naturel en compétition : WNBF, fédération naturelle avec contrôles (bodybuilding -23 ans), et BIFBB, médaille d'or en Men's Physique -23 ans.</p></div>
+      <div class="cell"><span class="label">Entreprise</span><p>Entreprise belge enregistrée (BCE 1033.759.781), à Flémalle. Contrat écrit et facture pour chaque accompagnement.</p></div>
+      <div class="cell"><span class="label">Approche</span><p>Je n'impose pas d'objectif. Le niveau d'exigence est discuté avec l'athlète, toujours dans les limites de sa santé.</p></div>
+    </div>
+  </section>
+
+  <section class="block">
+    <h2>Ce que « naturel » veut dire chez moi</h2>
+    <div class="card">
+      <span class="label">Ce qui est garanti</span>
+      <ul>
+        <li><strong>Aucun produit dopant</strong>, jamais. Les compétitions visées sont des fédérations naturelles avec contrôles.</li>
+        <li><strong>La santé passe avant le physique.</strong> Une douleur, un souci médical ou un trouble alimentaire, et je réoriente vers un médecin ou un professionnel de santé.</li>
+        <li><strong>Pas de régime extrême.</strong> Je donne des recommandations nutritionnelles adaptées à la vie de famille, aux repas à la maison et au budget.</li>
+        <li><strong>Les études et le travail passent en premier.</strong> Le plan s'adapte aux examens et aux périodes chargées.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="block">
+    <h2>Une semaine d'accompagnement</h2>
+    <div class="week">
+      <div class="day"><b>Programme et nutrition</b><span>Un entraînement et des repères alimentaires construits pour lui ou elle, dans une application dédiée.</span></div>
+      <div class="day"><b>Suivi au quotidien</b><span>Poids, sommeil, séances, sensations : notés en quelques minutes dans l'application.</span></div>
+      <div class="day"><b>Bilan chaque semaine</b><span>J'analyse les données et les photos, j'ajuste le plan et je réponds en vidéo.</span></div>
+      <div class="day"><b>Questions</b><span>Par WhatsApp, avec une réponse en général sous 24 heures.</span></div>
+      <div class="day"><b>Apprendre</b><span>Une formation en ligne pour comprendre ce qu'il ou elle fait, et devenir autonome.</span></div>
+    </div>
+  </section>
+
+  <section class="block">
+    <h2>Le prix, clairement</h2>
+    <p>Un seul tarif, sans frais cachés et sans frais de paiement. Vous choisissez le rythme.</p>
+    <div class="pay" role="group" aria-label="Rythme de paiement">
+      <button type="button" data-n="1" aria-pressed="false">1 fois</button>
+      <button type="button" data-n="2" aria-pressed="false">2 fois</button>
+      <button type="button" data-n="3" aria-pressed="true">3 fois</button>
+    </div>
+    <div class="grid2">
+      <div class="cell"><span class="label">Ce que ça représente</span><span class="big" id="permonth">150 €</span><p>par mois d'accompagnement</p></div>
+      <div class="sched" id="sched"></div>
+    </div>
+    <p class="small">Paiement par virement ou par carte via Stripe. Facture au nom de votre choix.</p>
+  </section>
+
+  <section class="block">
+    <h2>Le cadre</h2>
+    <div class="card">
+      <span class="label">Inscrit dans le contrat</span>
+      <ul>
+        <li>Un engagement de <strong>6 mois</strong> au départ, <strong>sans renouvellement automatique</strong>.</li>
+        <li><strong>14 jours de rétractation</strong> après la signature.</li>
+        <li>Pour un mineur, le contrat est signé par un parent.</li>
+        <li>Les données de santé restent confidentielles (RGPD) et ne servent qu'au coaching.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="block">
+    <h2>Vos questions</h2>
+    <details><summary>La compétition, c'est dangereux ?</summary><div><p>En bodybuilding naturel, la préparation est longue et progressive. Je ne fais jamais monter sur scène quelqu'un qui n'est pas prêt physiquement et mentalement, et la décision de participer reste la sienne.</p></div></details>
+    <details><summary>Et s'il ou elle n'a plus envie dans 2 mois ?</summary><div><p>On en parle tout de suite et j'adapte le plan : moins de séances, un autre objectif, une pause pendant les examens. Je m'engage à tout mettre en œuvre pour que votre enfant avance, mais je ne peux pas promettre un résultat à sa place.</p></div></details>
+    <details><summary>Pourquoi pas un programme gratuit sur internet ?</summary><div><p>Un programme ne regarde pas les photos, ne corrige pas les mouvements et n'ajuste rien quand la fatigue ou les examens arrivent. Le suivi évite les blessures, le surentraînement et les années perdues à stagner.</p></div></details>
+    <details><summary>Je peux vous parler avant ?</summary><div><p>Oui, et c'est même ce que je préfère. Rejoignez les 10 dernières minutes de l'appel découverte de votre enfant, ou réservez un créneau avec moi.</p></div></details>
+  </section>
+
+  <section class="block">
+    <h2>Une question&nbsp;? Parlons-en</h2>
+    <p>Dix minutes suffisent souvent pour y voir clair. Vous pouvez réserver un créneau ou m'écrire sur Instagram.</p>
+    <div class="row">
+      <a class="btn solid" id="cal" href="https://cal.com/leni-fauconnier/decouverte" target="_blank" rel="noopener">Réserver un appel</a>
+      <a class="btn" href="https://instagram.com/leni_fit_" target="_blank" rel="noopener">Instagram @leni_fit_</a>
+    </div>
+    <p class="sign">Leni · THE LF METHOD</p>
+  </section>
+</div>
+</div>
+
+<script>
+(function(){
+  var PRIX=900; /* tarif de l'accompagnement 6 mois : passer à 1200 le jour où le prix change */
+  var MOIS=6;
+  var qs=new URLSearchParams(location.search);
+  var prenom=(qs.get('prenom')||'').trim().slice(0,30);
+  if(prenom){
+    document.querySelectorAll('#lfp [data-name]').forEach(function(el){el.textContent=prenom});
+    var cal=document.getElementById('cal');
+    cal.href+='?notes='+encodeURIComponent('Parent de '+prenom);
+  }
+  function eur(n){return (Math.round(n*100)/100).toLocaleString('fr-BE',{maximumFractionDigits:2})+' €'}
+  document.getElementById('permonth').textContent=eur(PRIX/MOIS);
+  var sched=document.getElementById('sched');
+  function draw(n){
+    var lab=['À la signature','1 mois plus tard','2 mois plus tard'];
+    var h='';
+    for(var k=0;k<n;k++)h+='<div><span>'+lab[k]+'</span><strong>'+eur(PRIX/n)+'</strong></div>';
+    h+='<div><span>Total sur 6 mois</span><strong>'+eur(PRIX)+'</strong></div>';
+    sched.innerHTML=h;
+  }
+  document.querySelectorAll('#lfp .pay button').forEach(function(b){
+    b.addEventListener('click',function(){
+      document.querySelectorAll('#lfp .pay button').forEach(function(x){x.setAttribute('aria-pressed',x===b)});
+      draw(+b.dataset.n);
+    });
+  });
+  draw(3);
+})();
+</script>
