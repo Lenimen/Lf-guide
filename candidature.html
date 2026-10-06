@@ -119,7 +119,7 @@ body{color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.6;mar
 (function(){
   var CAL='https://cal.com/leni-fauconnier/decouverte';
   var GUIDE='https://lfauconnier27.systeme.io/5e2d6ea8?source=candidature';
-  var PARENTS='https://lfauconnier27.systeme.io/parents'; /* à remplacer par l'adresse réelle de la page parents une fois créée */
+  var PARENTS=''; /* adresse de la page parents sur Systeme.io : tant qu'elle est vide, le bouton ne s'affiche pas */
   var qs=new URLSearchParams(location.search);
   var SOURCE=qs.get('source')||'direct';
 
@@ -136,6 +136,7 @@ body{color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.6;mar
     {k:'pourquoi',t:'Pourquoi maintenant, et pas dans 6 mois ?',type:'text',hint:'Une ou deux phrases suffisent.'}
   ];
   var A={};
+  var PREMIUM='Oui, et j\'ai les moyens de mettre le prix pour un suivi premium';
   var i=0;
   var stage=document.getElementById('stage'),err=document.getElementById('err');
   var prev=document.getElementById('prev'),next=document.getElementById('next');
@@ -150,7 +151,8 @@ body{color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.6;mar
     var h='<div class="q"><h2>'+esc(q.t)+'</h2>'+(q.hint?'<p class="hint">'+esc(q.hint)+'</p>':'');
     if(q.type==='id'){
       h+='<div class="field"><label for="lfc-prenom">Prénom</label><input id="lfc-prenom" type="text" autocomplete="given-name" value="'+esc(A.prenom||'')+'"></div>'+
-         '<div class="field"><label for="lfc-email">Email (pour la confirmation de l\'appel)</label><input id="lfc-email" type="email" autocomplete="email" value="'+esc(A.email||'')+'"></div>';
+         '<div class="field"><label for="lfc-email">Email (pour la confirmation de l\'appel)</label><input id="lfc-email" type="email" autocomplete="email" value="'+esc(A.email||'')+'"></div>'+
+         '<div class="field"><label for="lfc-age">Âge</label><input id="lfc-age" type="text" inputmode="numeric" maxlength="2" style="max-width:90px" value="'+esc(A.age||'')+'"></div>';
     }else if(q.type==='text'){
       h+='<div class="field"><label for="lfc-pourquoi">Ta réponse</label><textarea id="lfc-pourquoi">'+esc(A.pourquoi||'')+'</textarea></div>';
     }else{
@@ -184,7 +186,9 @@ body{color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.6;mar
       A.prenom=document.getElementById('lfc-prenom').value.trim();
       A.email=document.getElementById('lfc-email').value.trim();
       if(!A.prenom)return 'Indique ton prénom.';
+      A.age=document.getElementById('lfc-age').value.trim();
       if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(A.email))return 'Indique un email valide, c\'est là que tu recevras la confirmation.';
+      if(!/^\d{2}$/.test(A.age)||+A.age<14)return 'Indique ton âge (14 ans minimum).';
     }else if(q.type==='text'){
       A.pourquoi=document.getElementById('lfc-pourquoi').value.trim();
       if(A.pourquoi.length<3)return 'Écris au moins quelques mots.';
@@ -210,7 +214,7 @@ body{color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.6;mar
   }
 
   function notes(){
-    return ['Candidature LF ('+SOURCE+')',
+    return [(A.budget===PREMIUM?'⭐ PREMIUM · ':'')+'Candidature LF ('+SOURCE+')','Âge : '+A.age,
       'Muscu : '+A.anciennete,'Objectif : '+A.objectif,'Compet : '+A.compet,
       'Bloque : '+(A.blocage||[]).join(', '),'Coach avant : '+A.coach,
       'Séances/sem : '+A.seances,'Décide : '+A.decideur,'Budget : '+A.budget,
@@ -222,7 +226,7 @@ body{color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.6;mar
     document.getElementById('count').textContent='Terminé';
     document.getElementById('nav').hidden=true;
     var v=verdict();
-    var rows=[['Prénom',A.prenom],['Muscu',A.anciennete],['Objectif',A.objectif],['Compétition',A.compet],['Ce qui coince',(A.blocage||[]).join(', ')],['Coach avant',A.coach],['Séances',A.seances],['Décision',A.decideur],['Budget',A.budget],['Pourquoi maintenant',A.pourquoi]];
+    var rows=[['Prénom',A.prenom],['Âge',A.age],['Muscu',A.anciennete],['Objectif',A.objectif],['Compétition',A.compet],['Ce qui coince',(A.blocage||[]).join(', ')],['Coach avant',A.coach],['Séances',A.seances],['Décision',A.decideur],['Budget',A.budget],['Pourquoi maintenant',A.pourquoi]];
     var recap='<div class="recap">'+rows.map(function(r){return '<div><span>'+esc(r[0])+'</span><span>'+esc(r[1]||'—')+'</span></div>'}).join('')+'</div>';
     var h='<div class="res">';
     if(v==='ok'){
@@ -232,8 +236,9 @@ body{color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.6;mar
         '<p>Ton profil correspond à ce que je fais de mieux. Choisis ton créneau : tes réponses sont déjà jointes, je prépare l\'appel avant qu\'on se parle.</p>'+
         '<div class="row"><a class="btn solid" href="'+url+'" target="_blank" rel="noopener">Choisir mon créneau</a></div>'+
         '<div class="note"><h3>Pour gagner du temps</h3><p>Après ta réservation, envoie-moi 4 photos (face, dos, deux profils) et ton programme actuel sur Instagram ou WhatsApp. Prévois 45 minutes au calme.</p></div>';
-      if(A.decideur==='Avec mes parents'){
-        h+='<div class="note"><h3>Tu en parles avec tes parents</h3><p>C\'est normal et c\'est même mieux. Le plus simple : ton père ou ta mère nous rejoint pour les 10 dernières minutes de l\'appel et pose ses questions directement. Tu peux aussi leur montrer la page qui leur est destinée.</p><div class="row"><a class="btn" href="'+PARENTS+'?prenom='+encodeURIComponent(A.prenom)+'" target="_blank" rel="noopener">Ouvrir la page pour mes parents</a></div></div>';
+      var mineur=+A.age<18;
+      if(A.decideur==='Avec mes parents'||mineur){
+        h+='<div class="note"><h3>'+(mineur?'Tes parents dans la boucle':'Tu en parles avec tes parents')+'</h3><p>C\'est normal et c\'est même mieux. Le plus simple : ton père ou ta mère nous rejoint pour les 10 dernières minutes de l\'appel et pose ses questions directement. '+(mineur?'Comme tu as moins de 18 ans, c\'est un parent qui signera le contrat : sa présence en fin d\'appel est indispensable.':'')+'</p>'+(PARENTS?'<div class="row"><a class="btn" href="'+PARENTS+'?prenom='+encodeURIComponent(A.prenom)+'" target="_blank" rel="noopener">Ouvrir la page pour mes parents</a></div>':'')+'</div>';
       }else if(A.decideur==='Avec mon ou ma partenaire'){
         h+='<div class="note"><h3>Tu décides à deux</h3><p>Si ton ou ta partenaire peut être là en fin d\'appel, tu repartiras avec toutes les réponses et une décision claire.</p></div>';
       }
