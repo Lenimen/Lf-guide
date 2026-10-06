@@ -1,0 +1,258 @@
+<!-- Candidature THE LF METHOD : à charger dans une page Systeme.io via chargeur (comme guide.html). Aucune donnée envoyée ailleurs : les réponses partent dans la réservation Cal.com. -->
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Candidature LF Method</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800&display=swap">
+<style>
+/* Layout : un dossier d'inscription à une compétition, une question par écran, fiche récap en bas. THE LF METHOD, pétrole et crème en aplats, un seul thème sombre. */
+:root{
+  --paper:#192E33;
+  --sheet:#213B41;
+  --ink:#EBE3D0;
+  --ink-soft:#AEB9B2;
+  --line:#3A5359;
+  --warn:#E8B077;
+  --display:"Outfit","Avenir Next","Century Gothic",Arial,sans-serif;
+  --body:Verdana,Geneva,"DejaVu Sans",sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{background:var(--paper);overflow-x:hidden}
+body{color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.6;margin:0}
+#lfc{background:var(--paper);color:var(--ink);font-family:var(--body)}
+#lfc .wrap{max-width:720px;margin:0 auto;padding-inline:16px;padding-block:0 64px}
+#lfc h1,#lfc h2{font-family:var(--display);text-transform:uppercase;letter-spacing:.04em;line-height:1.05;text-wrap:balance;margin:0}
+#lfc p{margin:0;max-width:62ch}
+#lfc a{color:var(--ink)}
+#lfc .label{font-size:11px;letter-spacing:.14em;text-transform:uppercase;font-weight:bold;color:var(--ink-soft)}
+#lfc :focus-visible{outline:3px solid var(--ink);outline-offset:2px}
+#lfc .top{display:flex;align-items:center;justify-content:space-between;gap:10px;padding-block:18px;border-bottom:2px solid var(--ink)}
+#lfc .mark{display:flex;align-items:center;gap:10px;font-family:var(--display);font-weight:600;font-size:15px;letter-spacing:.16em}
+#lfc .mark img{height:34px;width:auto}
+#lfc .hero{display:grid;gap:14px;padding-block:32px 22px}
+#lfc .hero h1{font-size:clamp(38px,9vw,68px);font-weight:700}
+#lfc .hero h1 em{font-style:normal;background:var(--ink);color:var(--paper);display:inline-block;line-height:.86;padding:.1em .08em .02em}
+#lfc .lede{color:var(--ink-soft)}
+#lfc .facts{display:flex;flex-wrap:wrap;gap:8px 18px;font-size:12px;color:var(--ink-soft);letter-spacing:.06em;text-transform:uppercase}
+
+/* Dossier */
+#lfc .file{border:2px solid var(--ink);display:grid}
+#lfc .file-h{display:flex;justify-content:space-between;align-items:center;gap:10px;background:var(--ink);color:var(--paper);padding:8px 14px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;font-weight:bold}
+#lfc .bar{height:6px;background:var(--sheet)}
+#lfc .bar i{display:block;height:100%;background:var(--ink);width:0;transition:width .25s}
+#lfc .q{padding:22px 16px;display:grid;gap:16px}
+#lfc .q h2{font-size:clamp(24px,5.5vw,32px);font-weight:700}
+#lfc .q .hint{font-size:13px;color:var(--ink-soft)}
+#lfc .opts{display:grid;gap:8px}
+#lfc .opt{all:unset;cursor:pointer;display:flex;gap:12px;align-items:center;border:1px solid var(--line);padding:13px 14px;font-size:14px;background:var(--paper)}
+#lfc .opt:hover{border-color:var(--ink)}
+#lfc .opt b{font-family:var(--display);font-weight:800;font-size:13px;width:24px;height:24px;display:grid;place-items:center;border:1px solid var(--ink-soft);flex:none}
+#lfc .opt[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+#lfc .opt[aria-pressed="true"] b{border-color:var(--paper)}
+#lfc .opt:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
+#lfc input[type=text],#lfc input[type=email],#lfc textarea{font:inherit;font-size:16px;background:var(--paper);color:var(--ink);border:1px solid var(--line);padding:12px;width:100%}
+#lfc textarea{min-height:90px;resize:vertical}
+#lfc input:focus,#lfc textarea:focus{border-color:var(--ink);outline:none}
+#lfc .field{display:grid;gap:6px}
+#lfc .field label{font-size:10px;letter-spacing:.12em;text-transform:uppercase;font-weight:bold;color:var(--ink-soft)}
+#lfc .nav{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:0 16px 18px}
+#lfc .btn{all:unset;cursor:pointer;border:1px solid var(--ink);padding:12px 16px;font-size:13px;font-weight:bold;letter-spacing:.04em;text-align:center}
+#lfc .btn.solid{background:var(--ink);color:var(--paper)}
+#lfc .btn[disabled]{opacity:.35;cursor:not-allowed}
+#lfc .btn:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
+#lfc a.btn{text-decoration:none}
+#lfc .err{color:var(--warn);font-size:13px;min-height:1.2em}
+
+/* Résultat */
+#lfc .res{padding:22px 16px;display:grid;gap:16px}
+#lfc .stamp{justify-self:start;border:2px solid var(--ink);padding:6px 12px;font-family:var(--display);font-weight:800;letter-spacing:.12em;text-transform:uppercase;transform:rotate(-2deg)}
+#lfc .stamp.wait{border-color:var(--warn);color:var(--warn)}
+#lfc .recap{border:1px solid var(--line);display:grid}
+#lfc .recap div{display:grid;grid-template-columns:minmax(110px,38%) 1fr;gap:10px;padding:8px 12px;border-bottom:1px solid var(--line);font-size:13px}
+#lfc .recap div:last-child{border-bottom:0}
+#lfc .recap span:first-child{color:var(--ink-soft);text-transform:uppercase;letter-spacing:.08em;font-size:11px;font-weight:bold;padding-top:2px}
+#lfc .recap span{min-width:0;overflow-wrap:anywhere}
+#lfc .note{background:var(--sheet);padding:14px;display:grid;gap:10px;font-size:14px}
+#lfc .note h3{font-family:var(--display);text-transform:uppercase;letter-spacing:.04em;font-size:18px;margin:0}
+#lfc .row{display:flex;flex-wrap:wrap;gap:10px}
+#lfc .small{font-size:12px;color:var(--ink-soft)}
+#lfc .foot{margin-top:28px;font-size:12px;color:var(--ink-soft);display:grid;gap:6px}
+@media (prefers-reduced-motion:reduce){#lfc .bar i{transition:none}}
+</style>
+
+<div id="lfc">
+<div class="wrap">
+  <header class="top">
+    <div class="mark"><img src="data:image/png;base64,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" alt="LF">THE LF METHOD</div>
+    <span class="label">Candidature</span>
+  </header>
+
+  <section class="hero">
+    <span class="label">Accompagnement en ligne · places limitées</span>
+    <h1>Ta place <em>se mérite</em></h1>
+    <p class="lede">Je prends un nombre limité d'athlètes pour pouvoir suivre chacun de près. Réponds à 10 questions rapides : si ton profil colle, tu choisis directement ton créneau d'appel. Sinon, je te dis franchement par où commencer.</p>
+    <div class="facts"><span>2 minutes</span><span>Appel gratuit de 30 à 45 min</span><span>Aucun paiement ici</span></div>
+  </section>
+
+  <div class="file" id="file">
+    <div class="file-h"><span>Dossier athlète</span><span id="count">1 / 10</span></div>
+    <div class="bar"><i id="bar"></i></div>
+    <div id="stage"></div>
+    <p class="err" id="err" style="padding:0 16px" role="alert"></p>
+    <div class="nav" id="nav">
+      <button class="btn" id="prev" type="button">Retour</button>
+      <button class="btn solid" id="next" type="button">Suivant</button>
+    </div>
+  </div>
+
+  <div class="foot">
+    <p>Tes réponses ne sont enregistrées nulle part sur cette page. Elles sont seulement ajoutées à ta réservation d'appel, pour que je le prépare.</p>
+    <p>Une question avant ? Écris-moi sur Instagram : <a href="https://instagram.com/leni_fit_" target="_blank" rel="noopener">@leni_fit_</a></p>
+  </div>
+</div>
+</div>
+
+<script>
+(function(){
+  var CAL='https://cal.com/leni-fauconnier/decouverte';
+  var GUIDE='https://lfauconnier27.systeme.io/5e2d6ea8?source=candidature';
+  var PARENTS='https://lfauconnier27.systeme.io/parents'; /* à remplacer par l'adresse réelle de la page parents une fois créée */
+  var qs=new URLSearchParams(location.search);
+  var SOURCE=qs.get('source')||'direct';
+
+  var Q=[
+    {k:'prenom',t:'Comment tu t\'appelles ?',type:'id'},
+    {k:'anciennete',t:'Tu t\'entraînes depuis combien de temps ?',o:['Moins d\'1 an','1 à 2 ans','2 à 4 ans','Plus de 4 ans']},
+    {k:'objectif',t:'Ton objectif principal ?',o:['Faire ma première compétition','Progresser comme un athlète, la compet on verra','Perdre du poids vite','Je ne sais pas encore']},
+    {k:'compet',t:'La scène, tu la vois quand ?',o:['Dans les 12 prochains mois','Dans 1 à 2 ans','Un jour, peut-être','Ça ne m\'intéresse pas']},
+    {k:'blocage',t:'Qu\'est-ce qui coince aujourd\'hui ?',hint:'Plusieurs réponses possibles.',multi:true,o:['Je stagne','Mon programme n\'a pas de logique','Ma nutrition est floue','Personne ne me suit','Le posing','Je manque de temps']},
+    {k:'coach',t:'Tu as déjà été coaché ?',o:['Jamais','Oui, et j\'ai été déçu','Oui, c\'était bien mais c\'est fini']},
+    {k:'seances',t:'Combien de séances par semaine, en vrai ?',o:['2 à 3','4 à 5','6 ou plus']},
+    {k:'decideur',t:'Un investissement comme celui-ci, tu le décides avec qui ?',o:['Seul','Avec mes parents','Avec mon ou ma partenaire']},
+    {k:'budget',t:'L\'accompagnement démarre à 150 € par mois. Pour toi, c\'est :',hint:'Paiement possible en 1, 2 ou 3 fois sans frais.',o:['Ok si c\'est le bon accompagnement','Jouable en plusieurs fois','Pas possible en ce moment']},
+    {k:'pourquoi',t:'Pourquoi maintenant, et pas dans 6 mois ?',type:'text',hint:'Une ou deux phrases suffisent.'}
+  ];
+  var A={};
+  var i=0;
+  var stage=document.getElementById('stage'),err=document.getElementById('err');
+  var prev=document.getElementById('prev'),next=document.getElementById('next');
+  var letters='ABCDEF';
+
+  function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+
+  function draw(){
+    var q=Q[i];err.textContent='';
+    document.getElementById('count').textContent=(i+1)+' / '+Q.length;
+    document.getElementById('bar').style.width=((i)/Q.length*100)+'%';
+    var h='<div class="q"><h2>'+esc(q.t)+'</h2>'+(q.hint?'<p class="hint">'+esc(q.hint)+'</p>':'');
+    if(q.type==='id'){
+      h+='<div class="field"><label for="lfc-prenom">Prénom</label><input id="lfc-prenom" type="text" autocomplete="given-name" value="'+esc(A.prenom||'')+'"></div>'+
+         '<div class="field"><label for="lfc-email">Email (pour la confirmation de l\'appel)</label><input id="lfc-email" type="email" autocomplete="email" value="'+esc(A.email||'')+'"></div>';
+    }else if(q.type==='text'){
+      h+='<div class="field"><label for="lfc-pourquoi">Ta réponse</label><textarea id="lfc-pourquoi">'+esc(A.pourquoi||'')+'</textarea></div>';
+    }else{
+      h+='<div class="opts">'+q.o.map(function(o,j){
+        var on=q.multi?(A[q.k]||[]).indexOf(o)>-1:A[q.k]===o;
+        return '<button type="button" class="opt" data-v="'+esc(o)+'" aria-pressed="'+on+'"><b>'+letters[j]+'</b><span>'+esc(o)+'</span></button>';
+      }).join('')+'</div>';
+    }
+    stage.innerHTML=h+'</div>';
+    prev.disabled=i===0;
+    next.textContent=i===Q.length-1?'Voir mon résultat':'Suivant';
+    stage.querySelectorAll('.opt').forEach(function(b){
+      b.addEventListener('click',function(){
+        var v=b.dataset.v;
+        if(q.multi){
+          var arr=A[q.k]||[];var p=arr.indexOf(v);
+          if(p>-1)arr.splice(p,1);else arr.push(v);
+          A[q.k]=arr;b.setAttribute('aria-pressed',p===-1);
+        }else{
+          A[q.k]=v;
+          stage.querySelectorAll('.opt').forEach(function(x){x.setAttribute('aria-pressed',x===b)});
+          setTimeout(go,180);
+        }
+      });
+    });
+  }
+
+  function save(){
+    var q=Q[i];
+    if(q.type==='id'){
+      A.prenom=document.getElementById('lfc-prenom').value.trim();
+      A.email=document.getElementById('lfc-email').value.trim();
+      if(!A.prenom)return 'Indique ton prénom.';
+      if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(A.email))return 'Indique un email valide, c\'est là que tu recevras la confirmation.';
+    }else if(q.type==='text'){
+      A.pourquoi=document.getElementById('lfc-pourquoi').value.trim();
+      if(A.pourquoi.length<3)return 'Écris au moins quelques mots.';
+    }else if(q.multi){
+      if(!(A[q.k]||[]).length)return 'Choisis au moins une réponse.';
+    }else if(!A[q.k])return 'Choisis une réponse.';
+    return '';
+  }
+
+  function go(){
+    var e=save();if(e){err.textContent=e;return}
+    if(i<Q.length-1){i++;draw();scrollTop()}else result();
+  }
+  function scrollTop(){var f=document.getElementById('file');if(f.getBoundingClientRect().top<0)f.scrollIntoView({block:'start'})}
+  next.addEventListener('click',go);
+  prev.addEventListener('click',function(){if(i>0){save();i--;draw()}});
+
+  function verdict(){
+    if(A.budget==='Pas possible en ce moment')return 'budget';
+    if(A.objectif==='Perdre du poids vite')return 'objectif';
+    if(A.compet==='Ça ne m\'intéresse pas'&&A.objectif==='Je ne sais pas encore')return 'flou';
+    return 'ok';
+  }
+
+  function notes(){
+    return ['Candidature LF ('+SOURCE+')',
+      'Muscu : '+A.anciennete,'Objectif : '+A.objectif,'Compet : '+A.compet,
+      'Bloque : '+(A.blocage||[]).join(', '),'Coach avant : '+A.coach,
+      'Séances/sem : '+A.seances,'Décide : '+A.decideur,'Budget : '+A.budget,
+      'Pourquoi maintenant : '+A.pourquoi].join(' · ');
+  }
+
+  function result(){
+    document.getElementById('bar').style.width='100%';
+    document.getElementById('count').textContent='Terminé';
+    document.getElementById('nav').hidden=true;
+    var v=verdict();
+    var rows=[['Prénom',A.prenom],['Muscu',A.anciennete],['Objectif',A.objectif],['Compétition',A.compet],['Ce qui coince',(A.blocage||[]).join(', ')],['Coach avant',A.coach],['Séances',A.seances],['Décision',A.decideur],['Budget',A.budget],['Pourquoi maintenant',A.pourquoi]];
+    var recap='<div class="recap">'+rows.map(function(r){return '<div><span>'+esc(r[0])+'</span><span>'+esc(r[1]||'—')+'</span></div>'}).join('')+'</div>';
+    var h='<div class="res">';
+    if(v==='ok'){
+      var url=CAL+'?name='+encodeURIComponent(A.prenom)+'&email='+encodeURIComponent(A.email)+'&notes='+encodeURIComponent(notes());
+      h+='<span class="stamp">Profil retenu</span>'+
+        '<h2>'+esc(A.prenom)+', on s\'appelle.</h2>'+
+        '<p>Ton profil correspond à ce que je fais de mieux. Choisis ton créneau : tes réponses sont déjà jointes, je prépare l\'appel avant qu\'on se parle.</p>'+
+        '<div class="row"><a class="btn solid" href="'+url+'" target="_blank" rel="noopener">Choisir mon créneau</a></div>'+
+        '<div class="note"><h3>Pour gagner du temps</h3><p>Après ta réservation, envoie-moi 4 photos (face, dos, deux profils) et ton programme actuel sur Instagram ou WhatsApp. Prévois 45 minutes au calme.</p></div>';
+      if(A.decideur==='Avec mes parents'){
+        h+='<div class="note"><h3>Tu en parles avec tes parents</h3><p>C\'est normal et c\'est même mieux. Le plus simple : ton père ou ta mère nous rejoint pour les 10 dernières minutes de l\'appel et pose ses questions directement. Tu peux aussi leur montrer la page qui leur est destinée.</p><div class="row"><a class="btn" href="'+PARENTS+'?prenom='+encodeURIComponent(A.prenom)+'" target="_blank" rel="noopener">Ouvrir la page pour mes parents</a></div></div>';
+      }else if(A.decideur==='Avec mon ou ma partenaire'){
+        h+='<div class="note"><h3>Tu décides à deux</h3><p>Si ton ou ta partenaire peut être là en fin d\'appel, tu repartiras avec toutes les réponses et une décision claire.</p></div>';
+      }
+    }else{
+      var why={
+        budget:'Je préfère que tu attendes le bon moment plutôt que tu te mettes en difficulté.',
+        objectif:'Mon accompagnement construit un physique d\'athlète sur la durée. Pour perdre du poids vite, ce n\'est pas ce qu\'il te faut, et je préfère te le dire.',
+        flou:'Avant de parler accompagnement, il faut savoir où tu vas. C\'est exactement ce que le test gratuit t\'aide à clarifier.'
+      }[v];
+      h+='<span class="stamp wait">Pas encore</span>'+
+        '<h2>'+esc(A.prenom)+', commence par ici.</h2>'+
+        '<p>'+esc(why)+' Fais le test gratuit « De pratiquant à athlète » : tu sauras où tu en es sur les 4 piliers et tu repars avec un plan de 30 jours.</p>'+
+        '<div class="row"><a class="btn solid" href="'+GUIDE+'" target="_blank" rel="noopener">Faire le test gratuit</a></div>'+
+        '<p class="small">Si ta situation change, reviens remplir ce dossier. Il sera toujours là.</p>';
+    }
+    h+='<span class="label">Ton dossier</span>'+recap+'</div>';
+    stage.innerHTML=h;scrollTop();
+  }
+
+  draw();
+})();
+</script>
