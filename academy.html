@@ -155,7 +155,7 @@
         {t:"Action : ton premier retour exploitable",proof:'Stratégie LF',action:true,html:
           "<p>Avant ton prochain bilan, envoie au moins un retour construit en 4 parties. Remplis les cases : ton message se prépare tout seul, tu n'as plus qu'à le copier.</p>",
           builder:[['Contexte','Quel jour, quelle séance ou quel repas ?'],['Observation','Ce que tu as constaté, sans conclusion.'],['Ce qui a changé','Matériel, horaire, sommeil, alimentation…'],['Question ou action proposée','Ce que tu demandes ou proposes.']],
-          after:"<p>Leni vérifie ce retour au bilan : c'est lui qui valide le module, pas un quiz.</p>"}
+          after:"<p>Leni vérifie ce retour au bilan : c'est cette vérification qui valide le module, pas un quiz.</p>"}
       ]},
     c02:{
       code:'C02',title:'Tes données et ton check-in',time:'11 min',
@@ -179,7 +179,7 @@
         {t:"Action : un check-in analysable",proof:'Stratégie LF',action:true,html:
           "<p>Ton prochain check-in doit pouvoir être analysé sans aller-retour pour une donnée essentielle.</p>",
           check:["Toutes les données demandées sont remplies","Les différences de conditions sont notées (heure, salle, machine…)","Une donnée manquante est marquée « manquante », pas reconstruite de mémoire"],
-          after:"<p>Leni vérifie ce check-in au bilan : c'est lui qui valide le module.</p>"}
+          after:"<p>Leni vérifie ce check-in au bilan : c'est cette vérification qui valide le module.</p>"}
       ]},
     c03:{
       code:'C03',title:'Savoir exécuter ton programme',time:'16 min',
@@ -231,12 +231,218 @@
             fb:"Pour le suivi, ta performance comparable est 11, pas 13. Tu le notes tel quel, sans arrondir à ton avantage."}},
         {t:"Action : une semaine de RIR noté",proof:'Stratégie LF',action:true,html:
           "<p>Pendant une semaine, sur un exercice choisi avec Leni :</p>",
-          check:["Je note mon RIR estimé à chaque série","Je filme la dernière série","J'indique si je me suis arrêté à RIR, à l'échec, pour la technique ou pour un symptôme"],
+          check:["Je note mon RIR estimé à chaque série","Je filme la dernière série","J'indique comment ma dernière série s'est terminée : RIR, échec, arrêt technique ou symptôme"],
           builder:[["Exercice","Lequel ?"],["RIR estimé par série","Ex. : S1 RIR 3, S2 RIR 2, S3 RIR 1"],["Comment s'est terminée la dernière série","RIR, échec, arrêt technique ou symptôme"]],
           after:"<p>Envoie ce message avec la vidéo dans ton prochain retour. Leni compare ton estimation avec la vidéo au bilan.</p>"}
+      ]},
+    c05:{
+      code:'C05',title:'Nutrition pratique : énergie, macros, hydratation',time:'16 min',draft:true,
+      goal:"À la fin, tu sais ce qui compte le plus dans ton alimentation, à quoi sert chaque macro, comment remplacer un aliment sans casser ton plan et comment gérer un repas hors de chez toi.",
+      lessons:[
+        {t:"L'énergie d'abord, puis les macros",proof:'Connaissance enseignable',html:
+          "<p>Ton plan repose sur deux niveaux :</p>"+
+          "<ul class='plain'><li><b>L'énergie totale</b> (les calories) : elle oriente la tendance de ton poids sur plusieurs semaines.</li><li><b>La répartition</b> (protéines, lipides, glucides) : elle soutient la performance, la récupération, la satiété et la santé.</li></ul>"+
+          "<p>À court terme, préserver intelligemment l'énergie totale compte souvent le plus. À long terme, une alimentation qui soutient la santé, la performance, la digestion, l'adhérence et ta vie sociale compte autant.</p>"+
+          "<p class='key'>La rigidité n'est pas une preuve d'excellence.</p>",
+          quiz:{q:"Sur plusieurs semaines, qu'est-ce qui oriente surtout la tendance de ton poids ?",o:["L'heure de tes repas","L'énergie totale (les calories)","Le nombre de repas par jour"],a:1,
+            fb:"C'est l'énergie totale qui oriente la tendance. La répartition en macros vient ensuite, pour la performance, la récupération, la satiété et la santé."}},
+        {t:"Protéines, lipides, glucides : à quoi ils servent",proof:'Connaissance enseignable',html:
+          "<ul class='plain'><li><b>Protéines</b> : construction et maintien du muscle. Chez LF, <b>toutes les protéines alimentaires comptent</b> dans le total du jour, y compris végétales. Il n'y a pas de fenêtre obligatoire de 30 minutes après la séance.</li><li><b>Lipides</b> : santé et fonctionnement normal. LF utilise un <b>repère pratique autour de 0,8 g par kg</b>, à ajuster selon la phase et l'alimentation globale. Ce n'est pas un seuil médical : 0,79 n'est pas dangereux et 0,81 n'est pas magique.</li><li><b>Glucides</b> : carburant de l'entraînement intense. Leur quantité varie surtout selon la phase et le volume d'entraînement.</li><li><b>Fibres et micronutriments</b> : digestion, satiété, santé. Les fruits et légumes ne sont pas optionnels.</li></ul>",
+          quiz:{q:"Les protéines de tes lentilles et de ton pain comptent-elles dans ton total du jour ?",o:["Non, seules les protéines animales comptent","Oui, toutes les protéines alimentaires comptent","Seulement si tu les manges après la séance"],a:1,
+            fb:"Chez LF, toutes les protéines alimentaires comptent, y compris végétales. Et il n'y a pas de fenêtre obligatoire de 30 minutes après la séance."}},
+        {t:"Remplacer un aliment sans casser ton plan",proof:'Stratégie LF',html:
+          "<p><b>Au début</b>, tu n'improvises pas : tu utilises les alternatives prévues dans ton plan ou tu demandes à Leni.</p>"+
+          "<p><b>Une fois que tu maîtrises les bases</b>, la hiérarchie LF pour une substitution :</p>"+
+          "<ul class='plain'><li>1. Préserver le <b>rôle du repas</b> (ex. repas avant séance) et les contraintes de la journée.</li><li>2. Retrouver un <b>apport énergétique</b> proche.</li><li>3. Affiner les <b>macros</b> selon ton niveau de précision.</li></ul>"+
+          "<p class='key'>Et toujours : tu le signales (journal Fitbrothers ou bilan), pour que Leni lise correctement tes données.</p>",
+          quiz:{q:"Cas rapide : plus de poulet à la maison. Que fais-tu ?",o:["Je saute la protéine de ce repas","Je prends l'alternative prévue (dinde, poisson blanc) en quantité équivalente et je le note","Je prends ce que je trouve sans le dire"],a:1,
+            fb:"Tu utilises l'alternative prévue, en quantité équivalente, et tu la notes pour que Leni lise correctement tes données."}},
+        {t:"Hydratation et repas hors de chez toi",proof:'Stratégie LF',html:
+          "<p><b>Hydratation</b> : vise une habitude régulière plutôt qu'un chiffre parfait. Note-la si ton plan le demande ; signale les journées très chaudes ou très actives.</p>"+
+          "<p><b>Restaurant, repas de famille, événement</b> : estime au mieux (photo, portion, type de plat), profite du moment et reprends le plan au repas suivant.</p>"+
+          "<p class='key'>Les photos et les estimations aident, mais ne permettent pas une compensation exacte. Pas besoin de « rattraper » en sautant des repas.</p>",
+          check:["Je prends une photo du plat ou j'estime la portion","Je profite du moment","Je reprends mon plan au repas suivant","Je ne saute pas de repas pour « rattraper »"]},
+        {t:"Action : une substitution bien faite",proof:'Stratégie LF',action:true,html:
+          "<p>Cette semaine, fais une substitution d'aliment en suivant la hiérarchie de la leçon 3, puis signale-la.</p>",
+          builder:[["Aliment prévu","Ex. : 150 g de poulet"],["Aliment choisi","Ex. : 150 g de dinde"],["Quantité","Ex. : même quantité"],["Raison","Ex. : plus de poulet à la maison"]],
+          after:"<p>Envoie ce message dans ton journal Fitbrothers ou ton prochain bilan. Leni valide le module au bilan.</p>"}
+      ]},
+    c06:{
+      code:'C06',title:'Santé, signaux d\'alerte et limites du coaching',time:'10 min',draft:true,
+      goal:"À la fin, tu sais ce que ton coach peut et ne peut pas faire, utiliser la grille vert, orange, rouge et signaler vite un problème.",
+      lessons:[
+        {t:"Ce que ton coach fait, et ce qui sort du coaching",proof:'Stratégie LF',html:
+          "<p>Leni observe ta progression et adapte ton entraînement, ta nutrition et ton organisation.</p>"+
+          "<p>Leni <b>ne diagnostique pas</b> et <b>ne traite pas</b> une maladie ou une blessure. Quand un problème dépasse le coaching, Leni t'oriente vers un professionnel de santé et peut travailler avec ce professionnel.</p>"+
+          "<p class='key'>Ton coaching reste ton projet : tu es responsable de signaler ce que tu ressens.</p>",
+          quiz:{q:"Tu as une douleur qui dure et qui dépasse le coaching. Que fait Leni ?",o:["Pose un diagnostic et te donne un traitement","T'oriente vers un professionnel de santé et peut travailler avec ce professionnel","Attend que ça passe tout seul"],a:1,
+            fb:"Leni ne diagnostique pas et ne traite pas. Quand un problème dépasse le coaching, Leni t'oriente vers un professionnel de santé."}},
+        {t:"Vert, orange, rouge",proof:'Stratégie LF',html:
+          "<p>Une grille simple pour savoir quoi faire. Ce n'est <b>pas un outil de diagnostic</b>. Dans le doute, choisis la couleur au-dessus.</p>"+
+          "<ul class='plain'><li><b>Vert : on adapte dans le coaching.</b> Courbatures, fatigue normale après une grosse semaine, petite gêne qui disparaît vite, faim plus forte en déficit. Tu le notes dans ton bilan ou tu écris à Leni.</li>"+
+          "<li><b>Orange : tu consultes un professionnel de santé.</b> Douleur qui persiste ou s'aggrave, vertiges qui se répètent, fatigue inhabituelle qui dure, troubles digestifs ou du sommeil qui durent, chute de performance inexpliquée sur plusieurs semaines. Tu préviens aussi Leni pour adapter le plan en attendant.</li>"+
+          "<li><b>Rouge : urgence.</b> Douleur dans la poitrine, malaise ou perte de connaissance, essoufflement anormal au repos, faiblesse soudaine d'un côté du corps, trouble soudain de la parole ou de la vue.</li></ul>"+
+          "<p class='key'>Rouge : tu arrêtes et tu appelles le 112. Tu n'attends pas de réponse de Leni et tu n'envoies pas de vidéo d'abord.</p>",
+          quiz:{q:"Tu hésites entre orange et rouge. Tu choisis…",o:["Orange, pour ne pas exagérer","Rouge : dans le doute, on prend la couleur au-dessus","Vert, et tu attends de voir"],a:1,
+            fb:"La grille n'est pas un outil de diagnostic. Dans le doute, tu choisis toujours la couleur au-dessus."}},
+        {t:"Comment signaler un problème",proof:'Stratégie LF',html:
+          "<p>Signaler tôt vaut mieux que signaler parfaitement. Un message utile contient :</p>",
+          check:["Ce que je ressens et où","Depuis quand, et si ça s'aggrave","Pendant quel mouvement ou quelle situation","Ce que j'ai déjà fait (repos, avis médical…)"],
+          after:"<p class='key'>Ne cache pas un symptôme pour ne pas « casser » ta progression : une donnée cachée fausse toutes les décisions qui suivent.</p>"},
+        {t:"Action : trois situations",proof:'Stratégie LF',action:true,html:
+          "<p>Pour chaque situation, réponds à Leni : vert, orange ou rouge, et ce que tu fais.</p>"+
+          "<ul class='plain'><li><b>1.</b> Courbatures fortes aux jambes deux jours après une nouvelle séance.</li><li><b>2.</b> Douleur à l'épaule à chaque développé depuis trois semaines.</li><li><b>3.</b> Malaise avec vision trouble pendant une séance de cardio.</li></ul>",
+          builder:[["Situation 1 : courbatures","Vert, orange ou rouge, et ce que tu fais"],["Situation 2 : douleur à l'épaule","Vert, orange ou rouge, et ce que tu fais"],["Situation 3 : malaise et vision trouble","Vert, orange ou rouge, et ce que tu fais"]],
+          after:"<p>Envoie tes trois réponses dans ton prochain retour. Leni valide le module au bilan.</p>"}
+      ]},
+    a01:{
+      code:'A01',title:'Progresser : ce qui compte vraiment',time:'14 min',draft:true,
+      goal:"À la fin, tu sais distinguer une progression réelle d'une simple hausse de charge, lire tes indicateurs et réagir à un plateau sans paniquer.",
+      lessons:[
+        {t:"Progression réelle ou simple hausse de charge ?",proof:'Stratégie LF',html:
+          "<p>Une charge plus lourde n'est une progression que si <b>la tâche est restée la même</b> : même exercice, mêmes réglages, même amplitude, même proximité de l'échec, même place dans la séance.</p>"+
+          "<p class='key'>Une progression standardisée est un bon signal d'entraînement. Elle ne prouve pas à elle seule que le muscle a grossi : c'est un indicateur parmi d'autres.</p>",
+          quiz:{q:"Cas rapide : +5 kg au développé, mais l'exercice est passé en premier dans la séance au lieu du troisième. Que fais-tu ?",o:["Je le célèbre comme un record","Je le note : une partie de la hausse vient de la fatigue en moins","Je conclus que mon muscle a grossi"],a:1,
+            fb:"La place dans la séance a changé, donc la tâche aussi. La hausse est en partie due à la fatigue en moins : à noter, pas à célébrer comme un record."}},
+        {t:"Tes indicateurs et ce qu'ils disent",proof:'Connaissance enseignable',html:
+          "<ul class='plain'><li><b>Photos standardisées</b> : le physique reste central. Elles se lisent sur plusieurs semaines.</li>"+
+          "<li><b>Performances comparables</b> : signal d'entraînement, à exécution constante.</li>"+
+          "<li><b>Poids moyen</b> : tendance d'énergie, pas une mesure de gras ou de muscle.</li>"+
+          "<li><b>Mensurations</b> : utiles si prises toujours au même endroit et dans les mêmes conditions.</li>"+
+          "<li><b>Sensations, faim, sommeil, énergie</b> : contexte indispensable pour interpréter le reste.</li></ul>"+
+          "<p class='key'>Aucun indicateur ne décide seul. Leni les croise.</p>",
+          quiz:{q:"Ton poids moyen a baissé cette semaine. Ça te dit…",o:["Que tu as perdu du gras","Une tendance d'énergie, à croiser avec les autres indicateurs","Que tu as perdu du muscle"],a:1,
+            fb:"Le poids moyen montre une tendance d'énergie. Il ne mesure ni le gras ni le muscle, et aucun indicateur ne décide seul."}},
+        {t:"Un plateau n'est pas un échec",proof:'Stratégie LF',html:
+          "<p>Avant de conclure qu'un exercice stagne, on vérifie dans cet ordre :</p>",
+          check:["1. La tâche a-t-elle changé (machine, réglage, ordre, amplitude) ?","2. L'effort est-il réellement produit ?","3. Le contexte : sommeil, stress, alimentation, déficit calorique","4. La durée : quelques séances ne suffisent pas pour parler de plateau"],
+          after:"<p class='key'>En déficit, maintenir ses performances peut déjà être un bon résultat. « C'est dans ta tête » n'est jamais l'explication par défaut.</p>"},
+        {t:"Action : un exercice qui progresse, un qui stagne",proof:'Stratégie LF',action:true,html:
+          "<p>Dans ton historique Fitbrothers, choisis un exercice qui progresse vraiment et un qui stagne. Pour chacun, propose une hypothèse en une phrase en utilisant la checklist de la leçon 3.</p>",
+          builder:[["Exercice qui progresse","Lequel ?"],["Hypothèse (une phrase)","Pourquoi il progresse vraiment, à tâche constante ?"],["Exercice qui stagne","Lequel ?"],["Hypothèse (une phrase)","Tâche, effort, contexte ou durée ?"]],
+          after:"<p>Envoie ce message dans ton prochain retour. Leni te répond et valide le module au bilan.</p>"}
+      ]},
+    a02:{
+      code:'A02',title:'Comment un muscle grossit',time:'10 min',draft:true,
+      goal:"À la fin, tu sais expliquer avec un modèle simple et défendable comment un muscle grossit, et ce qui ne le prouve pas.",
+      lessons:[
+        {t:"Ce qui fait grossir un muscle",proof:'Connaissance enseignable',html:
+          "<p>Un modèle simple et défendable :</p>"+
+          "<ul class='plain'><li>des séries <b>suffisamment proches de l'échec</b> pour solliciter fortement le muscle ;</li><li>un <b>volume suffisant</b> et répété dans le temps ;</li><li>une <b>progression</b> sur des exercices stables ;</li><li>assez d'<b>énergie, de protéines et de récupération</b> ;</li><li>et surtout du <b>temps</b> : on parle de mois, pas de semaines.</li></ul>"+
+          "<p class='key'>Il n'existe pas de nombre de séries ou de fréquence idéale pour tout le monde. Ton plan part d'une dose gérable puis s'ajuste selon ta réponse.</p>",
+          quiz:{q:"Combien de séries par semaine faut-il pour faire grossir un muscle ?",o:["Un nombre idéal, le même pour tout le monde","Il n'y a pas de chiffre universel : le plan part d'une dose gérable puis s'ajuste","Le plus possible"],a:1,
+            fb:"Pas de nombre de séries ni de fréquence idéale pour tout le monde. On part d'une dose gérable et on ajuste selon ta réponse."}},
+        {t:"Ce qui ne prouve pas que ça marche",proof:'Connaissance enseignable',html:
+          "<p>Ces signaux peuvent être intéressants, mais aucun ne prouve seul qu'un exercice fait mieux grossir :</p>"+
+          "<ul class='plain'><li>le <b>pump</b> ;</li><li>les <b>courbatures</b> ;</li><li>l'<b>EMG</b> (activité électrique du muscle) ;</li><li>la <b>sensation</b> de « bien sentir le muscle ».</li></ul>"+
+          "<p class='key'>Les vrais juges restent le physique sur la durée, les performances comparables et la cohérence du plan.</p>",
+          quiz:{q:"Gros pump pendant la séance, courbatures le lendemain. Ça prouve…",o:["Que cet exercice fait mieux grossir","Rien à lui seul : les vrais juges sont le physique sur la durée et les performances comparables","Qu'il faut le garder à chaque séance"],a:1,
+            fb:"Pump et courbatures peuvent être intéressants, mais aucun ne prouve seul qu'un exercice fait mieux grossir."}},
+        {t:"Action : défendre un exercice de ton plan",proof:'Stratégie LF',action:true,html:
+          "<p>Choisis un exercice de ton plan et explique à Leni, en 3 phrases, pourquoi il y est.</p>",
+          builder:[["Exercice","Lequel ?"],["Quel muscle","Le muscle visé."],["Quelle fonction","Ce que fait l'articulation pendant le mouvement."],["Comment tu sais qu'il progresse","Ce que montrent tes données comparables."]],
+          after:"<p>Envoie ces 3 phrases dans ton prochain retour. Leni valide le module au bilan.</p>"}
+      ]},
+    a03:{
+      code:'A03',title:'Analyser un exercice (biomécanique)',time:'13 min',draft:true,
+      goal:"À la fin, tu sais décrire la fonction articulaire visée, formuler une hypothèse, la tester, observer et remplacer une machine de façon cohérente.",
+      lessons:[
+        {t:"Partir de la fonction, pas du nom de l'exercice",proof:'Connaissance enseignable',html:
+          "<p>Chaque exercice sert une <b>fonction articulaire</b> : par exemple tendre le coude (triceps), ramener le bras le long du corps (dorsaux), étendre le genou (quadriceps).</p>"+
+          "<p class='key'>Quand tu comprends la fonction visée, tu comprends pourquoi l'exercice est là, et tu peux reconnaître une alternative qui fait le même travail.</p>",
+          vids:[['developpe-incline-fonction','Développé incliné',"Le nom ne garantit pas le haut des pecs : regarde le coude et l'épaule."]],
+          quiz:{q:"Pourquoi partir de la fonction articulaire plutôt que du nom de l'exercice ?",o:["Pour retenir le nom des exercices","Pour comprendre pourquoi l'exercice est là et reconnaître une alternative qui fait le même travail","Pour changer d'exercice quand j'en ai envie"],a:1,
+            fb:"La fonction explique le rôle de l'exercice dans ton plan. C'est elle qui permet de reconnaître une alternative cohérente."}},
+        {t:"Décrire, supposer, tester, observer",proof:'Stratégie LF',html:
+          "<p>La méthode LF pour analyser un exercice :</p>"+
+          "<ul class='plain'><li><b>1. Décrire</b> ce qui bouge, autour de quel pivot, avec quelle résistance.</li><li><b>2. Formuler une hypothèse</b> : « ce réglage devrait charger davantage tel muscle en position allongée ».</li><li><b>3. Tester</b> sur quelques séances, à exécution standardisée.</li><li><b>4. Observer</b> : tolérance, reproductibilité, progression.</li></ul>"+
+          "<p class='key'>Une observation mécanique, l'EMG, la sensation, la longueur musculaire ou un profil de résistance ne prouvent pas seuls qu'un exercice est supérieur.</p>",
+          quiz:{q:"Cas rapide : un nouveau réglage te fait mieux sentir le muscle. Que fais-tu ?",o:["Je conclus que ce réglage est supérieur","J'en fais une hypothèse, je la teste quelques séances à exécution standardisée et j'observe","Je le change à chaque séance pour comparer"],a:1,
+            fb:"La sensation ne prouve pas seule qu'un réglage est supérieur. C'est une hypothèse à tester, puis tu observes tolérance, reproductibilité et progression."}},
+        {t:"Réglages, stabilité, profil de résistance",proof:'Stratégie LF',html:
+          "<p>Trois questions à se poser sur une machine :</p>"+
+          "<ul class='plain'><li><b>Réglages</b> : le pivot de la machine est-il aligné avec ton articulation ? Le siège est-il noté pour être reproduit ?</li><li><b>Stabilité</b> : es-tu assez calé pour que l'effort aille au muscle visé et pas à la compensation ?</li><li><b>Profil de résistance</b> : à quel moment du mouvement c'est le plus dur ? Est-ce cohérent avec ce que tu veux travailler ?</li></ul>",
+          vids:[['curl-pupitre-profil','Curl pupitre','Où se trouve le pic de tension dans le mouvement.'],['extension-triceps-stabilite','Extension triceps à la poulie','Barre en V, poulie à hauteur de tête, hanches calées.']],
+          check:["Le pivot de la machine est aligné avec mon articulation","Mon réglage de siège est noté","Je suis assez calé pour que l'effort aille au muscle visé","Je sais à quel moment du mouvement c'est le plus dur"]},
+        {t:"Remplacer une machine quand ta salle ne l'a pas",proof:'Stratégie LF',action:true,html:
+          "<p>Quand tu as acquis cette compétence, tu peux remplacer ponctuellement un exercice. Deux exemples en vidéo :</p>",
+          vids:[['incline-press-shoulder-press','Incliné sur shoulder press',"Quand ta salle n'a pas de bonne machine inclinée."],['alternative-tirage-sagittal','Tirage dans le plan sagittal','Une alternative à la poulie de tirage, poignée simple.']],
+          check:["Même fonction articulaire","Réglable et stable","Un profil de résistance proche","Je le signale et je crée une nouvelle référence de charges"],
+          builder:[["Machine de ton plan","Laquelle ?"],["Remplacement proposé","Quel exercice ou quelle machine ?"],["Fonction","La fonction articulaire est-elle la même ?"],["Réglages et stabilité","Comment tu le règles et comment tu te cales."],["Profil de résistance","Où c'est le plus dur, comparé à l'original."]],
+          after:"<p>Propose ce remplacement à Leni dans ton prochain retour, comme si ta salle n'avait pas la machine. Leni valide le module au bilan.</p>"}
+      ]},
+    a04:{
+      code:'A04',title:'Comprendre ta programmation',time:'15 min',draft:true,
+      goal:"À la fin, tu sais lire la logique de ton plan : priorités, répartition, ordre, dose gérable puis ajustement.",
+      lessons:[
+        {t:"Lire la logique de ton plan",proof:'Stratégie LF',html:
+          "<p>Un plan LF répond à quelques questions :</p>",
+          check:["Quelles sont mes priorités (muscles en retard, objectif, phase) ?","Comment le travail est réparti sur la semaine ?","Pourquoi cet ordre dans la séance ?","Qu'est-ce qui est fixe et qu'est-ce qui peut s'ajuster ?"]},
+        {t:"Pas de split parfait",proof:'Stratégie LF',html:
+          "<p>La méthode LF : partir d'une <b>dose gérable</b>, cohérente avec tes priorités, répartie de façon à préserver l'exécution, l'effort, la récupération et ton emploi du temps. Puis ajuster selon ta réponse réelle.</p>"+
+          "<p>Travailler un muscle deux fois par semaine peut être pratique pour répartir le travail, mais ce n'est ni obligatoire ni prouvé comme optimal. Il n'y a pas de nombre de séries ou de deload universel.</p>"+
+          "<p class='key'>Un bon plan est un plan que tu peux suivre assez longtemps pour produire des données interprétables.</p>",
+          quiz:{q:"Ton plan ne fait travailler un muscle qu'une fois par semaine. C'est…",o:["Une erreur : il faut deux fois par semaine","Possible : deux fois peut être pratique, mais ce n'est ni obligatoire ni prouvé optimal","Forcément insuffisant pour progresser"],a:1,
+            fb:"Il n'y a pas de split parfait. La répartition sert tes priorités, ton exécution, ta récupération et ton emploi du temps."}},
+        {t:"Action : résume ta semaine d'entraînement",proof:'Stratégie LF',action:true,html:
+          "<p>Écris en 5 lignes la logique de ta semaine d'entraînement : priorités, répartition, ordre.</p>",
+          builder:[["Ligne 1 : priorités","Muscles en retard, objectif, phase."],["Ligne 2 : répartition","Comment le travail est réparti sur la semaine."],["Ligne 3 : ordre","Pourquoi cet ordre dans les séances."],["Ligne 4 : ce qui est fixe","Ce qui ne bouge pas."],["Ligne 5 : ce qui peut s'ajuster","Ce qui peut changer selon ta réponse."]],
+          after:"<p>Envoie ces 5 lignes dans ton prochain retour. Leni compare avec son intention, corrige ce qui manque et valide le module au bilan.</p>"}
+      ]},
+    a05:{
+      code:'A05',title:"Nutrition d'athlète et suppléments",time:'14 min',draft:true,
+      goal:"À la fin, tu sais adapter ton alimentation à la phase, situer un supplément dans la hiérarchie LF et garder de la flexibilité.",
+      lessons:[
+        {t:"Ton alimentation change avec la phase",proof:'Connaissance enseignable',html:
+          "<ul class='plain'><li><b>Prise de masse / développement</b> : un léger surplus, de la place pour les glucides autour de l'entraînement, de la flexibilité.</li>"+
+          "<li><b>Maintien</b> : stabiliser, consolider les habitudes.</li>"+
+          "<li><b>Sèche / déficit</b> : protéines élevées, aliments rassasiants, plus de structure à mesure que la marge diminue.</li></ul>"+
+          "<p class='key'>Plus le coût d'une erreur augmente (fin de sèche, préparation), plus la précision et la standardisation prennent de la valeur.</p>",
+          quiz:{q:"Pourquoi plus de précision en fin de sèche ?",o:["Parce que la flexibilité devient interdite","Parce que le coût d'une erreur augmente","Parce que les protéines ne comptent plus"],a:1,
+            fb:"Plus la marge diminue, plus une erreur coûte cher. La précision et la standardisation prennent alors de la valeur."}},
+        {t:"Suppléments : socle, contextuel, exploratoire",proof:'Stratégie LF',html:
+          "<p>LF ne cherche pas à maximiser le nombre de suppléments.</p>"+
+          "<ul class='plain'><li><b>Bien étayé mais pas obligatoire</b> : créatine.</li><li><b>Outil contextuel</b> : caféine.</li><li><b>Commodité</b> : protéine en poudre (c'est de la nourriture pratique).</li><li><b>Selon le contexte</b> : oméga-3, vitamine D, magnésium, zinc, électrolytes, ou la correction d'un apport insuffisant. Pas de pack universel.</li><li><b>Exploratoire, faible priorité</b> : citrulline.</li><li><b>Pas recommandé chez LF</b> : carnitine pour la sèche ; berbérine en autonomie.</li></ul>"+
+          "<p class='key'>Le stack personnel de Leni n'est pas ton stack par défaut. Tout produit pris doit être signalé.</p>",
+          quiz:{q:"Leni prend un supplément que tu ne prends pas. Ça veut dire…",o:["Que tu dois le prendre aussi","Rien pour toi : le stack de Leni n'est pas ton stack par défaut","Qu'il fait partie d'un pack universel"],a:1,
+            fb:"Pas de stack universel. Ce que tu prends dépend de ton contexte, et tout produit pris doit être signalé."}},
+        {t:"Flexibilité et vie sociale",proof:'Stratégie LF',html:
+          "<p>Un plan que tu ne tiens pas ne fonctionne pas, même s'il est parfait sur le papier. La flexibilité fait partie de la stratégie : repas sociaux prévus, alternatives, marges.</p>"+
+          "<p class='key'>En fin de préparation, Leni peut demander plus de structure (moins de restaurants, par exemple). C'est une stratégie de prévisibilité adaptée au contexte, pas une nécessité biologique.</p>",
+          quiz:{q:"En fin de préparation, Leni te demande moins de restaurants. C'est…",o:["Une nécessité biologique","Une stratégie de prévisibilité adaptée au contexte","La preuve que la flexibilité ne marche pas"],a:1,
+            fb:"La flexibilité fait partie de la stratégie. Plus de structure en fin de prep sert la prévisibilité, ce n'est pas une nécessité biologique."}},
+        {t:"Action : classer ton stack",proof:'Stratégie LF',action:true,html:
+          "<p>Liste tout ce que tu prends, puis classe chaque produit avec Leni : socle, contextuel ou exploratoire.</p>",
+          check:["J'ai listé mes suppléments","J'ai listé mes boissons énergisantes","J'ai listé les médicaments à signaler"],
+          builder:[["Suppléments","Produit et dose."],["Boissons énergisantes","Lesquelles et à quelle fréquence ?"],["Médicaments à signaler","Lesquels ?"]],
+          after:"<p>Envoie ta liste dans ton prochain retour. Leni la classe avec toi et valide le module au bilan.</p>"}
+      ]},
+    a06:{
+      code:'A06',title:"Ton rôle d'athlète : communication et esprit critique",time:'17 min',draft:true,
+      goal:"À la fin, tu sais être acteur de ton coaching, trier l'information fitness et signaler vite ce qui ne va pas.",
+      lessons:[
+        {t:"Ton rôle dans le coaching",proof:'Stratégie LF',html:
+          "<p>Le projet t'appartient. Leni optimise <b>ton</b> objectif, pas son idéal personnel.</p>"+
+          "<p class='key'>Ton rôle : appliquer, observer, signaler, poser des questions et comprendre les décisions. Pas devenir ton propre coach, mais être un athlète qui participe activement.</p>",
+          quiz:{q:"Ton rôle dans le coaching, c'est…",o:["Devenir ton propre coach","Appliquer, observer, signaler, poser des questions et comprendre les décisions","Suivre le plan sans poser de questions"],a:1,
+            fb:"Tu n'as pas à devenir ton propre coach. Tu participes activement : tu appliques, tu observes, tu signales et tu comprends."}},
+        {t:"Trier l'information fitness",proof:'Connaissance enseignable',html:
+          "<p>Devant un contenu fitness, pose-toi ces questions :</p>",
+          check:["C'est une preuve, une stratégie, une préférence ou une hypothèse ?","Un mécanisme plausible est-il présenté comme un résultat démontré ?","La personne vend-elle quelque chose lié à ce qu'elle affirme ?","Est-ce que ça s'applique à ma situation ?"],
+          after:"<p class='key'>LF utilise les mêmes étiquettes dans cette formation : tu vois pourquoi certaines règles sont présentées comme des stratégies et non comme de la science.</p>"},
+        {t:"Dire quand ça ne va pas",proof:'Stratégie LF',html:
+          "<p>Motivation en baisse, vie perso compliquée, plan trop dur à suivre : dis-le tôt.</p>"+
+          "<p>Leni distingue un problème de stratégie d'un problème d'application, et ne répond pas à un souci d'application en durcissant le plan.</p>"+
+          "<p class='key'>Revoir un objectif n'est pas un échec : « pas le bon moment » n'est pas un jugement sur toi.</p>",
+          quiz:{q:"Ton plan est devenu trop dur à suivre avec ta vie perso. Que fais-tu ?",o:["Je serre les dents sans rien dire","Je le dis tôt à Leni","J'attends que ça passe et je rattraperai plus tard"],a:1,
+            fb:"Dis-le tôt. Leni distingue un problème de stratégie d'un problème d'application, et ne répond pas à un souci d'application en durcissant le plan."}},
+        {t:"Action : analyse un contenu fitness",proof:'Stratégie LF',action:true,html:
+          "<p>Choisis un contenu fitness vu en ligne et analyse-le en 3 lignes.</p>",
+          builder:[["Le contenu","Lien ou description courte."],["Ce qui est solide","Preuve, stratégie, préférence ou hypothèse ?"],["Ce qui ne l'est pas","Mécanisme présenté comme un résultat, intérêt commercial…"],["Est-ce que ça te concerne","Oui, non, et pourquoi."]],
+          after:"<p>Envoie le contenu avec ton analyse dans ton prochain retour. Leni valide le module au bilan.</p>"}
       ]}
   };
-  var ORDER=['c01','c02','c03','c04'];
+  var ORDER=['c01','c02','c03','c04','c05','c06','a01','a02','a03','a04','a05','a06'];
 
   /* ---------- Module demandé ---------- */
   var host=document.querySelector('[data-lf-module]');
