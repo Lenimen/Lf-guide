@@ -212,17 +212,23 @@
   function save(){try{localStorage.setItem(KEY,JSON.stringify(store))}catch(e){}}
   function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
 
-  if(!MODULES[id]){
+  /* Sans module imposé (aperçu), on affiche le sommaire et on change de module sur place. */
+  var fixed=!!MODULES[id];
+  var M,st,cur;
+  function home(){
     document.getElementById('lfa-code').textContent='';
     var t="<div class='hero'><span class='label'>Formation incluse dans ton coaching</span><h1>Les modules</h1><p class='lede'>Un nouveau module arrive chaque semaine. Commence par le premier.</p></div><div class='toc'>";
-    ORDER.forEach(function(k){var m=MODULES[k];t+="<a href='?m="+k+"'><span>"+m.code+"</span>"+esc(m.title)+"</a>"});
-    app.innerHTML=t+"</div>";return;
+    ORDER.forEach(function(k){var m=MODULES[k];t+="<a href='#"+k+"' data-mod='"+k+"'><span>"+m.code+"</span>"+esc(m.title)+"</a>"});
+    app.innerHTML=t+"</div>";
+    app.querySelectorAll('[data-mod]').forEach(function(a){a.onclick=function(e){e.preventDefault();open(a.getAttribute('data-mod'));top()}});
   }
-
-  var M=MODULES[id];
-  document.getElementById('lfa-code').textContent=M.code;
-  var st=store[id]||(store[id]={i:0,seen:{},check:{},b:{}});
-  var cur=Math.min(st.i||0,M.lessons.length-1);
+  function open(k){
+    id=k;M=MODULES[k];
+    document.getElementById('lfa-code').textContent=M.code;
+    st=store[k]||(store[k]={i:0,seen:{},check:{},b:{}});
+    cur=Math.min(st.i||0,M.lessons.length-1);
+    render();
+  }
 
   function render(){
     var L=M.lessons[cur];
@@ -245,6 +251,7 @@
     h+="</div></div><div class='nav'><button class='btn ghost' id='lfa-prev'"+(cur===0?' disabled':'')+">Précédent</button>";
     h+=cur<M.lessons.length-1?"<button class='btn' id='lfa-next'>Leçon suivante</button>":"<button class='btn' id='lfa-done'>Terminer le module</button>";
     h+="</div><div id='lfa-end'></div>";
+    if(!fixed)h+="<div class='nav'><button class='btn ghost' id='lfa-home'>Tous les modules</button></div>";
     app.innerHTML=h;
     st.seen[cur]=1;st.i=cur;save();
     bind();
@@ -275,6 +282,7 @@
     }});
     var p=document.getElementById('lfa-prev');if(p)p.onclick=function(){if(cur>0){cur--;render();top()}};
     var n=document.getElementById('lfa-next');if(n)n.onclick=function(){cur++;render();top()};
+    var hm=document.getElementById('lfa-home');if(hm)hm.onclick=function(){home();top()};
     var d=document.getElementById('lfa-done');if(d)d.onclick=function(){
       st.done=1;save();
       var nx=ORDER[ORDER.indexOf(id)+1];
@@ -284,7 +292,7 @@
   function fallback(txt){var a=document.createElement('textarea');a.value=txt;document.body.appendChild(a);a.select();try{document.execCommand('copy')}catch(e){}document.body.removeChild(a)}
   function top(){var r=document.getElementById('lfa');if(r&&r.scrollIntoView)r.scrollIntoView({behavior:'smooth',block:'start'})}
 
-  render();
+  if(fixed)open(id);else if(MODULES[(location.hash||'').slice(1)])open(location.hash.slice(1));else home();
 })();
 </script>
 </body>
