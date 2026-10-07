@@ -107,6 +107,7 @@
 #lfa .toc a{display:flex;gap:14px;align-items:baseline;padding:12px 14px;border-bottom:1px solid var(--line);text-decoration:none}
 #lfa .toc a:last-child{border-bottom:0}
 #lfa .toc a:hover{background:var(--sheet)}
+#lfa .toc .draft{font-style:normal;font-size:11px;letter-spacing:.1em;text-transform:uppercase;border:1px solid var(--ink-soft);color:var(--ink-soft);padding:1px 6px;margin-left:auto}
 #lfa .toc span{font-family:var(--display);font-weight:800;color:var(--ink-soft)}
 #lfa .foot{margin-top:36px;padding-top:14px;border-top:1px solid var(--line);font-size:12px;color:var(--ink-soft)}
 </style>
@@ -197,9 +198,38 @@
           check:["Je filme une série","J'applique une correction ciblée","Je refilme la série","J'explique en une phrase ce qui a changé"],
           builder:[["Exercice","Lequel ?"],["Ce qui a changé (une phrase)","Ex. : siège un cran plus bas, la barre descend plus bas sur la poitrine."]],
           after:"<p>Envoie les deux vidéos avec ta phrase dans ton prochain retour. Leni valide le module au bilan.</p>"}
+      ]},
+    c04:{
+      code:'C04',title:"L'effort : proximité de l'échec et RIR",time:'12 min',draft:true,
+      goal:"À la fin, tu sais distinguer RIR, 0 RIR, échec, arrêt technique et arrêt pour symptôme, estimer ton effort honnêtement et comprendre pourquoi il dépend du contexte.",
+      lessons:[
+        {t:"À quoi ressemble un vrai effort",proof:'Connaissance enseignable',html:
+          "<p>Le <b>RIR</b> (répétitions en réserve) est ton estimation du nombre de répétitions propres que tu aurais encore pu faire à la fin d'une série.</p>"+
+          "<p>Cinq situations à ne pas mélanger :</p>"+
+          "<ul class='plain'><li><b>RIR 2 ou 3</b> : tu t'arrêtes avec encore 2 ou 3 répétitions propres possibles.</li><li><b>0 RIR</b> : tu n'aurais pas pu faire une répétition propre de plus.</li><li><b>Échec</b> : tu tentes la répétition suivante et tu n'y arrives pas.</li><li><b>Arrêt technique</b> : tu t'arrêtes parce que l'exécution se dégrade, même si tu aurais pu forcer.</li><li><b>Arrêt pour symptôme</b> : douleur inhabituelle, vertige, malaise. Ce n'est pas un effort raté, c'est un signal (voir C06).</li></ul>"+
+          "<p class='key'>Ton coach a besoin de savoir lequel des cinq tu as vécu, pas seulement le nombre de répétitions.</p>",
+          quiz:{q:"Tu tentes une 11e répétition et la barre ne remonte pas. C'est…",o:["0 RIR","Un échec","Un arrêt technique"],a:1,
+            fb:"Tu as tenté la répétition et elle n'est pas passée : c'est un échec. 0 RIR, c'est quand tu t'arrêtes en sachant qu'une répétition propre de plus n'aurait pas été possible."}},
+        {t:"Il n'existe pas de RIR magique",proof:'Connaissance enseignable',html:
+          "<p>La recherche ne donne pas de RIR optimal valable pour tout le monde et pour tous les exercices. L'échec n'est ni obligatoire ni inutile. Son coût de fatigue est surtout établi à court terme.</p>"+
+          "<p>Chez LF, la proximité de l'échec se <b>contextualise</b> : exercice, risque, niveau, fatigue de la semaine, phase. C'est pour ça que ton plan peut demander des cibles différentes selon les exercices.</p>"+
+          "<p class='key'>Ce qui compte pour toi : produire un effort réel et l'estimer honnêtement.</p>"+
+          "<p>Un RIR estimé se trompe souvent au début. Il s'affine avec la pratique et la vidéo.</p>",
+          quiz:{q:"Ton plan demande RIR 2 au squat et RIR 0 à l'extension de jambes. Pourquoi ?",o:["C'est une erreur, il faudrait le même partout","La cible dépend de l'exercice, du risque et de la fatigue","Parce que le squat compte moins"],a:1,
+            fb:"Il n'y a pas de RIR magique. La cible s'adapte à l'exercice, au risque, à ton niveau, à la fatigue de la semaine et à la phase."}},
+        {t:"Ne pas acheter une répétition avec ton exécution",proof:'Stratégie LF',html:
+          "<p>Pousser plus fort ne doit pas changer l'exercice. Si les dernières répétitions se font avec une amplitude réduite, un élan ou une position différente, elles ne sont plus comparables à ta référence.</p>"+
+          "<p class='key'>Règle LF : la progression se compte à exécution constante. Une répétition de plus obtenue en trichant n'est pas une progression exploitable.</p>",
+          quiz:{q:"Cas rapide : semaine 1, 12 répétitions propres à RIR 1. Semaine 2, 13 répétitions dont 2 en demi-amplitude. Que notes-tu ?",o:["13, j'ai progressé","11 répétitions comparables, et je précise les 2 en demi-amplitude","12, pour faire la moyenne"],a:1,
+            fb:"Pour le suivi, ta performance comparable est 11, pas 13. Tu le notes tel quel, sans arrondir à ton avantage."}},
+        {t:"Action : une semaine de RIR noté",proof:'Stratégie LF',action:true,html:
+          "<p>Pendant une semaine, sur un exercice choisi avec Leni :</p>",
+          check:["Je note mon RIR estimé à chaque série","Je filme la dernière série","J'indique si je me suis arrêté à RIR, à l'échec, pour la technique ou pour un symptôme"],
+          builder:[["Exercice","Lequel ?"],["RIR estimé par série","Ex. : S1 RIR 3, S2 RIR 2, S3 RIR 1"],["Comment s'est terminée la dernière série","RIR, échec, arrêt technique ou symptôme"]],
+          after:"<p>Envoie ce message avec la vidéo dans ton prochain retour. Leni compare ton estimation avec la vidéo au bilan.</p>"}
       ]}
   };
-  var ORDER=['c01','c02','c03'];
+  var ORDER=['c01','c02','c03','c04'];
 
   /* ---------- Module demandé ---------- */
   var host=document.querySelector('[data-lf-module]');
@@ -218,7 +248,7 @@
   function home(){
     document.getElementById('lfa-code').textContent='';
     var t="<div class='hero'><span class='label'>Formation incluse dans ton coaching</span><h1>Les modules</h1><p class='lede'>Un nouveau module arrive chaque semaine. Commence par le premier.</p></div><div class='toc'>";
-    ORDER.forEach(function(k){var m=MODULES[k];t+="<a href='#"+k+"' data-mod='"+k+"'><span>"+m.code+"</span>"+esc(m.title)+"</a>"});
+    ORDER.forEach(function(k){var m=MODULES[k];t+="<a href='#"+k+"' data-mod='"+k+"'><span>"+m.code+"</span>"+esc(m.title)+(m.draft?" <em class='draft'>à relire</em>":"")+"</a>"});
     app.innerHTML=t+"</div>";
     app.querySelectorAll('[data-mod]').forEach(function(a){a.onclick=function(e){e.preventDefault();open(a.getAttribute('data-mod'));top()}});
   }
@@ -285,7 +315,7 @@
     var hm=document.getElementById('lfa-home');if(hm)hm.onclick=function(){home();top()};
     var d=document.getElementById('lfa-done');if(d)d.onclick=function(){
       st.done=1;save();
-      var nx=ORDER[ORDER.indexOf(id)+1];
+      var nx=ORDER[ORDER.indexOf(id)+1];if(nx&&MODULES[nx].draft)nx=null;
       document.getElementById('lfa-end').innerHTML="<div class='end'><span class='label'>Module "+M.code+" terminé</span><h2>Il te reste l'action réelle</h2><p>Le module est validé quand Leni a vu ton action au bilan. Envoie-la dans ton prochain retour.</p>"+(nx?"<p>Prochain module : <b>"+MODULES[nx].code+" · "+esc(MODULES[nx].title)+"</b>, dans la leçon suivante du cours.</p>":"")+"</div>";
     };
   }
