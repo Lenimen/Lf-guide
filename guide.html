@@ -648,6 +648,9 @@ html,body{background:#192E33!important;overflow-x:hidden}
       if(pct>10){o.className='verdict warn';html+=' Attention : ce saut représente +'+Math.round(pct)+' % d\'un coup. Sur cet exercice, la charge ne peut pas augmenter progressivement. Cherche des micro-plaques ou un exercice qui permet des sauts plus fins.'}
       else o.className='verdict good';
       o.innerHTML=html}
+    else if(low<mn){
+      var idx0=all.indexOf(low)+1,down=Math.max(0,ld-inc);
+      o.className='verdict warn';o.innerHTML='<b>Baisse à '+fmt(down)+' kg</b>La série '+idx0+' est tombée à '+low+' répétitions, sous ton minimum de '+mn+'. La charge est trop lourde pour rester dans ta fourchette : redescends d\'un cran, refais toutes tes séries entre '+mn+' et '+mx+' répétitions propres, puis reprends la progression.'}
     else{
       var idx=all.indexOf(low)+1;
       o.className='verdict';o.innerHTML='<b>Garde '+fmt(ld)+' kg</b>Objectif : gagner des répétitions, en priorité sur la série '+idx+' ('+low+' reps). Tu augmenteras quand toutes les séries atteindront '+mx+' répétitions propres.'}}
