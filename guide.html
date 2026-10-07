@@ -105,6 +105,17 @@ textarea{width:100%;min-height:64px;resize:vertical;font-size:14px}
 .btn:focus-visible{outline:3px solid var(--signal)}
 .btn.solid{background:var(--ink);color:var(--paper)}
 
+/* Vidéos */
+.vids{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(150px,1fr);gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:6px}
+.vid{scroll-snap-align:start}
+@media (max-width:560px){.vids{grid-auto-columns:46%}}
+.vid{display:grid;gap:6px;align-content:start}
+.vid video{width:100%;aspect-ratio:9/16;background:#000;border:1px solid var(--line);display:block}
+.vid b{font-size:13px}
+.vid span{font-size:12px;color:var(--ink-soft)}
+.apps{display:grid;gap:8px;margin:0;padding:0;list-style:none}
+.apps li{border:1px solid var(--line);padding:10px 12px;font-size:14px}
+
 /* Tri des raisons */
 .cards{display:flex;flex-wrap:wrap;gap:8px}
 .card{all:unset;cursor:pointer;border:1px solid var(--line);padding:8px 12px;font-size:13px;background:var(--paper)}
@@ -309,14 +320,27 @@ html,body{background:#192E33!important;overflow-x:hidden}
         <summary>Standardiser l'exécution et s'échauffer</summary>
         <div>
           <p>« Contrôlé » ne veut pas dire « lent ». Contrôlé veut dire reproductible : mêmes réglages, même amplitude, même trajectoire. Note la hauteur du siège, le cran du dossier, la position des pieds.</p>
+          <p><b>Exemple concret : le peck deck.</b> Règle le siège pour que les poignées arrivent à hauteur de ta poitrine, puis choisis le point de départ : bras bien ouverts, pecs étirés. Note ce cran. Si la semaine suivante tu pars d'un cran plus fermé, tu soulèves peut-être plus lourd, mais sur une amplitude plus courte : ce n'est plus le même exercice, et la comparaison ne vaut rien.</p>
           <p>Avant ta première série de travail : articulations mobilisées, muscle ciblé activé, une ou deux séries d'approche. Cinq à dix minutes suffisent.</p>
         </div>
       </details>
 
       <div class="tool">
+        <div class="tool-head">En vidéo · Sur des machines que tu connais</div>
+        <div class="tool-body">
+          <p style="font-size:14px">Les mêmes principes, appliqués sur des machines qu'on trouve dans la plupart des salles.</p>
+          <div class="vids">
+            <div class="vid"><video controls playsinline preload="none" poster="https://cdn.jsdelivr.net/gh/lenimen/lf-guide@main/media/leg-extension-amplitude.jpg" src="https://cdn.jsdelivr.net/gh/lenimen/lf-guide@main/media/leg-extension-amplitude.mp4"></video><b>Leg extension</b><span>Récupérer l'amplitude que la machine te vole.</span></div>
+            <div class="vid"><video controls playsinline preload="none" poster="https://cdn.jsdelivr.net/gh/lenimen/lf-guide@main/media/rowing-reglages.jpg" src="https://cdn.jsdelivr.net/gh/lenimen/lf-guide@main/media/rowing-reglages.mp4"></video><b>Rowing buste supporté</b><span>Régler la machine avant de charger.</span></div>
+            <div class="vid"><video controls playsinline preload="none" poster="https://cdn.jsdelivr.net/gh/lenimen/lf-guide@main/media/elevation-poulie-standardiser.jpg" src="https://cdn.jsdelivr.net/gh/lenimen/lf-guide@main/media/elevation-poulie-standardiser.mp4"></video><b>Élévations à la poulie</b><span>Une astuce pour refaire le même mouvement à chaque série.</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tool">
         <div class="tool-head">Outil · Double progression</div>
         <div class="tool-body">
-          <p style="font-size:14px">Entre ta fourchette, ta charge et les répétitions faites à ta dernière séance. L'outil te dit quoi faire à la prochaine.</p>
+          <p style="font-size:14px">Entre ta fourchette, ta charge et les répétitions faites à ta dernière séance, de 1 à 5 séries (laisse vides celles que tu ne fais pas). L'outil te dit quoi faire à la prochaine.</p>
           <div class="fields">
             <div class="field"><label for="dpMin">Reps min</label><input type="number" id="dpMin" value="8" min="1"></div>
             <div class="field"><label for="dpMax">Reps max</label><input type="number" id="dpMax" value="12" min="1"></div>
@@ -327,6 +351,8 @@ html,body{background:#192E33!important;overflow-x:hidden}
             <div class="field"><label for="dpS1">Série 1</label><input type="number" id="dpS1" value="12" min="0"></div>
             <div class="field"><label for="dpS2">Série 2</label><input type="number" id="dpS2" value="12" min="0"></div>
             <div class="field"><label for="dpS3">Série 3</label><input type="number" id="dpS3" value="11" min="0"></div>
+            <div class="field"><label for="dpS4">Série 4</label><input type="number" id="dpS4" min="0" placeholder="–"></div>
+            <div class="field"><label for="dpS5">Série 5</label><input type="number" id="dpS5" min="0" placeholder="–"></div>
           </div>
           <div class="verdict" id="dpOut" aria-live="polite"></div>
         </div>
@@ -403,6 +429,18 @@ html,body{background:#192E33!important;overflow-x:hidden}
           <div class="verdict" id="obsOut" aria-live="polite" hidden></div>
         </div>
       </div>
+      <details>
+        <summary>Les outils pour tout structurer</summary>
+        <div>
+          <p>Pas besoin de dix applications. Trois suffisent, et toutes ont une version gratuite :</p>
+          <ul class="apps">
+            <li><b>Hevy</b> : ton carnet d'entraînement. Tu notes charges, répétitions et réglages, et tu retrouves ta dernière séance avant chaque série.</li>
+            <li><b>MyFitnessPal</b> : tes macros. Scanne tes aliments quelques semaines pour apprendre à estimer tes portions.</li>
+            <li><b>Un album photo dédié</b> sur ton téléphone : une photo par semaine, même lumière, mêmes poses, pour comparer d'un geste.</li>
+          </ul>
+          <p>Tes pesées vont dans l'outil « Moyenne de la semaine » juste au-dessus. En coaching, tout est regroupé dans une seule app : programme, suivi et bilans au même endroit.</p>
+        </div>
+      </details>
       <details>
         <summary>Observation n'est pas conclusion</summary>
         <div>
@@ -595,14 +633,14 @@ html,body{background:#192E33!important;overflow-x:hidden}
     else{o.className='verdict warn';o.innerHTML="<b>Réponse de pratiquant</b>Plus lourd ne veut pas dire progrès si l'amplitude a changé. Ce n'est plus le même exercice, donc impossible de comparer."}}});
 
   /* Double progression */
-  var dpIds=['dpMin','dpMax','dpLoad','dpInc','dpS1','dpS2','dpS3'];
+  var dpIds=['dpMin','dpMax','dpLoad','dpInc','dpS1','dpS2','dpS3','dpS4','dpS5'];
   S.dp=S.dp||{};
   dpIds.forEach(function(id){if(S.dp[id]!=null)$(id).value=S.dp[id];$(id).oninput=function(){S.dp[id]=$(id).value;save();dp()}});
   function num(id){return parseFloat(String($(id).value).replace(',','.'))}
   function fmt(x){return (Math.round(x*100)/100).toString().replace('.',',')}
   function dp(){
-    var mn=num('dpMin'),mx=num('dpMax'),ld=num('dpLoad'),inc=num('dpInc'),s=[num('dpS1'),num('dpS2'),num('dpS3')],o=$('dpOut');
-    if([mn,mx,ld,inc].some(isNaN)||s.some(isNaN)||mn>=mx){o.className='verdict';o.innerHTML='<b>À compléter</b>Remplis toutes les cases, avec un minimum de répétitions plus petit que le maximum.';return}
+    var mn=num('dpMin'),mx=num('dpMax'),ld=num('dpLoad'),inc=num('dpInc'),all=[num('dpS1'),num('dpS2'),num('dpS3'),num('dpS4'),num('dpS5')],s=all.filter(function(x){return !isNaN(x)}),o=$('dpOut');
+    if([mn,mx,ld,inc].some(isNaN)||!s.length||mn>=mx){o.className='verdict';o.innerHTML='<b>À compléter</b>Remplis ta fourchette, ta charge, le plus petit saut et au moins une série, avec un minimum de répétitions plus petit que le maximum.';return}
     var low=Math.min.apply(null,s);
     if(low>=mx){
       var pct=ld>0?inc/ld*100:0,next=ld+inc;
@@ -611,7 +649,7 @@ html,body{background:#192E33!important;overflow-x:hidden}
       else o.className='verdict good';
       o.innerHTML=html}
     else{
-      var idx=s.indexOf(low)+1;
+      var idx=all.indexOf(low)+1;
       o.className='verdict';o.innerHTML='<b>Garde '+fmt(ld)+' kg</b>Objectif : gagner des répétitions, en priorité sur la série '+idx+' ('+low+' reps). Tu augmenteras quand toutes les séries atteindront '+mx+' répétitions propres.'}}
   dp();
 
