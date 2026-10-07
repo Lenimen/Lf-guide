@@ -1,0 +1,291 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>LF Athlete Academy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800&display=swap">
+<style>
+/* LF Athlete Academy : un fichier pour tous les modules. Le module affiché vient de
+   data-lf-module sur le conteneur (chargeur Systeme.io) ou de ?m=c01 dans l'adresse.
+   Tout est préfixé #lfa pour ne pas toucher à la page du cours Systeme.io. */
+#lfa{
+  --paper:#192E33;--sheet:#213B41;--ink:#EBE3D0;--ink-soft:#AEB9B2;--line:#3A5359;
+  --display:"Outfit","Avenir Next","Century Gothic",Arial,sans-serif;
+  --body:Verdana,Geneva,"DejaVu Sans",sans-serif;
+  background:var(--paper);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.6;
+  min-height:100vh;color-scheme:dark;overflow-x:hidden;text-align:left;
+}
+#lfa *{box-sizing:border-box}
+#lfa .wrap{max-width:720px;margin:0 auto;padding:0 16px 56px}
+#lfa h1,#lfa h2,#lfa h3{font-family:var(--display);text-transform:uppercase;letter-spacing:.04em;line-height:1.05;margin:0;color:var(--ink);text-wrap:balance}
+#lfa p{margin:0;max-width:62ch}
+#lfa a{color:var(--ink)}
+#lfa .label{font-size:11px;letter-spacing:.14em;text-transform:uppercase;font-weight:bold;color:var(--ink-soft)}
+#lfa :focus-visible{outline:3px solid var(--ink);outline-offset:2px}
+#lfa button{font:inherit;cursor:pointer}
+
+#lfa .top{display:flex;align-items:center;gap:10px;padding-block:18px;border-bottom:2px solid var(--ink);font-family:var(--display);font-weight:600;font-size:14px;letter-spacing:.16em;text-transform:uppercase}
+#lfa .top img{height:32px;width:auto}
+#lfa .top .sp{flex:1}
+#lfa .top .code{color:var(--ink-soft)}
+
+#lfa .hero{display:grid;gap:14px;padding-block:30px 22px}
+#lfa .hero h1{font-size:clamp(32px,8vw,56px);font-weight:700}
+#lfa .hero .lede{color:var(--ink-soft)}
+#lfa .meta{display:flex;flex-wrap:wrap;gap:8px}
+#lfa .chip{border:1px solid var(--line);padding:4px 10px;font-size:12px;color:var(--ink-soft)}
+
+/* Progression */
+#lfa .steps{display:flex;gap:6px;margin-block:4px 22px}
+#lfa .steps button{flex:1;height:30px;border:1px solid var(--line);background:transparent;color:var(--ink-soft);font-family:var(--display);font-weight:700;font-size:13px;padding:0}
+#lfa .steps button.done{background:var(--sheet);color:var(--ink)}
+#lfa .steps button.on{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+
+/* Écran de leçon */
+#lfa .screen{border:1px solid var(--line);display:grid}
+#lfa .screen-head{background:var(--sheet);padding:12px 16px;display:flex;gap:10px;align-items:baseline;flex-wrap:wrap}
+#lfa .screen-head .n{font-family:var(--display);font-weight:800;font-size:20px;color:var(--ink-soft)}
+#lfa .screen-head h2{font-size:clamp(20px,4.6vw,26px);font-weight:600;flex:1;min-width:200px}
+#lfa .screen-body{padding:18px 16px;display:grid;gap:14px}
+#lfa .proof{justify-self:start;font-size:10px;letter-spacing:.14em;text-transform:uppercase;font-weight:bold;border:1px solid var(--ink-soft);color:var(--ink-soft);padding:2px 8px}
+#lfa .key{border-left:4px solid var(--ink);padding:10px 14px;background:var(--sheet);font-weight:bold}
+#lfa ul.plain{margin:0;padding-left:18px;display:grid;gap:6px}
+
+/* Boucle du coaching */
+#lfa .loop{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;counter-reset:l}
+#lfa .loop div{border:1px solid var(--line);padding:10px 6px;text-align:center;font-size:12px;line-height:1.3;display:grid;gap:4px;align-content:start}
+#lfa .loop div b{font-family:var(--display);font-size:18px}
+@media (max-width:560px){#lfa .loop{grid-template-columns:1fr}#lfa .loop div{grid-template-columns:28px 1fr;text-align:left;align-items:center}}
+
+/* Comparaison avant / mieux */
+#lfa .vs{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+#lfa .vs div{border:1px solid var(--line);padding:12px;display:grid;gap:6px;align-content:start}
+#lfa .vs div.good{border-color:var(--ink)}
+@media (max-width:560px){#lfa .vs{grid-template-columns:1fr}}
+
+/* Mini-cas */
+#lfa .case{border:2px solid var(--ink);display:grid}
+#lfa .case-q{padding:12px 14px;display:grid;gap:8px}
+#lfa .case-q .label{color:var(--ink)}
+#lfa .opts{display:grid;gap:6px;padding:0 14px 14px}
+#lfa .opts button{background:transparent;color:var(--ink);border:1px solid var(--line);padding:10px 12px;text-align:left;font-size:14px;line-height:1.4}
+#lfa .opts button:hover{border-color:var(--ink)}
+#lfa .opts button.right{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+#lfa .opts button.wrong{text-decoration:line-through;color:var(--ink-soft)}
+#lfa .fb{padding:12px 14px;border-top:1px solid var(--line);font-size:14px;display:none}
+#lfa .fb.show{display:block}
+
+/* Checklist */
+#lfa .check{display:grid;border:1px solid var(--line)}
+#lfa .check label{display:flex;gap:12px;align-items:flex-start;padding:10px 12px;border-bottom:1px solid var(--line);cursor:pointer;font-size:14px}
+#lfa .check label:last-child{border-bottom:0}
+#lfa .check input{width:20px;height:20px;accent-color:#EBE3D0;flex:none;margin-top:1px}
+
+/* Constructeur de message */
+#lfa .builder{display:grid;gap:12px}
+#lfa .builder label{display:grid;gap:4px;font-size:12px;letter-spacing:.08em;text-transform:uppercase;font-weight:bold;color:var(--ink-soft)}
+#lfa .builder textarea{font:inherit;font-size:15px;text-transform:none;letter-spacing:0;font-weight:normal;background:var(--paper);color:var(--ink);border:1px solid var(--ink);padding:8px 10px;min-height:56px;resize:vertical;width:100%}
+#lfa .out{border:2px solid var(--ink);display:grid}
+#lfa .out-head{background:var(--ink);color:var(--paper);padding:6px 12px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;font-weight:bold;display:flex;justify-content:space-between;align-items:center;gap:8px}
+#lfa .out-head button{background:var(--paper);color:var(--ink);border:0;padding:4px 10px;font-size:12px;font-weight:bold}
+#lfa .out pre{margin:0;padding:12px;white-space:pre-wrap;font:inherit;font-size:14px;min-height:60px}
+
+/* Navigation */
+#lfa .nav{display:flex;gap:10px;justify-content:space-between;margin-top:18px}
+#lfa .btn{background:var(--ink);color:var(--paper);border:2px solid var(--ink);padding:12px 18px;font-family:var(--display);font-weight:700;text-transform:uppercase;letter-spacing:.08em;font-size:14px}
+#lfa .btn.ghost{background:transparent;color:var(--ink)}
+#lfa .btn[disabled]{opacity:.35;cursor:default}
+
+/* Fin de module et sommaire */
+#lfa .end{border:2px solid var(--ink);padding:20px 16px;display:grid;gap:12px;margin-top:22px}
+#lfa .end h2{font-size:24px}
+#lfa .toc{display:grid;border:1px solid var(--line);margin-top:8px}
+#lfa .toc a{display:flex;gap:14px;align-items:baseline;padding:12px 14px;border-bottom:1px solid var(--line);text-decoration:none}
+#lfa .toc a:last-child{border-bottom:0}
+#lfa .toc a:hover{background:var(--sheet)}
+#lfa .toc span{font-family:var(--display);font-weight:800;color:var(--ink-soft)}
+#lfa .foot{margin-top:36px;padding-top:14px;border-top:1px solid var(--line);font-size:12px;color:var(--ink-soft)}
+</style>
+</head>
+<body>
+<div id="lfa">
+  <div class="wrap">
+    <div class="top"><img alt="LF" src="data:image/png;base64,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"><span>LF Athlete Academy</span><span class="sp"></span><span class="code" id="lfa-code"></span></div>
+    <div id="lfa-app"></div>
+    <p class="foot">LF Athlete Academy · THE LF METHOD · Une question sur une leçon ? Pose-la dans ton prochain retour ou au bilan.</p>
+  </div>
+</div>
+<script>
+(function(){
+  /* ---------- Contenu : recopié des leçons Notion « Rédigé V1 » (base Leçons). ---------- */
+  var MODULES={
+    c01:{
+      code:'C01',title:'Comment fonctionne ton coaching LF',time:'10 min',
+      goal:"À la fin, tu sais comment ton plan évolue, comment écrire un retour utile et ce que tu peux modifier seul ou non.",
+      lessons:[
+        {t:"Ton coaching n'est pas un PDF",proof:'Stratégie LF',html:
+          "<p>Ton plan est une version de travail personnalisée. Il vit avec toi, il n'est pas figé.</p>"+
+          "<div class='loop'><div><b>1</b>Tu appliques</div><div><b>2</b>Tu envoies données et retours</div><div><b>3</b>Le coach interprète</div><div><b>4</b>Le plan évolue</div><div><b>5</b>Tu réappliques</div></div>"+
+          "<p class='key'>Une semaine sans changement visible du plan ne veut pas dire qu'il ne se passe rien : garder ce qui fonctionne peut être une décision.</p>",
+          quiz:{q:"Ton plan n'a pas changé depuis ton dernier bilan. Ça veut dire…",o:["Que le coach n'a pas regardé tes données","Que garder ce qui fonctionne peut être une vraie décision","Qu'il faut changer quelque chose toi-même"],a:1,
+            fb:"Garder un plan qui marche est une décision à part entière. Si tu as un doute, pose la question dans ton retour."}},
+        {t:"Un bon message donne du contexte",proof:'Stratégie LF',html:
+          "<div class='vs'><div><span class='label'>Au lieu de</span><p>« Cette machine ne va pas. »</p></div>"+
+          "<div class='good'><span class='label'>Écris plutôt</span><ul class='plain'><li>l'exercice prévu</li><li>le problème précis</li><li>le matériel disponible</li><li>ce que tu as essayé</li><li>une vidéo si utile</li><li>une question claire</li></ul></div></div>",
+          quiz:{q:"Cas rapide : la machine prescrite n'existe pas dans ta salle. Que fais-tu ?",o:["Je saute l'exercice","Je prends n'importe quelle machine qui ressemble","Si je maîtrise la fonction et les alternatives convenues, je choisis une substitution cohérente et je la signale. Sinon, je demande avant d'improviser."],a:2,
+            fb:"Tu peux substituer seul quand tu connais la fonction recherchée et les alternatives convenues, et tu le signales toujours. Dans le doute, tu demandes."}},
+        {t:"Autonomie progressive",proof:'Stratégie LF',html:
+          "<p><b>Au début :</b> tu appliques, et tu demandes avant tout changement qui modifie le plan.</p>"+
+          "<p><b>Ensuite :</b> plus tu comprends les critères, plus tu peux gérer seul certains ajustements simples.</p>"+
+          "<p class='key'>Les changements restent toujours transparents : une modification non signalée fausse les données et leur interprétation.</p>"+
+          "<p>Une urgence ou un problème de santé sort du délai normal du coaching (voir module C06).</p>",
+          quiz:{q:"Tu as remplacé un exercice cette semaine parce que la salle était bondée. Que fais-tu ?",o:["Rien, c'est un détail","Je le signale dans mon retour","J'attends le bilan dans un mois pour en parler"],a:1,
+            fb:"Un changement non signalé fausse les données. Tu le signales simplement, même s'il te semble petit."}},
+        {t:"Action : ton premier retour exploitable",proof:'Stratégie LF',action:true,html:
+          "<p>Avant ton prochain bilan, envoie au moins un retour construit en 4 parties. Remplis les cases : ton message se prépare tout seul, tu n'as plus qu'à le copier.</p>",
+          builder:[['Contexte','Quel jour, quelle séance ou quel repas ?'],['Observation','Ce que tu as constaté, sans conclusion.'],['Ce qui a changé','Matériel, horaire, sommeil, alimentation…'],['Question ou action proposée','Ce que tu demandes ou proposes.']],
+          after:"<p>Leni vérifie ce retour au bilan : c'est lui qui valide le module, pas un quiz.</p>"}
+      ]},
+    c02:{
+      code:'C02',title:'Tes données et ton check-in',time:'11 min',
+      goal:"À la fin, tu sais fournir des données comparables, donner le contexte de ce qui change et séparer une observation d'une conclusion.",
+      lessons:[
+        {t:"Une donnée n'est utile que si elle peut changer une décision",proof:'Stratégie LF',html:
+          "<p>Poids, photos, performances, activité, sommeil, faim, digestion, adhérence et contexte n'ont pas tous la même utilité à chaque moment.</p>"+
+          "<p class='key'>LF cherche le minimum suffisamment fiable pour décider, pas le maximum de tracking possible.</p>"+
+          "<p>La précision est un outil de décision, pas une valeur morale.</p>",
+          quiz:{q:"Le meilleur check-in, c'est…",o:["Celui qui contient le plus de données possible","Le minimum fiable qui permet de décider","Celui qui montre que tu as été parfait"],a:1,
+            fb:"On veut des données fiables et utiles pour décider, pas un maximum de chiffres."}},
+        {t:"Comparable ne veut pas dire parfait",proof:'Connaissance enseignable',html:
+          "<p>Pour que tes données se comparent d'une semaine à l'autre :</p>",
+          check:["Même heure et mêmes conditions quand c'est possible","Photos standardisées (même lieu, même lumière, mêmes poses)","Même machine et mêmes réglages quand c'est pertinent","Je note les différences importantes"],
+          after:"<p class='key'>Une moyenne de poids réduit le bruit, mais elle ne mesure pas directement la graisse perdue ou gagnée.</p>"},
+        {t:"Observation ≠ conclusion",proof:'Connaissance enseignable',html:
+          "<div class='vs'><div class='good'><span class='label'>Observation</span><p>« +0,8 kg ce matin. »</p></div><div><span class='label'>Conclusion non justifiée</span><p>« J'ai pris 0,8 kg de gras. »</p></div></div>"+
+          "<p>On regarde la tendance, l'application du plan et le contexte avant d'interpréter.</p>",
+          quiz:{q:"Cas rapide : tu changes de salle. Même nom d'exercice, machine différente, charge plus basse. Que fais-tu ?",o:["Je conclus que j'ai perdu de la force","Je documente le changement et je recrée une référence sur la nouvelle machine","Je force pour retrouver mes anciennes charges"],a:1,
+            fb:"Ce n'est pas la même tâche, donc pas la même référence. Tu notes le changement et tu repars de cette nouvelle base."}},
+        {t:"Action : un check-in analysable",proof:'Stratégie LF',action:true,html:
+          "<p>Ton prochain check-in doit pouvoir être analysé sans aller-retour pour une donnée essentielle.</p>",
+          check:["Toutes les données demandées sont remplies","Les différences de conditions sont notées (heure, salle, machine…)","Une donnée manquante est marquée « manquante », pas reconstruite de mémoire"],
+          after:"<p>Leni vérifie ce check-in au bilan : c'est lui qui valide le module.</p>"}
+      ]},
+    c03:{
+      code:'C03',title:'Savoir exécuter ton programme',time:'16 min',
+      goal:"À la fin, tu sais lire une ligne de programme, préparer un exercice, reproduire tes repères et appliquer une correction sans changer la tâche.",
+      lessons:[
+        {t:"Lis la prescription avant de chercher à progresser",proof:'Stratégie LF',html:
+          "<p>Ordre, séries, répétitions, repos, tempo quand il est prescrit, réglages, amplitude et intention forment <b>une même tâche</b>.</p>"+
+          "<p class='key'>Monter la charge tout en changeant fortement cette tâche rend la comparaison moins utile.</p>",
+          quiz:{q:"Lesquels font partie de « la tâche » à respecter ?",o:["Seulement la charge et les répétitions","Ordre, séries, répétitions, repos, tempo prescrit, réglages, amplitude et intention","Seulement ce qui me paraît important"],a:1,
+            fb:"Tout ça forme une seule tâche. Si l'un de ces éléments change beaucoup, la comparaison avec la semaine d'avant perd de sa valeur."}},
+        {t:"Standardiser ce qui compte",proof:'Stratégie LF',html:
+          "<p>Réglages, stabilité, amplitude tolérée, trajectoire et repères personnels servent à rendre l'exercice reproductible.</p>",
+          check:["Je note mes réglages (siège, dossier, poulie, prise…)","Je sais où se trouve mon amplitude de travail","Je garde la même trajectoire d'une série à l'autre","J'ai mes repères personnels pour me replacer vite"],
+          after:"<p class='key'>Contrôle ne veut pas forcément dire tempo lent. Le but est une exécution définie et exploitable.</p>"},
+        {t:"Une correction doit être observable",proof:'Stratégie LF',html:
+          "<p>Après une correction, tu dois pouvoir dire quel paramètre a changé : réglage, amplitude, trajectoire, prise, stabilité, charge ou autre.</p>"+
+          "<p>Si la correction t'oblige à baisser la charge, ce n'est pas une régression automatique.</p>",
+          quiz:{q:"Cas rapide : semaine 1, 80 kg × 11, propre et comparable. Semaine 2, 85 kg × 10 avec une amplitude réduite. Quelle performance est la plus exploitable ?",o:["85 kg × 10, c'est plus lourd","80 kg × 11, la tâche était respectée","Les deux se valent"],a:1,
+            fb:"Avec une amplitude réduite, ce n'est plus la même tâche. LF ne considère pas automatiquement 85 × 10 comme une meilleure performance exploitable."}},
+        {t:"Action : filmer, corriger, refilmer",proof:'Stratégie LF',action:true,html:
+          "<p>Sur un exercice choisi avec Leni :</p>",
+          check:["Je filme une série","J'applique une correction ciblée","Je refilme la série","J'explique en une phrase ce qui a changé"],
+          builder:[["Exercice","Lequel ?"],["Ce qui a changé (une phrase)","Ex. : siège un cran plus bas, la barre descend plus bas sur la poitrine."]],
+          after:"<p>Envoie les deux vidéos avec ta phrase dans ton prochain retour. Leni valide le module au bilan.</p>"}
+      ]}
+  };
+  var ORDER=['c01','c02','c03'];
+
+  /* ---------- Module demandé ---------- */
+  var host=document.querySelector('[data-lf-module]');
+  var param=(location.search.match(/[?&]m=([a-z0-9]+)/i)||[])[1];
+  var id=((host&&host.getAttribute('data-lf-module'))||param||'').toLowerCase();
+  var app=document.getElementById('lfa-app');
+  var KEY='lf-academy-v1';
+  var store={};
+  try{store=JSON.parse(localStorage.getItem(KEY)||'{}')||{}}catch(e){store={}}
+  function save(){try{localStorage.setItem(KEY,JSON.stringify(store))}catch(e){}}
+  function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+
+  if(!MODULES[id]){
+    document.getElementById('lfa-code').textContent='';
+    var t="<div class='hero'><span class='label'>Formation incluse dans ton coaching</span><h1>Les modules</h1><p class='lede'>Un nouveau module arrive chaque semaine. Commence par le premier.</p></div><div class='toc'>";
+    ORDER.forEach(function(k){var m=MODULES[k];t+="<a href='?m="+k+"'><span>"+m.code+"</span>"+esc(m.title)+"</a>"});
+    app.innerHTML=t+"</div>";return;
+  }
+
+  var M=MODULES[id];
+  document.getElementById('lfa-code').textContent=M.code;
+  var st=store[id]||(store[id]={i:0,seen:{},check:{},b:{}});
+  var cur=Math.min(st.i||0,M.lessons.length-1);
+
+  function render(){
+    var L=M.lessons[cur];
+    var h="<div class='hero'><span class='label'>Module "+M.code+" · "+M.time+"</span><h1>"+esc(M.title)+"</h1><p class='lede'>"+esc(M.goal)+"</p></div>";
+    h+="<div class='steps' role='tablist'>";
+    M.lessons.forEach(function(_,i){h+="<button role='tab' aria-label='Leçon "+(i+1)+"' class='"+(i===cur?'on':(st.seen[i]?'done':''))+"' data-go='"+i+"'>"+(i+1)+"</button>"});
+    h+="</div><div class='screen'><div class='screen-head'><span class='n'>"+M.code+"."+(cur+1)+"</span><h2>"+esc(L.t)+"</h2></div><div class='screen-body'>";
+    h+="<span class='proof'>"+(L.action?'Action réelle · ':'')+esc(L.proof)+"</span>"+L.html;
+    if(L.check){h+="<div class='check'>";L.check.forEach(function(c,j){var k=cur+'-'+j;h+="<label><input type='checkbox' data-ck='"+k+"'"+(st.check[k]?' checked':'')+"><span>"+esc(c)+"</span></label>"});h+="</div>"}
+    if(L.builder){
+      h+="<div class='builder'>";L.builder.forEach(function(b,j){var k=cur+'-'+j;h+="<label>"+esc(b[0])+"<textarea data-b='"+k+"' placeholder='"+esc(b[1])+"'>"+esc(st.b[k]||'')+"</textarea></label>"});
+      h+="<div class='out'><div class='out-head'><span>Ton message</span><button type='button' id='lfa-copy'>Copier</button></div><pre id='lfa-out'></pre></div></div>";
+    }
+    if(L.after)h+=L.after;
+    if(L.quiz){
+      var q=L.quiz;h+="<div class='case'><div class='case-q'><span class='label'>À toi</span><p>"+esc(q.q)+"</p></div><div class='opts'>";
+      q.o.forEach(function(o,j){h+="<button type='button' data-q='"+j+"'>"+esc(o)+"</button>"});
+      h+="</div><div class='fb' id='lfa-fb'>"+esc(q.fb)+"</div></div>";
+    }
+    h+="</div></div><div class='nav'><button class='btn ghost' id='lfa-prev'"+(cur===0?' disabled':'')+">Précédent</button>";
+    h+=cur<M.lessons.length-1?"<button class='btn' id='lfa-next'>Leçon suivante</button>":"<button class='btn' id='lfa-done'>Terminer le module</button>";
+    h+="</div><div id='lfa-end'></div>";
+    app.innerHTML=h;
+    st.seen[cur]=1;st.i=cur;save();
+    bind();
+  }
+
+  function buildMsg(){
+    var L=M.lessons[cur];if(!L.builder)return;
+    var lines=[];L.builder.forEach(function(b,j){var v=(st.b[cur+'-'+j]||'').trim();if(v)lines.push(b[0]+' : '+v)});
+    document.getElementById('lfa-out').textContent=lines.length?lines.join('\n'):'Remplis les cases ci-dessus.';
+  }
+
+  function bind(){
+    app.querySelectorAll('[data-go]').forEach(function(b){b.onclick=function(){cur=+b.getAttribute('data-go');render();top()}});
+    app.querySelectorAll('[data-ck]').forEach(function(c){c.onchange=function(){st.check[c.getAttribute('data-ck')]=c.checked?1:0;save()}});
+    app.querySelectorAll('[data-b]').forEach(function(t){t.oninput=function(){st.b[t.getAttribute('data-b')]=t.value;save();buildMsg()}});
+    buildMsg();
+    var cp=document.getElementById('lfa-copy');
+    if(cp)cp.onclick=function(){
+      var txt=document.getElementById('lfa-out').textContent;
+      var ok=function(){cp.textContent='Copié ✓';setTimeout(function(){cp.textContent='Copier'},1600)};
+      if(navigator.clipboard)navigator.clipboard.writeText(txt).then(ok,function(){fallback(txt);ok()});else{fallback(txt);ok()}
+    };
+    var L=M.lessons[cur];
+    app.querySelectorAll('[data-q]').forEach(function(b){b.onclick=function(){
+      var j=+b.getAttribute('data-q');
+      if(j===L.quiz.a){b.className='right';document.getElementById('lfa-fb').className='fb show'}
+      else{b.className='wrong'}
+    }});
+    var p=document.getElementById('lfa-prev');if(p)p.onclick=function(){if(cur>0){cur--;render();top()}};
+    var n=document.getElementById('lfa-next');if(n)n.onclick=function(){cur++;render();top()};
+    var d=document.getElementById('lfa-done');if(d)d.onclick=function(){
+      st.done=1;save();
+      var nx=ORDER[ORDER.indexOf(id)+1];
+      document.getElementById('lfa-end').innerHTML="<div class='end'><span class='label'>Module "+M.code+" terminé</span><h2>Il te reste l'action réelle</h2><p>Le module est validé quand Leni a vu ton action au bilan. Envoie-la dans ton prochain retour.</p>"+(nx?"<p>Prochain module : <b>"+MODULES[nx].code+" · "+esc(MODULES[nx].title)+"</b>, dans la leçon suivante du cours.</p>":"")+"</div>";
+    };
+  }
+  function fallback(txt){var a=document.createElement('textarea');a.value=txt;document.body.appendChild(a);a.select();try{document.execCommand('copy')}catch(e){}document.body.removeChild(a)}
+  function top(){var r=document.getElementById('lfa');if(r&&r.scrollIntoView)r.scrollIntoView({behavior:'smooth',block:'start'})}
+
+  render();
+})();
+</script>
+</body>
+</html>
