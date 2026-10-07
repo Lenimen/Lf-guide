@@ -53,6 +53,12 @@
 #lfa .screen-body{padding:18px 16px;display:grid;gap:14px}
 #lfa .proof{justify-self:start;font-size:10px;letter-spacing:.14em;text-transform:uppercase;font-weight:bold;border:1px solid var(--ink-soft);color:var(--ink-soft);padding:2px 8px}
 #lfa .key{border-left:4px solid var(--ink);padding:10px 14px;background:var(--sheet);font-weight:bold}
+#lfa .vids{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(150px,1fr);gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:6px}
+#lfa .vid{display:grid;gap:6px;align-content:start;scroll-snap-align:start}
+#lfa .vid video{width:100%;aspect-ratio:9/16;background:#000;border:1px solid var(--line);display:block}
+#lfa .vid b{font-size:13px}
+#lfa .vid span{font-size:12px;opacity:.75}
+@media (max-width:560px){#lfa .vids{grid-auto-columns:46%}}
 #lfa ul.plain{margin:0;padding-left:18px;display:grid;gap:6px}
 
 /* Boucle du coaching */
@@ -185,7 +191,8 @@
           quiz:{q:"Lesquels font partie de « la tâche » à respecter ?",o:["Seulement la charge et les répétitions","Ordre, séries, répétitions, repos, tempo prescrit, réglages, amplitude et intention","Seulement ce qui me paraît important"],a:1,
             fb:"Tout ça forme une seule tâche. Si l'un de ces éléments change beaucoup, la comparaison avec la semaine d'avant perd de sa valeur."}},
         {t:"Standardiser ce qui compte",proof:'Stratégie LF',html:
-          "<p>Réglages, stabilité, amplitude tolérée, trajectoire et repères personnels servent à rendre l'exercice reproductible.</p>",
+          "<p>Réglages, stabilité, amplitude tolérée, trajectoire et repères personnels servent à rendre l'exercice reproductible. Trois exemples en vidéo sur des machines courantes :</p>",
+          vids:[['leg-extension-amplitude','Leg extension',"Récupérer l'amplitude que la machine te vole."],['rowing-reglages','Rowing buste supporté','Régler la machine avant de charger.'],['elevation-poulie-standardiser','Élévations à la poulie','Refaire le même mouvement à chaque série.']],
           check:["Je note mes réglages (siège, dossier, poulie, prise…)","Je sais où se trouve mon amplitude de travail","Je garde la même trajectoire d'une série à l'autre","J'ai mes repères personnels pour me replacer vite"],
           after:"<p class='key'>Contrôle ne veut pas forcément dire tempo lent. Le but est une exécution définie et exploitable.</p>"},
         {t:"Une correction doit être observable",proof:'Stratégie LF',html:
@@ -267,6 +274,7 @@
     M.lessons.forEach(function(_,i){h+="<button role='tab' aria-label='Leçon "+(i+1)+"' class='"+(i===cur?'on':(st.seen[i]?'done':''))+"' data-go='"+i+"'>"+(i+1)+"</button>"});
     h+="</div><div class='screen'><div class='screen-head'><span class='n'>"+M.code+"."+(cur+1)+"</span><h2>"+esc(L.t)+"</h2></div><div class='screen-body'>";
     h+="<span class='proof'>"+(L.action?'Action réelle · ':'')+esc(L.proof)+"</span>"+L.html;
+    if(L.vids){h+="<div class='vids'>";L.vids.forEach(function(v){var u='https://cdn.jsdelivr.net/gh/lenimen/lf-guide@main/media/'+v[0];h+="<div class='vid'><video controls playsinline preload='none' poster='"+u+".jpg' src='"+u+".mp4'></video><b>"+esc(v[1])+"</b><span>"+esc(v[2])+"</span></div>"});h+="</div>"}
     if(L.check){h+="<div class='check'>";L.check.forEach(function(c,j){var k=cur+'-'+j;h+="<label><input type='checkbox' data-ck='"+k+"'"+(st.check[k]?' checked':'')+"><span>"+esc(c)+"</span></label>"});h+="</div>"}
     if(L.builder){
       h+="<div class='builder'>";L.builder.forEach(function(b,j){var k=cur+'-'+j;h+="<label>"+esc(b[0])+"<textarea data-b='"+k+"' placeholder='"+esc(b[1])+"'>"+esc(st.b[k]||'')+"</textarea></label>"});
