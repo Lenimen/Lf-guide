@@ -567,6 +567,8 @@ html,body{background:#192E33!important;overflow-x:hidden}
   function send(data){try{var b=new URLSearchParams();for(var k in data)b.append(k,data[k]==null?'':data[k]);
     return fetch(HOOK,{method:'POST',mode:'no-cors',body:b}).catch(function(){})}catch(e){return Promise.resolve()}}
   function profil(n){return n<=3?'pratiquant':n<=7?'avance':'athlete'}
+  var QS=['P1 muscle ciblé par exercice','P1 carnet de séance','P3 progression chiffrée','P1 exécution constante','P2 calories et macros','P3 sommeil 7 h','P3 pesées comparables','P3 photos standardisées','P5 poses travaillées','P5 fédération et catégorie'];
+  function manques(){var r=[];for(var i=0;i<QS.length;i++)if(S.quiz[i]!=='oui')r.push(QS[i]);return r.join(' ; ')}
   function curScore(){var n=0;for(var k in S.quiz)if(S.quiz[k]==='oui')n++;return n}
   function el(tag,cls,html){var e=document.createElement(tag);if(cls)e.className=cls;if(html!=null)e.innerHTML=html;return e}
 
@@ -596,7 +598,7 @@ html,body{background:#192E33!important;overflow-x:hidden}
     row.appendChild(yn);quiz.appendChild(row)});
   function score(){
     var n=0,answered=0;for(var k in S.quiz){answered++;if(S.quiz[k]==='oui')n++}
-    if(answered>=10&&S.email&&!S.scoreSent&&!isClient){S.scoreSent=true;save();var d={type:'score',email:S.email,score:n,profil:profil(n),source:SOURCE};setTimeout(function(){send(d)},2500)}
+    if(answered>=10&&S.email&&!S.scoreSent&&!isClient){S.scoreSent=true;save();var d={type:'score',email:S.email,score:n,profil:profil(n),source:SOURCE,manques:manques()};setTimeout(function(){send(d)},2500)}
     $('scoreN').textContent=n;$('gaugeBar').style.width=(n*10)+'%';
     var L,T;
     if(answered===0){L='Réponds aux questions';T="Chaque « oui » te rapproche du profil d'athlète."}
