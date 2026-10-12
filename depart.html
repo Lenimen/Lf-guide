@@ -1,0 +1,269 @@
+<!doctype html>
+<!-- Questionnaire de départ : pour un client qui n'a pas accès au questionnaire dans l'appli. Prénom via ?prenom=X -->
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Questionnaire de départ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800&display=swap">
+<style>
+/* THE LF METHOD : pétrole + crème en aplats (marque/DA.md). Un seul thème sombre, comme hub.html. */
+:root{
+  --paper:#192E33; --sheet:#213B41; --field:#1D353B; --ink:#EBE3D0; --ink-soft:#AEB9B2; --line:#3A5359;
+  --display:"Outfit","Avenir Next","Century Gothic",Arial,sans-serif;
+  --body:Verdana,Geneva,"DejaVu Sans",sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{background:var(--paper)}
+body{color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.55;margin:0;-webkit-text-size-adjust:100%}
+.wrap{max-width:640px;margin:0 auto;padding:0 16px 120px}
+h1,h2{font-family:var(--display);text-transform:uppercase;letter-spacing:.04em;line-height:1.05;margin:0}
+h1{font-size:30px;font-weight:800}
+h2{font-size:15px;font-weight:700;letter-spacing:.14em;margin:0 0 14px}
+p{margin:0}
+.top{display:flex;align-items:center;justify-content:space-between;padding:18px 0;border-bottom:2px solid var(--ink)}
+.brand{font-family:var(--display);font-weight:700;letter-spacing:.18em;font-size:12px}
+.intro{padding:24px 0 8px}
+.intro p{color:var(--ink-soft);margin-top:12px}
+.progress{position:sticky;top:0;z-index:5;background:var(--paper);padding:10px 0;border-bottom:1px solid var(--line)}
+.bar{height:4px;background:var(--line);border-radius:2px;overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:var(--ink);transition:width .2s}
+.progress small{display:block;color:var(--ink-soft);font-size:12px;margin-top:6px}
+section{margin-top:28px;padding:20px 16px;background:var(--sheet);border-radius:14px}
+.f{margin-bottom:18px}
+.f:last-child{margin-bottom:0}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:0 12px}
+.grid>*{min-width:0}
+.times input{flex:1;min-width:0}
+label,.lab{display:block;font-size:11px;letter-spacing:.12em;text-transform:uppercase;font-weight:bold;color:var(--ink-soft);margin-bottom:7px}
+.hint{font-size:12px;color:var(--ink-soft);margin:-3px 0 8px;text-transform:none;letter-spacing:0;font-weight:normal}
+input[type=text],input[type=number],input[type=time],textarea{width:100%;font:16px var(--body);color:var(--ink);background:var(--field);border:1px solid var(--line);border-radius:10px;padding:12px;min-height:46px}
+textarea{min-height:84px;resize:vertical}
+input:focus,textarea:focus{outline:2px solid var(--ink);outline-offset:0;border-color:var(--ink)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chips button{font:14px var(--body);color:var(--ink);background:var(--field);border:1px solid var(--line);border-radius:999px;padding:9px 14px;min-height:40px;cursor:pointer}
+.chips button[aria-pressed=true]{background:var(--ink);color:var(--paper);border-color:var(--ink);font-weight:bold}
+.chips.num button{min-width:40px;padding:9px 0}
+.unit{position:relative}
+.unit span{position:absolute;right:12px;top:50%;transform:translateY(-50%);color:var(--ink-soft);font-size:13px;pointer-events:none}
+.unit input{padding-right:44px}
+.times{display:flex;align-items:center;gap:8px}
+.times span{color:var(--ink-soft)}
+.photos{list-style:none;padding:0;margin:0 0 4px;display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.photos li{border:1px dashed var(--line);border-radius:10px;padding:14px 10px;text-align:center;font-family:var(--display);font-weight:600;letter-spacing:.08em;font-size:13px;text-transform:uppercase}
+.note{color:var(--ink-soft);font-size:13px;margin-top:10px}
+.send{margin-top:28px;padding:20px 16px;border:2px solid var(--ink);border-radius:14px}
+.send p{color:var(--ink-soft);margin:8px 0 16px}
+.btn{display:block;width:100%;font:700 16px var(--display);letter-spacing:.08em;text-transform:uppercase;text-align:center;text-decoration:none;border-radius:12px;padding:15px;min-height:52px;cursor:pointer;border:2px solid var(--ink)}
+.btn.main{background:var(--ink);color:var(--paper)}
+.btn.alt{background:transparent;color:var(--ink);margin-top:10px}
+.ok{display:none;margin-top:12px;font-size:13px;text-align:center}
+.ok.on{display:block}
+a{color:var(--ink)}
+:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
+@media (max-width:380px){.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap" id="q">
+  <header class="top"><span class="brand">THE LF METHOD</span><span class="brand">DÉPART</span></header>
+
+  <div class="intro">
+    <h1>Ton questionnaire de départ</h1>
+    <p id="hello">Prends 10 minutes pour remplir tout ça au calme. Plus tu es précis, plus ton programme et ta diète seront taillés pour toi. Tes réponses restent enregistrées sur ce téléphone si tu fermes la page.</p>
+  </div>
+
+  <div class="progress"><div class="bar"><i id="bar"></i></div><small id="count"></small></div>
+
+  <section>
+    <h2>Vision</h2>
+    <div class="f"><label for="prenom">Prénom</label><input type="text" id="prenom" data-k="Prénom" autocomplete="given-name"></div>
+    <div class="f"><span class="lab">Profil</span><div class="chips" data-k="Profil" data-opts="Lifestyle|Compétition|Je ne sais pas encore"></div></div>
+    <div class="f"><span class="lab">Tendance naturelle</span><div class="chips" data-k="Tendance naturelle" data-opts="Prendre du poids|Perdre du poids|Stable"></div></div>
+    <div class="f"><span class="lab">Motivation</span><div class="chips num" data-k="Motivation" data-scale="10"></div></div>
+    <div class="f"><span class="lab">Discipline</span><div class="chips num" data-k="Discipline" data-scale="10"></div></div>
+    <div class="f"><span class="lab">Énergie</span><div class="chips num" data-k="Énergie" data-scale="10"></div></div>
+    <div class="f"><span class="lab">Déjà suivi par un coach / nutritionniste</span><div class="chips" data-k="Déjà suivi par un coach / nutritionniste" data-opts="Oui|Non"></div></div>
+    <div class="f"><label for="v_obj">Ton objectif, en une ou deux phrases</label><textarea id="v_obj" data-k="Objectif"></textarea></div>
+  </section>
+
+  <section>
+    <h2>Entraînement</h2>
+    <div class="f"><span class="lab">Expérience muscu</span><div class="chips" data-k="Expérience muscu" data-opts="Moins de 6 mois|6-12 mois|1-2 ans|2-5 ans|5 ans et +"></div></div>
+    <div class="f"><span class="lab">Séances possibles</span><div class="chips" data-k="Séances possibles" data-opts="2/sem|3/sem|4/sem|5/sem|6/sem"></div></div>
+    <div class="f"><span class="lab">Jours disponibles</span><div class="chips" data-k="Jours disponibles" data-multi="1" data-opts="Lu|Ma|Me|Je|Ve|Sa|Di"></div></div>
+    <div class="grid">
+      <div class="f"><span class="lab">Durée actuelle / séance</span><div class="chips" data-k="Durée actuelle / séance" data-opts="&lt; 1h|1h|1h30|2h+"></div></div>
+      <div class="f"><span class="lab">Durée possible / séance</span><div class="chips" data-k="Durée possible / séance" data-opts="&lt; 1h|1h|1h30|2h+"></div></div>
+    </div>
+    <div class="f"><span class="lab">Créneau préféré</span><div class="chips" data-k="Créneau préféré" data-opts="Matin|Midi|Après-midi|Soir"></div></div>
+    <div class="f"><label for="e_salle">Situation salle / programme</label><p class="hint">Quelle salle, quel matériel, tu suis un programme ou pas ?</p><input type="text" id="e_salle" data-k="Situation salle / programme"></div>
+    <div class="f"><label for="e_prog">Programme actuel (décrit)</label><textarea id="e_prog" data-k="Programme actuel"></textarea></div>
+    <div class="f"><label for="e_aime">Exercices / machines aimés</label><textarea id="e_aime" data-k="Exercices / machines aimés"></textarea></div>
+    <div class="f"><label for="e_deteste">Exercices / machines détestés</label><textarea id="e_deteste" data-k="Exercices / machines détestés"></textarea></div>
+    <div class="f"><label for="e_autres">Autres activités physiques</label><input type="text" id="e_autres" data-k="Autres activités physiques"></div>
+    <div class="f"><label for="e_bless">Blessures ou douleurs</label><input type="text" id="e_bless" data-k="Blessures ou douleurs"></div>
+  </section>
+
+  <section>
+    <h2>Quotidien</h2>
+    <div class="grid">
+      <div class="f"><label for="q_h">Heures de travail</label><div class="unit"><input type="number" inputmode="numeric" id="q_h" data-k="Heures de travail" data-u="h/sem"><span>h/sem</span></div></div>
+      <div class="f"><label for="q_j">Jours travaillés</label><div class="unit"><input type="number" inputmode="numeric" id="q_j" data-k="Jours travaillés" data-u="j/sem"><span>j/sem</span></div></div>
+    </div>
+    <div class="f"><span class="lab">Jours de repos</span><div class="chips" data-k="Jours de repos" data-multi="1" data-opts="Lu|Ma|Me|Je|Ve|Sa|Di"></div></div>
+    <div class="f"><span class="lab">Stress au travail</span><p class="hint">1 = aucun, 5 = énorme</p><div class="chips num" data-k="Stress au travail" data-scale="5"></div></div>
+    <div class="f"><span class="lab">Stress au quotidien</span><p class="hint">1 = aucun, 5 = énorme</p><div class="chips num" data-k="Stress au quotidien" data-scale="5"></div></div>
+    <div class="f"><label for="q_cphy">Contraintes physiques (travail)</label><p class="hint">Debout toute la journée, assis, port de charges…</p><input type="text" id="q_cphy" data-k="Contraintes physiques (travail)"></div>
+    <div class="f"><label for="q_cali">Contraintes alimentaires (travail)</label><p class="hint">Pas de micro-ondes, pause courte, repas au resto…</p><input type="text" id="q_cali" data-k="Contraintes alimentaires (travail)"></div>
+    <div class="f"><span class="lab">Qualité du sommeil</span><div class="chips" data-k="Qualité du sommeil" data-opts="Mauvaise|Moyenne|Bonne"></div></div>
+    <div class="grid">
+      <div class="f"><label for="q_hs">Heures de sommeil</label><div class="unit"><input type="number" inputmode="decimal" step="0.5" id="q_hs" data-k="Heures de sommeil" data-u="h"><span>h</span></div></div>
+    </div>
+    <div class="f"><span class="lab">Coucher → lever</span><div class="times"><input type="time" id="q_cou" data-k="Coucher" aria-label="Heure de coucher"><span>→</span><input type="time" id="q_lev" data-k="Lever" aria-label="Heure de lever"></div></div>
+    <div class="f"><label for="q_fam">Contraintes familiales / perso</label><input type="text" id="q_fam" data-k="Contraintes familiales / perso"></div>
+    <div class="f"><label for="q_tca">Troubles alimentaires (TCA)</label><p class="hint">Passés ou actuels. Tu peux être honnête, ça reste entre nous.</p><textarea id="q_tca" data-k="Troubles alimentaires (TCA)"></textarea></div>
+    <div class="f"><label for="q_alc">Alcool / tabac / médicaments</label><input type="text" id="q_alc" data-k="Alcool / tabac / médicaments"></div>
+  </section>
+
+  <section>
+    <h2>Nutrition</h2>
+    <div class="f"><label for="n_plan">Plan alimentaire actuel</label><p class="hint">Tu suis un plan ? Fait par qui ?</p><input type="text" id="n_plan" data-k="Plan alimentaire actuel"></div>
+    <div class="f"><span class="lab">Rapport à la cuisine</span><div class="chips" data-k="Rapport à la cuisine" data-opts="J'aime cuisiner|Repas simples / rapides|Je ne cuisine pas"></div></div>
+    <div class="f"><span class="lab">Appétit</span><div class="chips" data-k="Appétit" data-opts="Petit mangeur|Mangeur moyen|Gros mangeur"></div></div>
+    <div class="grid">
+      <div class="f"><span class="lab">Repas</span><div class="chips" data-k="Repas" data-opts="2/j|3/j|4/j|5/j+"></div></div>
+      <div class="f"><span class="lab">Collations</span><div class="chips" data-k="Collations" data-opts="0/j|1/j|2/j|3/j+"></div></div>
+    </div>
+    <div class="f"><span class="lab">Petit-déjeuner facile ?</span><div class="chips" data-k="Petit-déjeuner facile ?" data-opts="Oui, facilement|Difficilement|Je ne mange pas le matin"></div></div>
+    <div class="f"><label for="n_adore">Aliments adorés</label><textarea id="n_adore" data-k="Aliments adorés"></textarea></div>
+    <div class="f"><label for="n_deteste">Aliments détestés</label><textarea id="n_deteste" data-k="Aliments détestés"></textarea></div>
+    <div class="f"><label for="n_exclu">Aliments exclus</label><p class="hint">Allergies, intolérances, régime, ou ce que tu ne mangeras jamais.</p><textarea id="n_exclu" data-k="Aliments exclus"></textarea></div>
+    <div class="f"><label for="n_3j">Repas des 3 derniers jours</label><p class="hint">Ce que tu as vraiment mangé, avec les quantités si tu les connais.</p><textarea id="n_3j" data-k="Repas des 3 derniers jours" style="min-height:120px"></textarea></div>
+    <div class="grid">
+      <div class="f"><label for="n_eau">Hydratation</label><div class="unit"><input type="number" inputmode="decimal" step="0.5" id="n_eau" data-k="Hydratation" data-u="L/j"><span>L/j</span></div></div>
+    </div>
+    <div class="f"><label for="n_sup">Suppléments</label><input type="text" id="n_sup" data-k="Suppléments"></div>
+  </section>
+
+  <section>
+    <h2>Mensurations de départ</h2>
+    <p class="hint" style="margin:0 0 14px">Au mètre ruban, le matin à jeun, en cm (poids en kg). Pas de mètre ruban ? Laisse vide et envoie-les-moi plus tard.</p>
+    <div class="grid">
+      <div class="f"><label for="m_poids">Poids</label><div class="unit"><input type="number" inputmode="decimal" step="0.1" id="m_poids" data-k="Poids" data-u="kg"><span>kg</span></div></div>
+      <div class="f"><label for="m_ep">Épaules</label><div class="unit"><input type="number" inputmode="decimal" step="0.1" id="m_ep" data-k="Épaules" data-u="cm"><span>cm</span></div></div>
+      <div class="f"><label for="m_poi">Poitrine</label><div class="unit"><input type="number" inputmode="decimal" step="0.1" id="m_poi" data-k="Poitrine" data-u="cm"><span>cm</span></div></div>
+      <div class="f"><label for="m_tai">Taille (nombril)</label><div class="unit"><input type="number" inputmode="decimal" step="0.1" id="m_tai" data-k="Taille (nombril)" data-u="cm"><span>cm</span></div></div>
+      <div class="f"><label for="m_han">Hanches</label><div class="unit"><input type="number" inputmode="decimal" step="0.1" id="m_han" data-k="Hanches" data-u="cm"><span>cm</span></div></div>
+      <div class="f"><label for="m_bg">Bras gauche</label><div class="unit"><input type="number" inputmode="decimal" step="0.1" id="m_bg" data-k="Bras gauche" data-u="cm"><span>cm</span></div></div>
+      <div class="f"><label for="m_bd">Bras droit</label><div class="unit"><input type="number" inputmode="decimal" step="0.1" id="m_bd" data-k="Bras droit" data-u="cm"><span>cm</span></div></div>
+      <div class="f"><label for="m_cg">Cuisse gauche</label><div class="unit"><input type="number" inputmode="decimal" step="0.1" id="m_cg" data-k="Cuisse gauche" data-u="cm"><span>cm</span></div></div>
+      <div class="f"><label for="m_cd">Cuisse droite</label><div class="unit"><input type="number" inputmode="decimal" step="0.1" id="m_cd" data-k="Cuisse droite" data-u="cm"><span>cm</span></div></div>
+      <div class="f"><label for="m_mg">Mollet gauche</label><div class="unit"><input type="number" inputmode="decimal" step="0.1" id="m_mg" data-k="Mollet gauche" data-u="cm"><span>cm</span></div></div>
+      <div class="f"><label for="m_md">Mollet droit</label><div class="unit"><input type="number" inputmode="decimal" step="0.1" id="m_md" data-k="Mollet droit" data-u="cm"><span>cm</span></div></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Photos de départ</h2>
+    <ul class="photos"><li>Face</li><li>Dos</li><li>Profil gauche</li><li>Profil droit</li></ul>
+    <p class="note">Envoie-les-moi directement sur WhatsApp : en sous-vêtement ou maillot, lumière de face, téléphone à hauteur de poitrine, corps entier dans le cadre. Si tu me les as déjà envoyées, rien à refaire.</p>
+  </section>
+
+  <div class="send">
+    <h2>Envoyer à Leni</h2>
+    <p>Un appui ouvre WhatsApp avec toutes tes réponses déjà écrites : choisis la conversation avec Leni et envoie.</p>
+    <a class="btn main" id="wa" href="#">Envoyer sur WhatsApp</a>
+    <button class="btn alt" id="copy" type="button">Copier mes réponses</button>
+    <p class="ok" id="ok" role="status"></p>
+  </div>
+</div>
+
+<script>
+(function(){
+  var root=document.getElementById('q'), KEY='lf-depart-v1', state={};
+  try{state=JSON.parse(localStorage.getItem(KEY)||'{}')||{}}catch(e){state={}}
+  function save(){try{localStorage.setItem(KEY,JSON.stringify(state))}catch(e){}refresh()}
+  var prenom=new URLSearchParams(location.search).get('prenom');
+  if(prenom&&!state['Prénom'])state['Prénom']=prenom.slice(0,40);
+  if(state['Prénom'])document.getElementById('hello').textContent=state['Prénom']+', prends 10 minutes pour remplir tout ça au calme. Plus tu es précis, plus ton programme et ta diète seront taillés pour toi. Tes réponses restent enregistrées sur ce téléphone si tu fermes la page.';
+
+  // Champs texte
+  var inputs=root.querySelectorAll('input[data-k],textarea[data-k]');
+  inputs.forEach(function(el){
+    var k=el.getAttribute('data-k');
+    if(state[k]!=null)el.value=state[k];
+    el.addEventListener('input',function(){state[k]=el.value;save()});
+  });
+
+  // Choix (chips) : simple, multiple ou échelle
+  var groups=root.querySelectorAll('.chips[data-k]');
+  groups.forEach(function(g){
+    var k=g.getAttribute('data-k'), multi=g.hasAttribute('data-multi'), scale=g.getAttribute('data-scale');
+    var opts=scale?Array.from({length:+scale},function(_,i){return String(i+1)}):g.getAttribute('data-opts').split('|');
+    g.setAttribute('role','group');
+    opts.forEach(function(o){
+      var b=document.createElement('button');b.type='button';b.textContent=o;
+      var val=scale?o+'/'+scale:o;
+      function on(){var cur=state[k];return multi?(cur||[]).indexOf(val)>-1:cur===val}
+      b.setAttribute('aria-pressed',on());
+      b.addEventListener('click',function(){
+        if(multi){var cur=(state[k]||[]).slice(),i=cur.indexOf(val);if(i>-1)cur.splice(i,1);else cur.push(val);
+          cur.sort(function(a,c){return opts.indexOf(a)-opts.indexOf(c)});state[k]=cur}
+        else state[k]=on()?'':val;
+        g.querySelectorAll('button').forEach(function(x){x.setAttribute('aria-pressed',false)});
+        if(multi)g.querySelectorAll('button').forEach(function(x){x.setAttribute('aria-pressed',(state[k]||[]).indexOf(x.textContent)>-1)});
+        else if(state[k])b.setAttribute('aria-pressed',true);
+        save();
+      });
+      g.appendChild(b);
+    });
+  });
+
+  function filled(v){return Array.isArray(v)?v.length>0:v!=null&&String(v).trim()!==''}
+  function total(){return inputs.length+groups.length}
+  function refresh(){
+    var n=0;inputs.forEach(function(el){if(filled(state[el.getAttribute('data-k')]))n++});
+    groups.forEach(function(g){if(filled(state[g.getAttribute('data-k')]))n++});
+    document.getElementById('bar').style.width=Math.round(n/total()*100)+'%';
+    document.getElementById('count').textContent=n+' / '+total()+' réponses';
+  }
+
+  // Texte envoyé à Leni, dans l'ordre de la page, par section
+  function text(){
+    var out=['QUESTIONNAIRE DE DÉPART'+(state['Prénom']?' · '+state['Prénom']:'')];
+    root.querySelectorAll('section').forEach(function(s){
+      var lines=[];
+      s.querySelectorAll('[data-k]').forEach(function(el){
+        var k=el.getAttribute('data-k');if(k==='Prénom')return;
+        var v=state[k];if(!filled(v))v='—';
+        else if(Array.isArray(v))v=v.join(', ');
+        else{v=String(v).trim();var u=el.getAttribute('data-u');if(u)v+=' '+u}
+        lines.push('• '+k+' : '+v);
+      });
+      var h=s.querySelector('h2').textContent.toUpperCase();
+      if(!lines.length)lines.push('• Envoyées sur WhatsApp (face, dos, profil gauche, profil droit)');
+      out.push('','*'+h+'*');out=out.concat(lines);
+    });
+    return out.join('\n');
+  }
+
+  document.getElementById('wa').addEventListener('click',function(e){
+    e.preventDefault();
+    location.href='https://wa.me/?text='+encodeURIComponent(text());
+  });
+  var ok=document.getElementById('ok');
+  document.getElementById('copy').addEventListener('click',function(){
+    var t=text();
+    function done(){ok.textContent='Copié. Colle-le dans ta conversation WhatsApp avec Leni.';ok.classList.add('on')}
+    function fallback(){var a=document.createElement('textarea');a.value=t;a.setAttribute('readonly','');a.style.position='fixed';a.style.opacity='0';document.body.appendChild(a);a.select();a.setSelectionRange(0,t.length);try{document.execCommand('copy');done()}catch(err){ok.textContent='Copie impossible : fais une capture de la page à la place.';ok.classList.add('on')}a.remove()}
+    if(navigator.clipboard&&window.isSecureContext)navigator.clipboard.writeText(t).then(done,fallback);else fallback();
+  });
+  refresh();
+})();
+</script>
+</body>
+</html>
