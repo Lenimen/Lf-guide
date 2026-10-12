@@ -19,7 +19,11 @@
 *{box-sizing:border-box}
 html,body{background:var(--paper)}
 body{color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.55;margin:0;-webkit-text-size-adjust:100%}
-.wrap{max-width:640px;margin:0 auto;padding:0 16px 120px}
+.wrap{max-width:640px;margin:0 auto;padding:0 16px 120px;font-family:var(--body);font-size:15px;line-height:1.55;color:var(--ink);text-align:left}
+/* Chargée dans Systeme.io : la page hôte centre le texte et met une police serif, on reprend la main. */
+.wrap p,.wrap small,.wrap label,.wrap .lab,.wrap li,.wrap span{font-family:inherit;text-align:inherit}
+.wrap h1,.wrap h2,.wrap .brand,.wrap .btn,.wrap .photos li{font-family:var(--display)}
+.wrap .btn,.wrap .ok,.wrap .photos li{text-align:center}
 h1,h2{font-family:var(--display);text-transform:uppercase;letter-spacing:.04em;line-height:1.05;margin:0}
 h1{font-size:30px;font-weight:800}
 h2{font-size:15px;font-weight:700;letter-spacing:.14em;margin:0 0 14px}
