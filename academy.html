@@ -59,6 +59,11 @@
 #lfa .vid b{font-size:13px}
 #lfa .vid span{font-size:12px;opacity:.75}
 @media (max-width:560px){#lfa .vids{grid-auto-columns:46%}}
+#lfa .loom{position:relative;aspect-ratio:16/9;background:#000;border:1px solid var(--line);margin:14px 0 8px}
+#lfa .loom iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+#lfa .chap{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 14px}
+#lfa .chap button{font:inherit;font-size:12px;padding:6px 10px;border:1px solid var(--line);background:transparent;color:inherit;cursor:pointer}
+#lfa .chap button b{font-weight:700;margin-right:6px}
 #lfa ul.plain{margin:0;padding-left:18px;display:grid;gap:6px}
 
 /* Boucle du coaching */
@@ -376,7 +381,8 @@
       goal:"À la fin, tu sais lire la logique de ton plan : priorités, répartition, ordre, dose gérable puis ajustement.",
       lessons:[
         {t:"Lire la logique de ton plan",proof:'Stratégie LF',html:
-          "<p>Un plan LF répond à quelques questions :</p>",
+          "<p>Leni lit devant toi le plan d'un élève, Gaëtan : pourquoi 4 séances en haut/bas du corps, pourquoi les priorités ouvrent la séance et pourquoi les bras arrivent en fin de séance. La vidéo démarre au moment où le programme est analysé. L'étude de cas complète est dans le module E01.</p><p>Un plan LF répond à quelques questions :</p>",
+          loom:{id:'3c9a168afb9e4191be253f287fd5aab7',t:355,ch:[[355,'Le programme'],[680,'Stratégie globale'],[768,"Choix d'exercices"]]},
           check:["Quelles sont mes priorités (muscles en retard, objectif, phase) ?","Comment le travail est réparti sur la semaine ?","Pourquoi cet ordre dans la séance ?","Qu'est-ce qui est fixe et qu'est-ce qui peut s'ajuster ?"]},
         {t:"Pas de split parfait",proof:'Stratégie LF',html:
           "<p>La méthode LF : partir d'une <b>dose gérable</b>, cohérente avec tes priorités, répartie de façon à préserver l'exécution, l'effort, la récupération et ton emploi du temps. Puis ajuster selon ta réponse réelle.</p>"+
@@ -388,6 +394,35 @@
           "<p>Écris en 5 lignes la logique de ta semaine d'entraînement : priorités, répartition, ordre.</p>",
           builder:[["Ligne 1 : priorités","Muscles en retard, objectif, phase."],["Ligne 2 : répartition","Comment le travail est réparti sur la semaine."],["Ligne 3 : ordre","Pourquoi cet ordre dans les séances."],["Ligne 4 : ce qui est fixe","Ce qui ne bouge pas."],["Ligne 5 : ce qui peut s'ajuster","Ce qui peut changer selon ta réponse."]],
           after:"<p>Envoie ces 5 lignes dans ton prochain retour. Leni compare avec son intention, corrige ce qui manque et valide le module au bilan.</p>"}
+      ]},
+    e01:{
+      code:'E01',title:'Le cas Gaëtan, 65 semaines de suivi',time:'25 min',draft:true,
+      goal:"À la fin, tu vois comment Leni raisonne sur un vrai suivi : les phases, les exécutions, le programme et ce qui a fait la différence.",
+      lessons:[
+        {t:"La vidéo",proof:'Cas réel',html:
+          "<p>Gaëtan s'entraînait depuis 4 à 5 ans, dur et souvent, mais sans plan. Après 65 semaines de suivi, il pèse environ 2 kg de moins qu'au départ et son physique n'a plus rien à voir : des épaules, un dos large, une silhouette en V. Leni t'explique ce qui a été fait, et pourquoi.</p><p>Gaëtan a donné son accord pour que son cas serve dans la formation.</p>",
+          loom:{id:'3c9a168afb9e4191be253f287fd5aab7',ch:[[0,'Avant / après'],[96,'Les phases'],[196,'Exécutions et charges'],[316,'Maintien calorique'],[355,'Le programme'],[680,'Stratégie globale'],[768,"Choix d'exercices"],[886,'Ce qui a fait la différence']]}},
+        {t:"Les phases et les charges",proof:'Cas réel',html:
+          "<p><b>Les phases.</b> Quelques semaines de recomposition pour trouver le maintien et voir comment le corps réagit. Puis un déficit (environ 4,5 à 5 kg perdus), la raison de sa venue. Puis un long surplus (environ 27 semaines), un court déficit avant les vacances, et aujourd'hui un surplus plus modéré, fait pour durer.</p>"+
+          "<p><b>Les charges.</b> Au début, elles ont baissé : Leni a corrigé ses exécutions, et une exécution propre est plus dure à charge égale. Elles sont ensuite remontées, par exemple jusqu'à +20 kg au belt squat. Aujourd'hui, quand la charge monte, on sait que c'est du muscle et pas de la triche.</p>"+
+          "<p><b>Le maintien.</b> Avec plus de muscle et de meilleures habitudes, son maintien est passé d'environ 2 000 à environ 3 800 kcal.</p>"+
+          "<p class='key'>La charge seule ne prouve rien. Ce qui compte, c'est la tension sur le muscle visé, avec une exécution qui ne change pas.</p>",
+          quiz:{q:"Les charges de Gaëtan ont baissé pendant les premières semaines. Ça veut dire…",o:["Qu'il perdait du muscle","Que ses exécutions étaient corrigées, donc plus dures à charge égale","Que le programme ne marchait pas"],a:1,
+            fb:"Une exécution corrigée fait souvent baisser la charge au départ. Le physique, lui, a progressé. On ne compare des charges qu'à exécution égale."}},
+        {t:"Le programme et sa logique",proof:'Cas réel',html:
+          "<p>Ce sont les choix de Leni <b>pour Gaëtan</b>, pas des chiffres universels :</p>"+
+          "<ul><li><b>4 séances par semaine</b>, haut du corps / bas du corps deux fois : chaque muscle travaille au moins deux fois.</li>"+
+          "<li><b>Les priorités ouvrent la séance</b> : épaules et grand dorsal, environ 12 séries par semaine chacun, quand l'énergie est au plus haut.</li>"+
+          "<li><b>Ce qui est déjà en avance passe en fin de séance</b> : bras (environ 5 séries par semaine), trapèzes.</li>"+
+          "<li><b>Un exercice qu'il adore reste en début de séance</b> : l'adhésion compte aussi.</li>"+
+          "<li><b>Des supersets avec le même réglage</b> (par exemple French press et curl incliné sur le même banc) pour gagner du temps. Jamais sur un exercice très coûteux comme le belt squat.</li>"+
+          "<li><b>Varier les fonctions, pas multiplier les exercices</b> : pour le dos, un tirage oblique (étirement) et un tirage vertical (autre trajectoire), répétés de séance en séance pour devenir bon dessus.</li></ul>"+
+          "<p class='key'>Ce qui a fait la différence : des exécutions maîtrisées, corrigées en vidéo, et un plan dont il connaissait la raison.</p>",
+          check:["Je sais quelles sont mes priorités","Je sais où elles se trouvent dans mes séances","Je sais quelle exécution je devrais envoyer en vidéo"]},
+        {t:"Action : applique-le à ton plan",proof:'Cas réel',action:true,html:
+          "<p>Reprends ton propre plan et réponds en quelques mots. Leni compare avec son intention.</p>",
+          builder:[["Mes priorités","Les 2 muscles ou objectifs qui passent en premier."],["Où ils sont dans mes séances","En début, au milieu ou en fin ?"],["Ce que je fais déjà bien","Ce qui est en avance ou bien maîtrisé."],["L'exécution à envoyer","L'exercice que tu vas filmer pour Leni cette semaine."]],
+          after:"<p>Envoie ce message dans ton prochain retour, avec la vidéo de l'exécution choisie. Leni corrige et valide le module au bilan.</p>"}
       ]},
     a05:{
       code:'A05',title:"Nutrition d'athlète et suppléments",time:'14 min',draft:true,
@@ -442,7 +477,7 @@
           after:"<p>Envoie le contenu avec ton analyse dans ton prochain retour. Leni valide le module au bilan.</p>"}
       ]}
   };
-  var ORDER=['c01','c02','c03','c04','c05','c06','a01','a02','a03','a04','a05','a06'];
+  var ORDER=['c01','c02','c03','c04','c05','c06','a01','a02','a03','a04','e01','a05','a06'];
 
   /* ---------- Module demandé ---------- */
   var host=document.querySelector('[data-lf-module]');
@@ -480,6 +515,7 @@
     M.lessons.forEach(function(_,i){h+="<button role='tab' aria-label='Leçon "+(i+1)+"' class='"+(i===cur?'on':(st.seen[i]?'done':''))+"' data-go='"+i+"'>"+(i+1)+"</button>"});
     h+="</div><div class='screen'><div class='screen-head'><span class='n'>"+M.code+"."+(cur+1)+"</span><h2>"+esc(L.t)+"</h2></div><div class='screen-body'>";
     h+="<span class='proof'>"+(L.action?'Action réelle · ':'')+esc(L.proof)+"</span>"+L.html;
+    if(L.loom){var lu='https://www.loom.com/embed/'+L.loom.id+'?hideEmbedTopBar=true&hide_owner=true&hide_share=true&hide_title=true';h+="<div class='loom'><iframe id='lfa-loom' data-src='"+lu+"' src='"+lu+(L.loom.t?'&t='+L.loom.t:'')+"' allow='fullscreen' allowfullscreen loading='lazy' title='Vidéo'></iframe></div>";if(L.loom.ch){h+="<div class='chap'>";L.loom.ch.forEach(function(c){h+="<button type='button' data-t='"+c[0]+"'><b>"+Math.floor(c[0]/60)+":"+('0'+c[0]%60).slice(-2)+"</b>"+esc(c[1])+"</button>"});h+="</div>"}}
     if(L.vids){h+="<div class='vids'>";L.vids.forEach(function(v){var u='https://cdn.jsdelivr.net/gh/lenimen/lf-guide@main/media/'+v[0];h+="<div class='vid'><video controls playsinline preload='none' poster='"+u+".jpg' src='"+u+".mp4'></video><b>"+esc(v[1])+"</b><span>"+esc(v[2])+"</span></div>"});h+="</div>"}
     if(L.check){h+="<div class='check'>";L.check.forEach(function(c,j){var k=cur+'-'+j;h+="<label><input type='checkbox' data-ck='"+k+"'"+(st.check[k]?' checked':'')+"><span>"+esc(c)+"</span></label>"});h+="</div>"}
     if(L.builder){
@@ -509,6 +545,7 @@
 
   function bind(){
     app.querySelectorAll('[data-go]').forEach(function(b){b.onclick=function(){cur=+b.getAttribute('data-go');render();top()}});
+    app.querySelectorAll('[data-t]').forEach(function(b){b.onclick=function(){var f=document.getElementById('lfa-loom');if(f)f.src=f.getAttribute('data-src')+'&t='+b.getAttribute('data-t')+'&autoplay=1'}});
     app.querySelectorAll('[data-ck]').forEach(function(c){c.onchange=function(){st.check[c.getAttribute('data-ck')]=c.checked?1:0;save()}});
     app.querySelectorAll('[data-b]').forEach(function(t){t.oninput=function(){st.b[t.getAttribute('data-b')]=t.value;save();buildMsg()}});
     buildMsg();
