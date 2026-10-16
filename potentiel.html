@@ -76,6 +76,9 @@ body{background:#192E33;margin:0}
 .lfp .btn.ghost{background:transparent;color:var(--ink)}
 .lfp .btn.small{display:inline-block;width:auto;font-size:13px;padding:10px 14px;min-height:42px}
 .lfp .msg{font-size:13px;color:var(--ink-soft)}
+.lfp .keep input[type=text],.lfp .keep input[type=email]{width:100%;font:16px var(--body);color:var(--ink);background:var(--paper);border:1px solid var(--line);border-radius:0;padding:12px;min-height:48px;-webkit-appearance:none;appearance:none;margin:0}
+.lfp .keep .consent{display:flex;gap:10px;align-items:flex-start;font-size:13px;color:var(--ink-soft);text-transform:none;letter-spacing:0;font-weight:normal}
+.lfp .keep .consent input{margin-top:3px;accent-color:var(--ink);flex:none}
 
 /* Résultats */
 .lfp .res{display:grid;gap:14px}
@@ -254,6 +257,17 @@ body{background:#192E33;margin:0}
       </div>
       <p class="msg" id="dlmsg" aria-live="polite"></p>
     </div>
+    <form class="box keep" id="keep" novalidate>
+      <span class="label">Facultatif</span>
+      <h3>Garde ton résultat</h3>
+      <p class="soft">Laisse ton prénom et ton mail : je garde ton résultat pour qu'on puisse comparer dans quelques mois, et je t'envoie mon guide gratuit « de pratiquant à athlète ».</p>
+      <div class="f"><label for="k-prenom">Prénom</label><input type="text" id="k-prenom" autocomplete="given-name"></div>
+      <div class="f"><label for="k-email">Email</label><input type="email" id="k-email" autocomplete="email" inputmode="email"></div>
+      <input type="text" id="k-hp" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px">
+      <label class="consent" for="k-ok"><input type="checkbox" id="k-ok"> J'accepte que LF Coaching garde mon résultat et m'envoie le guide et des emails (conseils, contenus, offres). Désinscription en un clic à tout moment.</label>
+      <button class="btn solid" type="submit">Garder mon résultat</button>
+      <p class="msg" id="k-msg" aria-live="polite"></p>
+    </form>
   </section>
 
   <!-- Vérité -->
@@ -307,7 +321,7 @@ body{background:#192E33;margin:0}
         <li>Hodgdon JA, Beckett MB. Prediction of percent body fat for U.S. Navy men and women from body circumferences and height. Naval Health Research Center, 1984.</li>
       </ol>
     </div>
-    <footer>Outil informatif : des modèles statistiques, pas un diagnostic. Ils ne remplacent pas un avis médical. Tes mesures restent sur ton téléphone. © THE LF METHOD · Leni Fauconnier · @leni_fit_</footer>
+    <footer>Outil informatif : des modèles statistiques, pas un diagnostic. Ils ne remplacent pas un avis médical. Tes mesures restent sur ton téléphone, sauf si tu choisis de garder ton résultat. © THE LF METHOD · Leni Fauconnier · @leni_fit_</footer>
   </section>
 </div>
 </div>
@@ -467,9 +481,26 @@ body{background:#192E33;margin:0}
       $('big-text').textContent='Le modèle de Casey Butt a été construit sur des hommes : il ne s\'applique pas aux femmes, donc pas de « % de potentiel » ici. On compare ton FFMI aux repères féminins connus.';
       timeline(r,ans,age,sexe);
     }
+    r.h=h;r.p=p;r.bf=bf;r.age=age;r.ans=ans;
     cta(sexe==='h'?r.pct>=85:nf>=18);
     last=r;drawCard();
   }
+
+  // Garder son résultat (facultatif) : même webhook Make que le guide, type=potentiel -> onglet Potentiel + contact Systeme.io
+  var HOOK='https://hook.eu1.make.com/yuj106tsuw4yoglspqcu4ee14zmbcmn1';
+  $('keep').addEventListener('submit',function(e){
+    e.preventDefault();
+    var pr=$('k-prenom').value.trim(),em=$('k-email').value.trim().toLowerCase(),m=$('k-msg');
+    if($('k-hp').value)return;
+    if(!last){m.textContent='Remplis d\'abord tes mesures plus haut.';return}
+    if(!pr||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em)){m.textContent='Il me faut ton prénom et un mail valide.';return}
+    if(!$('k-ok').checked){m.textContent='Coche la case pour que je puisse garder ton résultat.';return}
+    var r=last,d={type:'potentiel',prenom:pr,email:em,sexe:r.sexe==='h'?'homme':'femme',age:r.age,taille:r.h,poids:r.p,gras:r.bf,ans:r.ans,ffmi_normalise:fmt(r.nffmi,1),potentiel:r.pct!=null?Math.round(r.pct):'',reste_kg:r.rest!=null?fmt(r.rest,1):'',source:SRC,consentement:'oui'};
+    var b=new URLSearchParams();for(var k in d)b.append(k,d[k]==null?'':d[k]);
+    try{fetch(HOOK,{method:'POST',mode:'no-cors',body:b}).catch(function(){})}catch(err){}
+    $('keep').querySelector('button').disabled=true;
+    m.textContent='C\'est noté, '+pr+'. Le guide arrive dans ta boîte mail (regarde dans les promotions si tu ne le vois pas).';
+  });
 
   // Fin de page : loin du plafond = gagner du muscle ; proche = monter sur scène (retour de Leni, 16/10)
   function cta(proche){
