@@ -1,0 +1,630 @@
+<!-- Outil « Ton potentiel naturel » : FFMI (Kouri 1995), plafond de Casey Butt, délai réaliste (Lyle McDonald), carte à partager. Chargé par la page guide Systeme.io avec ?g=potentiel, ou ouvert seul. -->
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Ton potentiel naturel</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800&display=swap">
+<style>
+/* THE LF METHOD : pétrole + crème en aplats (marque/DA.md). Un seul thème sombre, comme hub.html et depart.html.
+   Injectée dans Systeme.io par le chargeur : les styles de html/body sont perdus et la page hôte centre le texte en serif.
+   Donc tout est porté par .lfp (le conteneur) et chaque sélecteur est préfixé par .lfp. */
+body{background:#192E33;margin:0}
+.lfp{
+  --paper:#192E33; --deep:#122E33; --sheet:#213B41; --ink:#EBE3D0; --card:#E5DDC7; --ink-soft:#AEB9B2; --line:#3A5359;
+  --display:"Outfit","Avenir Next","Century Gothic",Arial,sans-serif;
+  --body:Verdana,Geneva,"DejaVu Sans",sans-serif;
+  color-scheme:dark;
+  background:var(--paper);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.6;text-align:left;
+  -webkit-text-size-adjust:100%;overflow-wrap:break-word;
+}
+.lfp *,.lfp *::before,.lfp *::after{box-sizing:border-box}
+.lfp [hidden]{display:none!important}
+.lfp .wrap{max-width:720px;margin:0 auto;padding:0 16px 64px}
+.lfp p,.lfp small,.lfp label,.lfp li,.lfp span,.lfp td,.lfp th,.lfp div{font-family:inherit;text-align:inherit}
+.lfp h1,.lfp h2,.lfp h3{font-family:var(--display);text-transform:uppercase;letter-spacing:.04em;line-height:1.05;text-wrap:balance;margin:0;color:var(--ink);text-align:left}
+.lfp p{margin:0;max-width:65ch;color:inherit}
+.lfp a{color:var(--ink)}
+.lfp ul,.lfp ol{margin:0;padding-left:20px}
+.lfp .label{font-size:11px;letter-spacing:.14em;text-transform:uppercase;font-weight:bold;color:var(--ink-soft)}
+.lfp :focus-visible{outline:3px solid var(--ink);outline-offset:2px}
+.lfp .soft{color:var(--ink-soft)}
+.lfp .num{font-family:var(--display);font-variant-numeric:tabular-nums}
+
+/* En-tête */
+.lfp .top{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:18px 0;border-bottom:2px solid var(--ink)}
+.lfp .brand{font-family:var(--display);font-weight:600;font-size:13px;letter-spacing:.18em}
+.lfp .hero{display:grid;gap:14px;padding:32px 0 24px}
+.lfp .hero h1{font-size:clamp(36px,10vw,64px);font-weight:700}
+.lfp .hero h1 em{font-style:normal;background:var(--ink);color:var(--paper);display:inline-block;line-height:.86;padding:.1em .08em .02em}
+.lfp .lede{color:var(--ink-soft)}
+
+/* Formulaire */
+.lfp section{padding:28px 0 0;display:grid;gap:14px}
+.lfp .box{background:var(--deep);border:1px solid var(--line);padding:18px 16px;display:grid;gap:16px}
+.lfp h2{font-size:clamp(22px,6vw,30px);font-weight:700}
+.lfp .step{display:flex;align-items:baseline;gap:12px}
+.lfp .step b{font-family:var(--display);font-weight:800;font-size:28px;line-height:1}
+.lfp .grid{display:grid;grid-template-columns:1fr 1fr;gap:16px 12px}
+.lfp .grid>*{min-width:0}
+.lfp .f{display:grid;gap:6px;min-width:0}
+.lfp label,.lfp .lab{display:block;font-size:11px;letter-spacing:.12em;text-transform:uppercase;font-weight:bold;color:var(--ink-soft)}
+.lfp .hint{font-size:12px;color:var(--ink-soft);line-height:1.45}
+.lfp .unit{position:relative}
+.lfp .unit span{position:absolute;right:12px;top:50%;transform:translateY(-50%);color:var(--ink-soft);font-size:13px;pointer-events:none}
+.lfp input[type=number]{width:100%;font:16px var(--body);color:var(--ink);background:var(--paper);border:1px solid var(--line);border-radius:0;padding:12px 44px 12px 12px;min-height:48px;-webkit-appearance:none;appearance:none;margin:0;text-align:left}
+.lfp input[type=number]:focus{outline:2px solid var(--ink);outline-offset:0;border-color:var(--ink)}
+.lfp input.bad{border-color:var(--ink);border-style:dashed}
+.lfp .seg{display:flex;border:1px solid var(--ink)}
+.lfp .seg button{flex:1;font:700 14px var(--display);letter-spacing:.1em;text-transform:uppercase;color:var(--ink);background:transparent;border:0;padding:12px;min-height:46px;cursor:pointer;text-align:center;margin:0;border-radius:0}
+.lfp .seg button+button{border-left:1px solid var(--ink)}
+.lfp .seg button[aria-pressed=true]{background:var(--ink);color:var(--paper)}
+.lfp .chips{display:flex;flex-wrap:wrap;gap:6px}
+.lfp .chips button{font:13px var(--body);color:var(--ink);background:transparent;border:1px solid var(--line);padding:8px 10px;min-height:38px;cursor:pointer;text-align:left;margin:0;border-radius:0}
+.lfp .chips button[aria-pressed=true]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.lfp .chips button b{font-family:var(--display);font-size:14px}
+.lfp .bfdesc{font-size:13px;color:var(--ink-soft);min-height:2.9em}
+.lfp details{border-top:1px solid var(--line);padding-top:12px}
+.lfp summary{cursor:pointer;font-weight:bold;font-size:13px;list-style:none;text-align:left}
+.lfp summary::-webkit-details-marker{display:none}
+.lfp summary::before{content:"+ ";font-family:var(--display)}
+.lfp details[open] summary::before{content:"– "}
+.lfp details .in{display:grid;gap:14px;padding-top:14px}
+.lfp .navyout{font-size:14px}
+.lfp .btn{display:block;width:100%;font:700 15px var(--display);letter-spacing:.08em;text-transform:uppercase;text-align:center;text-decoration:none;padding:15px 16px;min-height:52px;cursor:pointer;border:2px solid var(--ink);border-radius:0;margin:0}
+.lfp .btn.solid{background:var(--ink);color:var(--paper)}
+.lfp .btn.ghost{background:transparent;color:var(--ink)}
+.lfp .btn.small{display:inline-block;width:auto;font-size:13px;padding:10px 14px;min-height:42px}
+.lfp .msg{font-size:13px;color:var(--ink-soft)}
+.lfp .keep input[type=text],.lfp .keep input[type=email]{width:100%;font:16px var(--body);color:var(--ink);background:var(--paper);border:1px solid var(--line);border-radius:0;padding:12px;min-height:48px;-webkit-appearance:none;appearance:none;margin:0}
+.lfp .keep .consent{display:flex;gap:10px;align-items:flex-start;font-size:13px;color:var(--ink-soft);text-transform:none;letter-spacing:0;font-weight:normal}
+.lfp .keep .consent input{margin-top:3px;accent-color:var(--ink);flex:none}
+
+/* Résultats */
+.lfp .res{display:grid;gap:14px}
+.lfp .big{background:var(--card);color:var(--paper);padding:22px 18px;display:grid;gap:10px}
+.lfp .big *{color:var(--paper)}
+.lfp .big .label{color:var(--paper);opacity:.75}
+.lfp .big .val{font-family:var(--display);font-weight:800;font-size:clamp(64px,22vw,120px);line-height:.9;letter-spacing:-.01em}
+.lfp .big .val small{font-size:.45em;font-weight:700}
+.lfp .meter{height:14px;border:1px solid var(--paper);position:relative}
+.lfp .meter i{position:absolute;left:0;top:0;bottom:0;background:var(--paper)}
+.lfp .kv{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--line)}
+.lfp .kv>div{padding:12px 14px;border-bottom:1px solid var(--line);display:grid;gap:2px;min-width:0}
+.lfp .kv>div:nth-child(odd){border-right:1px solid var(--line)}
+.lfp .kv>div:nth-last-child(-n+2){border-bottom:0}
+.lfp .kv b{font-family:var(--display);font-size:24px;font-weight:700;line-height:1.1}
+.lfp .kv .label{font-size:10px}
+.lfp .gauge{display:grid;gap:8px;padding-top:4px}
+.lfp .gauge svg{display:block;width:100%;height:auto;overflow:visible}
+.lfp .note{border-left:2px solid var(--ink);padding:4px 0 4px 12px;font-size:13px;color:var(--ink-soft)}
+.lfp table{width:100%;border-collapse:collapse;font-size:14px;color:var(--ink);font-family:var(--body);line-height:1.4}
+.lfp th,.lfp td{color:var(--ink);font-size:14px;padding:9px 6px;border-bottom:1px solid var(--line);text-align:left;vertical-align:baseline}
+.lfp th{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft);font-weight:bold}
+.lfp td.r,.lfp th.r{text-align:right}
+.lfp td .num{font-size:17px;font-weight:700}
+.lfp .timeline{display:grid;gap:6px}
+.lfp .yr{display:grid;grid-template-columns:64px 1fr 58px;gap:10px;align-items:center;font-size:13px}
+.lfp .yr .bar{height:10px;border:1px solid var(--line);position:relative}
+.lfp .yr .bar i{position:absolute;left:0;top:0;bottom:0;background:var(--ink)}
+.lfp .yr .r{text-align:right;font-family:var(--display);font-weight:700}
+
+/* Carte partage */
+.lfp .share{display:grid;gap:12px;justify-items:start}
+.lfp .share canvas{width:min(100%,260px);height:auto;border:1px solid var(--line);display:block}
+.lfp .row{display:flex;flex-wrap:wrap;gap:10px}
+
+/* Vérité */
+.lfp .truth{display:grid;border:1px solid var(--ink)}
+.lfp .truth article{padding:16px;border-bottom:1px solid var(--line);display:grid;gap:8px}
+.lfp .truth article:last-child{border-bottom:0}
+.lfp .truth h3{font-size:18px;font-weight:700}
+.lfp .truth .myth{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);font-weight:bold;text-decoration:line-through}
+.lfp .truth p{font-size:14px}
+.lfp .src{font-size:11px;color:var(--ink-soft)}
+
+/* CTA */
+.lfp .cta{background:var(--ink);color:var(--paper);padding:24px 18px;display:grid;gap:14px}
+.lfp .cta *{color:var(--paper)}
+.lfp .cta h2{font-size:clamp(24px,6vw,32px);color:var(--paper)}
+.lfp .cta .label{color:var(--paper);opacity:.75}
+.lfp .cta a.b{display:block;background:var(--paper);color:var(--ink);text-decoration:none;padding:14px 16px;font:700 14px var(--display);letter-spacing:.08em;text-transform:uppercase;text-align:center;border:2px solid var(--paper)}
+.lfp .cta a.b.alt{background:transparent;color:var(--paper)}
+.lfp .refs{font-size:11px;color:var(--ink-soft);display:grid;gap:6px;padding-top:24px}
+.lfp .refs ol{display:grid;gap:4px}
+.lfp footer{font-size:11px;color:var(--ink-soft);padding-top:18px}
+@media (max-width:360px){.lfp .grid{grid-template-columns:1fr}.lfp .kv b{font-size:20px}}
+</style>
+
+<div class="lfp" id="lfp">
+<div class="wrap">
+  <header class="top"><span class="brand">THE LF METHOD</span><span class="brand">OUTIL</span></header>
+
+  <div class="hero">
+    <div class="label">Gratuit · 2 minutes · par Leni Fauconnier</div>
+    <h1>Ton potentiel <em>naturel</em></h1>
+    <p class="lede">Combien de muscle ton corps peut-il porter sans produits ? Et où tu en es aujourd'hui ? Les chiffres viennent de la science (Kouri 1995, Casey Butt), pas d'un avis. Ils ne sont pas là pour te décourager : ils te disent ce qui est encore possible.</p>
+  </div>
+
+  <!-- 1. Saisie -->
+  <section aria-labelledby="t-in">
+    <div class="step"><b>1</b><h2 id="t-in">Tes mesures</h2></div>
+    <div class="box">
+      <div class="f"><span class="lab" id="l-sexe">Sexe</span>
+        <div class="seg" role="group" aria-labelledby="l-sexe"><button type="button" data-sexe="h" aria-pressed="true">Homme</button><button type="button" data-sexe="f" aria-pressed="false">Femme</button></div>
+      </div>
+      <div class="grid">
+        <div class="f"><label for="p-taille">Taille</label><div class="unit"><input type="number" inputmode="decimal" id="p-taille" min="140" max="220" step="0.5" placeholder="178"><span>cm</span></div></div>
+        <div class="f"><label for="p-poids">Poids</label><div class="unit"><input type="number" inputmode="decimal" id="p-poids" min="35" max="200" step="0.1" placeholder="80"><span>kg</span></div></div>
+        <div class="f"><label for="p-age">Âge</label><div class="unit"><input type="number" inputmode="numeric" id="p-age" min="14" max="90" step="1" placeholder="25"><span>ans</span></div></div>
+        <div class="f"><label for="p-ans">Années d'entraînement sérieux</label><div class="unit"><input type="number" inputmode="decimal" id="p-ans" min="0" max="50" step="0.5" placeholder="3"><span>ans</span></div></div>
+      </div>
+      <p class="hint">« Sérieux » = au moins 3 séances par semaine avec un programme, de la progression et assez de protéines. Les années « à faire un peu de tout » comptent à moitié.</p>
+
+      <div class="f">
+        <label for="p-bf">% de masse grasse</label>
+        <div class="unit" style="max-width:200px"><input type="number" inputmode="decimal" id="p-bf" min="3" max="50" step="0.5" placeholder="12"><span>%</span></div>
+        <p class="hint">Pas de mesure fiable ? Choisis la description qui te ressemble le plus (miroir, lumière neutre, à jeun), ou calcule-le avec ton tour de taille juste en dessous.</p>
+        <div class="chips" id="bfchips" role="group" aria-label="Estimation visuelle du % de masse grasse"></div>
+        <p class="bfdesc" id="bfdesc" aria-live="polite"></p>
+      </div>
+
+      <details id="navy">
+        <summary>Calculer mon % avec un mètre ruban (méthode US Navy)</summary>
+        <div class="in">
+          <p class="hint">Mètre ruban à plat, sans serrer, le matin. Taille : à hauteur du nombril, ventre relâché. Cou : juste sous la pomme d'Adam. Hanches (femmes) : au plus large des fesses. Précision : environ ± 3 à 4 points.</p>
+          <div class="grid">
+            <div class="f"><label for="n-taille">Tour de taille</label><div class="unit"><input type="number" inputmode="decimal" id="n-taille" min="50" max="160" step="0.5"><span>cm</span></div></div>
+            <div class="f"><label for="n-cou">Tour de cou</label><div class="unit"><input type="number" inputmode="decimal" id="n-cou" min="25" max="60" step="0.5"><span>cm</span></div></div>
+            <div class="f" id="n-hanche-f" hidden><label for="n-hanche">Tour de hanches</label><div class="unit"><input type="number" inputmode="decimal" id="n-hanche" min="60" max="170" step="0.5"><span>cm</span></div></div>
+          </div>
+          <p class="navyout" id="navyout" aria-live="polite"></p>
+          <button type="button" class="btn ghost small" id="navyuse" hidden>Utiliser ce %</button>
+        </div>
+      </details>
+
+      <div class="grid" id="bones">
+        <div class="f"><label for="p-poignet">Tour de poignet</label><div class="unit"><input type="number" inputmode="decimal" id="p-poignet" min="12" max="25" step="0.1" placeholder="17.5"><span>cm</span></div>
+          <p class="hint">Côté main, juste après l'os qui dépasse (styloïde), au plus fin.</p></div>
+        <div class="f"><label for="p-cheville">Tour de cheville</label><div class="unit"><input type="number" inputmode="decimal" id="p-cheville" min="15" max="35" step="0.1" placeholder="22.5"><span>cm</span></div>
+          <p class="hint">Au plus fin, juste au-dessus des malléoles, debout.</p></div>
+      </div>
+      <p class="msg" id="msg" aria-live="polite"></p>
+    </div>
+  </section>
+
+  <!-- 2. Résultats -->
+  <section aria-labelledby="t-res" id="results" hidden>
+    <div class="step"><b>2</b><h2 id="t-res">Ton résultat</h2></div>
+    <div class="res">
+      <div class="big" id="bigpot">
+        <div class="label" id="big-label">Potentiel naturel atteint</div>
+        <div class="val num" id="big-val">–</div>
+        <div class="meter" aria-hidden="true"><i id="big-meter"></i></div>
+        <p id="big-text"></p>
+      </div>
+
+      <div class="kv">
+        <div><span class="label">Masse maigre actuelle</span><b class="num" id="k-lbm">–</b></div>
+        <div id="k-max-c"><span class="label" id="k-max-l">Masse maigre max (Butt)</span><b class="num" id="k-max">–</b></div>
+        <div><span class="label">FFMI</span><b class="num" id="k-ffmi">–</b></div>
+        <div><span class="label">FFMI normalisé</span><b class="num" id="k-nffmi">–</b></div>
+      </div>
+
+      <div class="box gauge">
+        <h3>Ton FFMI sur l'échelle</h3>
+        <svg id="gauge" viewBox="0 -10 340 118" role="img" aria-label="Position de ton FFMI normalisé"></svg>
+        <p class="hint" id="gauge-text"></p>
+        <p class="note" id="ffmi-err"></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. Plafond de Butt -->
+  <section aria-labelledby="t-butt" id="butt" hidden>
+    <div class="step"><b>3</b><h2 id="t-butt">Ton plafond, mesure par mesure</h2></div>
+    <p class="soft">Selon les équations de Casey Butt, établies sur environ 300 champions naturels de 1947 à 2010, dont beaucoup d'avant les stéroïdes. Ce sont les mensurations maximales prévues pour ta taille et ton ossature, sec (8-10 % de masse grasse).</p>
+    <div class="box">
+      <table>
+        <thead><tr><th>Mesure</th><th class="r">Plafond</th><th class="r">Réaliste</th></tr></thead>
+        <tbody id="mtab"></tbody>
+      </table>
+      <p class="hint" id="maxbw"></p>
+      <p class="hint">« Réaliste » = 95 % du plafond, la cible que Butt juge atteignable pour la plupart des gabarits.</p>
+      <p class="hint">Mesure-toi au même endroit que dans le <a href="https://lfauconnier27.systeme.io/0fa00707" data-src>guide des mensurations</a> pour comparer. Bras : contracté au plus gros. Poitrine : relâchée, sous les aisselles. Les champions très bien bâtis dépassent ces chiffres d'environ 3 %, pas plus.</p>
+    </div>
+  </section>
+
+  <!-- 4. Délai -->
+  <section aria-labelledby="t-time" id="time" hidden>
+    <div class="step"><b>4</b><h2 id="t-time">Combien de temps&nbsp;?</h2></div>
+    <div class="box">
+      <p id="time-text"></p>
+      <div class="timeline" id="tl"></div>
+      <p class="note" id="time-note"></p>
+    </div>
+  </section>
+
+  <!-- 5. Carte -->
+  <section aria-labelledby="t-share" id="sharesec" hidden>
+    <div class="step"><b>5</b><h2 id="t-share">Ta carte à partager</h2></div>
+    <div class="share">
+      <p class="soft">Format story Instagram (1080 × 1920). Partage-la et identifie <b>@leni_fit_</b> : je repartage les meilleures.</p>
+      <canvas id="card" width="1080" height="1920" aria-label="Carte de résultat à partager"></canvas>
+      <div class="row">
+        <button type="button" class="btn solid small" id="dl">Télécharger l'image</button>
+        <button type="button" class="btn ghost small" id="sh" hidden>Partager</button>
+      </div>
+      <p class="msg" id="dlmsg" aria-live="polite"></p>
+    </div>
+    <form class="box keep" id="keep" novalidate>
+      <span class="label">Facultatif</span>
+      <h3>Garde ton résultat</h3>
+      <p class="soft">Laisse ton prénom et ton mail : je garde ton résultat pour qu'on puisse comparer dans quelques mois, et je t'envoie mon guide gratuit « de pratiquant à athlète ».</p>
+      <div class="f"><label for="k-prenom">Prénom</label><input type="text" id="k-prenom" autocomplete="given-name"></div>
+      <div class="f"><label for="k-email">Email</label><input type="email" id="k-email" autocomplete="email" inputmode="email"></div>
+      <input type="text" id="k-hp" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px">
+      <label class="consent" for="k-ok"><input type="checkbox" id="k-ok"> J'accepte que LF Coaching garde mon résultat et m'envoie le guide et des emails (conseils, contenus, offres). Désinscription en un clic à tout moment.</label>
+      <button class="btn solid" type="submit">Garder mon résultat</button>
+      <p class="msg" id="k-msg" aria-live="polite"></p>
+    </form>
+  </section>
+
+  <!-- Vérité -->
+  <section aria-labelledby="t-truth">
+    <div class="step"><b>!</b><h2 id="t-truth">La vérité sur le naturel</h2></div>
+    <div class="truth">
+      <article>
+        <span class="myth">« Au-dessus de 25 de FFMI, il prend forcément »</span>
+        <h3>25, c'est un repère, pas une preuve</h3>
+        <p>Kouri et son équipe (1995) ont mesuré 157 athlètes : dans leur groupe de naturels, personne ne dépassait vraiment 25. Mais c'est une observation sur un échantillon, pas une loi. Les Mr America d'avant les stéroïdes (1939-1959) tournaient déjà autour de 25. Et un % de gras mal estimé déplace le FFMI d'un point facilement. Ne juge personne sur un seul chiffre.</p>
+        <p class="src">Kouri et al., Clin J Sport Med, 1995</p>
+      </article>
+      <article>
+        <span class="myth">« Avec assez de travail, tout le monde peut avoir 50 cm de bras »</span>
+        <h3>Ton ossature fixe ton plafond</h3>
+        <p>Chez les champions naturels, le tour de bras est lié au poignet et à la taille (corrélation 0,94 avec le poignet). Pour un homme de 1,78 m avec 17,5 cm de poignet, le plafond est autour de 43 cm de bras contracté, sec. Les 50 cm secs vus sur les réseaux ne sont pas « plus de discipline ».</p>
+        <p class="src">Casey Butt, Your Muscular Potential</p>
+      </article>
+      <article>
+        <span class="myth">« Je vais prendre 10 kg de muscle cette année, comme la première »</span>
+        <h3>Les gains se divisent par deux chaque année</h3>
+        <p>Environ 10 kg de muscle la 1re année bien menée, 5 kg la 2e, 2,5 kg la 3e, puis 1 kg par an. C'est normal, pas un échec. Après quelques années, chaque kilo propre se gagne avec de la patience et des détails (progression, sommeil, diète).</p>
+        <p class="src">Modèle de Lyle McDonald (Alan Aragon arrive au même ordre de grandeur)</p>
+      </article>
+      <article>
+        <span class="myth">« Un plafond, c'est déprimant »</span>
+        <h3>Presque personne ne l'atteint</h3>
+        <p>Les champions de Butt portent 24 à 26 % de masse maigre de plus qu'une personne de même taille et ossature. La plupart des pratiquants s'arrêtent bien avant, faute de méthode, pas de génétique. L'écart entre toi et ton plafond, c'est ta marge de progression.</p>
+        <p class="src">Casey Butt, Your Muscular Potential</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section>
+    <div class="cta">
+      <div class="label">Par Leni Fauconnier · athlète naturel</div>
+      <h2 id="cta-h">Ton plafond est loin&nbsp;? Bonne nouvelle.</h2>
+      <p id="cta-p">Je suis athlète naturel en compétition (champion BIFBB Men's Physique -23, 4e WNBF bodybuilding junior), coach EREPS niveau 4 et NASM. Mon travail, c'est de te faire gagner les kilos qui restent sans perdre des années. Commence par le guide gratuit, puis on en parle si tu veux aller plus loin.</p>
+      <a class="b" id="cta-guide" href="https://lfauconnier27.systeme.io/5e2d6ea8?source=outil-potentiel">Le guide gratuit : de pratiquant à athlète</a>
+      <a class="b alt" id="cta-app" href="https://lfauconnier27.systeme.io/98dd870d?source=outil-potentiel">Candidater à un appel découverte</a>
+    </div>
+
+    <div class="refs">
+      <span class="label">Sources et méthode</span>
+      <ol>
+        <li>Kouri EM, Pope HG, Katz DL, Oliva P. Fat-free mass index in users and nonusers of anabolic-androgenic steroids. Clin J Sport Med. 1995;5(4):223-228. FFMI = masse maigre / taille² ; normalisé = FFMI + 6,1 × (1,8 − taille).</li>
+        <li>Butt C. Your Muscular Potential (weightrainer.net). Masse maigre max (lb) = H<sup>1,5</sup> × (√P / 22,6670 + √C / 17,0104) × (%MG / 224 + 1), H, P, C en pouces. Mensurations : bras = 1,2033 P + 0,1236 H ; avant-bras = 0,9626 P + 0,0989 H ; cou = 1,1424 P + 0,1236 H ; poitrine = 1,6817 P + 1,3759 C + 0,3314 H ; cuisse = 1,3868 C + 0,1805 H ; mollet = 0,9298 C + 0,1210 H. Établi sur des hommes.</li>
+        <li>McDonald L. What's my genetic muscular potential? (bodyrecomposition.com). Gain de muscle par année d'entraînement bien mené : ~9-11 kg, ~4,5-5,5 kg, ~2,3-2,7 kg, puis ~1 kg/an. Femmes : environ la moitié. Correction pour l'âge ajoutée par nos soins (−1 % par an après 30 ans, prudente).</li>
+        <li>Schutz Y, Kyle UUG, Pichard C. Fat-free mass index and fat mass index percentiles in Caucasians aged 18-98 y. Int J Obes. 2002;26:953-960 (FFMI moyen de la population).</li>
+        <li>Hodgdon JA, Beckett MB. Prediction of percent body fat for U.S. Navy men and women from body circumferences and height. Naval Health Research Center, 1984.</li>
+      </ol>
+    </div>
+    <footer>Outil informatif : des modèles statistiques, pas un diagnostic. Ils ne remplacent pas un avis médical. Tes mesures restent sur ton téléphone, sauf si tu choisis de garder ton résultat. © THE LF METHOD · Leni Fauconnier · @leni_fit_</footer>
+  </section>
+</div>
+</div>
+
+<script>
+(function(){
+  var KEY='lf-potentiel-v1', S={};
+  try{S=JSON.parse(localStorage.getItem(KEY)||'{}')||{}}catch(e){S={}}
+  function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
+  function $(id){return document.getElementById(id)}
+  var root=$('lfp');
+
+  // Source : ?source=xxx de la page elle-même, ajoutée aux liens sortants (comme hub.html)
+  var src='';try{var q=new URLSearchParams(location.search).get('source');if(q&&/^[\w-]{1,40}$/.test(q))src=q}catch(e){}
+  var SRC='outil-potentiel'+(src?'-'+src:'');
+  root.querySelectorAll('#cta-guide,#cta-app,a[data-src]').forEach(function(a){try{var u=new URL(a.href);u.searchParams.set('source',SRC);a.href=u.toString()}catch(e){}});
+
+  // ---------- Formules ----------
+  var IN=2.54, LB=0.45359237;
+  // Kouri et al. 1995
+  function ffmi(lbm,hM){return lbm/(hM*hM)}
+  function nffmi(f,hM){return f+6.1*(1.8-hM)}
+  // Casey Butt : masse maigre max en lb, entrées en pouces → converti en kg
+  function buttLBM(hCm,wCm,aCm,bf){
+    var H=hCm/IN,W=wCm/IN,A=aCm/IN;
+    return Math.pow(H,1.5)*(Math.sqrt(W)/22.6670+Math.sqrt(A)/17.0104)*(bf/224+1)*LB;
+  }
+  // Mensurations max de Butt (linéaires sans constante : même résultat en cm si les entrées sont en cm)
+  function buttMeas(h,w,a){return [
+    ['Bras (contracté)',1.2033*w+0.1236*h],
+    ['Avant-bras',0.9626*w+0.0989*h],
+    ['Cou',1.1424*w+0.1236*h],
+    ['Poitrine',1.6817*w+1.3759*a+0.3314*h],
+    ['Cuisse',1.3868*a+0.1805*h],
+    ['Mollet',0.9298*a+0.1210*h]
+  ]}
+  // US Navy (Hodgdon & Beckett 1984), version en cm
+  function navy(sexe,h,taille,cou,hanche){
+    var l10=Math.log10||function(x){return Math.log(x)/Math.LN10};
+    if(sexe==='h'){if(taille-cou<=0)return NaN;return 495/(1.0324-0.19077*l10(taille-cou)+0.15456*l10(h))-450}
+    if(taille+hanche-cou<=0)return NaN;return 495/(1.29579-0.35004*l10(taille+hanche-cou)+0.22100*l10(h))-450;
+  }
+  // Lyle McDonald : kg de muscle par année d'entraînement (milieu des fourchettes)
+  function mcd(yearIdx,sexe){var g=yearIdx<=1?10:yearIdx===2?5:yearIdx===3?2.5:1.1;return sexe==='f'?g/2:g}
+  // Correction d'âge (ajout prudent, pas dans McDonald) : -1 %/an après 30 ans, plancher 50 %
+  function ageF(age){return age<=30?1:Math.max(.5,1-(age-30)*.01)}
+
+  // ---------- Aide % de gras ----------
+  var BF={
+    h:[[8,'Abdos très nets, veines sur le ventre, visage creusé. Niveau compétition, rare et difficile à tenir.'],[10,'Abdos bien dessinés, séparations visibles sur les épaules et les bras.'],[12,'Abdos visibles en lumière normale, un peu de gras sur le bas du ventre.'],[15,'Contour des abdos à peine visible, taille nette, peu de gras sur les hanches.'],[20,'Pas d\'abdos visibles, ventre doux, poignées d\'amour légères.'],[25,'Ventre qui dépasse, gras sur le torse et le dos.'],[30,'Gras bien marqué partout, surtout au ventre.']],
+    f:[[16,'Abdos visibles, épaules et bras très dessinés. Niveau compétition, rare.'],[20,'Ventre plat avec un début de lignes d\'abdos, jambes dessinées.'],[24,'Silhouette athlétique, ventre plat sans abdos visibles.'],[28,'Formes plus douces, un peu de gras sur les hanches et les cuisses.'],[32,'Gras visible au ventre, aux hanches et aux cuisses.'],[36,'Gras bien marqué partout.']]
+  };
+  function drawChips(){
+    var box=$('bfchips');box.innerHTML='';
+    BF[S.sexe].forEach(function(r){
+      var b=document.createElement('button');b.type='button';b.innerHTML='<b>~'+r[0]+'</b> %';
+      b.setAttribute('aria-pressed',String(+S.bf===r[0]));
+      b.addEventListener('click',function(){S.bf=String(r[0]);$('p-bf').value=r[0];save();syncChips();update()});
+      box.appendChild(b);
+    });
+    syncChips();
+  }
+  function syncChips(){
+    var list=BF[S.sexe],v=parseFloat(S.bf),best=null;
+    $('bfchips').querySelectorAll('button').forEach(function(b,i){b.setAttribute('aria-pressed',String(v===list[i][0]))});
+    if(isFinite(v)){list.forEach(function(r){if(best===null||Math.abs(r[0]-v)<Math.abs(best[0]-v))best=r});$('bfdesc').textContent='À ~'+best[0]+' % : '+best[1]}
+    else $('bfdesc').textContent='';
+  }
+
+  // ---------- Saisie ----------
+  var F={taille:'p-taille',poids:'p-poids',age:'p-age',ans:'p-ans',bf:'p-bf',poignet:'p-poignet',cheville:'p-cheville',ntaille:'n-taille',ncou:'n-cou',nhanche:'n-hanche'};
+  var R={taille:[140,220],poids:[35,200],age:[14,90],ans:[0,50],bf:[3,50],poignet:[12,25],cheville:[15,35]};
+  if(S.sexe!=='f')S.sexe='h';
+  Object.keys(F).forEach(function(k){
+    var el=$(F[k]);if(S[k]!=null)el.value=S[k];
+    el.addEventListener('input',function(){S[k]=el.value;save();if(k==='bf')syncChips();navyCalc();update()});
+  });
+  root.querySelectorAll('[data-sexe]').forEach(function(b){
+    b.addEventListener('click',function(){S.sexe=b.getAttribute('data-sexe');save();setSexe();update()});
+  });
+  function setSexe(){
+    root.querySelectorAll('[data-sexe]').forEach(function(b){b.setAttribute('aria-pressed',String(b.getAttribute('data-sexe')===S.sexe))});
+    $('bones').hidden=S.sexe==='f';
+    $('n-hanche-f').hidden=S.sexe!=='f';
+    $('p-bf').placeholder=S.sexe==='f'?'22':'12';
+    drawChips();navyCalc();
+  }
+  function num(k){var v=parseFloat(String(S[k]==null?'':S[k]).replace(',','.'));return isFinite(v)?v:NaN}
+  function ok(k){var v=num(k);return isFinite(v)&&v>=R[k][0]&&v<=R[k][1]}
+
+  var navyVal=NaN;
+  function navyCalc(){
+    var h=num('taille'),t=num('ntaille'),c=num('ncou'),hp=num('nhanche');
+    navyVal=NaN;$('navyuse').hidden=true;
+    if(!(h>=140&&h<=220)){$('navyout').textContent=isFinite(t)?'Entre d\'abord ta taille en haut.':'';return}
+    if(!isFinite(t)||!isFinite(c)||(S.sexe==='f'&&!isFinite(hp))){$('navyout').textContent='';return}
+    var v=navy(S.sexe,h,t,c,hp);
+    if(!isFinite(v)||v<3||v>55){$('navyout').textContent='Résultat hors limites : vérifie tes mesures.';return}
+    navyVal=Math.round(v*2)/2;
+    $('navyout').innerHTML='Estimation US Navy : <b class="num">'+fmt(navyVal,1)+' %</b> (± 3 à 4 points).';
+    $('navyuse').hidden=false;
+  }
+  $('navyuse').addEventListener('click',function(){if(!isFinite(navyVal))return;S.bf=String(navyVal);$('p-bf').value=navyVal;save();syncChips();update();$('p-bf').focus()});
+
+  function fmt(v,d){return v.toFixed(d).replace('.',',')}
+  function dur(y){if(y<1)return Math.max(1,Math.round(y*12))+' mois';var h=Math.round(y*2)/2;return (h%1?fmt(h,1):String(h))+' an'+(h>=2?'s':'')}
+
+  // ---------- Calcul + affichage ----------
+  var last=null;
+  function update(){
+    var need=['taille','poids','bf','age','ans'];if(S.sexe==='h')need.push('poignet','cheville');
+    var missing=[],bad=[];
+    need.forEach(function(k){var el=$(F[k]);var v=num(k);el.classList.remove('bad');if(!isFinite(v))missing.push(k);else if(!ok(k)){bad.push(k);el.classList.add('bad')}});
+    var show=!missing.length&&!bad.length;
+    ['results','time','sharesec'].forEach(function(id){$(id).hidden=!show});
+    $('butt').hidden=!(show&&S.sexe==='h');
+    if(!show){
+      $('msg').textContent=bad.length?'Une valeur semble hors limites (cadre en pointillés) : vérifie-la.':(missing.length<need.length?'Encore '+missing.length+' champ'+(missing.length>1?'s':'')+' à remplir pour voir ton résultat.':'');
+      last=null;return;
+    }
+    $('msg').textContent='Résultat juste en dessous.';
+    var sexe=S.sexe,h=num('taille'),hM=h/100,p=num('poids'),bf=num('bf'),age=num('age'),ans=num('ans');
+    var lbm=p*(1-bf/100), f=ffmi(lbm,hM), nf=nffmi(f,hM), dF=p*0.03/(hM*hM);
+    var r={sexe:sexe,lbm:lbm,ffmi:f,nffmi:nf};
+    $('k-lbm').textContent=fmt(lbm,1)+' kg';
+    $('k-ffmi').textContent=fmt(f,1);
+    $('k-nffmi').textContent=fmt(nf,1);
+    gauge(nf,sexe);
+    $('ffmi-err').textContent='Ton FFMI dépend surtout de ton % de gras. Si ton estimation est fausse de 3 points, ton FFMI bouge de ± '+fmt(dF,1)+'. Une balance à impédance peut se tromper de 5 points ou plus.';
+
+    if(sexe==='h'){
+      var w=num('poignet'),a=num('cheville');
+      var mx=buttLBM(h,w,a,bf), pct=lbm/mx*100, rest=Math.max(0,mx-lbm);
+      r.max=mx;r.pct=pct;r.rest=rest;
+      $('k-max-l').textContent='Masse maigre max (Butt)';$('k-max').textContent=fmt(mx,1)+' kg';
+      $('big-label').textContent='Potentiel naturel atteint';
+      $('big-val').innerHTML=Math.round(pct)+'<small> %</small>';
+      $('big-meter').style.width=Math.min(100,pct)+'%';
+      var msg;
+      if(pct>=100)msg='Tu es au niveau, ou au-dessus, de ce que prévoit Butt pour ton ossature. C\'est rare : soit ta génétique est exceptionnelle (jusqu\'à +5 % chez certains champions), soit ton % de gras est sous-estimé. Vérifie-le avant de conclure.';
+      else if(pct>=95)msg='Tu es dans la zone des champions naturels pour ta taille et ton ossature. Il te reste '+fmt(rest,1)+' kg de masse maigre au maximum théorique.';
+      else if(pct>=85)msg='Tu as déjà fait le gros du travail. Il te reste environ '+fmt(rest,1)+' kg de masse maigre avant ton plafond théorique, et ce sont les plus lents à gagner.';
+      else if(pct>=70)msg='Belle base. Il te reste environ '+fmt(rest,1)+' kg de masse maigre à aller chercher : une vraie marge, à condition d\'avoir une méthode.';
+      else msg='Ton plafond est encore loin : environ '+fmt(rest,1)+' kg de masse maigre à gagner. C\'est la meilleure position possible, tu as le plus à gagner.';
+      $('big-text').textContent=msg;
+      // Mensurations
+      var rows=buttMeas(h,w,a);r.arm=rows[0][1];
+      $('mtab').innerHTML=rows.map(function(m){return '<tr><td>'+m[0]+'</td><td class="r"><span class="num">'+fmt(m[1],1)+'</span> cm</td><td class="r soft">'+fmt(m[1]*.95,1)+' cm</td></tr>'}).join('');
+      var bw=function(b){return buttLBM(h,w,a,b)/(1-b/100)};
+      $('maxbw').textContent='Poids de corps maximal prévu : '+fmt(bw(10),1)+' kg à 10 % de gras, '+fmt(bw(bf),1)+' kg à ton % actuel ('+fmt(bf,1)+' %). Un très bon objectif réaliste se situe vers 95 %, et les gabarits très fins plafonnent souvent autour de 95 %.';
+      timeline(r,ans,age,sexe);
+    }else{
+      $('k-max-l').textContent='Max (Butt) : hommes seulement';$('k-max').textContent='—';
+      $('big-label').textContent='Ton FFMI normalisé';
+      $('big-val').textContent=fmt(nf,1);
+      $('big-meter').style.width=Math.max(0,Math.min(100,(nf-12)/(23-12)*100))+'%';
+      $('big-text').textContent='Le modèle de Casey Butt a été construit sur des hommes : il ne s\'applique pas aux femmes, donc pas de « % de potentiel » ici. On compare ton FFMI aux repères féminins connus.';
+      timeline(r,ans,age,sexe);
+    }
+    r.h=h;r.p=p;r.bf=bf;r.age=age;r.ans=ans;
+    cta(sexe==='h'?r.pct>=85:nf>=18);
+    last=r;drawCard();
+  }
+
+  // Garder son résultat (facultatif) : même webhook Make que le guide, type=potentiel -> onglet Potentiel + contact Systeme.io
+  var HOOK='https://hook.eu1.make.com/yuj106tsuw4yoglspqcu4ee14zmbcmn1';
+  $('keep').addEventListener('submit',function(e){
+    e.preventDefault();
+    var pr=$('k-prenom').value.trim(),em=$('k-email').value.trim().toLowerCase(),m=$('k-msg');
+    if($('k-hp').value)return;
+    if(!last){m.textContent='Remplis d\'abord tes mesures plus haut.';return}
+    if(!pr||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em)){m.textContent='Il me faut ton prénom et un mail valide.';return}
+    if(!$('k-ok').checked){m.textContent='Coche la case pour que je puisse garder ton résultat.';return}
+    var r=last,d={type:'potentiel',prenom:pr,email:em,sexe:r.sexe==='h'?'homme':'femme',age:r.age,taille:r.h,poids:r.p,gras:r.bf,ans:r.ans,ffmi_normalise:fmt(r.nffmi,1),potentiel:r.pct!=null?Math.round(r.pct):'',reste_kg:r.rest!=null?fmt(r.rest,1):'',source:SRC,consentement:'oui'};
+    var b=new URLSearchParams();for(var k in d)b.append(k,d[k]==null?'':d[k]);
+    try{fetch(HOOK,{method:'POST',mode:'no-cors',body:b}).catch(function(){})}catch(err){}
+    $('keep').querySelector('button').disabled=true;
+    m.textContent='C\'est noté, '+pr+'. Le guide arrive dans ta boîte mail (regarde dans les promotions si tu ne le vois pas).';
+  });
+
+  // Fin de page : loin du plafond = gagner du muscle ; proche = monter sur scène (retour de Leni, 16/10)
+  function cta(proche){
+    var bio='Je suis athlète naturel en compétition (champion BIFBB Men\'s Physique -23, 4e WNBF bodybuilding junior), coach EREPS niveau 4 et NASM. ';
+    if(proche){
+      $('cta-h').textContent='Proche de ton plafond ? Let\'s go sur scène.';
+      $('cta-p').textContent=bio+'Quand il reste peu de muscle à gagner, la différence se fait sur la sèche, le posing et la présentation. Une compétition naturelle, c\'est le meilleur moyen de montrer ce que tu as construit. Je t\'y prépare, posing compris.';
+    }else{
+      $('cta-h').textContent='Ton plafond est loin ? Bonne nouvelle.';
+      $('cta-p').textContent=bio+'Mon travail, c\'est de te faire gagner les kilos qui restent sans perdre des années. Et le jour où tu t\'en approches, on peut viser la scène ensemble. Commence par le guide gratuit, puis on en parle si tu veux aller plus loin.';
+    }
+  }
+
+  function gauge(v,sexe){
+    var lo=sexe==='f'?12:16,hi=sexe==='f'?24:28,W=340;
+    function x(t){return 10+(Math.max(lo,Math.min(hi,t))-lo)/(hi-lo)*(W-20)}
+    var refs=sexe==='h'?[[19,'Moyenne'],[22,'Naturels Kouri'],[25,'Seuil 25']]:[[15.4,'Moyenne'],[18,'Très entraînée'],[21.5,'Rare']];
+    var s='<line x1="10" y1="46" x2="'+(W-10)+'" y2="46" stroke="#3A5359" stroke-width="10"/>';
+    s+='<line x1="10" y1="46" x2="'+x(v)+'" y2="46" stroke="#EBE3D0" stroke-width="10"/>';
+    for(var t=lo;t<=hi;t+=2)if(!refs.some(function(q,i){return i===1&&Math.abs(q[0]-t)<.8}))s+='<text x="'+x(t)+'" y="72" fill="#AEB9B2" font-size="10" text-anchor="middle" font-family="Verdana,sans-serif">'+t+'</text>';
+    refs.forEach(function(r,i){var X=x(r[0]),strong=i===2;
+      s+='<line x1="'+X+'" y1="36" x2="'+X+'" y2="'+(i===1?92:58)+'" stroke="#EBE3D0" stroke-width="'+(strong?2:1)+'"'+(strong?'':' stroke-dasharray="2 2"')+'/>';
+      s+='<text x="'+X+'" y="'+(i===1?104:90)+'" fill="#EBE3D0" font-size="10" text-anchor="'+(i===0?'start':i===2?'end':'middle')+'" font-family="Verdana,sans-serif" font-weight="'+(strong?'bold':'normal')+'">'+r[1]+'</text>'});
+    var X=x(v);
+    s+='<polygon points="'+(X-7)+',8 '+(X+7)+',8 '+X+',22" fill="#EBE3D0"/>';
+    s+='<text x="'+Math.max(24,Math.min(W-24,X))+'" y="5" fill="#EBE3D0" font-size="12" text-anchor="middle" font-family="Outfit,Arial,sans-serif" font-weight="700" dominant-baseline="auto">TOI '+fmt(v,1)+'</text>';
+    var g=$('gauge');g.setAttribute('viewBox','0 -10 340 118');g.innerHTML=s;
+    var txt;
+    if(sexe==='h'){
+      txt='Repères (FFMI normalisé) : ~19 pour un homme moyen (Schutz 2002), ~22 en moyenne chez les naturels entraînés de Kouri (1995), et autour de 25 le maximum observé dans ce groupe. ';
+      if(v>=25)txt+='Tu es au-dessus de 25 : c\'est possible en naturel (les Mr America d\'avant les stéroïdes tournaient autour de 25), mais rare. Vérifie d\'abord ton % de gras.';
+      else if(v>=23)txt+='Tu es dans le haut de ce qu\'on observe chez les naturels. Chaque dixième va maintenant coûter cher.';
+      else if(v>=20)txt+='Tu es au-dessus de la moyenne, avec encore de la marge avant les meilleurs naturels.';
+      else txt+='Tu es proche de la moyenne de la population : tout reste à construire, et ça va vite au début.';
+    }else{
+      txt='Repères (FFMI normalisé) : ~15 pour une femme moyenne (Schutz 2002). Il n\'existe pas d\'équivalent de l\'étude de Kouri chez les femmes ; des athlètes naturelles très musclées se situent souvent entre 18 et 21, et dépasser ~21-22 est rare. Prends ces repères comme des ordres de grandeur.';
+    }
+    $('gauge-text').textContent=txt;
+  }
+
+  function timeline(r,ans,age,sexe){
+    var af=ageF(age), tl=$('tl'), html='';
+    var yIdx=Math.floor(ans)+1;
+    if(sexe==='h'){
+      var target=r.max*.95, cur=r.lbm, t=ans, years=0, rows=[];
+      // Simulation par mois : on garde le rythme de l'année d'entraînement en cours
+      if(cur<target){
+        while(cur<target&&years<40){var g=mcd(Math.floor(t)+1,sexe)*af/12;cur+=g;t+=1/12;years+=1/12;
+          if(Math.abs(years-Math.round(years))<1e-6&&Math.round(years)<=6)rows.push([Math.round(years),cur])}
+      }
+      var rate=mcd(yIdx,sexe)*af;
+      var txt='À '+fmt(ans,ans%1?1:0)+' an'+(ans>=2?'s':'')+' d\'entraînement, le modèle de Lyle McDonald prévoit environ <b>'+fmt(rate,1)+' kg</b> de masse maigre sur ta prochaine année'+(af<1?' (corrigé pour ton âge)':'')+'. ';
+      if(r.lbm>=target)txt+='Tu es déjà au-delà de 95 % de ton plafond : la suite se joue sur la qualité, le sec et la présentation plus que sur les kilos.';
+      else if(years>=40)txt+='Au rythme du modèle, atteindre 95 % de ton plafond prendrait plus de 20 ans : vise plutôt la régularité et la précision.';
+      else txt+='Au rythme du modèle, tu atteindrais <b>95 % de ton plafond</b> en environ <b>'+dur(years)+'</b>.';
+      $('time-text').innerHTML=txt;
+      r.years=years<40&&r.lbm<target?years:null;
+      rows.forEach(function(x){var p=x[1]/r.max*100;html+='<div class="yr"><span>+'+x[0]+' an'+(x[0]>1?'s':'')+'</span><span class="bar"><i style="width:'+Math.min(100,p)+'%"></i></span><span class="r">'+Math.round(p)+' %</span></div>'});
+      if(rows.length)html='<div class="yr"><span>Auj.</span><span class="bar"><i style="width:'+Math.min(100,r.pct)+'%"></i></span><span class="r">'+Math.round(r.pct)+' %</span></div>'+html;
+    }else{
+      var rf=mcd(yIdx,'f')*af;
+      $('time-text').innerHTML='À '+fmt(ans,ans%1?1:0)+' an'+(ans>=2?'s':'')+' d\'entraînement, le modèle de Lyle McDonald (rythme féminin, environ la moitié de celui des hommes) prévoit environ <b>'+fmt(rf,1)+' kg</b> de masse maigre sur ta prochaine année'+(af<1?' (corrigé pour ton âge)':'')+'. Soit un FFMI qui passerait d\'environ '+fmt(r.nffmi,1)+' à '+fmt(r.nffmi+rf/Math.pow(num('taille')/100,2),1)+'.';
+      var c=r.lbm;for(var i=0;i<5;i++){var g2=mcd(yIdx+i,'f')*af;c+=g2;var nf2=r.nffmi+(c-r.lbm)/Math.pow(num('taille')/100,2);html+='<div class="yr"><span>+'+(i+1)+' an'+(i?'s':'')+'</span><span class="bar"><i style="width:'+Math.max(0,Math.min(100,(nf2-12)/(23-12)*100))+'%"></i></span><span class="r">'+fmt(nf2,1)+'</span></div>'}
+      r.years=null;r.next=r.nffmi+rf/Math.pow(num('taille')/100,2);
+    }
+    tl.innerHTML=html;
+    $('time-note').textContent='Le modèle suppose un entraînement, une diète et un sommeil bien menés depuis le début. Si tes premières années étaient « au feeling », tu peux encore progresser plus vite qu\'il ne le prévoit. '+(age<18?'Avant 18 ans ton corps se développe encore : ces chiffres sont très approximatifs. ':'')+(age>30?'La correction d\'âge (−1 % par an après 30 ans) est une hypothèse prudente, pas une règle.':'');
+  }
+
+  // ---------- Carte 1080×1920 ----------
+  var C=$('card'),X=C.getContext('2d');
+  function sp(t){return t.split('').join(String.fromCharCode(8202))}
+  function drawCard(){
+    if(!last)return;
+    var r=last,W=1080,H=1920,ink='#EBE3D0',bg='#122E33',soft='rgba(235,227,208,.62)';
+    X.fillStyle=bg;X.fillRect(0,0,W,H);
+    X.strokeStyle=ink;X.lineWidth=2;X.strokeRect(54,54,W-108,H-108);
+    X.textAlign='left';X.textBaseline='alphabetic';X.fillStyle=ink;
+    X.font='600 34px Outfit, Arial, sans-serif';X.fillText(sp('THE LF METHOD'),110,170);
+    X.fillRect(110,200,W-220,2);
+    X.font='700 40px Outfit, Arial, sans-serif';X.fillStyle=soft;X.fillText(sp('TON POTENTIEL NATUREL'),110,300);
+    X.fillStyle=ink;
+    if(r.sexe==='h'){
+      X.font='700 96px Outfit, Arial, sans-serif';X.fillText("J'AI ATTEINT",110,500);
+      X.font='800 400px Outfit, Arial, sans-serif';var pct=Math.round(r.pct)+'';X.fillText(pct,96,880);
+      var pw=X.measureText(pct).width;X.font='800 180px Outfit, Arial, sans-serif';X.fillText('%',110+pw,880);
+      X.font='700 82px Outfit, Arial, sans-serif';X.fillText('DE MON POTENTIEL',110,1010);X.fillText('NATUREL',110,1100);
+      X.strokeRect(110,1170,W-220,44);X.fillRect(110,1170,(W-220)*Math.min(1,r.pct/100),44);
+      var st=[['FFMI NORMALISÉ',fmt(r.nffmi,1)],['MASSE MAIGRE',fmt(r.lbm,1)+' / '+fmt(r.max,1)+' kg'],['BRAS MAX (BUTT)',fmt(r.arm,1)+' cm']];
+    }else{
+      X.font='700 96px Outfit, Arial, sans-serif';X.fillText('MON FFMI',110,500);X.fillText('NATUREL',110,600);
+      X.font='800 340px Outfit, Arial, sans-serif';X.fillText(fmt(r.nffmi,1),96,940);
+      X.font='700 60px Outfit, Arial, sans-serif';X.fillStyle=soft;X.fillText('MOYENNE FEMMES : ~15',110,1060);X.fillStyle=ink;
+      X.strokeRect(110,1170,W-220,44);X.fillRect(110,1170,(W-220)*Math.max(0,Math.min(1,(r.nffmi-12)/11)),44);
+      var st=[['FFMI',fmt(r.ffmi,1)],['MASSE MAIGRE',fmt(r.lbm,1)+' kg'],['DANS 1 AN (MCDONALD)','FFMI ~'+fmt(r.next,1)]];
+    }
+    var y=1320;
+    st.forEach(function(s){X.fillStyle=soft;X.font='600 30px Outfit, Arial, sans-serif';X.fillText(sp(s[0]),110,y);X.fillStyle=ink;X.font='700 58px Outfit, Arial, sans-serif';X.fillText(s[1],110,y+66);y+=130;X.fillStyle='rgba(235,227,208,.35)';X.fillRect(110,y-40,W-220,1)});
+    X.fillStyle=ink;X.fillRect(110,1700,W-220,2);
+    X.font='700 50px Outfit, Arial, sans-serif';X.fillText('@leni_fit_',110,1780);
+    X.textAlign='right';X.font='500 28px Outfit, Arial, sans-serif';X.fillStyle=soft;X.fillText(r.sexe==='h'?'Kouri 1995 · Casey Butt':'Kouri 1995 · Schutz 2002',W-110,1780);
+    X.textAlign='left';
+  }
+  function fname(){return 'potentiel-naturel'+(last&&last.sexe==='h'?'-'+Math.round(last.pct):'')+'.png'}
+  $('dl').addEventListener('click',function(){
+    drawCard();
+    try{
+      C.toBlob(function(b){
+        if(!b){$('dlmsg').textContent='Export impossible : fais une capture d\'écran de la carte.';return}
+        var u=URL.createObjectURL(b),a=document.createElement('a');a.href=u;a.download=fname();a.style.display='none';root.appendChild(a);a.click();
+        setTimeout(function(){URL.revokeObjectURL(u);a.remove()},4000);
+        $('dlmsg').textContent='Image prête. Sur iPhone : si elle s\'ouvre, garde le doigt dessus puis « Enregistrer dans Photos ».';
+      },'image/png');
+    }catch(e){$('dlmsg').textContent='Export impossible : fais une capture d\'écran de la carte.'}
+  });
+  try{
+    if(navigator.canShare&&window.File&&navigator.canShare({files:[new File([''],'t.png',{type:'image/png'})]})){
+      $('sh').hidden=false;
+      $('sh').addEventListener('click',function(){drawCard();C.toBlob(function(b){if(!b)return;var f=new File([b],fname(),{type:'image/png'});navigator.share({files:[f]}).catch(function(){})},'image/png')});
+    }
+  }catch(e){}
+
+  setSexe();update();
+  // Redessine la carte quand Outfit est chargée (sinon le canvas prend Arial)
+  try{if(document.fonts&&document.fonts.load)Promise.all([document.fonts.load('800 100px Outfit'),document.fonts.load('700 100px Outfit'),document.fonts.load('600 30px Outfit'),document.fonts.load('500 28px Outfit')]).then(function(){drawCard()},function(){})}catch(e){}
+})();
+</script>
