@@ -291,8 +291,8 @@ body{background:#192E33;margin:0}
   <section>
     <div class="cta">
       <div class="label">Par Leni Fauconnier · athlète naturel</div>
-      <h2>Ton plafond est loin&nbsp;? Bonne nouvelle.</h2>
-      <p>Je suis athlète naturel en compétition (champion BIFBB Men's Physique -23, 4e WNBF bodybuilding junior), coach EREPS niveau 4 et NASM. Mon travail, c'est de te faire gagner les kilos qui restent sans perdre des années. Commence par le guide gratuit, puis on en parle si tu veux aller plus loin.</p>
+      <h2 id="cta-h">Ton plafond est loin&nbsp;? Bonne nouvelle.</h2>
+      <p id="cta-p">Je suis athlète naturel en compétition (champion BIFBB Men's Physique -23, 4e WNBF bodybuilding junior), coach EREPS niveau 4 et NASM. Mon travail, c'est de te faire gagner les kilos qui restent sans perdre des années. Commence par le guide gratuit, puis on en parle si tu veux aller plus loin.</p>
       <a class="b" id="cta-guide" href="https://lfauconnier27.systeme.io/5e2d6ea8?source=outil-potentiel">Le guide gratuit : de pratiquant à athlète</a>
       <a class="b alt" id="cta-app" href="https://lfauconnier27.systeme.io/98dd870d?source=outil-potentiel">Candidater à un appel découverte</a>
     </div>
@@ -467,7 +467,20 @@ body{background:#192E33;margin:0}
       $('big-text').textContent='Le modèle de Casey Butt a été construit sur des hommes : il ne s\'applique pas aux femmes, donc pas de « % de potentiel » ici. On compare ton FFMI aux repères féminins connus.';
       timeline(r,ans,age,sexe);
     }
+    cta(sexe==='h'?r.pct>=85:nf>=18);
     last=r;drawCard();
+  }
+
+  // Fin de page : loin du plafond = gagner du muscle ; proche = monter sur scène (retour de Leni, 16/10)
+  function cta(proche){
+    var bio='Je suis athlète naturel en compétition (champion BIFBB Men\'s Physique -23, 4e WNBF bodybuilding junior), coach EREPS niveau 4 et NASM. ';
+    if(proche){
+      $('cta-h').textContent='Proche de ton plafond ? Let\'s go sur scène.';
+      $('cta-p').textContent=bio+'Quand il reste peu de muscle à gagner, la différence se fait sur la sèche, le posing et la présentation. Une compétition naturelle, c\'est le meilleur moyen de montrer ce que tu as construit. Je t\'y prépare, posing compris.';
+    }else{
+      $('cta-h').textContent='Ton plafond est loin ? Bonne nouvelle.';
+      $('cta-p').textContent=bio+'Mon travail, c\'est de te faire gagner les kilos qui restent sans perdre des années. Et le jour où tu t\'en approches, on peut viser la scène ensemble. Commence par le guide gratuit, puis on en parle si tu veux aller plus loin.';
+    }
   }
 
   function gauge(v,sexe){
