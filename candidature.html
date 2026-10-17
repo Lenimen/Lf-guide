@@ -93,7 +93,7 @@ body{color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.6;mar
   <section class="hero">
     <span class="label">Accompagnement en ligne · places limitées</span>
     <h1>Ta place <em>se mérite</em></h1>
-    <p class="lede">Je prends un nombre limité d'athlètes pour pouvoir suivre chacun de près. Réponds à 10 questions rapides : si ton profil colle, tu choisis directement ton créneau d'appel. Sinon, je te dis franchement par où commencer.</p>
+    <p class="lede">Je prends un nombre limité d'athlètes pour pouvoir suivre chacun de près. Réponds à 11 questions rapides : si ton profil colle, tu choisis directement ton créneau d'appel. Sinon, je te dis franchement par où commencer.</p>
     <div class="facts"><span>2 minutes</span><span>Appel gratuit de 30 à 45 min</span><span>Aucun paiement ici</span></div>
   </section>
 
@@ -125,6 +125,7 @@ body{color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.6;mar
 
   var Q=[
     {k:'prenom',t:'Comment tu t\'appelles ?',type:'id'},
+    {k:'besoin',t:'Ce que tu cherches aujourd\'hui ?',o:['Un suivi : être accompagné et encadré sur la durée','Des conseils ponctuels sur quelques questions']},
     {k:'anciennete',t:'Tu t\'entraînes depuis combien de temps ?',o:['Moins d\'1 an','1 à 2 ans','2 à 4 ans','Plus de 4 ans']},
     {k:'objectif',t:'Ton objectif principal ?',o:['Faire ma première compétition','Progresser comme un athlète, la compet on verra','Perdre du poids vite','Je ne sais pas encore']},
     {k:'compet',t:'La scène, tu la vois quand ?',o:['Dans les 12 prochains mois','Dans 1 à 2 ans','Un jour, peut-être','Ça ne m\'intéresse pas']},
@@ -132,10 +133,12 @@ body{color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.6;mar
     {k:'coach',t:'Tu as déjà été coaché ?',o:['Jamais','Oui, et j\'ai été déçu','Oui, c\'était bien mais c\'est fini']},
     {k:'seances',t:'Combien de séances par semaine, en vrai ?',o:['2 à 3','4 à 5','6 ou plus']},
     {k:'decideur',t:'Un investissement comme celui-ci, tu le décides avec qui ?',o:['Seul','Avec mes parents','Avec mon ou ma partenaire']},
-    {k:'budget',t:'Imaginons que ton accompagnement te coûterait autour de 900 € sur les 6 prochains mois. Ce serait possible pour toi ?',hint:'C\'est un ordre d\'idée, le détail se voit en appel.',o:['Oui, et j\'ai les moyens de mettre le prix pour un suivi premium','Oui, sans hésiter : mon objectif vaut bien plus que ça','Oui, si c\'est le bon accompagnement','Oui, en le répartissant sur plusieurs mois','Non, pas en ce moment']},
+    {k:'budget',t:'Est-ce que tu serais prêt à investir 300 à 400 € dès aujourd\'hui pour ton objectif ?',hint:'C\'est le montant pour démarrer, le détail se voit en appel.',o:['Oui, et j\'ai les moyens de mettre le prix pour un suivi premium','Oui, sans hésiter : mon objectif vaut bien plus que ça','Oui, si c\'est le bon accompagnement','Pas aujourd\'hui, il me faudrait 1 ou 2 mois','Non, pas en ce moment']},
     {k:'pourquoi',t:'Pourquoi maintenant, et pas dans 6 mois ?',type:'text',hint:'Une ou deux phrases suffisent.'}
   ];
   var A={};
+  var CONSEILS='Des conseils ponctuels sur quelques questions';
+  var PLUSTARD='Pas aujourd\'hui, il me faudrait 1 ou 2 mois';
   var PREMIUM='Oui, et j\'ai les moyens de mettre le prix pour un suivi premium';
   var i=0;
   var stage=document.getElementById('stage'),err=document.getElementById('err');
@@ -207,14 +210,16 @@ body{color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.6;mar
   prev.addEventListener('click',function(){if(i>0){save();i--;draw()}});
 
   function verdict(){
+    if(A.besoin===CONSEILS)return 'conseils';
     if(A.budget==='Non, pas en ce moment')return 'budget';
+    if(A.budget===PLUSTARD)return 'plustard';
     if(A.objectif==='Perdre du poids vite')return 'objectif';
     if(A.compet==='Ça ne m\'intéresse pas'&&A.objectif==='Je ne sais pas encore')return 'flou';
     return 'ok';
   }
 
   function notes(){
-    return [(A.budget===PREMIUM?'⭐ PREMIUM · ':'')+'Candidature LF ('+SOURCE+')','Âge : '+A.age,
+    return [(A.budget===PREMIUM?'⭐ PREMIUM · ':'')+'Candidature LF ('+SOURCE+')','Cherche : '+A.besoin,'Âge : '+A.age,
       'Muscu : '+A.anciennete,'Objectif : '+A.objectif,'Compet : '+A.compet,
       'Bloque : '+(A.blocage||[]).join(', '),'Coach avant : '+A.coach,
       'Séances/sem : '+A.seances,'Décide : '+A.decideur,'Budget : '+A.budget,
@@ -226,7 +231,7 @@ body{color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.6;mar
     document.getElementById('count').textContent='Terminé';
     document.getElementById('nav').hidden=true;
     var v=verdict();
-    var rows=[['Prénom',A.prenom],['Âge',A.age],['Muscu',A.anciennete],['Objectif',A.objectif],['Compétition',A.compet],['Ce qui coince',(A.blocage||[]).join(', ')],['Coach avant',A.coach],['Séances',A.seances],['Décision',A.decideur],['Budget',A.budget],['Pourquoi maintenant',A.pourquoi]];
+    var rows=[['Prénom',A.prenom],['Cherche',A.besoin],['Âge',A.age],['Muscu',A.anciennete],['Objectif',A.objectif],['Compétition',A.compet],['Ce qui coince',(A.blocage||[]).join(', ')],['Coach avant',A.coach],['Séances',A.seances],['Décision',A.decideur],['Budget',A.budget],['Pourquoi maintenant',A.pourquoi]];
     var recap='<div class="recap">'+rows.map(function(r){return '<div><span>'+esc(r[0])+'</span><span>'+esc(r[1]||'—')+'</span></div>'}).join('')+'</div>';
     var h='<div class="res">';
     if(v==='ok'){
@@ -244,6 +249,8 @@ body{color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.6;mar
       }
     }else{
       var why={
+        conseils:'Pour quelques questions précises, pas besoin d\'un appel : écris-les-moi sur Instagram (@leni_fit_), je te réponds directement.',
+        plustard:'Démarrer avec 300 à 400 € de côté, c\'est ce qui te permettra de t\'investir à fond. Reviens remplir ce dossier dès que c\'est le cas.',
         budget:'Je préfère que tu attendes le bon moment plutôt que tu te mettes en difficulté.',
         objectif:'Mon accompagnement construit un physique d\'athlète sur la durée. Pour perdre du poids vite, ce n\'est pas ce qu\'il te faut, et je préfère te le dire.',
         flou:'Avant de parler accompagnement, il faut savoir où tu vas. C\'est exactement ce que le test gratuit t\'aide à clarifier.'
