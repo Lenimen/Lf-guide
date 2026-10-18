@@ -568,7 +568,7 @@
     var d=document.getElementById('lfa-done');if(d)d.onclick=function(){
       st.done=1;save();
       var nx=ORDER[ORDER.indexOf(id)+1];if(nx&&MODULES[nx].draft)nx=null;
-      document.getElementById('lfa-end').innerHTML="<div class='end'><span class='label'>Module "+M.code+" terminé</span><h2>Il te reste l'action réelle</h2><p>Le module est validé quand Leni a vu ton action au bilan. Envoie-la dans ton prochain retour.</p>"+(nx?"<p>Prochain module : <b>"+MODULES[nx].code+" · "+esc(MODULES[nx].title)+"</b>, dans la leçon suivante du cours.</p>":"")+"</div>";
+      document.getElementById('lfa-end').innerHTML="<div class='end'><span class='label'>Module "+M.code+" terminé</span><h2>Il te reste l'action réelle</h2><p>Le module est validé quand Leni a vu ton action au bilan. Envoie-la dans ton prochain retour.</p><p class='key'>Dernière étape : clique sur « Terminer la leçon » en haut de la page du cours (bouton Systeme.io). C'est ce qui fait avancer ta barre de progression.</p>"+(nx?"<p>Prochain module : <b>"+MODULES[nx].code+" · "+esc(MODULES[nx].title)+"</b>, dans la leçon suivante du cours.</p>":"")+"</div>";
     };
   }
   function fallback(txt){var a=document.createElement('textarea');a.value=txt;document.body.appendChild(a);a.select();try{document.execCommand('copy')}catch(e){}document.body.removeChild(a)}
