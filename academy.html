@@ -112,6 +112,8 @@
 #lfa .btn[disabled]{opacity:.35;cursor:default}
 
 /* Fin de module et sommaire */
+#lfa .who{border:1px solid var(--line);padding:12px 14px;margin:0 0 16px;display:grid;gap:8px;font-size:14px}
+#lfa .who div{display:flex;gap:8px}#lfa .who input{flex:1;min-width:0;padding:10px;border:1px solid var(--line);font:inherit;background:transparent;color:inherit}#lfa .who .btn{padding:8px 14px}
 #lfa .end{border:2px solid var(--ink);padding:20px 16px;display:grid;gap:12px;margin-top:22px}
 #lfa .end h2{font-size:24px}
 #lfa .toc{display:grid;border:1px solid var(--line);margin-top:8px}
@@ -213,7 +215,7 @@
           after:"<p>Envoie les deux vidéos avec ta phrase dans ton prochain retour. Leni valide le module au bilan.</p>"}
       ]},
     c04:{
-      code:'C04',title:"L'effort : proximité de l'échec et RIR",time:'12 min',draft:true,
+      code:'C04',title:"L'effort : proximité de l'échec et RIR",time:'12 min',
       goal:"À la fin, tu sais distinguer RIR, 0 RIR, échec, arrêt technique et arrêt pour symptôme, estimer ton effort honnêtement et comprendre pourquoi il dépend du contexte.",
       lessons:[
         {t:"À quoi ressemble un vrai effort",proof:'Connaissance enseignable',html:
@@ -491,6 +493,20 @@
   function save(){try{localStorage.setItem(KEY,JSON.stringify(store))}catch(e){}}
   function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
 
+  /* Suivi (accord de Leni, 21/10) : seulement l'avancée (module, leçon, étape franchie), jamais le texte tapé par l'élève. */
+  var HOOK='https://hook.eu1.make.com/ufc1dhh88l5lvoejhnf2988kfij9sq2u';
+  function track(ev){
+    if(!fixed)return;
+    var q=store._q||(store._q=[]);
+    q.push({module:M.code,lecon:String(cur+1),event:ev});save();flush();
+  }
+  function flush(){
+    var q=store._q;if(!store._mail||!q||!q.length)return;
+    store._q=[];save();
+    q.forEach(function(e){e.email=store._mail;try{fetch(HOOK,{method:'POST',mode:'no-cors',keepalive:true,body:new URLSearchParams(e)})}catch(x){}});
+  }
+  function once(ev){var k=ev+cur;if(st.sent&&st.sent[k])return;(st.sent||(st.sent={}))[k]=1;track(ev)}
+
   /* Sans module imposé (aperçu), on affiche le sommaire et on change de module sur place. */
   var fixed=!!MODULES[id];
   var M,st,cur;
@@ -512,6 +528,7 @@
   function render(){
     var L=M.lessons[cur];
     var h="<div class='hero'><span class='label'>Module "+M.code+" · "+M.time+"</span><h1>"+esc(M.title)+"</h1><p class='lede'>"+esc(M.goal)+"</p></div>";
+    if(fixed&&!store._mail)h+="<div class='who'><span>Pour que Leni voie où tu en es dans la formation, entre l'e-mail de ton coaching (une seule fois).</span><div><input type='email' id='lfa-mail' placeholder='ton@email.com' autocomplete='email'><button type='button' class='btn' id='lfa-mail-ok'>OK</button></div></div>";
     h+="<div class='steps' role='tablist'>";
     M.lessons.forEach(function(_,i){h+="<button role='tab' aria-label='Leçon "+(i+1)+"' class='"+(i===cur?'on':(st.seen[i]?'done':''))+"' data-go='"+i+"'>"+(i+1)+"</button>"});
     h+="</div><div class='screen'><div class='screen-head'><span class='n'>"+M.code+"."+(cur+1)+"</span><h2>"+esc(L.t)+"</h2></div><div class='screen-body'>";
@@ -536,6 +553,7 @@
     app.innerHTML=h;
     st.seen[cur]=1;st.i=cur;save();
     bind();
+    once('leçon ouverte');
   }
 
   function buildMsg(){
@@ -549,16 +567,20 @@
     app.querySelectorAll('[data-t]').forEach(function(b){b.onclick=function(){var f=document.getElementById('lfa-loom');if(f)f.src=f.getAttribute('data-src')+'&t='+b.getAttribute('data-t')+'&autoplay=1'}});
     app.querySelectorAll('[data-ck]').forEach(function(c){c.onchange=function(){st.check[c.getAttribute('data-ck')]=c.checked?1:0;save()}});
     app.querySelectorAll('[data-b]').forEach(function(t){t.oninput=function(){st.b[t.getAttribute('data-b')]=t.value;save();buildMsg()}});
+    var mo=document.getElementById('lfa-mail-ok');
+    if(mo)mo.onclick=function(){var v=(document.getElementById('lfa-mail').value||'').trim().toLowerCase();if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v)){document.getElementById('lfa-mail').focus();return}store._mail=v;save();flush();var w=app.querySelector('.who');if(w)w.innerHTML='<span>Merci, c\'est noté ✓</span>'};
     buildMsg();
     var cp=document.getElementById('lfa-copy');
     if(cp)cp.onclick=function(){
       var txt=document.getElementById('lfa-out').textContent;
+      once('message préparé');
       var ok=function(){cp.textContent='Copié ✓';setTimeout(function(){cp.textContent='Copier'},1600)};
       if(navigator.clipboard)navigator.clipboard.writeText(txt).then(ok,function(){fallback(txt);ok()});else{fallback(txt);ok()}
     };
     var L=M.lessons[cur];
     app.querySelectorAll('[data-q]').forEach(function(b){b.onclick=function(){
       var j=+b.getAttribute('data-q');
+      once(j===L.quiz.a?'quiz réussi':'quiz raté');
       if(j===L.quiz.a){b.className='right';document.getElementById('lfa-fb').className='fb show'}
       else{b.className='wrong'}
     }});
@@ -566,7 +588,7 @@
     var n=document.getElementById('lfa-next');if(n)n.onclick=function(){cur++;render();top()};
     var hm=document.getElementById('lfa-home');if(hm)hm.onclick=function(){home();top()};
     var d=document.getElementById('lfa-done');if(d)d.onclick=function(){
-      st.done=1;save();
+      st.done=1;save();track('module terminé');
       var nx=ORDER[ORDER.indexOf(id)+1];if(nx&&MODULES[nx].draft)nx=null;
       document.getElementById('lfa-end').innerHTML="<div class='end'><span class='label'>Module "+M.code+" terminé</span><h2>Il te reste l'action réelle</h2><p>Le module est validé quand Leni a vu ton action au bilan. Envoie-la dans ton prochain retour.</p><p class='key'>Dernière étape : clique sur « Terminer la leçon » en haut de la page du cours (bouton Systeme.io). C'est ce qui fait avancer ta barre de progression.</p>"+(nx?"<p>Prochain module : <b>"+MODULES[nx].code+" · "+esc(MODULES[nx].title)+"</b>, dans la leçon suivante du cours.</p>":"")+"</div>";
     };
