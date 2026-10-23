@@ -1,0 +1,164 @@
+<!-- Offre d'entrée « Correction posing vidéo » (49 €) : ce que la personne reçoit, poses à envoyer par catégorie, comment filmer, accord images, paiement Stripe. Chargée par la page guide Systeme.io avec ?g=correction-posing, ou ouverte seule. -->
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Correction posing vidéo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800&display=swap">
+<style>
+/* THE LF METHOD : pétrole + crème (marque/DA.md). Un seul thème sombre, comme hub.html et potentiel.html.
+   Injectée dans Systeme.io par le chargeur : les styles de html/body sont perdus et la page hôte centre le texte en serif.
+   Donc tout est porté par .lfc (le conteneur) et chaque sélecteur est préfixé par .lfc. */
+body{background:#192E33;margin:0}
+.lfc{
+  --paper:#192E33; --sheet:#213B41; --ink:#EBE3D0; --ink-soft:#AEB9B2; --line:#3A5359; --gold:#D3A55A;
+  --display:"Outfit","Avenir Next","Century Gothic",Arial,sans-serif;
+  --body:Verdana,Geneva,"DejaVu Sans",sans-serif;
+  color-scheme:dark;
+  background:var(--paper);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.6;text-align:left;
+  -webkit-text-size-adjust:100%;overflow-wrap:break-word;
+}
+.lfc *,.lfc *::before,.lfc *::after{box-sizing:border-box}
+.lfc [hidden]{display:none!important}
+.lfc .wrap{max-width:720px;margin:0 auto;padding:0 16px 64px}
+.lfc p,.lfc li,.lfc span,.lfc div,.lfc b{font-family:inherit;text-align:inherit}
+.lfc h1,.lfc h2{font-family:var(--display);line-height:1.1;text-wrap:balance;margin:0;color:var(--ink);text-align:left}
+.lfc h1{font-weight:800;font-size:clamp(32px,8vw,48px);text-transform:uppercase;letter-spacing:.02em}
+.lfc h1 .prix{color:var(--gold);white-space:nowrap}
+.lfc h2{font-weight:700;font-size:22px;text-transform:uppercase;letter-spacing:.04em;margin-bottom:14px}
+.lfc p{margin:0;max-width:65ch;color:inherit}
+.lfc a{color:var(--ink);text-decoration-color:var(--gold);text-underline-offset:3px}
+.lfc :focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.lfc .top{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:18px 0;border-bottom:2px solid var(--ink)}
+.lfc .brand{font-family:var(--display);font-weight:600;font-size:13px;letter-spacing:.14em;text-transform:uppercase}
+.lfc .hero{display:grid;gap:14px;padding:34px 0 30px}
+.lfc .lead{font-size:17px;color:var(--ink)}
+.lfc section{padding:28px 0;border-top:1px solid var(--line)}
+.lfc ul.liste{margin:0;padding:0;list-style:none;display:grid;gap:10px}
+.lfc ul.liste li{padding-left:26px;position:relative}
+.lfc ul.liste li::before{content:"";position:absolute;left:3px;top:.6em;width:10px;height:10px;border-radius:2px;background:var(--gold)}
+.lfc ul.non li::before{background:none;border:2px solid var(--ink-soft);border-radius:50%}
+.lfc .etapes{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:0;padding:0;list-style:none;counter-reset:e}
+.lfc .etapes li{counter-increment:e;background:var(--sheet);border:1px solid var(--line);border-radius:10px;padding:14px;min-width:0}
+.lfc .etapes li::before{content:counter(e);display:block;font:800 28px/1 var(--display);color:var(--gold);margin-bottom:6px}
+.lfc .etapes b{display:block;font-family:var(--display);font-weight:700}
+.lfc .etapes span{color:var(--ink-soft);font-size:14px}
+.lfc .onglets{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+.lfc .onglets button{font:600 14px var(--body);padding:8px 14px;border-radius:999px;border:1px solid var(--line);background:transparent;color:var(--ink);cursor:pointer}
+.lfc .onglets button[aria-selected="true"]{background:var(--gold);color:#10201F;border-color:var(--gold)}
+.lfc .poses{background:var(--sheet);border:1px solid var(--line);border-radius:10px;padding:18px}
+.lfc .poses ol{margin:0;padding-left:22px;display:grid;gap:4px}
+.lfc .note{color:var(--ink-soft);font-size:14px;margin-top:12px}
+.lfc .paiement{background:var(--ink);color:#192E33;border-radius:14px;padding:26px 22px;display:grid;gap:12px}
+.lfc .paiement h2{color:#192E33;margin:0}
+.lfc .cta{display:block;text-align:center;font:700 18px var(--display);padding:15px 22px;border-radius:10px;background:#192E33;color:var(--ink);text-decoration:none}
+.lfc .petit{font-size:13px;color:#3A5359}
+.lfc .signature{color:var(--ink-soft);font-size:14px;margin-top:16px}
+</style>
+
+<div class="lfc" id="lfc">
+<div class="wrap">
+  <div class="top"><span class="brand">THE LF METHOD</span><span class="brand">Posing</span></div>
+
+  <div class="hero">
+    <h1>Correction posing en vidéo <span class="prix">49 €</span></h1>
+    <p class="lead">Tu m'envoies tes poses filmées. Je te renvoie une vidéo où je les corrige une par une, avec des explications visuelles, pour que tu saches exactement où tu perds des points sur scène.</p>
+  </div>
+
+  <section>
+    <h2>Pour qui</h2>
+    <ul class="liste">
+      <li>Tu prépares ta première compète naturelle et tu poses seul devant le miroir.</li>
+      <li>Tu as déjà fait de la scène et tu veux un regard extérieur avant la prochaine.</li>
+      <li>Tu veux tester mon travail avant de t'engager dans un suivi.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Ce que tu reçois</h2>
+    <ul class="liste">
+      <li>Une vidéo Loom de 15 à 20 minutes : chaque pose reprise, ce qui marche, ce qui te coûte des points et comment le corriger.</li>
+      <li>Tes 3 corrections prioritaires et des exercices de posing à faire chaque jour.</li>
+      <li>Un contrôle 14 jours plus tard : tu renvoies tes poses, je te réponds par une vidéo courte. Si ta compète tombe avant, on fait ce contrôle juste avant la compète.</li>
+      <li>La vidéo arrive sous 3 jours après réception de tes poses.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Ce que ce n'est pas</h2>
+    <ul class="liste non">
+      <li>Pas un suivi : pas de bilans, pas de programme d'entraînement, pas de diète.</li>
+      <li>Je ne crée pas ta routine libre de zéro : si tu en as une, je la conseille et je la corrige.</li>
+      <li>Une correction ponctuelle, claire et visuelle, pour savoir exactement quoi travailler.</li>
+    </ul>
+    <p class="note">Tu veux être suivi jusqu'à la scène ? Si tu rejoins l'accompagnement dans les 30 jours, les 49 € sont déduits.</p>
+  </section>
+
+  <section>
+    <h2>Comment ça se passe</h2>
+    <ol class="etapes">
+      <li><b>Tu paies</b><span>Lien en bas de page.</span></li>
+      <li><b>Tu filmes</b><span>Tes poses obligatoires et tes quarts de tour.</span></li>
+      <li><b>Tu envoies</b><span>En DM Instagram ou sur WhatsApp.</span></li>
+      <li><b>Je corrige</b><span>Vidéo sous 3 jours, contrôle à 14 jours.</span></li>
+    </ol>
+  </section>
+
+  <section>
+    <h2>Les poses à m'envoyer</h2>
+    <div class="onglets" role="tablist" aria-label="Catégorie">
+      <button type="button" role="tab" id="lfc-t-mp" aria-selected="true" data-cat="mp">Men's Physique</button>
+      <button type="button" role="tab" id="lfc-t-cp" aria-selected="false" data-cat="cp">Classic Physique</button>
+      <button type="button" role="tab" id="lfc-t-bb" aria-selected="false" data-cat="bb">Bodybuilding</button>
+      <button type="button" role="tab" id="lfc-t-fe" aria-selected="false" data-cat="fe">Bikini, Figure, Wellness</button>
+    </div>
+    <div class="poses" role="tabpanel">
+      <div data-panel="mp"><ol><li>Les 4 côtés : face, profil, dos, profil</li><li>Tes transitions entre chaque côté</li><li>Ton walk (T-walk) : entrée, poses au centre, sortie</li></ol></div>
+      <div data-panel="cp" hidden><ol><li>Quarts de tour : face, profil, dos, profil</li><li>Double biceps de face (<a href="https://www.instagram.com/reel/DePXy4_FrW9/" target="_blank" rel="noopener">mon tuto</a>)</li><li>Side chest (biceps cage), poings joints (<a href="https://www.instagram.com/reel/DctEsqnMkii/" target="_blank" rel="noopener">mon tuto</a>)</li><li>Side triceps (<a href="https://www.instagram.com/reel/DdTv1LUMS3_/" target="_blank" rel="noopener">mon tuto</a>)</li><li>Double biceps de dos (<a href="https://www.instagram.com/reel/DdGxTRVM-2p/" target="_blank" rel="noopener">mon tuto</a>)</li><li>Abdos et cuisses, vacuum en option</li><li>Tes 2 poses libres</li><li>En bonus si tu veux : d'autres poses ou ta routine de 60 secondes</li></ol></div>
+      <div data-panel="bb" hidden><ol><li>Quarts de tour : face, profil, dos, profil</li><li>Double biceps de face (<a href="https://www.instagram.com/reel/DePXy4_FrW9/" target="_blank" rel="noopener">mon tuto</a>)</li><li>Front lat spread</li><li>Side chest (biceps cage) (<a href="https://www.instagram.com/reel/DctEsqnMkii/" target="_blank" rel="noopener">mon tuto</a>)</li><li>Side triceps (<a href="https://www.instagram.com/reel/DdTv1LUMS3_/" target="_blank" rel="noopener">mon tuto</a>)</li><li>Double biceps de dos (<a href="https://www.instagram.com/reel/DdGxTRVM-2p/" target="_blank" rel="noopener">mon tuto</a>)</li><li>Back lat spread</li><li>Abdos et cuisses</li><li>Most muscular, mains sur les hanches et bras fléchis (<a href="https://www.instagram.com/reel/DdloLQuMnCl/" target="_blank" rel="noopener">mon tuto</a>)</li><li>En bonus si tu veux : tes poses libres ou ta routine</li></ol></div>
+      <div data-panel="fe" hidden><ol><li>Quarts de tour : face, profil, dos, profil</li><li>Les poses imposées de ta catégorie</li><li>Ta marche et tes transitions</li></ol></div>
+    </div>
+    <p class="note">La liste exacte dépend de ta fédération (WNBF, NPC Natural, INBA…). Règles officielles WNBF : <a href="https://worldnaturalbb.com/competition-category/physique/" target="_blank" rel="noopener">Men's Physique</a>, <a href="https://worldnaturalbb.com/competition-category/classic-physique/" target="_blank" rel="noopener">Classic Physique</a>, <a href="https://worldnaturalbb.com/judging-criteria/" target="_blank" rel="noopener">critères de jugement</a>. Si tu as un doute, dis-moi ta fédé en m'envoyant tes vidéos.</p>
+  </section>
+
+  <section>
+    <h2>Comment filmer</h2>
+    <ul class="liste">
+      <li>Corps entier dans le cadre, de la tête aux pieds.</li>
+      <li>Téléphone posé à hauteur de hanches, à 3 ou 4 mètres.</li>
+      <li>Lumière de face, pas de contre-jour.</li>
+      <li>Short de posing, maillot ou tenue de compète.</li>
+      <li>Tiens chaque pose 5 secondes avant de passer à la suivante.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Ta routine libre (facultatif)</h2>
+    <p>Si tu as déjà une routine libre, envoie-la avec tes poses : je te conseille et je la corrige, musique et enchaînements compris. Je ne la construis pas de zéro.</p>
+  </section>
+
+  <section>
+    <h2>Tes images</h2>
+    <p>Certaines corrections peuvent servir d'exemple dans mon contenu, seulement si tu es d'accord. Au paiement, tu choisis : oui, oui avec le visage flouté, ou non. Ça ne change rien à ta correction.</p>
+  </section>
+
+  <section>
+    <div class="paiement">
+      <h2>Correction posing · 49 €</h2>
+      <a class="cta" href="https://buy.stripe.com/bJeaEX2NGbOvccoccef3a0f" target="_blank" rel="noopener">Je réserve ma correction</a>
+      <p class="petit">Paiement sécurisé par Stripe. Après le paiement, envoie-moi tes vidéos en DM Instagram (@leni_fit_) ou sur WhatsApp.</p>
+    </div>
+    <p class="signature">Leni Fauconnier, coach et compétiteur naturel. Champion BIFBB Men's Physique -23, 4e WNBF bodybuilding junior -23.</p>
+  </section>
+</div>
+</div>
+
+<script>
+(function(){
+  var root=document.getElementById('lfc');
+  var tabs=root.querySelectorAll('.onglets button');
+  tabs.forEach(function(b){b.addEventListener('click',function(){
+    tabs.forEach(function(x){x.setAttribute('aria-selected',x===b?'true':'false');});
+    root.querySelectorAll('[data-panel]').forEach(function(p){p.hidden=p.getAttribute('data-panel')!==b.getAttribute('data-cat');});
+  });});
+})();
+</script>
