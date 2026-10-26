@@ -1,0 +1,125 @@
+<!-- Guide posing gratuit (Men's Physique, Classic Physique, Bodybuilding) : chaque pose avec photo de Leni, consignes, erreur fréquente et tuto ; puis entraînement et offre Correction posing. Chargé par la page guide Systeme.io avec ?g=posing, ou ouvert seul. Généré par guide-posing/build.py (dossier du projet) : modifier les poses là-bas puis relancer. -->
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Le guide posing</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800&display=swap">
+<style>
+/* THE LF METHOD : pétrole + crème (marque/DA.md). Un seul thème sombre, comme hub.html et correction-posing.html.
+   Injectée dans Systeme.io par le chargeur : les styles de html/body sont perdus et la page hôte centre le texte en serif.
+   Donc tout est porté par .lfg (le conteneur) et chaque sélecteur est préfixé par .lfg. */
+body{background:#192E33;margin:0}
+.lfg{
+  --paper:#192E33; --sheet:#213B41; --ink:#EBE3D0; --ink-soft:#AEB9B2; --line:#3A5359; --gold:#D3A55A;
+  --display:"Outfit","Avenir Next","Century Gothic",Arial,sans-serif;
+  --body:Verdana,Geneva,"DejaVu Sans",sans-serif;
+  color-scheme:dark;
+  background:var(--paper);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.6;text-align:left;
+  -webkit-text-size-adjust:100%;overflow-wrap:break-word;
+}
+.lfg *,.lfg *::before,.lfg *::after{box-sizing:border-box}
+.lfg [hidden]{display:none!important}
+.lfg .wrap{max-width:760px;margin:0 auto;padding:0 16px 64px}
+.lfg p,.lfg li,.lfg span,.lfg div,.lfg b{font-family:inherit;text-align:inherit}
+.lfg h1,.lfg h2,.lfg h3{font-family:var(--display);line-height:1.1;text-wrap:balance;margin:0;color:var(--ink);text-align:left}
+.lfg h1{font-weight:800;font-size:clamp(34px,9vw,56px);text-transform:uppercase;letter-spacing:.02em}
+.lfg h1 em{font-style:normal;color:var(--gold)}
+.lfg h2{font-weight:700;font-size:22px;text-transform:uppercase;letter-spacing:.04em;margin-bottom:14px}
+.lfg h3{font-weight:700;font-size:18px;text-transform:uppercase;letter-spacing:.03em}
+.lfg p{margin:0;max-width:65ch;color:inherit}
+.lfg a{color:var(--ink);text-decoration-color:var(--gold);text-underline-offset:3px}
+.lfg :focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.lfg .top{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:18px 0;border-bottom:2px solid var(--ink)}
+.lfg .brand{font-family:var(--display);font-weight:600;font-size:13px;letter-spacing:.14em;text-transform:uppercase}
+.lfg .label{font-size:11px;letter-spacing:.14em;text-transform:uppercase;font-weight:bold;color:var(--ink-soft)}
+.lfg .hero{display:grid;gap:14px;padding:34px 0 30px}
+.lfg .lead{font-size:16px}
+.lfg section{padding:28px 0;border-top:1px solid var(--line)}
+.lfg ul.liste{margin:0;padding:0;list-style:none;display:grid;gap:10px}
+.lfg ul.liste li{padding-left:26px;position:relative}
+.lfg ul.liste li::before{content:"";position:absolute;left:3px;top:.6em;width:10px;height:10px;border-radius:2px;background:var(--gold)}
+.lfg ul.liste b{font-family:var(--display);font-weight:700}
+.lfg .onglets{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px;position:sticky;top:0;background:var(--paper);padding:10px 0;z-index:2}
+.lfg .onglets button{font:600 14px var(--body);padding:8px 14px;border-radius:999px;border:1px solid var(--line);background:transparent;color:var(--ink);cursor:pointer}
+.lfg .onglets button[aria-selected="true"]{background:var(--gold);color:#10201F;border-color:var(--gold)}
+.lfg .intro{color:var(--ink-soft);margin-bottom:16px}
+.lfg .pose{display:grid;grid-template-columns:minmax(96px,150px) 1fr;gap:16px;background:var(--sheet);border:1px solid var(--line);border-radius:10px;padding:14px;margin-bottom:12px}
+.lfg .pose img{display:block;width:100%;height:auto;aspect-ratio:9/16;object-fit:cover;border-radius:8px;background:var(--paper)}
+.lfg .pose .txt{min-width:0;display:grid;gap:8px;align-content:start}
+.lfg .pose ul{margin:0;padding-left:18px;display:grid;gap:4px;font-size:14px}
+.lfg .pose .err{font-size:13px;color:var(--ink-soft);border-left:3px solid var(--gold);padding-left:10px}
+.lfg .pose .err b{color:var(--ink)}
+.lfg .pose .tuto{font-size:13px}
+.lfg .note{color:var(--ink-soft);font-size:14px;margin-top:12px}
+.lfg .offre{background:var(--ink);color:#192E33;border-radius:14px;padding:26px 22px;display:grid;gap:12px}
+.lfg .offre h2{color:#192E33;margin:0}
+.lfg .offre p{color:#192E33}
+.lfg .offre .prix{font-family:var(--display);font-weight:800;color:#192E33}
+.lfg .cta{display:block;text-align:center;font:700 18px var(--display);padding:15px 22px;border-radius:10px;background:#192E33;color:var(--ink);text-decoration:none}
+.lfg .petit{font-size:13px;color:#3A5359}
+.lfg .signature{color:var(--ink-soft);font-size:13px;margin-top:16px}
+@media (max-width:420px){.lfg .pose{grid-template-columns:96px 1fr;gap:12px;padding:12px}}
+</style>
+
+<div class="lfg" id="lfg">
+<div class="wrap">
+  <div class="top"><span class="brand">THE LF METHOD</span><span class="brand">Posing</span></div>
+
+  <div class="hero">
+    <div class="label">Gratuit · par Leni Fauconnier</div>
+    <h1>Le guide <em>posing</em></h1>
+    <p class="lead">Toutes les poses de ta catégorie, comment les placer et les erreurs qui coûtent des points sur scène. Avec mes photos pour chaque pose.</p>
+  </div>
+
+  <section>
+    <h2>Les bases, quelle que soit ta catégorie</h2>
+    <ul class="liste">
+      <li><b>Respire haut.</b> Garde de l'air dans les poumons et la poitrine haute : un physique vidé paraît plus petit et plus plat.</li>
+      <li><b>Pose depuis les pieds.</b> La pression dans l'avant du pied contracte mollets, ischios et quadriceps. Les jambes se jugent sur chaque pose.</li>
+      <li><b>Visage détendu.</b> Un visage crispé ou rouge se voit avant tes muscles. Le posing doit avoir l'air facile.</li>
+      <li><b>Le jugement commence avant les poses.</b> Les quarts de tour et les transitions comptent déjà : ne te relâche jamais sur scène.</li>
+      <li><b>Chaque catégorie a ses règles.</b> Une pose de bodybuilding en Men's Physique ou en Classic te fait perdre des points.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Les poses de ta catégorie</h2>
+    <div class="onglets" role="tablist" aria-label="Catégorie"><button type="button" role="tab" id="lfg-t-mp" aria-selected="true" data-cat="mp">Men's Physique</button><button type="button" role="tab" id="lfg-t-cp" aria-selected="false" data-cat="cp">Classic Physique</button><button type="button" role="tab" id="lfg-t-bb" aria-selected="false" data-cat="bb">Bodybuilding</button></div>
+    <div role="tabpanel"><div data-panel="mp"><p class="intro">Les juges regardent un physique esthétique et équilibré : épaules larges, taille fine, V marqué, abdos dessinés. Le posing doit avoir l'air fluide et naturel. Une main reste sur la hanche à chaque quart de tour, et aucune pose de bodybuilding n'est autorisée.</p><article class="pose"><img src="https://cdn.jsdelivr.net/gh/lenimen/lf-guide@main/media/posing/mp-face.jpg" alt="Leni, pose de face" loading="lazy" width="480" height="853"><div class="txt"><h3>Pose de face</h3><ul><li>Épaules, hanches et pieds face aux juges, pieds légèrement écartés.</li><li>Une main sur la hanche, l'autre bras relâché le long du corps.</li><li>Ouvre les dorsaux vers l'avant pour montrer ton V.</li><li>Abdos gainés, poitrine haute, visage détendu.</li></ul><p class="err"><b>Erreur fréquente :</b> Se contracter comme en bodybuilding : bras pliés, trapèzes remontés, visage crispé.</p></div></article><article class="pose"><img src="https://cdn.jsdelivr.net/gh/lenimen/lf-guide@main/media/posing/mp-profil-1.jpg" alt="Leni, pose de profil" loading="lazy" width="480" height="853"><div class="txt"><h3>Pose de profil</h3><ul><li>Hanches face au côté de la scène, tête tournée vers les juges.</li><li>Tourne les épaules vers les juges, jusqu'à environ 35°, pour montrer le V.</li><li>Bras côté juges relâché, l'autre main sur la hanche.</li><li>Pieds décalés : la jambe arrière recule, talon levé, mollet contracté.</li></ul><p class="err"><b>Erreur fréquente :</b> Rester complètement de profil, épaules fermées : tu perds toute ta largeur.</p></div></article><article class="pose"><img src="https://cdn.jsdelivr.net/gh/lenimen/lf-guide@main/media/posing/mp-dos.jpg" alt="Leni, pose de dos" loading="lazy" width="480" height="853"><div class="txt"><h3>Pose de dos</h3><ul><li>Pieds parallèles, pointes légèrement ouvertes.</li><li>Une jambe peut s'écarter sur le côté, mollet contracté.</li><li>Dorsaux écartés pour montrer le V, une main sur la hanche.</li></ul><p class="err"><b>Erreur fréquente :</b> Oublier le bas du corps : les juges voient aussi tes ischios et tes mollets.</p></div></article><article class="pose"><img src="https://cdn.jsdelivr.net/gh/lenimen/lf-guide@main/media/posing/mp-profil-2.jpg" alt="Leni, le t-walk" loading="lazy" width="480" height="853"><div class="txt"><h3>Le T-walk</h3><ul><li>Sur les côtés de la scène : pose de profil tournée vers le centre.</li><li>Au centre : face, dos, puis face avant de repartir.</li><li>3 secondes maximum par pose, 30 secondes pour tout le passage (parfois 15 sur les gros shows).</li></ul><p class="err"><b>Erreur fréquente :</b> Marcher vite ou raide, ou tenir les poses trop longtemps.</p></div></article></div><div data-panel="cp" hidden><p class="intro">Entre le Men's Physique et le bodybuilding : on juge le volume, mais surtout les lignes, la taille fine et l'esthétique. Les poses imposées ressemblent à celles du bodybuilding, avec des détails propres au Classic qui changent tout.</p><article class="pose"><img src="https://cdn.jsdelivr.net/gh/lenimen/lf-guide@main/media/posing/cp-face.jpg" alt="Leni, quarts de tour" loading="lazy" width="480" height="853"><div class="txt"><h3>Quarts de tour</h3><ul><li>Face, profil, dos, profil : debout, bras le long du corps sans les coller.</li><li>Dorsaux légèrement ouverts, taille gainée, pieds proches.</li><li>Reste contracté sans avoir l'air de forcer : les juges notent déjà.</li></ul><p class="err"><b>Erreur fréquente :</b> Se relâcher entre deux poses imposées : le quart de tour compte aussi.</p></div></article><article class="pose"><img src="https://cdn.jsdelivr.net/gh/lenimen/lf-guide@main/media/posing/cp-double-biceps-face.jpg" alt="Leni, double biceps de face" loading="lazy" width="480" height="853"><div class="txt"><h3>Double biceps de face</h3><ul><li>Une main ouverte, l'autre en poing.</li><li>Pieds décalés, une jambe mise en avant.</li><li>Coudes hauts, biceps et avant-bras contractés, taille fine.</li></ul><p class="err"><b>Erreur fréquente :</b> Faire la version bodybuilding, symétrique, poings fermés.</p></div></article><article class="pose"><img src="https://cdn.jsdelivr.net/gh/lenimen/lf-guide@main/media/posing/cp-biceps-cage.jpg" alt="Leni, biceps cage (side chest)" loading="lazy" width="480" height="853"><div class="txt"><h3>Biceps cage (side chest)</h3><ul><li>Les deux poings l'un contre l'autre.</li><li>Poitrine haute, pec côté juges contracté.</li><li>Jambe côté juges fléchie, sur la pointe, mollet contracté.</li></ul><p class="err"><b>Erreur fréquente :</b> Attraper le poignet comme en bodybuilding.</p></div></article><article class="pose"><img src="https://cdn.jsdelivr.net/gh/lenimen/lf-guide@main/media/posing/cp-side-triceps.jpg" alt="Leni, side triceps" loading="lazy" width="480" height="853"><div class="txt"><h3>Side triceps</h3><ul><li>Plus de face qu'en bodybuilding : de trois quarts.</li><li>Bras côté juges tendu, triceps contracté.</li><li>Ventre rentré, poitrine haute.</li></ul><p class="err"><b>Erreur fréquente :</b> Se mettre complètement de profil : en Classic, on garde la taille visible.</p></div></article><article class="pose"><img src="https://cdn.jsdelivr.net/gh/lenimen/lf-guide@main/media/posing/cp-double-biceps-dos.jpg" alt="Leni, double biceps de dos" loading="lazy" width="480" height="853"><div class="txt"><h3>Double biceps de dos</h3><ul><li>Une main ouverte, l'autre en poing.</li><li>Coudes tournés vers les juges.</li><li>Une jambe en arrière, mollet contracté.</li></ul><p class="err"><b>Erreur fréquente :</b> Trop se pencher en arrière ou reculer trop loin la jambe : tu perds tes ischios.</p></div></article><article class="pose"><img src="https://cdn.jsdelivr.net/gh/lenimen/lf-guide@main/media/posing/cp-abdos-cuisses.jpg" alt="Leni, abdos et cuisses" loading="lazy" width="480" height="853"><div class="txt"><h3>Abdos et cuisses</h3><ul><li>Mains derrière la tête, coudes ouverts.</li><li>Abdos contractés, une jambe en avant.</li><li>Le vacuum est en option sur cette pose.</li></ul><p class="err"><b>Erreur fréquente :</b> Oublier de contracter la cuisse mise en avant.</p></div></article><article class="pose"><img src="https://cdn.jsdelivr.net/gh/lenimen/lf-guide@main/media/posing/cp-vacuum.jpg" alt="Leni, vacuum" loading="lazy" width="480" height="853"><div class="txt"><h3>Vacuum</h3><ul><li>Vide l'air, puis rentre le ventre au maximum.</li><li>Garde les dorsaux ouverts et la poitrine haute.</li><li>Entraîne-le à part, plusieurs fois par jour : ça ne s'improvise pas sur scène.</li></ul><p class="err"><b>Erreur fréquente :</b> Le tenter le jour J sans l'avoir travaillé.</p></div></article><article class="pose"><img src="https://cdn.jsdelivr.net/gh/lenimen/lf-guide@main/media/posing/cp-libre-2.jpg" alt="Leni, tes 2 poses libres" loading="lazy" width="480" height="853"><div class="txt"><h3>Tes 2 poses libres</h3><ul><li>Exemples : rear twisted double biceps, side mantis, archer, rear archer, victory pose, teacup, vacuum.</li><li>Interdit : les lat spreads, les most muscular, les poses Men's Physique, les versions bodybuilding des imposées et les poses à genoux.</li><li>La routine libre de 60 secondes suit les mêmes règles, sans accessoire.</li></ul><p class="err"><b>Erreur fréquente :</b> Choisir une pose qui ne met pas ton point fort en valeur.</p></div></article></div><div data-panel="bb" hidden><p class="intro">Le volume, la densité, la séparation et l'équilibre de tout le corps. Chaque pose sert à montrer une zone précise : si tu en oublies une partie, les juges ne la voient pas.</p><article class="pose"><img src="https://cdn.jsdelivr.net/gh/lenimen/lf-guide@main/media/posing/bb-face.jpg" alt="Leni, quarts de tour" loading="lazy" width="480" height="853"><div class="txt"><h3>Quarts de tour</h3><ul><li>Face, profil, dos, profil : torse droit, bras le long du corps sans les coller ni les écarter exagérément.</li><li>Dorsaux ouverts pour montrer le V.</li><li>Pieds joints ou légèrement écartés, à plat.</li></ul><p class="err"><b>Erreur fréquente :</b> Se relâcher : les quarts de tour comparent déjà les physiques.</p></div></article><article class="pose"><img src="https://cdn.jsdelivr.net/gh/lenimen/lf-guide@main/media/posing/bb-double-biceps-face.jpg" alt="Leni, double biceps de face" loading="lazy" width="480" height="853"><div class="txt"><h3>Double biceps de face</h3><ul><li>Coudes larges, poings à hauteur des oreilles ou au-dessus.</li><li>Coudes et dorsaux poussés vers l'avant.</li><li>Biceps et avant-bras contractés, jambes contractées.</li></ul><p class="err"><b>Erreur fréquente :</b> Genoux verrouillés et pieds droits. Astuce : genoux légèrement fléchis, pieds ouverts.</p><p class="tuto"><a href="https://www.instagram.com/reel/DePXy4_FrW9/" target="_blank" rel="noopener">Voir mon tuto</a></p></div></article><article class="pose"><img src="https://cdn.jsdelivr.net/gh/lenimen/lf-guide@main/media/posing/bb-front-lat-spread.jpg" alt="Leni, front lat spread" loading="lazy" width="480" height="853"><div class="txt"><h3>Front lat spread</h3><ul><li>Poings sur les obliques, ancrés sur la cage thoracique.</li><li>Coudes et dorsaux écartés au maximum vers l'avant.</li><li>Poitrine haute sans hausser les épaules, quadriceps contractés.</li></ul><p class="err"><b>Erreur fréquente :</b> Se pencher en arrière ou vider ses poumons. Garde de l'air pour paraître plus épais.</p></div></article><article class="pose"><img src="https://cdn.jsdelivr.net/gh/lenimen/lf-guide@main/media/posing/bb-side-chest.jpg" alt="Leni, side chest (biceps cage)" loading="lazy" width="480" height="853"><div class="txt"><h3>Side chest (biceps cage)</h3><ul><li>La main opposée attrape le poignet côté juges et tire vers le haut.</li><li>Biceps, avant-bras et deltoïde moyen contractés, pec opposé contracté.</li><li>Les deux jambes fléchies, talon côté juges levé, mollet contracté.</li></ul><p class="err"><b>Erreur fréquente :</b> Rester trop de profil : tourne-toi assez pour garder ton V.</p><p class="tuto"><a href="https://www.instagram.com/reel/DctEsqnMkii/" target="_blank" rel="noopener">Voir mon tuto</a></p></div></article><article class="pose"><img src="https://cdn.jsdelivr.net/gh/lenimen/lf-guide@main/media/posing/bb-side-triceps.jpg" alt="Leni, side triceps" loading="lazy" width="480" height="853"><div class="txt"><h3>Side triceps</h3><ul><li>La main arrière attrape la main ou le poignet du bras côté juges.</li><li>Bras côté juges tendu, triceps contracté, poitrine haute.</li><li>Jambes fléchies, talon côté juges levé, mollet contracté.</li></ul><p class="err"><b>Erreur fréquente :</b> Relâcher le ventre. Garde-le rentré ou gainé, avec de l'air dans les poumons.</p><p class="tuto"><a href="https://www.instagram.com/reel/DdTv1LUMS3_/" target="_blank" rel="noopener">Voir mon tuto</a></p></div></article><article class="pose"><img src="https://cdn.jsdelivr.net/gh/lenimen/lf-guide@main/media/posing/bb-double-biceps-dos.jpg" alt="Leni, double biceps de dos" loading="lazy" width="480" height="853"><div class="txt"><h3>Double biceps de dos</h3><ul><li>Poings à hauteur des oreilles ou au-dessus.</li><li>Bras et coudes tournés vers les juges autant que possible.</li><li>Une jambe en arrière, ischios contractés, mollet contracté.</li></ul><p class="err"><b>Erreur fréquente :</b> Trop se pencher en arrière ou trop reculer la jambe : tu perds le contrôle des ischios et des mollets.</p><p class="tuto"><a href="https://www.instagram.com/reel/DdGxTRVM-2p/" target="_blank" rel="noopener">Voir mon tuto</a></p></div></article><article class="pose"><img src="https://cdn.jsdelivr.net/gh/lenimen/lf-guide@main/media/posing/bb-back-lat-spread.jpg" alt="Leni, back lat spread" loading="lazy" width="480" height="853"><div class="txt"><h3>Back lat spread</h3><ul><li>Poings sur les obliques, coudes et dorsaux écartés au maximum.</li><li>Poitrine haute sans hausser les épaules.</li><li>Appuie sur l'avant du pied pour contracter et séparer l'ischio montré.</li></ul><p class="err"><b>Erreur fréquente :</b> Hausser les épaules : les dorsaux paraissent plus petits.</p></div></article><article class="pose"><img src="https://cdn.jsdelivr.net/gh/lenimen/lf-guide@main/media/posing/bb-abdos-cuisses.jpg" alt="Leni, abdos et cuisses" loading="lazy" width="480" height="853"><div class="txt"><h3>Abdos et cuisses</h3><ul><li>Mains derrière la tête, coudes ouverts.</li><li>Abdos contractés au maximum.</li><li>Une jambe en avant contractée, ou les deux, en changeant de jambe si tu veux.</li></ul><p class="err"><b>Erreur fréquente :</b> Fermer les coudes. Astuce : coudes larges et biceps contractés, ça accentue le V.</p></div></article><article class="pose"><img src="https://cdn.jsdelivr.net/gh/lenimen/lf-guide@main/media/posing/bb-most-muscular-hanches.jpg" alt="Leni, most muscular, mains sur les hanches" loading="lazy" width="480" height="853"><div class="txt"><h3>Most muscular, mains sur les hanches</h3><ul><li>Mains tournées vers le bas, posées sur les hanches.</li><li>Abdos contractés, légère inclinaison vers l'avant.</li><li>Coudes poussés vers l'avant pour sortir les dorsaux de face.</li></ul><p class="err"><b>Erreur fréquente :</b> Garder les coudes en arrière : tu perds la largeur.</p></div></article><article class="pose"><img src="https://cdn.jsdelivr.net/gh/lenimen/lf-guide@main/media/posing/bb-most-muscular.jpg" alt="Leni, most muscular" loading="lazy" width="480" height="853"><div class="txt"><h3>Most muscular</h3><ul><li>Tout le haut du corps contracté, biceps fléchis.</li><li>Légère inclinaison vers l'avant pour montrer trapèzes et épaules.</li><li>Jambes contractées, une jambe peut passer devant.</li></ul><p class="err"><b>Erreur fréquente :</b> Se pencher trop et cacher ses abdos.</p><p class="tuto"><a href="https://www.instagram.com/reel/DdloLQuMnCl/" target="_blank" rel="noopener">Voir mon tuto</a></p></div></article></div></div>
+    <p class="note">Ces consignes suivent les critères WNBF. Vérifie toujours le règlement de ta fédération : <a href="https://worldnaturalbb.com/competition-category/physique/" target="_blank" rel="noopener">Men's Physique</a>, <a href="https://worldnaturalbb.com/competition-category/classic-physique/" target="_blank" rel="noopener">Classic Physique</a>, <a href="https://worldnaturalbb.com/judging-criteria/" target="_blank" rel="noopener">critères de jugement</a>.</p>
+  </section>
+
+  <section>
+    <h2>Comment t'entraîner au posing</h2>
+    <ul class="liste">
+      <li><b>Tous les jours, un peu.</b> 10 à 15 minutes suffisent. Le posing se travaille comme un muscle : c'est la répétition qui le rend naturel.</li>
+      <li><b>Tiens chaque pose 20 à 30 secondes.</b> Sur scène, on te fera tenir longtemps pendant les comparaisons. Il faut que ça reste propre quand la fatigue arrive.</li>
+      <li><b>Enchaîne ton passage complet.</b> Quarts de tour, poses imposées, transitions, comme le jour J.</li>
+      <li><b>Filme-toi une fois par semaine.</b> Corps entier, téléphone à hauteur de hanches, lumière de face. Le miroir ment, la vidéo non.</li>
+      <li><b>Augmente en fin de prépa.</b> Plus tu approches de la compète, plus tu poses longtemps : tu seras plus sec, plus fatigué, et il faudra tenir.</li>
+    </ul>
+  </section>
+
+  <section>
+    <div class="offre">
+      <div class="label" style="color:#3A5359">Pour aller plus loin</div>
+      <h2>Fais corriger tes poses en vidéo · <span class="prix">49 €</span></h2>
+      <p>Tu m'envoies tes poses filmées, je te renvoie une vidéo où je les corrige une par une, puis un contrôle 14 jours après. Une correction ponctuelle, pas un suivi.</p>
+      <a class="cta" href="https://lfauconnier27.systeme.io/5e2d6ea8?g=correction-posing&amp;source=guide-posing" target="_blank" rel="noopener">Voir la correction posing</a>
+      <p class="petit">Sur Instagram, tu peux aussi commenter POSEFIX sous une de mes vidéos posing.</p>
+    </div>
+    <p class="signature">Leni Fauconnier, coach et compétiteur naturel. Champion BIFBB Men's Physique -23, 4e WNBF bodybuilding junior -23. © THE LF METHOD</p>
+  </section>
+</div>
+</div>
+
+<script>
+(function(){
+  var root=document.getElementById('lfg');
+  var tabs=root.querySelectorAll('.onglets button');
+  tabs.forEach(function(b){b.addEventListener('click',function(){
+    tabs.forEach(function(x){x.setAttribute('aria-selected',x===b?'true':'false');});
+    root.querySelectorAll('[data-panel]').forEach(function(p){p.hidden=p.getAttribute('data-panel')!==b.getAttribute('data-cat');});
+  });});
+})();
+</script>
