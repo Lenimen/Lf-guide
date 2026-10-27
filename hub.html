@@ -51,6 +51,12 @@ section{padding-block:32px 0;display:grid;gap:14px}
 .cta a.b{background:var(--paper);color:var(--ink);text-decoration:none;padding:13px 16px;font-weight:bold;font-size:14px;letter-spacing:.04em;text-transform:uppercase}
 .cta .dm{border:1px solid var(--paper);padding:12px 14px;font-size:14px}
 .cta .dm b{font-family:var(--display);font-size:18px;letter-spacing:.06em}
+.paid{display:grid;grid-template-columns:1fr auto;gap:6px 14px;align-items:center;border:1px solid var(--ink);padding:18px 16px;text-decoration:none;color:var(--ink)}
+a.paid:hover{background:var(--sheet)}
+.paid h2{font-size:22px;font-weight:700}
+.paid p{font-size:14px;color:var(--ink-soft);grid-column:1/-1;min-width:0}
+.paid .prix{font-family:var(--display);font-weight:800;font-size:28px;line-height:1;white-space:nowrap}
+.paid .meta{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:4px}
 footer{font-size:11px;color:var(--ink-soft);padding-top:20px}
 </style>
 
@@ -83,13 +89,29 @@ footer{font-size:11px;color:var(--ink-soft);padding-top:20px}
       <p>Combien de muscle tu peux encore gagner sans produits, en combien de temps, et ta carte à partager en story.</p>
       <div class="meta"><span class="go">Calculer</span><span class="tag">Outil</span></div>
     </a>
-    <div class="tool soon" aria-disabled="true">
+    <a class="tool" data-src href="https://lfauconnier27.systeme.io/5e2d6ea8?g=posing">
       <span class="n">3</span>
+      <h2>Le guide posing</h2>
+      <p>Toutes les poses Men's Physique, Classic et Bodybuilding, avec mes photos, les bons placements et les erreurs qui coûtent des points.</p>
+      <div class="meta"><span class="go">Ouvrir</span><span class="tag">Guide</span></div>
+    </a>
+    <div class="tool soon" aria-disabled="true">
+      <span class="n">4</span>
       <h2>Le bilan d'athlète</h2>
       <p>Quoi suivre chaque semaine et comment lire ton évolution.</p>
       <div class="meta"><span class="go">Bientôt</span></div>
     </div>
   </div>
+
+  <section>
+    <div class="label">Offre payante</div>
+    <a class="paid" data-src href="https://lfauconnier27.systeme.io/5e2d6ea8?g=correction-posing">
+      <h2>Correction posing en vidéo</h2>
+      <span class="prix">49 €</span>
+      <p>Tu m'envoies tes poses filmées, je te renvoie une vidéo où je les corrige une par une, puis un contrôle 14 jours après. Une correction ponctuelle, pas un suivi.</p>
+      <div class="meta"><span class="go">Voir l'offre</span><span class="tag">Payant</span></div>
+    </a>
+  </section>
 
   <section>
     <div class="cta">
