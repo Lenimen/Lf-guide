@@ -244,7 +244,7 @@
           after:"<p>Envoie ce message avec la vidéo dans ton prochain retour. Leni compare ton estimation avec la vidéo au bilan.</p>"}
       ]},
     c05:{
-      code:'C05',title:'Nutrition pratique : énergie, macros, hydratation',time:'16 min',draft:true,
+      code:'C05',title:'Nutrition pratique : énergie, macros, hydratation',time:'16 min',pub:'2026-11-09',
       goal:"À la fin, tu sais ce qui compte le plus dans ton alimentation, à quoi sert chaque macro, comment remplacer un aliment sans casser ton plan et comment gérer un repas hors de chez toi.",
       lessons:[
         {t:"L'énergie d'abord, puis les macros",proof:'Connaissance enseignable',html:
@@ -276,7 +276,7 @@
           after:"<p>Envoie ce message dans ton journal Fitbrothers ou ton prochain bilan. Leni valide le module au bilan.</p>"}
       ]},
     c06:{
-      code:'C06',title:'Santé, signaux d\'alerte et limites du coaching',time:'10 min',draft:true,
+      code:'C06',title:'Santé, signaux d\'alerte et limites du coaching',time:'10 min',draft:true,sante:1,
       goal:"À la fin, tu sais ce que ton coach peut et ne peut pas faire, utiliser la grille vert, orange, rouge et signaler vite un problème.",
       lessons:[
         {t:"Ce que ton coach fait, et ce qui sort du coaching",proof:'Stratégie LF',html:
@@ -304,7 +304,7 @@
           after:"<p>Envoie tes trois réponses dans ton prochain retour. Leni valide le module au bilan.</p>"}
       ]},
     a01:{
-      code:'A01',title:'Progresser : ce qui compte vraiment',time:'14 min',draft:true,
+      code:'A01',title:'Progresser : ce qui compte vraiment',time:'14 min',pub:'2026-11-16',
       goal:"À la fin, tu sais distinguer une progression réelle d'une simple hausse de charge, lire tes indicateurs et réagir à un plateau sans paniquer.",
       lessons:[
         {t:"Progression réelle ou simple hausse de charge ?",proof:'Stratégie LF',html:
@@ -331,7 +331,7 @@
           after:"<p>Envoie ce message dans ton prochain retour. Leni te répond et valide le module au bilan.</p>"}
       ]},
     a02:{
-      code:'A02',title:'Comment un muscle grossit',time:'10 min',draft:true,
+      code:'A02',title:'Comment un muscle grossit',time:'10 min',pub:'2026-11-23',
       goal:"À la fin, tu sais expliquer avec un modèle simple et défendable comment un muscle grossit, et ce qui ne le prouve pas.",
       lessons:[
         {t:"Ce qui fait grossir un muscle",proof:'Connaissance enseignable',html:
@@ -352,7 +352,7 @@
           after:"<p>Envoie ces 3 phrases dans ton prochain retour. Leni valide le module au bilan.</p>"}
       ]},
     a03:{
-      code:'A03',title:'Analyser un exercice (biomécanique)',time:'13 min',draft:true,
+      code:'A03',title:'Analyser un exercice (biomécanique)',time:'13 min',pub:'2026-11-30',
       goal:"À la fin, tu sais décrire la fonction articulaire visée, formuler une hypothèse, la tester, observer et remplacer une machine de façon cohérente.",
       lessons:[
         {t:"Partir de la fonction, pas du nom de l'exercice",proof:'Connaissance enseignable',html:
@@ -380,7 +380,7 @@
           after:"<p>Propose ce remplacement à Leni dans ton prochain retour, comme si ta salle n'avait pas la machine. Leni valide le module au bilan.</p>"}
       ]},
     a04:{
-      code:'A04',title:'Comprendre ta programmation',time:'15 min',draft:true,
+      code:'A04',title:'Comprendre ta programmation',time:'15 min',pub:'2026-12-07',
       goal:"À la fin, tu sais lire la logique de ton plan : priorités, répartition, ordre, dose gérable puis ajustement.",
       lessons:[
         {t:"Lire la logique de ton plan",proof:'Stratégie LF',html:
@@ -399,7 +399,7 @@
           after:"<p>Envoie ces 5 lignes dans ton prochain retour. Leni compare avec son intention, corrige ce qui manque et valide le module au bilan.</p>"}
       ]},
     e01:{
-      code:'E01',title:'Le cas Gaëtan, 65 semaines de suivi',time:'25 min',draft:true,
+      code:'E01',title:'Le cas Gaëtan, 65 semaines de suivi',time:'25 min',pub:'2026-12-14',
       goal:"À la fin, tu vois comment Leni raisonne sur un vrai suivi : les phases, les exécutions, le programme et ce qui a fait la différence.",
       lessons:[
         {t:"La vidéo",proof:'Cas réel',html:
@@ -428,7 +428,7 @@
           after:"<p>Envoie ce message dans ton prochain retour, avec la vidéo de l'exécution choisie. Leni corrige et valide le module au bilan.</p>"}
       ]},
     a05:{
-      code:'A05',title:"Nutrition d'athlète et suppléments",time:'14 min',draft:true,
+      code:'A05',title:"Nutrition d'athlète et suppléments",time:'14 min',pub:'2026-12-21',
       goal:"À la fin, tu sais adapter ton alimentation à la phase, situer un supplément dans la hiérarchie LF et garder de la flexibilité.",
       lessons:[
         {t:"Ton alimentation change avec la phase",proof:'Connaissance enseignable',html:
@@ -456,7 +456,7 @@
           after:"<p>Envoie ta liste dans ton prochain retour. Leni la classe avec toi et valide le module au bilan.</p>"}
       ]},
     a06:{
-      code:'A06',title:"Ton rôle d'athlète : communication et esprit critique",time:'17 min',draft:true,
+      code:'A06',title:"Ton rôle d'athlète : communication et esprit critique",time:'17 min',pub:'2026-12-28',
       goal:"À la fin, tu sais être acteur de ton coaching, trier l'information fitness et signaler vite ce qui ne va pas.",
       lessons:[
         {t:"Ton rôle dans le coaching",proof:'Stratégie LF',html:
@@ -496,7 +496,7 @@
   /* Suivi (accord de Leni, 21/10) : seulement l'avancée (module, leçon, étape franchie), jamais le texte tapé par l'élève. */
   var HOOK='https://hook.eu1.make.com/ufc1dhh88l5lvoejhnf2988kfij9sq2u';
   function track(ev){
-    if(!fixed)return;
+    if(!course)return;
     var q=store._q||(store._q=[]);
     q.push({module:M.code,lecon:String(cur+1),event:ev});save();flush();
   }
@@ -505,15 +505,31 @@
     store._q=[];save();
     q.forEach(function(e){e.email=store._mail;try{fetch(HOOK,{method:'POST',mode:'no-cors',keepalive:true,body:new URLSearchParams(e)})}catch(x){}});
   }
+  function trackTxt(ev,detail){
+    if(!course||M.sante)return;
+    var q=store._q||(store._q=[]);
+    q.push({module:M.code,lecon:String(cur+1),event:ev,detail:String(detail||'').slice(0,1500)});save();flush();
+  }
   function once(ev){var k=ev+cur;if(st.sent&&st.sent[k])return;(st.sent||(st.sent={}))[k]=1;track(ev)}
 
   /* Sans module imposé (aperçu), on affiche le sommaire et on change de module sur place. */
   var fixed=!!MODULES[id];
+  /* Mode cours : un seul bloc data-lf-module="academy", l'élève arrive sur son prochain module. */
+  var auto=id==='academy';
+  var course=fixed||auto;
+  var TODAY=new Date().toISOString().slice(0,10);
+  function live(k){var m=MODULES[k];return !m.draft&&(!m.pub||m.pub<=TODAY)}
+  function nextMod(){for(var i=0;i<ORDER.length;i++){var k=ORDER[i];if(live(k)&&!(store[k]&&store[k].done))return k}return null}
+  function fr(d){return d.slice(8,10)+'/'+d.slice(5,7)}
   var M,st,cur;
   function home(){
     document.getElementById('lfa-code').textContent='';
     var t="<div class='hero'><span class='label'>Formation incluse dans ton coaching</span><h1>Les modules</h1><p class='lede'>Un nouveau module arrive chaque semaine. Commence par le premier.</p></div><div class='toc'>";
-    ORDER.forEach(function(k){var m=MODULES[k];t+="<a href='#"+k+"' data-mod='"+k+"'><span>"+m.code+"</span>"+esc(m.title)+(m.draft?" <em class='draft'>à relire</em>":"")+"</a>"});
+    ORDER.forEach(function(k){var m=MODULES[k];
+      if(auto&&!live(k))return;
+      var tag=m.draft?'à relire':(!live(k)?'sort le '+fr(m.pub):(store[k]&&store[k].done?'terminé ✓':''));
+      t+="<a href='#"+k+"' data-mod='"+k+"'><span>"+m.code+"</span>"+esc(m.title)+(tag?" <em class='draft'>"+tag+"</em>":"")+"</a>"});
+    if(auto){var up=ORDER.filter(function(k){return !live(k)&&!MODULES[k].draft})[0];if(up)t+="</div><p class='lede'>Prochain module : "+MODULES[up].code+", le "+fr(MODULES[up].pub)+".</p><div>"}
     app.innerHTML=t+"</div>";
     app.querySelectorAll('[data-mod]').forEach(function(a){a.onclick=function(e){e.preventDefault();open(a.getAttribute('data-mod'));top()}});
   }
@@ -528,7 +544,7 @@
   function render(){
     var L=M.lessons[cur];
     var h="<div class='hero'><span class='label'>Module "+M.code+" · "+M.time+"</span><h1>"+esc(M.title)+"</h1><p class='lede'>"+esc(M.goal)+"</p></div>";
-    if(fixed&&!store._mail)h+="<div class='who'><span>Pour que Leni voie où tu en es dans la formation, entre l'e-mail de ton coaching (une seule fois).</span><div><input type='email' id='lfa-mail' placeholder='ton@email.com' autocomplete='email'><button type='button' class='btn' id='lfa-mail-ok'>OK</button></div></div>";
+    if(course&&!store._mail)h+="<div class='who'><span>Pour que Leni voie où tu en es dans la formation, entre l'e-mail de ton coaching (une seule fois).</span><div><input type='email' id='lfa-mail' placeholder='ton@email.com' autocomplete='email'><button type='button' class='btn' id='lfa-mail-ok'>OK</button></div></div>";
     h+="<div class='steps' role='tablist'>";
     M.lessons.forEach(function(_,i){h+="<button role='tab' aria-label='Leçon "+(i+1)+"' class='"+(i===cur?'on':(st.seen[i]?'done':''))+"' data-go='"+i+"'>"+(i+1)+"</button>"});
     h+="</div><div class='screen'><div class='screen-head'><span class='n'>"+M.code+"."+(cur+1)+"</span><h2>"+esc(L.t)+"</h2></div><div class='screen-body'>";
@@ -538,9 +554,10 @@
     if(L.check){h+="<div class='check'>";L.check.forEach(function(c,j){var k=cur+'-'+j;h+="<label><input type='checkbox' data-ck='"+k+"'"+(st.check[k]?' checked':'')+"><span>"+esc(c)+"</span></label>"});h+="</div>"}
     if(L.builder){
       h+="<div class='builder'>";L.builder.forEach(function(b,j){var k=cur+'-'+j;h+="<label>"+esc(b[0])+"<textarea data-b='"+k+"' placeholder='"+esc(b[1])+"'>"+esc(st.b[k]||'')+"</textarea></label>"});
-      h+="<div class='out'><div class='out-head'><span>Ton message</span><button type='button' id='lfa-copy'>Copier</button></div><pre id='lfa-out'></pre></div></div>";
+      h+="<div class='out'><div class='out-head'><span>Ton message</span><button type='button' id='lfa-copy'>Copier</button></div><pre id='lfa-out'></pre></div>"+(course&&!M.sante?"<button type='button' class='btn' id='lfa-send'>Envoyer à Leni</button>":"")+"</div>";
     }
     if(L.after)h+=L.after;
+    if(course&&L.action&&!L.builder)h+="<button type='button' class='btn' id='lfa-send'>C'est fait, je l'ai envoyé à Leni</button>";
     if(L.quiz){
       var q=L.quiz;h+="<div class='case'><div class='case-q'><span class='label'>À toi</span><p>"+esc(q.q)+"</p></div><div class='opts'>";
       q.o.forEach(function(o,j){h+="<button type='button' data-q='"+j+"'>"+esc(o)+"</button>"});
@@ -567,6 +584,13 @@
     app.querySelectorAll('[data-t]').forEach(function(b){b.onclick=function(){var f=document.getElementById('lfa-loom');if(f)f.src=f.getAttribute('data-src')+'&t='+b.getAttribute('data-t')+'&autoplay=1'}});
     app.querySelectorAll('[data-ck]').forEach(function(c){c.onchange=function(){st.check[c.getAttribute('data-ck')]=c.checked?1:0;save()}});
     app.querySelectorAll('[data-b]').forEach(function(t){t.oninput=function(){st.b[t.getAttribute('data-b')]=t.value;save();buildMsg()}});
+    var sd=document.getElementById('lfa-send');
+    if(sd)sd.onclick=function(){
+      if(!store._mail){var w=app.querySelector('.who input');if(w){w.focus();w.scrollIntoView({block:'center'})}return}
+      var o=document.getElementById('lfa-out');var txt=o?o.textContent:'';
+      if(o&&(!txt||txt==='Remplis les cases ci-dessus.'))return;
+      trackTxt(o?'action envoyée':'action déclarée',txt);sd.textContent='Envoyé ✓';sd.disabled=true;
+    };
     var mo=document.getElementById('lfa-mail-ok');
     if(mo)mo.onclick=function(){var v=(document.getElementById('lfa-mail').value||'').trim().toLowerCase();if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v)){document.getElementById('lfa-mail').focus();return}store._mail=v;save();flush();var w=app.querySelector('.who');if(w)w.innerHTML='<span>Merci, c\'est noté ✓</span>'};
     buildMsg();
@@ -590,13 +614,14 @@
     var d=document.getElementById('lfa-done');if(d)d.onclick=function(){
       st.done=1;save();track('module terminé');
       var nx=ORDER[ORDER.indexOf(id)+1];if(nx&&MODULES[nx].draft)nx=null;
+      if(auto){var nk=nextMod();document.getElementById('lfa-end').innerHTML="<div class='end'><span class='label'>Module "+M.code+" terminé</span><h2>Bravo</h2><p>Si tu as cliqué « Envoyer à Leni » sur l'exercice, c'est validé de ton côté : Claude et Leni le voient.</p>"+(nk?"<button class='btn' id='lfa-nx'>Module suivant : "+MODULES[nk].code+"</button>":"<p>Tu es à jour. Le prochain module arrive lundi.</p>")+"</div>";var b=document.getElementById('lfa-nx');if(b)b.onclick=function(){open(nk);top()};return}
       document.getElementById('lfa-end').innerHTML="<div class='end'><span class='label'>Module "+M.code+" terminé</span><h2>Il te reste l'action réelle</h2><p>Le module est validé quand Leni a vu ton action au bilan. Envoie-la dans ton prochain retour.</p><p class='key'>Dernière étape : clique sur « Terminer la leçon » en haut de la page du cours (bouton Systeme.io). C'est ce qui fait avancer ta barre de progression.</p>"+(nx?"<p>Prochain module : <b>"+MODULES[nx].code+" · "+esc(MODULES[nx].title)+"</b>, dans la leçon suivante du cours.</p>":"")+"</div>";
     };
   }
   function fallback(txt){var a=document.createElement('textarea');a.value=txt;document.body.appendChild(a);a.select();try{document.execCommand('copy')}catch(e){}document.body.removeChild(a)}
   function top(){var r=document.getElementById('lfa');if(r&&r.scrollIntoView)r.scrollIntoView({behavior:'smooth',block:'start'})}
 
-  if(fixed)open(id);else if(MODULES[(location.hash||'').slice(1)])open(location.hash.slice(1));else home();
+  if(fixed)open(id);else if(auto){var nk0=nextMod();if(nk0)open(nk0);else home()}else if(MODULES[(location.hash||'').slice(1)])open(location.hash.slice(1));else home();
 })();
 </script>
 </body>
