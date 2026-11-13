@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>LF Test</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#192E33">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="LF Test">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root { --petrole:#192E33; --creme:#EBE3D0; --clair:#F6F2E8; --ok:#2E7D5B; --ko:#B3412F; }
+  * { box-sizing:border-box; }
+  body { margin:0; font-family:Outfit, -apple-system, sans-serif; background:var(--petrole); color:var(--creme);
+         padding:calc(env(safe-area-inset-top) + 20px) 16px calc(env(safe-area-inset-bottom) + 32px); }
+  h1 { font-size:26px; margin:4px 0 4px; letter-spacing:.5px; }
+  .sous { opacity:.8; margin:0 0 20px; font-size:15px; }
+  .carte { background:var(--clair); color:var(--petrole); border-radius:16px; padding:16px; margin-bottom:14px; }
+  .carte h2 { font-size:18px; margin:0 0 6px; display:flex; justify-content:space-between; align-items:center; gap:8px; }
+  .carte p { margin:6px 0; font-size:15px; line-height:1.4; }
+  .etat { font-size:13px; font-weight:600; padding:3px 10px; border-radius:99px; background:#ddd; white-space:nowrap; }
+  .etat.ok { background:var(--ok); color:#fff; } .etat.ko { background:var(--ko); color:#fff; }
+  button { font-family:inherit; font-size:16px; font-weight:600; border:0; border-radius:12px; padding:13px 16px;
+           background:var(--petrole); color:var(--creme); width:100%; margin-top:8px; }
+  button.second { background:transparent; color:var(--petrole); border:2px solid var(--petrole); }
+  textarea { width:100%; height:90px; font-size:11px; border-radius:10px; border:1px solid #bbb; padding:8px; margin-top:8px; }
+  #lecteur { width:100%; margin-top:10px; border-radius:12px; overflow:hidden; }
+  .produit { margin-top:10px; font-size:15px; }
+  .petit { font-size:12px; opacity:.75; }
+  ol { padding-left:20px; margin:6px 0; } li { margin:4px 0; font-size:15px; }
+</style>
+</head>
+<body>
+  <h1>THE LF METHOD</h1>
+  <p class="sous">Page de test de l'app élèves. Rien n'est enregistré, aucune donnée ne part nulle part sauf le code que tu copies toi-même.</p>
+
+  <div class="carte" id="c-install">
+    <h2>1. Installation <span class="etat" id="e-install">…</span></h2>
+    <div id="install-non">
+      <p>Ouvre cette page dans <b>Safari</b>, puis :</p>
+      <ol>
+        <li>touche le bouton Partager (le carré avec la flèche) ;</li>
+        <li>choisis « Sur l'écran d'accueil », puis « Ajouter » ;</li>
+        <li>ouvre l'app « LF Test » depuis ton écran d'accueil et continue là-bas.</li>
+      </ol>
+    </div>
+    <p id="install-oui" hidden>L'app est ouverte depuis l'écran d'accueil, en plein écran. C'est bon.</p>
+  </div>
+
+  <div class="carte">
+    <h2>2. Notifications <span class="etat" id="e-notif">…</span></h2>
+    <p id="notif-txt">Touche le bouton, puis « Autoriser ».</p>
+    <button id="b-notif">Activer les notifications</button>
+    <button id="b-local" class="second" hidden>M'envoyer une notification d'essai</button>
+    <div id="abo" hidden>
+      <p>Dernière étape : copie ce code et colle-le dans le fil Claude. Je t'enverrai une vraie notification depuis l'extérieur.</p>
+      <textarea id="abo-code" readonly></textarea>
+      <button id="b-copier">Copier le code</button>
+    </div>
+  </div>
+
+  <div class="carte">
+    <h2>3. Scan de code-barres <span class="etat" id="e-scan">…</span></h2>
+    <p>Prends un produit de ta cuisine et scanne son code-barres.</p>
+    <button id="b-scan">Scanner un code-barres</button>
+    <button id="b-stop" class="second" hidden>Arrêter la caméra</button>
+    <div id="lecteur"></div>
+    <div class="produit" id="produit"></div>
+  </div>
+
+  <div class="carte">
+    <h2>4. Sans réseau <span class="etat" id="e-off">à tester</span></h2>
+    <p>Mets ton iPhone en mode avion, ferme l'app puis rouvre-la depuis l'écran d'accueil. Si cette page s'affiche, c'est bon : à la salle, une séance pourra s'enregistrer sans réseau.</p>
+    <p class="petit" id="reseau"></p>
+  </div>
+
+  <div class="carte">
+    <h2>Résultat à me renvoyer</h2>
+    <p>Copie ce résumé et colle-le dans le fil Claude, avec le code des notifications.</p>
+    <textarea id="resume" readonly></textarea>
+    <button id="b-resume">Copier le résumé</button>
+  </div>
+
+<script src="https://cdn.jsdelivr.net/npm/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+<script>
+const VAPID = 'BGLDg_9phuEXNOTbjsp5kH7NjxGWLBFprYbGBzsKXuwTM5Xf1ud-JxK8Iei-iZiMYq9LYqNPdLvKDx1J0A_eNHY';
+const R = { installee: false, notif: 'pas testé', push: 'pas testé', scan: 'pas testé' };
+const $ = (id) => document.getElementById(id);
+function etat(id, txt, ok) { const e = $(id); e.textContent = txt; e.className = 'etat' + (ok === true ? ' ok' : ok === false ? ' ko' : ''); }
+function resume() {
+  const ios = (navigator.userAgent.match(/OS (\d+)_(\d+)/) || []).slice(1).join('.') || 'inconnu';
+  $('resume').value = [
+    'TEST APP LF', 'iOS : ' + ios,
+    'Installée écran d\'accueil : ' + (R.installee ? 'oui' : 'non'),
+    'Notifications autorisées : ' + R.notif,
+    'Abonnement push : ' + R.push,
+    'Scan code-barres : ' + R.scan,
+    'Hors ligne : ' + (navigator.onLine ? 'page ouverte avec réseau' : 'page ouverte SANS réseau (OK)')
+  ].join('\n');
+}
+async function copier(id) {
+  const t = $(id); t.select();
+  try { await navigator.clipboard.writeText(t.value); } catch (_) { document.execCommand('copy'); }
+}
+
+// 1. Installation
+R.installee = window.navigator.standalone === true || matchMedia('(display-mode: standalone)').matches;
+etat('e-install', R.installee ? 'installée' : 'pas encore', R.installee);
+$('install-non').hidden = R.installee; $('install-oui').hidden = !R.installee;
+
+// Service worker
+let reg = null;
+if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').then((r) => { reg = r; });
+
+// 2. Notifications
+function b64(s) { const p = '='.repeat((4 - s.length % 4) % 4); const b = atob((s + p).replace(/-/g, '+').replace(/_/g, '/')); return Uint8Array.from([...b].map((c) => c.charCodeAt(0))); }
+if (!('Notification' in window) || !('PushManager' in window)) {
+  etat('e-notif', R.installee ? 'non disponible' : 'installe d\'abord', R.installee ? false : undefined);
+  $('notif-txt').textContent = R.installee ? 'Ton iPhone ne propose pas les notifications pour les apps web (iOS 16.4 minimum).' : 'Les notifications ne marchent qu\'une fois l\'app installée sur l\'écran d\'accueil (étape 1).';
+  $('b-notif').hidden = true; R.notif = R.installee ? 'non disponible' : 'app pas installée';
+} else {
+  etat('e-notif', Notification.permission === 'granted' ? 'autorisées' : 'à activer', Notification.permission === 'granted' ? true : undefined);
+}
+$('b-notif').onclick = async () => {
+  try {
+    const p = await Notification.requestPermission();
+    R.notif = p === 'granted' ? 'oui' : 'refusées (' + p + ')';
+    if (p !== 'granted') { etat('e-notif', 'refusées', false); resume(); return; }
+    etat('e-notif', 'autorisées', true);
+    reg = reg || await navigator.serviceWorker.ready;
+    const sub = await reg.pushManager.subscribe({ userVisibleOnly: true, applicationServerKey: b64(VAPID) });
+    R.push = 'oui';
+    $('abo-code').value = JSON.stringify(sub);
+    $('abo').hidden = false; $('b-local').hidden = false;
+  } catch (err) { R.push = 'erreur : ' + err.message; etat('e-notif', 'erreur', false); }
+  resume();
+};
+$('b-local').onclick = async () => {
+  reg = reg || await navigator.serviceWorker.ready;
+  reg.showNotification('THE LF METHOD', { body: 'Notification d\'essai : ton bilan de la semaine t\'attend.', icon: 'icon-192.png' });
+};
+$('b-copier').onclick = () => copier('abo-code');
+
+// 3. Scan
+let scanner = null;
+async function chercher(code) {
+  $('produit').textContent = 'Code ' + code + ' lu. Recherche du produit…';
+  try {
+    const r = await fetch('https://world.openfoodfacts.org/api/v2/product/' + encodeURIComponent(code) + '.json?fields=product_name,brands,nutriments');
+    const d = await r.json();
+    if (d.status !== 1 || !d.product) { $('produit').textContent = 'Code ' + code + ' lu, mais produit absent d\'Open Food Facts. Le scan marche quand même.'; return; }
+    const n = d.product.nutriments || {}; const f = (v) => (v === undefined ? '?' : Math.round(v * 10) / 10);
+    $('produit').innerHTML = '<b>' + (d.product.product_name || 'Produit') + '</b>' + (d.product.brands ? ' (' + d.product.brands + ')' : '') +
+      '<br>Pour 100 g : ' + f(n['energy-kcal_100g']) + ' kcal, protéines ' + f(n.proteins_100g) + ' g, glucides ' + f(n.carbohydrates_100g) + ' g, lipides ' + f(n.fat_100g) + ' g' +
+      '<br><span class="petit">Source : Open Food Facts</span>';
+  } catch (_) { $('produit').textContent = 'Code ' + code + ' lu. Pas de réseau pour chercher le produit, mais le scan marche.'; }
+}
+$('b-scan').onclick = async () => {
+  try {
+    scanner = scanner || new Html5Qrcode('lecteur', { formatsToSupport: [Html5QrcodeSupportedFormats.EAN_13, Html5QrcodeSupportedFormats.EAN_8, Html5QrcodeSupportedFormats.UPC_A, Html5QrcodeSupportedFormats.UPC_E] });
+    $('b-stop').hidden = false; $('b-scan').hidden = true;
+    await scanner.start({ facingMode: 'environment' }, { fps: 10, qrbox: { width: 260, height: 140 } }, async (code) => {
+      await scanner.stop(); $('b-stop').hidden = true; $('b-scan').hidden = false;
+      R.scan = 'oui (' + code + ')'; etat('e-scan', 'marche', true); resume(); chercher(code);
+    });
+  } catch (err) { R.scan = 'erreur : ' + err; etat('e-scan', 'erreur', false); $('b-stop').hidden = true; $('b-scan').hidden = false; resume(); }
+};
+$('b-stop').onclick = async () => { try { await scanner.stop(); } catch (_) {} $('b-stop').hidden = true; $('b-scan').hidden = false; };
+etat('e-scan', 'à tester');
+
+// 4. Réseau
+function majReseau() { $('reseau').textContent = navigator.onLine ? 'Réseau : connecté.' : 'Réseau : aucun. La page s\'est ouverte quand même.'; if (!navigator.onLine) etat('e-off', 'marche', true); resume(); }
+addEventListener('online', majReseau); addEventListener('offline', majReseau); majReseau();
+$('b-resume').onclick = () => copier('resume');
+resume();
+</script>
+</body>
+</html>
