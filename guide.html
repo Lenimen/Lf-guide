@@ -167,6 +167,10 @@ a.btn{text-decoration:none}
 .consent{display:flex;gap:10px;align-items:flex-start;font-size:12px;color:var(--ink-soft)}
 .consent input{margin-top:3px;accent-color:var(--ink);flex:none}
 .gate-err{color:var(--warn);font-size:13px}
+.proof{font-size:12px;color:var(--ink-soft);margin:0}
+.proof b{color:var(--ink)}
+.gate-list{margin:0;padding-left:18px;font-size:14px;display:grid;gap:2px}
+.note-nav{font-size:13px;color:var(--ink-soft);margin:0}
 .gate button,.feedback button{justify-self:start}
 .rate{display:flex;gap:6px;flex-wrap:wrap}
 .rate button{all:unset;cursor:pointer;width:40px;height:40px;display:grid;place-items:center;border:1px solid var(--ink);font-weight:bold}
@@ -210,7 +214,7 @@ html,body{background:#192E33!important;overflow-x:hidden}
   <div class="hero">
     <div class="label">Guide gratuit · Bodybuilding naturel · par Leni Fauconnier</div>
     <h1>De pratiquant à <em>athlète</em></h1>
-    <p class="lede">La différence entre un pratiquant et un athlète n'est pas le niveau, c'est la manière de fonctionner. Fais le test, explore les cinq piliers avec les outils, puis coche ton plan d'action concret sur 30 jours. Tes réponses restent enregistrées dans ce navigateur, sur ton téléphone.</p>
+    <p class="lede"><b>En 2 minutes, découvre ce qui te sépare d'un physique de compétiteur, et repars avec un plan d'action concret sur 30 jours.</b> La différence entre un pratiquant et un athlète n'est pas le niveau, c'est la manière de fonctionner.</p>
     <div class="for">
       <div class="label">Ce guide est pour toi si</div>
       <ul>
@@ -221,6 +225,7 @@ html,body{background:#192E33!important;overflow-x:hidden}
       </ul>
     </div>
     <div class="start"><a class="btn solid" href="#test">Commencer le test</a><span class="label">2 minutes · le reste à ton rythme</span></div>
+    <p class="proof">Déjà <b>plus de 110 pratiquants</b> ont fait le test · avis des lecteurs : <b>4,8/5</b></p>
     <div class="contrast" role="table" aria-label="Pratiquant et athlète">
       <div class="h" role="columnheader">Le pratiquant</div><div class="h" role="columnheader">L'athlète</div>
       <div role="cell">S'entraîne</div><div role="cell">Se prépare</div>
@@ -236,7 +241,8 @@ html,body{background:#192E33!important;overflow-x:hidden}
     <div class="quiz" id="quiz"></div>
       <form class="gate" id="gate" novalidate>
       <div class="label">Ton résultat est prêt</div>
-      <p style="font-size:14px">Entre ton email pour voir ton score, ton profil et par où commencer, et pour débloquer les 5 piliers avec leurs outils et ton plan d'action concret sur 30 jours. Gratuit.</p>
+      <p style="font-size:14px">Entre ton prénom et ton email pour débloquer, gratuitement :</p>
+      <ul class="gate-list"><li>Ton score sur 10 et ton profil</li><li>Les 3 piliers à travailler en priorité</li><li>Les 5 piliers avec leurs outils</li><li>Ton plan d'action concret sur 30 jours</li></ul>
       <div class="fields">
         <div class="field"><label for="gPrenom">Prénom</label><input type="text" id="gPrenom" autocomplete="given-name" required></div>
         <div class="field" style="flex:1 1 220px"><label for="gEmail">Email</label><input type="email" id="gEmail" autocomplete="email" required></div>
@@ -244,6 +250,7 @@ html,body{background:#192E33!important;overflow-x:hidden}
       <input type="text" id="gHp" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px">
       <label class="consent" for="gOk"><input type="checkbox" id="gOk"> J'accepte de recevoir le guide et des emails de LF Coaching (conseils, contenus, offres). Désinscription en un clic à tout moment.</label>
       <button class="btn solid" type="submit">Voir mon résultat</button>
+      <p class="proof">Plus de 110 pratiquants ont déjà reçu leur résultat · avis des lecteurs : 4,8/5 · zéro spam, désinscription en un clic</p>
       <p class="gate-err" id="gErr" role="alert" hidden></p>
     </form>
     <div class="score gated" id="scoreBox" aria-live="polite">
@@ -520,6 +527,7 @@ html,body{background:#192E33!important;overflow-x:hidden}
   <!-- PLAN -->
   <section class="block gated" id="plan">
     <div class="band"><span class="label">Plan d'action</span><h2>Tes 30 jours</h2></div>
+    <p class="note-nav">Tes cases cochées restent enregistrées dans ce navigateur, sur ce téléphone. Reviens par le même chemin (par exemple depuis Instagram) pour les retrouver.</p>
     <div class="progress"><span class="label">Avancement</span><div class="gauge"><i id="planBar" style="width:0%"></i></div><b id="planPct">0/17</b></div>
     <div class="weeks" id="weeks"></div>
   </section>
@@ -566,6 +574,9 @@ html,body{background:#192E33!important;overflow-x:hidden}
   var SOURCE=qs.source||qs.utm_source||(location.hash&&!isClient?location.hash.slice(1):'')||'direct';
   function send(data){try{var b=new URLSearchParams();for(var k in data)b.append(k,data[k]==null?'':data[k]);
     return fetch(HOOK,{method:'POST',mode:'no-cors',body:b}).catch(function(){})}catch(e){return Promise.resolve()}}
+  /* Mesure : une visite par navigateur et par jour, un test terminé par navigateur (pas en mode client) */
+  function track(type){if(isClient)return;send({type:type,source:SOURCE,statut:S.unlocked?'deja-inscrit':'nouveau',page:'guide'})}
+  (function(){var d=new Date().toISOString().slice(0,10);if(S.lastVisit!==d){S.lastVisit=d;save();track('visite')}})();
   function profil(n){return n<=3?'pratiquant':n<=7?'avance':'athlete'}
   var QS=['P1 muscle ciblé par exercice','P1 carnet de séance','P3 progression chiffrée','P1 exécution constante','P2 calories et macros','P3 sommeil 7 h','P3 pesées comparables','P3 photos standardisées','P5 poses travaillées','P5 fédération et catégorie'];
   function manques(){var r=[];for(var i=0;i<QS.length;i++)if(S.quiz[i]!=='oui')r.push(QS[i]);return r.join(' ; ')}
@@ -584,6 +595,7 @@ html,body{background:#192E33!important;overflow-x:hidden}
   "J'ai déjà travaillé mes poses, même seul devant un miroir.",
   "Je sais dans quelle fédération et quelle catégorie je pourrais concourir."];
   S.quiz=S.quiz||{};
+  if(Object.keys(S.quiz).length>=10&&!S.testSent){S.testSent=true;save()}
   var quiz=$('quiz');
   Q.forEach(function(t,i){
     var row=el('div','q');
@@ -598,6 +610,7 @@ html,body{background:#192E33!important;overflow-x:hidden}
     row.appendChild(yn);quiz.appendChild(row)});
   function score(){
     var n=0,answered=0;for(var k in S.quiz){answered++;if(S.quiz[k]==='oui')n++}
+    if(answered>=10&&!S.testSent&&!isClient){S.testSent=true;save();track('test')}
     if(answered>=10&&S.email&&!S.scoreSent&&!isClient){S.scoreSent=true;save();var d={type:'score',email:S.email,score:n,profil:profil(n),source:SOURCE,manques:manques()};setTimeout(function(){send(d)},2500)}
     $('scoreN').textContent=n;$('gaugeBar').style.width=(n*10)+'%';
     var L,T;
