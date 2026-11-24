@@ -1,0 +1,510 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<!--/shell-->
+<title>LF Coaching</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Coaching en ligne en bodybuilding naturel avec Leni Fauconnier : guides gratuits, démarrage, formation et ressources.">
+<meta name="theme-color" content="#192E33">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="LF Coaching">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="icon" type="image/png" href="icons/icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap">
+<style>
+/* Layout : app de poche. Un écran par rubrique, barre d'onglets en bas (le pouce), blocs pleine largeur à angles droits comme la page des guides. Un seul look sombre, celui de la marque. */
+:root{
+  --petrole:#192E33;   /* fond */
+  --feuille:#213B41;   /* blocs posés sur le fond */
+  --creme:#EBE3D0;     /* texte, logo, aplats */
+  --papier:#E5DDC7;    /* aplats clairs */
+  --doux:#AEB9B2;      /* texte secondaire */
+  --filet:#3A5359;     /* filets */
+  --display:"Outfit","Avenir Next","Century Gothic",Arial,sans-serif;
+  --body:"Outfit","Helvetica Neue",Arial,sans-serif;
+  --tab-h:64px;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{background:var(--petrole)}
+body{margin:0;color:var(--creme);font-family:var(--body);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--petrole);z-index:30}
+a{color:inherit}
+h1,h2,h3{font-family:var(--display);text-transform:uppercase;letter-spacing:.03em;line-height:1.02;margin:0;text-wrap:balance}
+p{margin:0;max-width:62ch}
+button{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--creme);outline-offset:2px}
+.wrap{max-width:640px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 calc(var(--tab-h) + 40px + env(safe-area-inset-bottom,0px))}
+.label{font-size:11px;letter-spacing:.16em;text-transform:uppercase;font-weight:600;color:var(--doux)}
+.soft{color:var(--doux)}
+em.hl{font-style:normal;background:var(--creme);color:var(--petrole);display:inline-block;line-height:.86;padding:.1em .08em .02em}
+
+/* En-tête */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--petrole);display:flex;align-items:center;gap:10px;padding-block:14px;border-bottom:2px solid var(--creme)}
+.top img{height:30px;width:auto}
+.brand{display:grid;line-height:1.1}
+.brand b{font-family:var(--display);font-weight:700;font-size:16px;letter-spacing:.14em;text-transform:uppercase}
+.brand small{font-size:11px;color:var(--doux);letter-spacing:.06em}
+.top .who{margin-left:auto;font-size:12px;border:1px solid var(--filet);padding:6px 10px;text-decoration:none;white-space:nowrap}
+
+/* Vues */
+.view{display:grid;grid-template-columns:minmax(0,1fr);gap:22px;padding-top:26px}
+.view[hidden]{display:none!important}
+.hero{display:grid;gap:14px}
+.hero h1{font-size:clamp(38px,11vw,62px);font-weight:800}
+.lede{color:var(--doux);font-size:16px}
+
+/* Boutons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:12px 18px;background:var(--creme);color:var(--petrole);text-decoration:none;font-weight:700;font-size:14px;letter-spacing:.06em;text-transform:uppercase;border:0;cursor:pointer}
+.btn.ghost{background:transparent;color:var(--creme);border:1px solid var(--creme)}
+.btn.small{min-height:38px;padding:8px 12px;font-size:12px}
+.row{display:flex;flex-wrap:wrap;gap:10px}
+
+/* Grandes tuiles d'accueil */
+.tiles{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.tile{display:grid;align-content:space-between;gap:18px;min-height:132px;padding:16px;background:var(--feuille);text-decoration:none;border:1px solid var(--filet)}
+.tile.wide{grid-column:1/-1}
+.tile.solid{background:var(--creme);color:var(--petrole);border-color:var(--creme)}
+.tile.solid .label,.tile.solid .soft{color:var(--petrole);opacity:.75}
+.tile h2{font-size:clamp(18px,5.4vw,22px);font-weight:700;overflow-wrap:anywhere;hyphens:auto}
+.tile.wide-m{grid-column:1/-1}
+.tile .ico{width:30px;height:30px}
+.tile .go{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+.tile:active{transform:scale(.985)}
+
+/* Listes */
+.list{display:grid;border:1px solid var(--creme)}
+.item{display:grid;grid-template-columns:44px 1fr auto;gap:4px 12px;align-items:center;padding:14px;border-bottom:1px solid var(--filet);text-decoration:none;min-width:0}
+.list .item:last-child{border-bottom:0}
+.item .n{font-family:var(--display);font-weight:800;font-size:28px;line-height:1}
+.item h3{font-size:17px;font-weight:700;text-transform:none;letter-spacing:0}
+.item p{font-size:13px;color:var(--doux);grid-column:2/-1;min-width:0}
+.item .tag{font-size:10px;letter-spacing:.1em;text-transform:uppercase;border:1px solid var(--filet);padding:3px 7px;color:var(--doux);white-space:nowrap}
+.item .tag.on{background:var(--creme);color:var(--petrole);border-color:var(--creme)}
+.item.locked{opacity:.55}
+section{display:grid;gap:12px}
+section>h2{font-size:24px;font-weight:700}
+
+/* Bloc encadré (contact, bientôt) */
+.box{display:grid;gap:12px;padding:18px 16px;border:1px solid var(--creme)}
+.box.dash{border-style:dashed;border-color:var(--doux)}
+.box.fill{background:var(--creme);color:var(--petrole);border-color:var(--creme)}
+.box.fill .soft,.box.fill .label{color:var(--petrole);opacity:.75}
+.box h2{font-size:22px;font-weight:700}
+.copyline{display:flex;flex-wrap:wrap;align-items:center;gap:10px;justify-content:space-between;border:1px solid var(--filet);padding:10px 12px}
+.copyline code{font-family:var(--body);font-size:15px;font-weight:600;user-select:all;min-width:0;overflow-wrap:anywhere}
+
+/* Onboarding : la barre qui se charge */
+.bar-card{display:grid;gap:10px;padding:18px 14px 16px;background:var(--feuille);border:1px solid var(--filet)}
+.bar-head{display:flex;justify-content:space-between;align-items:end;gap:10px;flex-wrap:wrap}
+.kg{font-family:var(--display);font-weight:800;font-size:44px;line-height:1;font-variant-numeric:tabular-nums}
+.kg small{font-size:16px;font-weight:600;color:var(--doux);margin-left:4px}
+.barbell{width:100%;height:auto;display:block;max-width:100%}
+.track{height:10px;background:var(--petrole);border:1px solid var(--filet)}
+.track i{display:block;height:100%;background:var(--creme);width:0;transition:width .5s cubic-bezier(.2,.8,.2,1)}
+.steps{display:grid;gap:8px;counter-reset:s}
+.step{display:grid;grid-template-columns:40px 1fr;gap:6px 12px;padding:14px;border:1px solid var(--filet);background:transparent;align-items:start}
+.step.done{background:var(--feuille)}
+.step .chk{width:40px;height:40px;border:2px solid var(--creme);background:transparent;display:grid;place-items:center;cursor:pointer;padding:0}
+.step.done .chk{background:var(--creme)}
+.step .chk svg{width:22px;height:22px;opacity:0}
+.step.done .chk svg{opacity:1}
+.step h3{font-size:16px;font-weight:700;text-transform:none;letter-spacing:0;padding-top:2px}
+.step.done h3{text-decoration:line-through;text-decoration-thickness:2px;color:var(--doux)}
+.step .body{grid-column:2;display:grid;gap:10px;min-width:0}
+.step .body p{font-size:14px;color:var(--doux)}
+.step .who{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--doux)}
+.done-banner{display:none}
+.all-done .done-banner{display:grid}
+
+/* Barre d'onglets */
+.tabs{position:fixed;left:0;right:0;bottom:0;z-index:25;background:var(--petrole);border-top:2px solid var(--creme);padding-bottom:env(safe-area-inset-bottom,0px);padding-left:env(safe-area-inset-left,0px);padding-right:env(safe-area-inset-right,0px)}
+.tabs nav{max-width:640px;margin:0 auto;display:grid;grid-template-columns:repeat(5,1fr)}
+.tabs a{display:grid;justify-items:center;gap:3px;height:var(--tab-h);padding-top:10px;text-decoration:none;font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--doux)}
+.tabs a svg{width:24px;height:24px}
+.tabs a[aria-current="page"]{color:var(--creme)}
+.tabs a[aria-current="page"] svg{transform:translateY(-1px)}
+.tabs a[aria-current="page"]::after{content:"";width:18px;height:3px;background:var(--creme);margin-top:-1px}
+
+/* Bannière d'installation */
+.install{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:12px;align-items:center;padding:12px;border:1px dashed var(--creme);font-size:13px}
+.install img{width:40px;height:40px}
+.install button{background:none;border:0;color:var(--doux);font-size:22px;cursor:pointer;padding:4px 8px}
+
+.toast{position:fixed;left:50%;bottom:calc(var(--tab-h) + 18px + env(safe-area-inset-bottom,0px));transform:translateX(-50%) translateY(20px);background:var(--creme);color:var(--petrole);padding:10px 16px;font-weight:700;font-size:14px;opacity:0;pointer-events:none;transition:.25s;z-index:40;max-width:calc(100% - 32px);text-align:center}
+.toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
+footer{font-size:11px;color:var(--doux);padding-top:8px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+@media (min-width:560px){.tiles{grid-template-columns:repeat(3,1fr)}.tile.wide,.tile.wide-m{grid-column:span 3}.tile.wide-m{grid-column:auto}}
+</style>
+<!--shell-->
+</head>
+<body>
+<!--/shell-->
+
+<div class="wrap">
+  <header class="top">
+    <img src="icons/logo-creme.png" alt="LF" width="30" height="30">
+    <div class="brand"><b data-brand="nom">LF Coaching</b><small data-brand="sousTitre">Coaching en ligne · bodybuilding naturel</small></div>
+    <a class="who" href="#demarrer" id="who-link">Je suis élève</a>
+  </header>
+
+  <!-- ============ ACCUEIL (public) ============ -->
+  <main class="view" id="v-accueil">
+    <div class="hero">
+      <div class="label">Par Leni Fauconnier · athlète naturel</div>
+      <h1>Deviens un <em class="hl">athlète</em> naturel</h1>
+      <p class="lede">Un coaching muscu en ligne pensé comme une prépa : programme, nutrition, posing et suivi chaque semaine. Tout est ici, dans ta poche.</p>
+    </div>
+
+    <div class="install" id="install" hidden>
+      <img src="icons/icon-192.png" alt="">
+      <div><b>Garde l'app sur ton écran d'accueil.</b><br><span class="soft" id="install-how">Dans Safari : bouton Partager, puis « Sur l'écran d'accueil ».</span></div>
+      <button type="button" id="install-x" aria-label="Masquer">×</button>
+    </div>
+
+    <div class="tiles">
+      <a class="tile solid wide" data-cfg="candidature" href="#">
+        <div class="label">Coaching individuel · 6 mois</div>
+        <div><h2>Candidater au coaching</h2><p class="soft">Quelques questions, puis on regarde ensemble en appel si c'est fait pour toi.</p></div>
+        <span class="go">Répondre aux questions →</span>
+      </a>
+      <a class="tile" href="#guides">
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h11a3 3 0 0 1 3 3v13H7a3 3 0 0 1-3-3z"/><path d="M4 17a3 3 0 0 1 3-3h11"/></svg>
+        <div><h2>Guides gratuits</h2></div>
+        <span class="go">Ouvrir →</span>
+      </a>
+      <a class="tile" href="#contact">
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 5h16v11H8l-4 4z"/></svg>
+        <div><h2>Me contacter</h2></div>
+        <span class="go">Écrire →</span>
+      </a>
+      <a class="tile wide-m" data-cfg="depart" href="#">
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="3" width="14" height="18"/><path d="M9 8h6M9 12h6M9 16h3"/></svg>
+        <div><h2>Questionnaire de départ</h2></div>
+        <span class="go">Remplir →</span>
+      </a>
+      <a class="tile wide" href="#demarrer">
+        <div class="label">Tu viens de rejoindre le coaching ?</div>
+        <div><h2>Ton démarrage, étape par étape</h2><p class="soft">Contrat, vidéo de bienvenue, formation, photos de départ : coche au fur et à mesure et regarde ta barre se charger.</p></div>
+        <span class="go">Commencer →</span>
+      </a>
+    </div>
+
+    <section>
+      <div class="label">Qui te coache</div>
+      <div class="box">
+        <h2>Leni Fauconnier</h2>
+        <p class="soft">Personal trainer EREPS niveau 4, certifié NASM, athlète naturel en compétition : 🥇 Men's Physique −23 ans (BIFBB), 4e en bodybuilding junior (WNBF).</p>
+        <div class="row"><a class="btn ghost small" href="https://instagram.com/leni_fit_" target="_blank" rel="noopener">@leni_fit_ sur Instagram</a></div>
+      </div>
+    </section>
+    <footer>© <span data-brand="nom">LF Coaching</span> · Leni Fauconnier · BCE 1033.759.781 · Flémalle, Belgique</footer>
+  </main>
+
+  <!-- ============ GUIDES (public) ============ -->
+  <main class="view" id="v-guides" hidden>
+    <div class="hero">
+      <div class="label">Gratuit</div>
+      <h1>Mes guides <em class="hl">gratuits</em></h1>
+      <p class="lede">Si tu ne sais pas par où commencer, commence par le test.</p>
+    </div>
+    <div class="list" id="guides-list"></div>
+    <a class="box fill" style="text-decoration:none" data-cfg="correctionPosing" href="#">
+      <div class="label">Offre payante · 49 €</div>
+      <h2>Correction posing en vidéo</h2>
+      <p class="soft">Tu m'envoies tes poses filmées, je te renvoie une vidéo où je les corrige une par une, puis un contrôle 14 jours après.</p>
+    </a>
+  </main>
+
+  <!-- ============ CONTACT (public) ============ -->
+  <main class="view" id="v-contact" hidden>
+    <div class="hero">
+      <div class="label">Contact</div>
+      <h1>On en <em class="hl">parle</em> ?</h1>
+      <p class="lede">Je lis tout moi-même. Le plus rapide, c'est Instagram.</p>
+    </div>
+    <div class="box">
+      <div class="label">Instagram</div>
+      <h2>@leni_fit_</h2>
+      <p class="soft">Écris-moi « ATHLÈTE » en message privé si tu veux qu'on parle coaching.</p>
+      <div class="row"><a class="btn" href="https://instagram.com/leni_fit_" target="_blank" rel="noopener">Ouvrir Instagram</a></div>
+    </div>
+    <div class="box">
+      <div class="label">E-mail</div>
+      <div class="copyline"><code id="mail">leni@thelfmethod.com</code><button class="btn small ghost" type="button" data-copy="mail">Copier</button></div>
+    </div>
+    <div class="box">
+      <div class="label">Tu veux un appel ?</div>
+      <p class="soft">Réponds d'abord aux questions de candidature : à la fin, tu choisis ton créneau.</p>
+      <div class="row"><a class="btn ghost" data-cfg="candidature" href="#">Candidater</a></div>
+    </div>
+  </main>
+
+  <!-- ============ DÉMARRER (onboarding élève) ============ -->
+  <main class="view" id="v-demarrer" hidden>
+    <div class="hero">
+      <div class="label">Espace élève · Démarrage</div>
+      <h1>Charge ta <em class="hl">barre</em></h1>
+      <p class="lede">Chaque étape faite ajoute une paire de disques. Barre pleine = tu es prêt à démarrer.</p>
+    </div>
+
+    <div class="bar-card" aria-live="polite">
+      <div class="bar-head">
+        <div class="kg" id="kg">20<small>kg</small></div>
+        <div class="label" id="kg-txt">0 étape sur 9</div>
+      </div>
+      <svg class="barbell" id="barbell" viewBox="0 0 360 90" role="img" aria-label="Barre de progression"></svg>
+      <div class="track"><i id="track"></i></div>
+    </div>
+
+    <div class="box fill done-banner" id="done-banner">
+      <div class="label">Barre chargée</div>
+      <h2>Tu es prêt. On y va.</h2>
+      <p class="soft">Ton plan démarre le lendemain de ta vidéo perso. Ton premier bilan avec photos se fait ce jour-là.</p>
+    </div>
+
+    <div class="steps" id="steps"></div>
+    <p class="soft" style="font-size:12px">Tes coches restent sur ce téléphone, rien n'est envoyé. <button type="button" id="reset" style="background:none;border:0;color:var(--doux);text-decoration:underline;cursor:pointer;padding:0;font-size:12px">Tout décocher</button></p>
+  </main>
+
+  <!-- ============ FORMATION ============ -->
+  <main class="view" id="v-formation" hidden>
+    <div class="hero">
+      <div class="label">LF Athlete Academy</div>
+      <h1>Ta <em class="hl">formation</em></h1>
+      <p class="lede">Un module sort chaque lundi. Commence par C01 à C03 pendant que je prépare ton plan.</p>
+    </div>
+    <div class="row"><a class="btn" data-cfg="academy" href="#" target="_blank" rel="noopener">Ouvrir l'Academy</a></div>
+    <section>
+      <div class="label" id="mod-count"></div>
+      <div class="list" id="modules"></div>
+    </section>
+    <p class="soft" style="font-size:13px">Les modules se suivent sur la plateforme de formation, avec ton accès élève. Le bouton « Envoyer à Leni » de chaque module m'envoie ton exercice.</p>
+  </main>
+
+  <!-- ============ RESSOURCES ============ -->
+  <main class="view" id="v-ressources" hidden>
+    <div class="hero">
+      <div class="label">Espace élève</div>
+      <h1>Tes <em class="hl">ressources</em></h1>
+      <p class="lede">Les fiches que je donne à mes élèves, à garder sous la main.</p>
+    </div>
+    <div class="list" id="res-list"></div>
+
+    <section>
+      <div class="label">Bientôt dans l'app</div>
+      <div class="box dash" id="slot-satisfaction">
+        <div class="label">En préparation</div>
+        <h2>Ton avis sur le coaching</h2>
+        <p class="soft">Deux minutes, une question par écran, à la 3e semaine, à mi-parcours et avant la fin. Ça m'aide à ajuster ton suivi.</p>
+      </div>
+      <div class="box dash" id="slot-suivi">
+        <div class="label">En préparation</div>
+        <h2>Ton suivi</h2>
+        <p class="soft">Séances, poids du matin, nutrition, photos et bilans, au même endroit. En attendant, tout se passe dans l'app de suivi que tu utilises déjà.</p>
+      </div>
+    </section>
+  </main>
+</div>
+
+<div class="tabs"><nav aria-label="Rubriques">
+  <a href="#accueil" data-tab="accueil"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l9-7 9 7v9h-6v-6H9v6H3z"/></svg>Accueil</a>
+  <a href="#guides" data-tab="guides"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h11a3 3 0 0 1 3 3v13H7a3 3 0 0 1-3-3z"/><path d="M4 17a3 3 0 0 1 3-3h11"/></svg>Guides</a>
+  <a href="#demarrer" data-tab="demarrer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12h20M5 8v8M8 6v12M16 6v12M19 8v8"/></svg>Démarrer</a>
+  <a href="#formation" data-tab="formation"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11v5c3 2 9 2 12 0v-5"/></svg>Formation</a>
+  <a href="#ressources" data-tab="ressources"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="3" width="16" height="18"/><path d="M8 8h8M8 12h8M8 16h5"/></svg>Fiches</a>
+</nav></div>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+/* ==================================================================
+   RÉGLAGES : tout ce qui peut changer est ici, rien à chercher ailleurs.
+   ================================================================== */
+var MARQUE = {
+  nom: 'LF Coaching',                                  // nom affiché partout (décision du 1/12)
+  sousTitre: 'Coaching en ligne · bodybuilding naturel' // sous-titre sous le logo
+};
+var SRC = 'app'; // ajouté en ?source= sur les liens Systeme.io pour savoir que la visite vient de l'app
+var LIENS = {
+  candidature:      'https://lfauconnier27.systeme.io/98dd870d',
+  depart:           'https://lfauconnier27.systeme.io/5e2d6ea8?g=depart',
+  testGuide:        'https://lfauconnier27.systeme.io/5e2d6ea8',
+  mensurations:     'https://lfauconnier27.systeme.io/0fa00707',
+  potentiel:        'https://lfauconnier27.systeme.io/5e2d6ea8?g=potentiel',
+  posing:           'https://lfauconnier27.systeme.io/5e2d6ea8?g=posing',
+  correctionPosing: 'https://lfauconnier27.systeme.io/5e2d6ea8?g=correction-posing',
+  academy:          'https://lfauconnier27.systeme.io/school/course/lf-athlete-academy',
+  bienvenue:        'https://drive.google.com/file/d/1IaER-GrIJM2bYmqrxfvET0mxNSHy9g7a/view',
+  tutoSuivi:        'https://www.loom.com/share/a880ddbd7ebb407e93a872ca0953e62f'
+};
+
+var GUIDES = [
+  {t:'De pratiquant à athlète', d:"Le test pour savoir où tu en es, les 5 piliers de la méthode et ton plan sur 30 jours.", l:'testGuide', tag:'Commence ici'},
+  {t:'Prendre ses mensurations', d:'Les 11 mesures avec le schéma, la bonne méthode et un récap à garder.', l:'mensurations', tag:'Outil'},
+  {t:'Ton potentiel naturel', d:'Combien de muscle tu peux encore gagner sans produits, et en combien de temps.', l:'potentiel', tag:'Outil'},
+  {t:'Le guide posing', d:"Les poses Men's Physique, Classic et Bodybuilding, avec les bons placements et les erreurs qui coûtent des points.", l:'posing', tag:'Guide'}
+];
+
+/* Démarrage : l'ordre de la procédure d'onboarding. qui = qui fait l'étape. */
+var ETAPES = [
+  {id:'contrat',   t:'Signer ton contrat', d:"Tu l'as reçu par e-mail après l'appel. Vérifie aussi tes spams.", qui:'Toi'},
+  {id:'start',     t:'Écrire « LF START » sur WhatsApp', d:"Au numéro que je t'ai donné pendant l'appel. Tu reçois tout de suite le message d'accueil.", qui:'Toi'},
+  {id:'bienvenue', t:'Regarder la vidéo de bienvenue', d:'Comment on va travailler ensemble pendant 6 mois.', qui:'Toi', l:'bienvenue', b:'Voir la vidéo'},
+  {id:'academy',   t:"Commencer l'Academy : C01 à C03", d:"Ton accès arrive par e-mail. Ces 3 modules suffisent avant de démarrer.", qui:'Toi', l:'academy', b:"Ouvrir l'Academy"},
+  {id:'depart',    t:'Remplir le questionnaire de départ', d:'Ton quotidien, ton sommeil, ta nutrition. C\'est ce qui me permet de faire un plan qui tient dans ta vie.', qui:'Toi', l:'depart', b:'Remplir'},
+  {id:'appli',     t:"Installer l'app de suivi", d:"Tu reçois l'invitation par e-mail. Le tuto montre le poids du matin et le bilan de la semaine.", qui:'Toi', l:'tutoSuivi', b:'Voir le tuto'},
+  {id:'mesures',   t:'Prendre tes mensurations', d:'Au mètre ruban, le matin à jeun. Le guide te montre où mesurer.', qui:'Toi', l:'mensurations', b:'Ouvrir le guide'},
+  {id:'video',     t:'Recevoir ta vidéo perso du plan', d:"Je te l'envoie le mardi ou le samedi. Réponds à mes 3 questions de fin sur WhatsApp.", qui:'Leni'},
+  {id:'go',        t:'Jour 1 : photos de départ et première séance', d:'Face, dos, deux profils, lumière de face. Puis tu lances ta première séance.', qui:'Toi'}
+];
+
+/* Formation : repris de academy.html (code, titre, durée, date de sortie). draft = pas encore publié. */
+var MODULES = [
+  {c:'C01',t:'Comment fonctionne ton coaching LF',m:10},
+  {c:'C02',t:'Tes données et ton check-in',m:11},
+  {c:'C03',t:'Savoir exécuter ton programme',m:16},
+  {c:'C04',t:"L'effort : proximité de l'échec et RIR",m:12},
+  {c:'C05',t:'Nutrition pratique : énergie, macros, hydratation',m:16,pub:'2026-11-09'},
+  {c:'A01',t:'Progresser : ce qui compte vraiment',m:14,pub:'2026-11-16'},
+  {c:'A02',t:'Comment un muscle grossit',m:10,pub:'2026-11-23'},
+  {c:'A03',t:'Analyser un exercice (biomécanique)',m:13,pub:'2026-11-30'},
+  {c:'A04',t:'Comprendre ta programmation',m:15,pub:'2026-12-07'},
+  {c:'E01',t:'Le cas Gaëtan, 65 semaines de suivi',m:25,pub:'2026-12-14'},
+  {c:'A05',t:"Nutrition d'athlète et suppléments",m:14,pub:'2026-12-21'},
+  {c:'A06',t:"Ton rôle d'athlète : communication et esprit critique",m:17,pub:'2026-12-28'}
+];
+
+var RESSOURCES = [
+  {t:'Le vacuum', d:'Rentrer le ventre sous la cage, du sol jusqu\'à la scène. Progression en 4 étapes.', f:'ressources/fiche-vacuum.pdf', tag:'Posing'},
+  {t:'Les cheat meals', d:'Comment placer un repas libre sans casser ta semaine.', f:'ressources/fiche-cheat-meals.pdf', tag:'Nutrition'},
+  {t:'Prendre ses mensurations', d:'Les 11 mesures et la bonne méthode.', l:'mensurations', tag:'Guide'},
+  {t:'Le guide posing', d:'Toutes les poses, catégorie par catégorie.', l:'posing', tag:'Guide'}
+];
+
+/* ================================================================== */
+function $(s,r){return (r||document).querySelector(s)}
+function $$(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))}
+function lien(k){var u=LIENS[k];if(!u)return '#';if(/systeme\.io/.test(u)){try{var x=new URL(u);x.searchParams.set('source',SRC);return x.toString()}catch(e){}}return u}
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+function store(k,v){try{if(v===undefined)return JSON.parse(localStorage.getItem(k)||'null');localStorage.setItem(k,JSON.stringify(v))}catch(e){return null}}
+function toast(t){var el=$('#toast');el.textContent=t;el.classList.add('on');clearTimeout(toast._t);toast._t=setTimeout(function(){el.classList.remove('on')},1800)}
+
+/* Marque */
+document.title=MARQUE.nom;
+$$('[data-brand]').forEach(function(el){el.textContent=MARQUE[el.getAttribute('data-brand')]});
+
+/* Liens configurés */
+$$('[data-cfg]').forEach(function(a){a.href=lien(a.getAttribute('data-cfg'));a.target='_blank';a.rel='noopener'});
+
+/* Guides */
+$('#guides-list').innerHTML=GUIDES.map(function(g,i){
+  return '<a class="item" href="'+esc(lien(g.l))+'" target="_blank" rel="noopener"><span class="n">'+(i+1)+'</span><h3>'+esc(g.t)+'</h3><span class="tag'+(i===0?' on':'')+'">'+esc(g.tag)+'</span><p>'+esc(g.d)+'</p></a>';
+}).join('');
+
+/* Ressources */
+$('#res-list').innerHTML=RESSOURCES.map(function(r,i){
+  var href=r.f?r.f:lien(r.l);
+  return '<a class="item" href="'+esc(href)+'" target="_blank" rel="noopener"><span class="n">'+(i+1)+'</span><h3>'+esc(r.t)+'</h3><span class="tag">'+esc(r.f?'PDF':r.tag)+'</span><p>'+esc(r.d)+'</p></a>';
+}).join('');
+
+/* Formation */
+(function(){
+  var today=new Date().toISOString().slice(0,10);
+  function fr(d){var p=d.split('-');return p[2]+'/'+p[1]}
+  var dispo=0;
+  $('#modules').innerHTML=MODULES.map(function(m){
+    var live=!m.pub||m.pub<=today; if(live)dispo++;
+    return '<div class="item'+(live?'':' locked')+'"><span class="n" style="font-size:18px">'+m.c+'</span><h3>'+esc(m.t)+'</h3><span class="tag'+(live?' on':'')+'">'+(live?m.m+' min':'Le '+fr(m.pub))+'</span></div>';
+  }).join('');
+  $('#mod-count').textContent=dispo+' modules disponibles sur '+MODULES.length;
+})();
+
+/* Démarrage : la barre */
+var done=store('lf-onboarding')||{};
+var PLATE=10; // kg par disque
+function drawBar(n){
+  var svg=$('#barbell'),W=360,cy=45,h='';
+  h+='<rect x="8" y="'+(cy-3)+'" width="'+(W-16)+'" height="6" fill="#AEB9B2"/>';           // barre
+  h+='<rect x="96" y="'+(cy-9)+'" width="6" height="18" fill="#EBE3D0"/><rect x="'+(W-102)+'" y="'+(cy-9)+'" width="6" height="18" fill="#EBE3D0"/>'; // butées
+  var heights=[80,80,72,72,64,64,56,50,44];
+  for(var i=0;i<n;i++){
+    var ph=heights[i]||44,pw=8,gap=2,off=104+i*(pw+gap);
+    h+='<rect x="'+(off)+'" y="'+(cy-ph/2)+'" width="'+pw+'" height="'+ph+'" fill="#EBE3D0"/>';
+    h+='<rect x="'+(W-off-pw)+'" y="'+(cy-ph/2)+'" width="'+pw+'" height="'+ph+'" fill="#EBE3D0"/>';
+  }
+  // poignée moletée
+  for(var k=0;k<14;k++){h+='<rect x="'+(150+k*4.4)+'" y="'+(cy-3)+'" width="1.4" height="6" fill="#192E33" opacity=".6"/>'}
+  svg.innerHTML=h;
+}
+function renderSteps(){
+  var n=0;ETAPES.forEach(function(e){if(done[e.id])n++});
+  $('#kg').innerHTML=(20+n*2*PLATE)+'<small>kg</small>';
+  $('#kg-txt').textContent=n+' étape'+(n>1?'s':'')+' sur '+ETAPES.length;
+  $('#track').style.width=(n/ETAPES.length*100)+'%';
+  drawBar(n);
+  $('#v-demarrer').classList.toggle('all-done',n===ETAPES.length);
+  $('#steps').innerHTML=ETAPES.map(function(e,i){
+    var on=!!done[e.id];
+    return '<div class="step'+(on?' done':'')+'"><button class="chk" type="button" data-step="'+e.id+'" aria-pressed="'+on+'" aria-label="'+(on?'Décocher':'Cocher')+' : '+esc(e.t)+'"><svg viewBox="0 0 24 24" fill="none" stroke="#192E33" stroke-width="3"><path d="M4 12l5 5L20 6"/></svg></button>'+
+      '<h3>'+(i+1)+'. '+esc(e.t)+'</h3><div class="body"><span class="who">'+(e.qui==='Leni'?'Leni s\'en occupe':'À toi de jouer')+'</span><p>'+esc(e.d)+'</p>'+
+      (e.l?'<div class="row"><a class="btn small ghost" href="'+esc(lien(e.l))+'" target="_blank" rel="noopener">'+esc(e.b)+'</a></div>':'')+'</div></div>';
+  }).join('');
+}
+$('#steps').addEventListener('click',function(ev){
+  var b=ev.target.closest('[data-step]');if(!b)return;
+  var id=b.getAttribute('data-step');done[id]=!done[id];if(!done[id])delete done[id];store('lf-onboarding',done);
+  var n=Object.keys(done).length;
+  renderSteps();
+  if(done[id])toast(n===ETAPES.length?'Barre chargée : '+(20+n*2*PLATE)+' kg 💪':'+'+(2*PLATE)+' kg sur la barre');
+});
+$('#reset').addEventListener('click',function(){done={};store('lf-onboarding',done);renderSteps();toast('Barre vidée')});
+renderSteps();
+
+/* Copier */
+$$('[data-copy]').forEach(function(b){b.addEventListener('click',function(){
+  var t=$('#'+b.getAttribute('data-copy')).textContent;
+  function ok(){toast('Copié')}
+  try{navigator.clipboard.writeText(t).then(ok,function(){sel()})}catch(e){sel()}
+  function sel(){var r=document.createRange();r.selectNodeContents($('#'+b.getAttribute('data-copy')));var s=getSelection();s.removeAllRanges();s.addRange(r);toast('Sélectionné, tu peux copier')}
+})});
+
+/* Navigation par onglets (#accueil, #guides, #contact, #demarrer, #formation, #ressources) */
+var VUES=['accueil','guides','contact','demarrer','formation','ressources'];
+function route(){
+  var v=(location.hash||'').replace('#','');if(VUES.indexOf(v)<0)v='accueil';
+  VUES.forEach(function(k){$('#v-'+k).hidden=(k!==v)});
+  $$('.tabs a').forEach(function(a){var t=a.getAttribute('data-tab');if(t===v||(v==='contact'&&t==='accueil'))a.setAttribute('aria-current','page');else a.removeAttribute('aria-current')});
+  if(v==='demarrer'||v==='formation'||v==='ressources')store('lf-eleve',true);
+  window.scrollTo(0,0);
+}
+window.addEventListener('hashchange',route);route();
+if(store('lf-eleve')){$('#who-link').textContent='Mon démarrage'}
+
+/* Installation sur l'écran d'accueil */
+(function(){
+  var standalone=window.matchMedia('(display-mode: standalone)').matches||navigator.standalone;
+  if(standalone||store('lf-install-x'))return;
+  var ios=/iphone|ipad|ipod/i.test(navigator.userAgent);
+  var box=$('#install'),deferred=null;
+  if(ios){box.hidden=false}
+  window.addEventListener('beforeinstallprompt',function(e){e.preventDefault();deferred=e;box.hidden=false;$('#install-how').innerHTML='<button class="btn small" type="button" id="install-go">Installer l\'app</button>';$('#install-go').onclick=function(){deferred.prompt()}});
+  $('#install-x').onclick=function(){box.hidden=true;store('lf-install-x',true)};
+})();
+
+/* Hors ligne (seulement sur le vrai site) */
+if('serviceWorker' in navigator&&location.protocol==='https:'&&!/claude|anthropic/.test(location.hostname)){
+  try{navigator.serviceWorker.register('sw.js').catch(function(){})}catch(e){}
+}
+</script>
+<!--shell-->
+</body>
+</html>
+<!--/shell-->
