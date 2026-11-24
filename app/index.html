@@ -6,7 +6,7 @@
 <!--/shell-->
 <title>LF Coaching</title>
 <meta name="claude:viewport-fit-sides" content="cover">
-<meta name="description" content="Coaching en ligne en bodybuilding naturel avec Leni Fauconnier : guides gratuits, démarrage, formation et ressources.">
+<meta name="description" content="Coaching en ligne en bodybuilding naturel avec Leni Fauconnier : appel découverte, guides gratuits, démarrage, formation et fiches.">
 <meta name="theme-color" content="#192E33">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
@@ -17,132 +17,215 @@
 <link rel="icon" type="image/png" href="icons/icon-192.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap">
 <style>
-/* Layout : app de poche. Un écran par rubrique, barre d'onglets en bas (le pouce), blocs pleine largeur à angles droits comme la page des guides. Un seul look sombre, celui de la marque. */
+/* Layout : app de poche premium. Photo de Leni en ouverture, cartes en relief sur le pétrole, barre d'onglets en verre au pouce. Deux couleurs de marque, la profondeur vient des tons de pétrole et de la lumière, pas de couleurs ajoutées. */
 :root{
-  --petrole:#192E33;   /* fond */
-  --feuille:#213B41;   /* blocs posés sur le fond */
-  --creme:#EBE3D0;     /* texte, logo, aplats */
-  --papier:#E5DDC7;    /* aplats clairs */
-  --doux:#AEB9B2;      /* texte secondaire */
-  --filet:#3A5359;     /* filets */
+  --petrole:#192E33;      /* fond */
+  --abysse:#10211F;       /* le plus profond : ombres, bas de photo */
+  --carte:#1F383E;        /* surface des cartes */
+  --carte-2:#26444B;      /* surface relevée */
+  --creme:#EBE3D0;        /* texte, logo, aplats */
+  --papier:#E5DDC7;       /* aplats clairs */
+  --doux:#A9B6B0;         /* texte secondaire */
+  --filet:rgba(235,227,208,.12);
+  --lueur:rgba(235,227,208,.07);
   --display:"Outfit","Avenir Next","Century Gothic",Arial,sans-serif;
   --body:"Outfit","Helvetica Neue",Arial,sans-serif;
-  --tab-h:64px;
+  --r:18px; --r-s:12px;
+  --ombre:0 1px 0 rgba(235,227,208,.06) inset,0 12px 32px -12px rgba(0,0,0,.55);
+  --tab-h:66px;
+  --ease:cubic-bezier(.2,.8,.2,1);
   color-scheme:dark;
 }
 *{box-sizing:border-box}
 html,body{background:var(--petrole)}
-body{margin:0;color:var(--creme);font-family:var(--body);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent}
+body{margin:0;color:var(--creme);font-family:var(--body);font-size:16px;line-height:1.55;font-weight:400;-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent}
 body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--petrole);z-index:30}
 a{color:inherit}
-h1,h2,h3{font-family:var(--display);text-transform:uppercase;letter-spacing:.03em;line-height:1.02;margin:0;text-wrap:balance}
-p{margin:0;max-width:62ch}
+h1,h2,h3{font-family:var(--display);margin:0;text-wrap:balance;line-height:1.05}
+p{margin:0;max-width:60ch}
 button{font:inherit;color:inherit}
-:focus-visible{outline:3px solid var(--creme);outline-offset:2px}
-.wrap{max-width:640px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 calc(var(--tab-h) + 40px + env(safe-area-inset-bottom,0px))}
-.label{font-size:11px;letter-spacing:.16em;text-transform:uppercase;font-weight:600;color:var(--doux)}
+img{max-width:100%;display:block}
+:focus-visible{outline:2px solid var(--creme);outline-offset:3px;border-radius:6px}
+.wrap{max-width:620px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 calc(var(--tab-h) + 48px + env(safe-area-inset-bottom,0px))}
+.eyebrow{font-size:11px;letter-spacing:.18em;text-transform:uppercase;font-weight:600;color:var(--doux)}
 .soft{color:var(--doux)}
-em.hl{font-style:normal;background:var(--creme);color:var(--petrole);display:inline-block;line-height:.86;padding:.1em .08em .02em}
 
 /* En-tête */
-.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--petrole);display:flex;align-items:center;gap:10px;padding-block:14px;border-bottom:2px solid var(--creme)}
-.top img{height:30px;width:auto}
-.brand{display:grid;line-height:1.1}
-.brand b{font-family:var(--display);font-weight:700;font-size:16px;letter-spacing:.14em;text-transform:uppercase}
-.brand small{font-size:11px;color:var(--doux);letter-spacing:.06em}
-.top .who{margin-left:auto;font-size:12px;border:1px solid var(--filet);padding:6px 10px;text-decoration:none;white-space:nowrap}
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;display:flex;align-items:center;gap:10px;padding-block:12px;background:rgba(25,46,51,.82);backdrop-filter:saturate(1.4) blur(14px);-webkit-backdrop-filter:saturate(1.4) blur(14px);margin-inline:-16px;padding-inline:16px;border-bottom:1px solid var(--filet)}
+.top img{height:28px;width:auto}
+.brand{display:grid;line-height:1.1;min-width:0}
+.brand b{font-family:var(--display);font-weight:700;font-size:15px;letter-spacing:.16em;text-transform:uppercase}
+.brand small{font-size:11px;color:var(--doux);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.top .pill{margin-left:auto;font-size:12px;font-weight:600;padding:8px 12px;border-radius:999px;background:var(--lueur);border:1px solid var(--filet);text-decoration:none;white-space:nowrap}
 
 /* Vues */
-.view{display:grid;grid-template-columns:minmax(0,1fr);gap:22px;padding-top:26px}
+.view{display:grid;grid-template-columns:minmax(0,1fr);gap:28px;padding-top:22px}
 .view[hidden]{display:none!important}
-.hero{display:grid;gap:14px}
-.hero h1{font-size:clamp(38px,11vw,62px);font-weight:800}
-.lede{color:var(--doux);font-size:16px}
+.view>*{animation:rise .55s var(--ease) both}
+.view>*:nth-child(2){animation-delay:.05s}.view>*:nth-child(3){animation-delay:.1s}.view>*:nth-child(4){animation-delay:.15s}.view>*:nth-child(5){animation-delay:.2s}.view>*:nth-child(n+6){animation-delay:.25s}
+@keyframes rise{from{transform:translateY(10px);opacity:.4}to{transform:none;opacity:1}}
+
+/* Ouverture avec photo */
+.cover{position:relative;border-radius:var(--r);overflow:hidden;min-height:640px;display:grid;align-content:end;background:var(--abysse);box-shadow:var(--ombre)}
+.cover img{position:absolute;inset:0 0 auto 0;width:100%;height:72%;object-fit:cover;object-position:50% 20%;transform:scale(1.04);animation:kenburns 14s ease-out both}
+@keyframes kenburns{to{transform:scale(1)}}
+.cover::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(16,33,31,0) 30%,rgba(16,33,31,.7) 52%,rgba(16,33,31,1) 66%)}
+.cover .in{position:relative;z-index:1;display:grid;gap:14px;padding:22px 18px 20px}
+.cover h1{font-size:clamp(38px,11vw,58px);font-weight:800;text-transform:uppercase;letter-spacing:-.005em;line-height:.95}
+.cover h1 span{display:inline-block;background:var(--creme);color:var(--petrole);padding:.06em .12em .02em;margin-top:.05em;border-radius:4px}
+.cover p{color:#D6D2C4;font-size:15px}
+.cover .tagline{display:flex;flex-wrap:wrap;gap:6px}
+.chip{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:600;letter-spacing:.04em;padding:5px 10px;border-radius:999px;background:rgba(235,227,208,.12);border:1px solid rgba(235,227,208,.18);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+
+.page-head{display:grid;gap:10px}
+.page-head h1{font-size:clamp(32px,9vw,46px);font-weight:800;letter-spacing:-.015em}
+.page-head .lede{color:var(--doux);font-size:16px}
 
 /* Boutons */
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:12px 18px;background:var(--creme);color:var(--petrole);text-decoration:none;font-weight:700;font-size:14px;letter-spacing:.06em;text-transform:uppercase;border:0;cursor:pointer}
-.btn.ghost{background:transparent;color:var(--creme);border:1px solid var(--creme)}
-.btn.small{min-height:38px;padding:8px 12px;font-size:12px}
+.btn{white-space:nowrap;display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:52px;padding:14px 20px;border-radius:14px;background:var(--creme);color:var(--petrole);text-decoration:none;font-weight:700;font-size:15px;letter-spacing:.01em;border:0;cursor:pointer;box-shadow:0 8px 24px -10px rgba(235,227,208,.45);transition:transform .15s var(--ease),box-shadow .15s}
+.btn:active{transform:scale(.97)}
+.btn.ghost{background:rgba(235,227,208,.08);color:var(--creme);border:1px solid rgba(235,227,208,.22);box-shadow:none}
+.btn.small{min-height:40px;padding:9px 14px;font-size:13px;border-radius:11px}
+.btn.block{width:100%}
+.btn svg{width:18px;height:18px}
 .row{display:flex;flex-wrap:wrap;gap:10px}
+.row .btn{flex:1 1 150px}
 
-/* Grandes tuiles d'accueil */
-.tiles{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
-.tile{display:grid;align-content:space-between;gap:18px;min-height:132px;padding:16px;background:var(--feuille);text-decoration:none;border:1px solid var(--filet)}
-.tile.wide{grid-column:1/-1}
-.tile.solid{background:var(--creme);color:var(--petrole);border-color:var(--creme)}
-.tile.solid .label,.tile.solid .soft{color:var(--petrole);opacity:.75}
-.tile h2{font-size:clamp(18px,5.4vw,22px);font-weight:700;overflow-wrap:anywhere;hyphens:auto}
-.tile.wide-m{grid-column:1/-1}
-.tile .ico{width:30px;height:30px}
-.tile .go{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
-.tile:active{transform:scale(.985)}
+/* Cartes */
+.card{position:relative;display:grid;gap:12px;padding:18px;border-radius:var(--r);background:linear-gradient(180deg,var(--carte-2),var(--carte) 70%);border:1px solid var(--filet);box-shadow:var(--ombre);text-decoration:none;min-width:0;transition:transform .18s var(--ease)}
+a.card:active,button.card:active{transform:scale(.985)}
+.card h2{font-size:21px;font-weight:700;letter-spacing:-.01em}
+.card h3{font-size:17px;font-weight:600}
+.card.cream{background:var(--creme);color:var(--petrole);border-color:transparent;box-shadow:0 18px 40px -18px rgba(235,227,208,.5)}
+.card.cream .soft,.card.cream .eyebrow{color:#4A5E5F}
+.card.dash{background:transparent;border:1px dashed rgba(235,227,208,.25);box-shadow:none}
+.arrow{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:700;letter-spacing:.02em}
+.arrow::after{content:"";width:16px;height:16px;background:currentColor;-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.4' stroke-linecap='round'%3E%3Cpath d='M5 12h14M13 6l6 6-6 6'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.4' stroke-linecap='round'%3E%3Cpath d='M5 12h14M13 6l6 6-6 6'/%3E%3C/svg%3E") center/contain no-repeat;transition:transform .2s var(--ease)}
+a:hover .arrow::after{transform:translateX(3px)}
+.ico{width:44px;height:44px;border-radius:13px;display:grid;place-items:center;background:rgba(235,227,208,.1);border:1px solid var(--filet)}
+.ico svg{width:22px;height:22px}
+.card.cream .ico{background:var(--petrole);color:var(--creme);border:0}
 
-/* Listes */
-.list{display:grid;border:1px solid var(--creme)}
-.item{display:grid;grid-template-columns:44px 1fr auto;gap:4px 12px;align-items:center;padding:14px;border-bottom:1px solid var(--filet);text-decoration:none;min-width:0}
-.list .item:last-child{border-bottom:0}
-.item .n{font-family:var(--display);font-weight:800;font-size:28px;line-height:1}
-.item h3{font-size:17px;font-weight:700;text-transform:none;letter-spacing:0}
-.item p{font-size:13px;color:var(--doux);grid-column:2/-1;min-width:0}
-.item .tag{font-size:10px;letter-spacing:.1em;text-transform:uppercase;border:1px solid var(--filet);padding:3px 7px;color:var(--doux);white-space:nowrap}
-.item .tag.on{background:var(--creme);color:var(--petrole);border-color:var(--creme)}
-.item.locked{opacity:.55}
-section{display:grid;gap:12px}
-section>h2{font-size:24px;font-weight:700}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.grid2 .card{align-content:space-between;min-height:150px}
+.grid2 .card h3{font-size:17px;line-height:1.15}
+section{display:grid;gap:14px}
+.sec-head{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.sec-head h2{font-size:22px;font-weight:700;letter-spacing:-.01em}
+.sec-head a{font-size:13px;font-weight:600;color:var(--doux);text-decoration:none}
 
-/* Bloc encadré (contact, bientôt) */
-.box{display:grid;gap:12px;padding:18px 16px;border:1px solid var(--creme)}
-.box.dash{border-style:dashed;border-color:var(--doux)}
-.box.fill{background:var(--creme);color:var(--petrole);border-color:var(--creme)}
-.box.fill .soft,.box.fill .label{color:var(--petrole);opacity:.75}
-.box h2{font-size:22px;font-weight:700}
-.copyline{display:flex;flex-wrap:wrap;align-items:center;gap:10px;justify-content:space-between;border:1px solid var(--filet);padding:10px 12px}
-.copyline code{font-family:var(--body);font-size:15px;font-weight:600;user-select:all;min-width:0;overflow-wrap:anywhere}
+/* Liste en cartes (guides, fiches, modules) */
+.stack{display:grid;gap:10px}
+.line{display:grid;grid-template-columns:52px minmax(0,1fr) auto;gap:2px 14px;align-items:center;padding:14px;border-radius:16px;background:var(--carte);border:1px solid var(--filet);text-decoration:none;transition:transform .15s var(--ease),background .15s}
+a.line:active{transform:scale(.985);background:var(--carte-2)}
+.line .badge{grid-row:span 2;width:52px;height:52px;border-radius:14px;display:grid;place-items:center;background:rgba(235,227,208,.08);font-family:var(--display);font-weight:800;font-size:16px;letter-spacing:.02em}
+.line .badge svg{width:24px;height:24px}
+.line h3{font-size:16px;font-weight:600;line-height:1.25}
+.line p{font-size:13px;color:var(--doux);grid-column:2;min-width:0}
+.line .end{grid-row:span 2;font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--doux);white-space:nowrap}
+.line .end.on{color:var(--petrole);background:var(--creme);padding:5px 9px;border-radius:999px}
+.line.locked{opacity:.5}
+.line.feat{background:var(--creme);color:var(--petrole);border-color:transparent}
+.line.feat p{color:#4A5E5F}.line.feat .badge{background:var(--petrole);color:var(--creme)}
 
-/* Onboarding : la barre qui se charge */
-.bar-card{display:grid;gap:10px;padding:18px 14px 16px;background:var(--feuille);border:1px solid var(--filet)}
-.bar-head{display:flex;justify-content:space-between;align-items:end;gap:10px;flex-wrap:wrap}
-.kg{font-family:var(--display);font-weight:800;font-size:44px;line-height:1;font-variant-numeric:tabular-nums}
-.kg small{font-size:16px;font-weight:600;color:var(--doux);margin-left:4px}
-.barbell{width:100%;height:auto;display:block;max-width:100%}
-.track{height:10px;background:var(--petrole);border:1px solid var(--filet)}
-.track i{display:block;height:100%;background:var(--creme);width:0;transition:width .5s cubic-bezier(.2,.8,.2,1)}
-.steps{display:grid;gap:8px;counter-reset:s}
-.step{display:grid;grid-template-columns:40px 1fr;gap:6px 12px;padding:14px;border:1px solid var(--filet);background:transparent;align-items:start}
-.step.done{background:var(--feuille)}
-.step .chk{width:40px;height:40px;border:2px solid var(--creme);background:transparent;display:grid;place-items:center;cursor:pointer;padding:0}
-.step.done .chk{background:var(--creme)}
-.step .chk svg{width:22px;height:22px;opacity:0}
-.step.done .chk svg{opacity:1}
-.step h3{font-size:16px;font-weight:700;text-transform:none;letter-spacing:0;padding-top:2px}
-.step.done h3{text-decoration:line-through;text-decoration-thickness:2px;color:var(--doux)}
-.step .body{grid-column:2;display:grid;gap:10px;min-width:0}
-.step .body p{font-size:14px;color:var(--doux)}
-.step .who{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--doux)}
-.done-banner{display:none}
-.all-done .done-banner{display:grid}
-
-/* Barre d'onglets */
-.tabs{position:fixed;left:0;right:0;bottom:0;z-index:25;background:var(--petrole);border-top:2px solid var(--creme);padding-bottom:env(safe-area-inset-bottom,0px);padding-left:env(safe-area-inset-left,0px);padding-right:env(safe-area-inset-right,0px)}
-.tabs nav{max-width:640px;margin:0 auto;display:grid;grid-template-columns:repeat(5,1fr)}
-.tabs a{display:grid;justify-items:center;gap:3px;height:var(--tab-h);padding-top:10px;text-decoration:none;font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--doux)}
-.tabs a svg{width:24px;height:24px}
-.tabs a[aria-current="page"]{color:var(--creme)}
-.tabs a[aria-current="page"] svg{transform:translateY(-1px)}
-.tabs a[aria-current="page"]::after{content:"";width:18px;height:3px;background:var(--creme);margin-top:-1px}
+/* Coach */
+.coach{display:grid;grid-template-columns:112px minmax(0,1fr);gap:16px;align-items:center}
+.coach img{width:112px;height:140px;object-fit:cover;object-position:50% 15%;border-radius:14px}
+.creds{display:flex;flex-wrap:wrap;gap:6px}
+.creds .chip{background:var(--lueur);backdrop-filter:none}
 
 /* Bannière d'installation */
-.install{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:12px;align-items:center;padding:12px;border:1px dashed var(--creme);font-size:13px}
-.install img{width:40px;height:40px}
-.install button{background:none;border:0;color:var(--doux);font-size:22px;cursor:pointer;padding:4px 8px}
+.install{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:12px;align-items:center;padding:12px 12px 12px 14px;border-radius:16px;background:var(--carte);border:1px solid var(--filet);font-size:13px}
+.install img{width:42px;height:42px;border-radius:10px}
+.install .x{background:none;border:0;color:var(--doux);font-size:22px;cursor:pointer;padding:4px 8px}
 
-.toast{position:fixed;left:50%;bottom:calc(var(--tab-h) + 18px + env(safe-area-inset-bottom,0px));transform:translateX(-50%) translateY(20px);background:var(--creme);color:var(--petrole);padding:10px 16px;font-weight:700;font-size:14px;opacity:0;pointer-events:none;transition:.25s;z-index:40;max-width:calc(100% - 32px);text-align:center}
+/* Démarrage : la barre */
+.bar-card{display:grid;gap:14px;padding:20px 16px 18px;border-radius:var(--r);background:radial-gradient(120% 90% at 50% 0%,#2C4E55 0%,var(--carte) 55%,var(--abysse) 100%);border:1px solid var(--filet);box-shadow:var(--ombre);overflow:hidden}
+.bar-head{display:flex;justify-content:space-between;align-items:flex-end;gap:10px;flex-wrap:wrap}
+.kg{font-family:var(--display);font-weight:900;font-size:56px;line-height:.9;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.kg small{font-size:18px;font-weight:600;color:var(--doux);margin-left:4px;letter-spacing:0}
+.barbell{width:100%;height:auto;display:block;max-width:100%;overflow:visible}
+.barbell .plate{transform-box:fill-box;transform-origin:center;animation:plateIn .45s var(--ease) both}
+@keyframes plateIn{from{transform:scaleY(.4) translateY(-8px)}to{transform:none}}
+.prog{display:flex;align-items:center;gap:12px}
+.track{flex:1;height:8px;border-radius:999px;background:rgba(0,0,0,.35);overflow:hidden}
+.track i{display:block;height:100%;border-radius:999px;background:var(--creme);width:0;transition:width .6s var(--ease)}
+.prog b{font-size:13px;font-variant-numeric:tabular-nums}
+
+.steps{display:grid;gap:10px}
+.step{display:grid;grid-template-columns:44px minmax(0,1fr);gap:8px 14px;padding:16px;border-radius:16px;background:var(--carte);border:1px solid var(--filet);transition:background .2s,border-color .2s}
+.step.next{border-color:rgba(235,227,208,.55);background:linear-gradient(180deg,var(--carte-2),var(--carte));box-shadow:var(--ombre)}
+.step.done{background:transparent}
+.step .chk{width:44px;height:44px;border-radius:50%;border:2px solid rgba(235,227,208,.5);background:transparent;display:grid;place-items:center;cursor:pointer;padding:0;transition:transform .15s var(--ease),background .2s}
+.step .chk:active{transform:scale(.9)}
+.step.done .chk{background:var(--creme);border-color:var(--creme)}
+.step .chk svg{width:22px;height:22px;stroke-dasharray:24;stroke-dashoffset:24;transition:stroke-dashoffset .35s var(--ease) .05s}
+.step.done .chk svg{stroke-dashoffset:0}
+.step .t{display:grid;gap:3px;padding-top:2px}
+.step .who{font-size:10px;letter-spacing:.14em;text-transform:uppercase;font-weight:600;color:var(--doux)}
+.step.next .who{color:var(--creme)}
+.step h3{font-size:16px;font-weight:600;line-height:1.3}
+.step.done h3{color:var(--doux);text-decoration:line-through;text-decoration-color:rgba(235,227,208,.4)}
+.step .body{grid-column:2;display:grid;gap:12px;min-width:0}
+.step .body p{font-size:14px;color:var(--doux)}
+.step.done .body{display:none}
+.done-banner{display:none}
+.all-done .done-banner{display:grid}
+.burst{position:fixed;inset:0;pointer-events:none;z-index:45;overflow:hidden}
+.burst i{position:absolute;width:8px;height:14px;background:var(--creme);border-radius:2px;animation:fall 1.4s cubic-bezier(.2,.6,.4,1) forwards}
+@keyframes fall{from{transform:translate(0,0) rotate(0)}to{transform:translate(var(--dx),110vh) rotate(var(--rot));opacity:.2}}
+
+/* Formation */
+.banner{position:relative;border-radius:var(--r);overflow:hidden;min-height:200px;display:grid;align-content:end;box-shadow:var(--ombre)}
+.banner img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 30%}
+.banner::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(16,33,31,.1),rgba(16,33,31,.92))}
+.banner .in{position:relative;z-index:1;display:flex;align-items:flex-end;justify-content:space-between;gap:14px;padding:18px}
+.ring{--p:0;width:74px;height:74px;border-radius:50%;flex:none;display:grid;place-items:center;background:conic-gradient(var(--creme) calc(var(--p)*1%),rgba(235,227,208,.18) 0);position:relative}
+.ring::before{content:"";position:absolute;inset:6px;border-radius:50%;background:var(--abysse)}
+.ring b{position:relative;font-family:var(--display);font-size:18px;font-weight:800;line-height:1;text-align:center}
+.ring b small{display:block;font-size:10px;font-weight:500;color:var(--doux)}
+
+/* Appel */
+.cal-frame{width:100%;height:720px;border:0;border-radius:var(--r);background:var(--carte)}
+.steps3{display:grid;gap:10px;counter-reset:n}
+.steps3 li{list-style:none;display:grid;grid-template-columns:34px 1fr;gap:12px;align-items:start;font-size:15px}
+.steps3 li::before{counter-increment:n;content:counter(n);width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:var(--creme);color:var(--petrole);font-weight:800;font-family:var(--display)}
+.steps3{padding:0;margin:0}
+.copyline{display:flex;flex-wrap:wrap;align-items:center;gap:10px;justify-content:space-between;padding:10px 12px;border-radius:12px;background:rgba(0,0,0,.2)}
+.copyline code{font-family:var(--body);font-size:15px;font-weight:600;user-select:all;min-width:0;overflow-wrap:anywhere}
+
+/* Guide bikini */
+.fig{display:grid;gap:6px;margin:0}
+.fig img{width:100%;border-radius:14px;background:var(--abysse)}
+.fig figcaption{font-size:11px;color:var(--doux)}
+.rule{display:grid;gap:8px;padding:0;margin:0}
+.rule li{list-style:none;position:relative;padding-left:20px;font-size:15px}
+.rule li::before{content:"";position:absolute;left:2px;top:.62em;width:8px;height:8px;border-radius:50%;background:var(--creme)}
+.fed{justify-self:start;display:inline-block;font-size:11px;font-weight:700;letter-spacing:.1em;padding:4px 9px;border-radius:999px;background:var(--creme);color:var(--petrole)}
+.fed.alt{background:transparent;color:var(--creme);border:1px solid rgba(235,227,208,.4)}
+.tbl{overflow-x:auto;border-radius:14px;border:1px solid var(--filet)}
+.tbl table{border-collapse:collapse;width:100%;min-width:480px;font-size:13px}
+.tbl th,.tbl td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--filet);vertical-align:top}
+.tbl th{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--doux);font-weight:600}
+.tbl tr:last-child td{border-bottom:0}
+.back{display:inline-flex;align-items:center;gap:6px;font-size:14px;font-weight:600;color:var(--doux);text-decoration:none}
+
+/* Barre d'onglets */
+.tabs{position:fixed;left:0;right:0;bottom:0;z-index:25;background:rgba(16,33,31,.78);backdrop-filter:saturate(1.5) blur(18px);-webkit-backdrop-filter:saturate(1.5) blur(18px);border-top:1px solid var(--filet);padding-bottom:env(safe-area-inset-bottom,0px);padding-left:env(safe-area-inset-left,0px);padding-right:env(safe-area-inset-right,0px)}
+.tabs nav{max-width:620px;margin:0 auto;display:grid;grid-template-columns:repeat(5,1fr)}
+.tabs a{display:grid;justify-items:center;align-content:center;gap:4px;height:var(--tab-h);text-decoration:none;font-size:10.5px;font-weight:600;letter-spacing:.02em;color:var(--doux);position:relative;transition:color .2s}
+.tabs a .ti{width:44px;height:30px;border-radius:999px;display:grid;place-items:center;transition:background .25s var(--ease)}
+.tabs a svg{width:22px;height:22px}
+.tabs a[aria-current="page"]{color:var(--creme)}
+.tabs a[aria-current="page"] .ti{background:rgba(235,227,208,.16)}
+
+.toast{position:fixed;left:50%;bottom:calc(var(--tab-h) + 18px + env(safe-area-inset-bottom,0px));transform:translateX(-50%) translateY(16px);background:var(--creme);color:var(--petrole);padding:11px 18px;border-radius:999px;font-weight:700;font-size:14px;opacity:0;pointer-events:none;transition:.3s var(--ease);z-index:40;max-width:calc(100% - 32px);text-align:center;box-shadow:0 12px 30px -10px rgba(0,0,0,.6)}
 .toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
-footer{font-size:11px;color:var(--doux);padding-top:8px}
-@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
-@media (min-width:560px){.tiles{grid-template-columns:repeat(3,1fr)}.tile.wide,.tile.wide-m{grid-column:span 3}.tile.wide-m{grid-column:auto}}
+footer{font-size:11px;color:var(--doux);text-align:center;padding-top:4px}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+@media (min-width:600px){.cover{min-height:700px}}
 </style>
 <!--shell-->
 </head>
@@ -151,176 +234,270 @@ footer{font-size:11px;color:var(--doux);padding-top:8px}
 
 <div class="wrap">
   <header class="top">
-    <img src="icons/logo-creme.png" alt="LF" width="30" height="30">
+    <img src="icons/logo-creme.png" alt="LF" width="28" height="28">
     <div class="brand"><b data-brand="nom">LF Coaching</b><small data-brand="sousTitre">Coaching en ligne · bodybuilding naturel</small></div>
-    <a class="who" href="#demarrer" id="who-link">Je suis élève</a>
+    <a class="pill" href="#demarrer" id="who-link">Espace élève</a>
   </header>
 
   <!-- ============ ACCUEIL (public) ============ -->
   <main class="view" id="v-accueil">
-    <div class="hero">
-      <div class="label">Par Leni Fauconnier · athlète naturel</div>
-      <h1>Deviens un <em class="hl">athlète</em> naturel</h1>
-      <p class="lede">Un coaching muscu en ligne pensé comme une prépa : programme, nutrition, posing et suivi chaque semaine. Tout est ici, dans ta poche.</p>
+    <div class="cover">
+      <img src="photos/leni-hero.jpg" alt="Leni Fauconnier en salle, pose de face" fetchpriority="high">
+      <div class="in">
+        <div class="tagline"><span class="chip">🥇 Men's Physique BIFBB</span><span class="chip">Athlète naturel</span></div>
+        <h1>Deviens un<br><span>athlète</span><br>naturel</h1>
+        <p>Programme, nutrition, posing et suivi chaque semaine, avec moi. Six mois pour changer de niveau.</p>
+        <div class="row">
+          <a class="btn" href="#appel"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M8 3v4M16 3v4M3 10h18"/></svg>Réserver un appel</a>
+          <a class="btn ghost" href="#guides">Guides gratuits</a>
+        </div>
+      </div>
     </div>
 
     <div class="install" id="install" hidden>
       <img src="icons/icon-192.png" alt="">
-      <div><b>Garde l'app sur ton écran d'accueil.</b><br><span class="soft" id="install-how">Dans Safari : bouton Partager, puis « Sur l'écran d'accueil ».</span></div>
-      <button type="button" id="install-x" aria-label="Masquer">×</button>
+      <div><b>Mets l'app sur ton écran d'accueil</b><br><span class="soft" id="install-how">Safari › bouton Partager › « Sur l'écran d'accueil ».</span></div>
+      <button type="button" class="x" id="install-x" aria-label="Masquer">×</button>
     </div>
 
-    <div class="tiles">
-      <a class="tile solid wide" data-cfg="candidature" href="#">
-        <div class="label">Coaching individuel · 6 mois</div>
-        <div><h2>Candidater au coaching</h2><p class="soft">Quelques questions, puis on regarde ensemble en appel si c'est fait pour toi.</p></div>
-        <span class="go">Répondre aux questions →</span>
+    <div class="grid2">
+      <a class="card" href="#guides">
+        <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 5a2 2 0 0 1 2-2h12v15H6a2 2 0 0 0-2 2z"/><path d="M4 20a2 2 0 0 1 2-2h12v3H6a2 2 0 0 1-2-1z"/></svg></span>
+        <div><h3>Guides gratuits</h3><p class="soft" style="font-size:13px">Test, potentiel, posing</p></div>
       </a>
-      <a class="tile" href="#guides">
-        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h11a3 3 0 0 1 3 3v13H7a3 3 0 0 1-3-3z"/><path d="M4 17a3 3 0 0 1 3-3h11"/></svg>
-        <div><h2>Guides gratuits</h2></div>
-        <span class="go">Ouvrir →</span>
+      <a class="card" href="#contact">
+        <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/></svg></span>
+        <div><h3>Me contacter</h3><p class="soft" style="font-size:13px">Instagram ou e-mail</p></div>
       </a>
-      <a class="tile" href="#contact">
-        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 5h16v11H8l-4 4z"/></svg>
-        <div><h2>Me contacter</h2></div>
-        <span class="go">Écrire →</span>
+      <a class="card" data-cfg="depart" href="#">
+        <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 8h6M9 12h6M9 16h3"/></svg></span>
+        <div><h3>Questionnaire de départ</h3><p class="soft" style="font-size:13px">Pour les nouveaux élèves</p></div>
       </a>
-      <a class="tile wide-m" data-cfg="depart" href="#">
-        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="3" width="14" height="18"/><path d="M9 8h6M9 12h6M9 16h3"/></svg>
-        <div><h2>Questionnaire de départ</h2></div>
-        <span class="go">Remplir →</span>
-      </a>
-      <a class="tile wide" href="#demarrer">
-        <div class="label">Tu viens de rejoindre le coaching ?</div>
-        <div><h2>Ton démarrage, étape par étape</h2><p class="soft">Contrat, vidéo de bienvenue, formation, photos de départ : coche au fur et à mesure et regarde ta barre se charger.</p></div>
-        <span class="go">Commencer →</span>
+      <a class="card" href="#demarrer">
+        <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 12h20M5 8v8M8 6v12M16 6v12M19 8v8"/></svg></span>
+        <div><h3>Ton démarrage</h3><p class="soft" style="font-size:13px">Charge ta barre, étape par étape</p></div>
       </a>
     </div>
 
     <section>
-      <div class="label">Qui te coache</div>
-      <div class="box">
-        <h2>Leni Fauconnier</h2>
-        <p class="soft">Personal trainer EREPS niveau 4, certifié NASM, athlète naturel en compétition : 🥇 Men's Physique −23 ans (BIFBB), 4e en bodybuilding junior (WNBF).</p>
-        <div class="row"><a class="btn ghost small" href="https://instagram.com/leni_fit_" target="_blank" rel="noopener">@leni_fit_ sur Instagram</a></div>
+      <div class="sec-head"><h2>Ton coach</h2></div>
+      <div class="card coach">
+        <img src="photos/leni-profil.jpg" alt="Leni Fauconnier de profil">
+        <div style="display:grid;gap:10px;min-width:0">
+          <div><h2>Leni Fauconnier</h2><p class="soft" style="font-size:14px">Je coache comme je me prépare : en naturel, avec des données, et sans raccourci.</p></div>
+          <div class="creds"><span class="chip">EREPS niveau 4</span><span class="chip">NASM</span><span class="chip">4e WNBF junior</span></div>
+        </div>
       </div>
     </section>
+
+    <a class="card cream" href="#appel" style="text-decoration:none">
+      <div class="eyebrow">Coaching individuel · 6 mois</div>
+      <h2>On regarde ensemble si c'est fait pour toi</h2>
+      <p class="soft">Quelques questions, puis un appel découverte de 30 minutes. Tu choisis ton créneau.</p>
+      <span class="arrow">Réserver mon appel</span>
+    </a>
     <footer>© <span data-brand="nom">LF Coaching</span> · Leni Fauconnier · BCE 1033.759.781 · Flémalle, Belgique</footer>
+  </main>
+
+  <!-- ============ APPEL ============ -->
+  <main class="view" id="v-appel" hidden>
+    <div class="page-head">
+      <div class="eyebrow">Appel découverte · gratuit</div>
+      <h1>Réserve ton appel</h1>
+      <p class="lede">30 minutes en visio pour faire le point sur ton physique, tes objectifs et voir si mon accompagnement te correspond.</p>
+    </div>
+    <div class="card">
+      <ol class="steps3">
+        <li><span>Tu réponds à quelques questions sur ton niveau et ton objectif.</span></li>
+        <li><span>Tu choisis ton créneau dans mon agenda.</span></li>
+        <li><span>Tu reçois la confirmation par e-mail avec le lien de l'appel.</span></li>
+      </ol>
+      <a class="btn block" data-cfg="candidature" href="#">Commencer (3 minutes)</a>
+    </div>
+    <div class="card" id="cal-box">
+      <div class="sec-head"><h2>Tu as déjà répondu ?</h2></div>
+      <p class="soft" style="font-size:14px">Choisis directement ton créneau.</p>
+      <div id="cal-slot"></div>
+      <a class="btn ghost block" data-cfg="agenda" href="#">Ouvrir mon agenda</a>
+    </div>
+    <p class="soft" style="font-size:13px;text-align:center">Déjà élève et besoin d'un appel ? Écris-moi sur WhatsApp, on cale ça.</p>
   </main>
 
   <!-- ============ GUIDES (public) ============ -->
   <main class="view" id="v-guides" hidden>
-    <div class="hero">
-      <div class="label">Gratuit</div>
-      <h1>Mes guides <em class="hl">gratuits</em></h1>
+    <div class="page-head">
+      <div class="eyebrow">Gratuit</div>
+      <h1>Mes guides</h1>
       <p class="lede">Si tu ne sais pas par où commencer, commence par le test.</p>
     </div>
-    <div class="list" id="guides-list"></div>
-    <a class="box fill" style="text-decoration:none" data-cfg="correctionPosing" href="#">
-      <div class="label">Offre payante · 49 €</div>
+    <div class="stack" id="guides-list"></div>
+    <a class="card cream" data-cfg="correctionPosing" href="#" style="text-decoration:none">
+      <div class="eyebrow">Offre ponctuelle · 49 €</div>
       <h2>Correction posing en vidéo</h2>
       <p class="soft">Tu m'envoies tes poses filmées, je te renvoie une vidéo où je les corrige une par une, puis un contrôle 14 jours après.</p>
+      <span class="arrow">Voir l'offre</span>
     </a>
   </main>
 
   <!-- ============ CONTACT (public) ============ -->
   <main class="view" id="v-contact" hidden>
-    <div class="hero">
-      <div class="label">Contact</div>
-      <h1>On en <em class="hl">parle</em> ?</h1>
+    <div class="page-head">
+      <div class="eyebrow">Contact</div>
+      <h1>On en parle ?</h1>
       <p class="lede">Je lis tout moi-même. Le plus rapide, c'est Instagram.</p>
     </div>
-    <div class="box">
-      <div class="label">Instagram</div>
+    <div class="card">
+      <div class="eyebrow">Instagram</div>
       <h2>@leni_fit_</h2>
-      <p class="soft">Écris-moi « ATHLÈTE » en message privé si tu veux qu'on parle coaching.</p>
-      <div class="row"><a class="btn" href="https://instagram.com/leni_fit_" target="_blank" rel="noopener">Ouvrir Instagram</a></div>
+      <p class="soft" style="font-size:14px">Écris-moi « ATHLÈTE » en message privé si tu veux qu'on parle coaching.</p>
+      <a class="btn" href="https://instagram.com/leni_fit_" target="_blank" rel="noopener">Ouvrir Instagram</a>
     </div>
-    <div class="box">
-      <div class="label">E-mail</div>
+    <div class="card">
+      <div class="eyebrow">E-mail</div>
       <div class="copyline"><code id="mail">leni@thelfmethod.com</code><button class="btn small ghost" type="button" data-copy="mail">Copier</button></div>
     </div>
-    <div class="box">
-      <div class="label">Tu veux un appel ?</div>
-      <p class="soft">Réponds d'abord aux questions de candidature : à la fin, tu choisis ton créneau.</p>
-      <div class="row"><a class="btn ghost" data-cfg="candidature" href="#">Candidater</a></div>
-    </div>
+    <a class="card cream" href="#appel" style="text-decoration:none"><h2>Tu préfères un appel ?</h2><span class="arrow">Réserver un appel découverte</span></a>
   </main>
 
   <!-- ============ DÉMARRER (onboarding élève) ============ -->
   <main class="view" id="v-demarrer" hidden>
-    <div class="hero">
-      <div class="label">Espace élève · Démarrage</div>
-      <h1>Charge ta <em class="hl">barre</em></h1>
-      <p class="lede">Chaque étape faite ajoute une paire de disques. Barre pleine = tu es prêt à démarrer.</p>
+    <div class="page-head">
+      <div class="eyebrow">Espace élève · Démarrage</div>
+      <h1>Charge ta barre</h1>
+      <p class="lede">Chaque étape faite ajoute une paire de disques. Barre pleine, tu es prêt à démarrer.</p>
     </div>
-
     <div class="bar-card" aria-live="polite">
       <div class="bar-head">
         <div class="kg" id="kg">20<small>kg</small></div>
-        <div class="label" id="kg-txt">0 étape sur 9</div>
+        <div class="eyebrow" id="kg-txt">Barre à vide</div>
       </div>
-      <svg class="barbell" id="barbell" viewBox="0 0 360 90" role="img" aria-label="Barre de progression"></svg>
-      <div class="track"><i id="track"></i></div>
+      <svg class="barbell" id="barbell" viewBox="0 0 360 110" role="img" aria-label="Barre de progression"></svg>
+      <div class="prog"><div class="track"><i id="track"></i></div><b id="pct">0/9</b></div>
     </div>
-
-    <div class="box fill done-banner" id="done-banner">
-      <div class="label">Barre chargée</div>
+    <div class="card cream done-banner" id="done-banner">
+      <div class="eyebrow">Barre chargée</div>
       <h2>Tu es prêt. On y va.</h2>
       <p class="soft">Ton plan démarre le lendemain de ta vidéo perso. Ton premier bilan avec photos se fait ce jour-là.</p>
     </div>
-
     <div class="steps" id="steps"></div>
-    <p class="soft" style="font-size:12px">Tes coches restent sur ce téléphone, rien n'est envoyé. <button type="button" id="reset" style="background:none;border:0;color:var(--doux);text-decoration:underline;cursor:pointer;padding:0;font-size:12px">Tout décocher</button></p>
+    <p class="soft" style="font-size:12px;text-align:center">Tes coches restent sur ce téléphone, rien n'est envoyé. <button type="button" id="reset" style="background:none;border:0;color:var(--doux);text-decoration:underline;cursor:pointer;padding:0;font-size:12px">Tout décocher</button></p>
   </main>
 
   <!-- ============ FORMATION ============ -->
   <main class="view" id="v-formation" hidden>
-    <div class="hero">
-      <div class="label">LF Athlete Academy</div>
-      <h1>Ta <em class="hl">formation</em></h1>
-      <p class="lede">Un module sort chaque lundi. Commence par C01 à C03 pendant que je prépare ton plan.</p>
+    <div class="banner">
+      <img src="photos/leni-salle.jpg" alt="">
+      <div class="in">
+        <div style="display:grid;gap:6px"><div class="eyebrow" style="color:#D6D2C4">LF Athlete Academy</div><h1 style="font-size:32px;font-weight:800">Ta formation</h1></div>
+        <div class="ring" id="ring"><b id="ring-txt">0<small>sur 12</small></b></div>
+      </div>
     </div>
-    <div class="row"><a class="btn" data-cfg="academy" href="#" target="_blank" rel="noopener">Ouvrir l'Academy</a></div>
+    <p class="soft">Un module sort chaque lundi. Commence par C01 à C03 pendant que je prépare ton plan.</p>
+    <a class="btn block" data-cfg="academy" href="#">Ouvrir l'Academy</a>
     <section>
-      <div class="label" id="mod-count"></div>
-      <div class="list" id="modules"></div>
+      <div class="sec-head"><h2>Les modules</h2></div>
+      <div class="stack" id="modules"></div>
     </section>
-    <p class="soft" style="font-size:13px">Les modules se suivent sur la plateforme de formation, avec ton accès élève. Le bouton « Envoyer à Leni » de chaque module m'envoie ton exercice.</p>
   </main>
 
-  <!-- ============ RESSOURCES ============ -->
+  <!-- ============ FICHES ============ -->
   <main class="view" id="v-ressources" hidden>
-    <div class="hero">
-      <div class="label">Espace élève</div>
-      <h1>Tes <em class="hl">ressources</em></h1>
-      <p class="lede">Les fiches que je donne à mes élèves, à garder sous la main.</p>
+    <div class="page-head">
+      <div class="eyebrow">Espace élève</div>
+      <h1>Tes fiches</h1>
+      <p class="lede">Ce que je donne à mes élèves, à garder sous la main.</p>
     </div>
-    <div class="list" id="res-list"></div>
-
+    <div class="stack" id="res-list"></div>
     <section>
-      <div class="label">Bientôt dans l'app</div>
-      <div class="box dash" id="slot-satisfaction">
-        <div class="label">En préparation</div>
-        <h2>Ton avis sur le coaching</h2>
-        <p class="soft">Deux minutes, une question par écran, à la 3e semaine, à mi-parcours et avant la fin. Ça m'aide à ajuster ton suivi.</p>
+      <div class="sec-head"><h2>Bientôt dans l'app</h2></div>
+      <div class="card dash" id="slot-satisfaction">
+        <div class="eyebrow">En préparation</div>
+        <h3>Ton avis sur le coaching</h3>
+        <p class="soft" style="font-size:14px">Deux minutes, une question par écran : à la 3e semaine, à mi-parcours et avant la fin.</p>
       </div>
-      <div class="box dash" id="slot-suivi">
-        <div class="label">En préparation</div>
-        <h2>Ton suivi</h2>
-        <p class="soft">Séances, poids du matin, nutrition, photos et bilans, au même endroit. En attendant, tout se passe dans l'app de suivi que tu utilises déjà.</p>
+      <div class="card dash" id="slot-suivi">
+        <div class="eyebrow">En préparation</div>
+        <h3>Ton suivi</h3>
+        <p class="soft" style="font-size:14px">Séances, poids du matin, nutrition, photos et bilans au même endroit. En attendant, tout se passe dans l'app de suivi que tu utilises déjà.</p>
       </div>
     </section>
+  </main>
+
+  <!-- ============ GUIDE POSING BIKINI (espace élève, pas lié depuis l'accueil) ============ -->
+  <main class="view" id="v-bikini" hidden>
+    <a class="back" href="#ressources">‹ Tes fiches</a>
+    <div class="page-head">
+      <div class="eyebrow">Guide posing · Bikini</div>
+      <h1>Ton posing bikini, WNBF et NPC</h1>
+      <p class="lede">Les règles officielles, pose par pose, et ce qui change d'une fédération à l'autre.</p>
+    </div>
+    <figure class="fig"><img src="media/bikini/npc-plateau.jpg" alt="Plateau bikini NPC" loading="lazy"><figcaption>Photo : NPC News Online</figcaption></figure>
+    <div class="card cream"><p><b>Avant tout :</b> les juges ne notent pas « une jolie pose ». Ils notent une pose conforme au règlement de ta fédération. En WNBF, la présentation compte pour la moitié de la note.</p></div>
+
+    <section>
+      <div class="sec-head"><h2>Ce qui est jugé</h2></div>
+      <div class="card"><span class="fed">WNBF · 2 rounds à 50/50</span>
+        <ul class="rule"><li><b>Fitness & Balance :</b> épaules rondes, abdos dessinés, jambes aux lignes douces, fessiers fermes, silhouette en X, dos large. Muscles séparés, sans stries visibles.</li><li><b>Physical Appearance :</b> présentation, maîtrise du posing, maillot, bronzage, cheveux, maquillage. Transitions fluides, poses qui ont l'air faciles.</li><li>Tu es jugée par rapport au standard pro international, pas par rapport aux autres filles du plateau.</li></ul></div>
+      <div class="card"><span class="fed alt">NPC · tout se joue à la préjugée</span>
+        <ul class="rule"><li><b>Recherché :</b> une base musculaire qui dessine la silhouette, des fessiers pleins et ronds, une légère séparation ischios-fessiers, des épaules un peu rondes, une sangle tenue.</li><li><b>Pénalisé :</b> une densité de catégorie figure, des fessiers carrés, un aspect granuleux, des stries.</li></ul></div>
+    </section>
+
+    <section>
+      <div class="sec-head"><h2>Pose 1 · Face</h2></div>
+      <figure class="fig"><img src="media/bikini/wnbf-face.jpg" alt="Pose de face bikini, critères WNBF" loading="lazy"><figcaption>Photo : WNBF, Judging Criteria and Rules 2026</figcaption></figure>
+      <div class="card"><span class="fed">WNBF</span><ul class="rule"><li>Hanches et orteils face aux juges, une jambe sur le côté au choix.</li><li>Une main sur la hanche, l'autre bras pend 17 à 25 cm sous la hanche.</li><li>Dorsaux ouverts, mais moins qu'en figure. Légère torsion permise si on voit les deux hanches et les deux épaules.</li></ul></div>
+      <figure class="fig"><img src="media/bikini/wnbf-face-erreurs.jpg" alt="Erreurs fréquentes sur la pose de face" loading="lazy"><figcaption>Photo : WNBF, Judging Criteria and Rules 2026</figcaption></figure>
+      <div class="card"><span class="fed alt">NPC</span><p class="soft" style="font-size:14px">Pose plus libre : main sur la hanche, torsion, jambe avancée. Seule règle écrite : pas de bras écarté avec le coude plié et le poignet cassé.</p></div>
+    </section>
+
+    <section>
+      <div class="sec-head"><h2>Pose 2 · Profil</h2><span class="soft" style="font-size:12px">WNBF uniquement</span></div>
+      <figure class="fig"><img src="media/bikini/wnbf-profil.jpg" alt="Pose de profil bikini, critères WNBF" loading="lazy"><figcaption>Photo : WNBF, Judging Criteria and Rules 2026</figcaption></figure>
+      <div class="card"><ul class="rule"><li>Hanches vers le côté de la scène, haut du corps tourné à 35° vers les juges : on doit voir l'épaule arrière.</li><li>Jambe avant ou arrière fléchie, un talon peut décoller.</li><li>Une main sur la hanche, l'autre libre. Cheveux longs en arrière.</li></ul></div>
+      <figure class="fig"><img src="media/bikini/wnbf-profil-erreurs.jpg" alt="Erreur : main libre trop loin de la hanche" loading="lazy"><figcaption>Erreur : la main libre trop loin de la hanche. Photo : WNBF, Judging Criteria and Rules 2026</figcaption></figure>
+      <p class="soft" style="font-size:14px">En NPC, pas de profil jugé : tu passes de face à dos par un demi-tour.</p>
+    </section>
+
+    <section>
+      <div class="sec-head"><h2>Pose 3 · Dos</h2></div>
+      <div class="grid2" style="gap:10px">
+        <figure class="fig"><img src="media/bikini/wnbf-dos-1.jpg" alt="Dos option I" loading="lazy"><figcaption>Option I · Photo : WNBF</figcaption></figure>
+        <figure class="fig"><img src="media/bikini/wnbf-dos-2.jpg" alt="Dos option II" loading="lazy"><figcaption>Option II · Photo : WNBF</figcaption></figure>
+      </div>
+      <div class="card"><span class="fed">WNBF · deux options</span><ul class="rule"><li><b>Option I :</b> les deux mains sur les fléchisseurs de hanche ou les quadris, donc devant toi.</li><li><b>Option II :</b> une main sur la hanche, l'autre bras à 17-25 cm de la hanche (2 empans max).</li><li>Talons à largeur d'épaules, dorsaux ouverts sans excès, ne tourne pas la tête vers les juges.</li><li>Cheveux devant, même avec l'option II : c'est le texte du règlement qui fait foi.</li></ul></div>
+      <figure class="fig"><img src="media/bikini/wnbf-dos-erreurs.jpg" alt="Erreurs de dos" loading="lazy"><figcaption>Interdit : les deux mains sur les hanches, ou le bras trop loin. Photo : WNBF, Judging Criteria and Rules 2026</figcaption></figure>
+      <div class="coach card" style="grid-template-columns:120px minmax(0,1fr)">
+        <figure class="fig"><img src="media/bikini/npc-dos-olympia.jpg" alt="Pose de dos à l'Olympia" loading="lazy" style="height:170px;object-fit:cover"><figcaption>NPC News Online · © Jeff Binns</figcaption></figure>
+        <div style="display:grid;gap:8px"><span class="fed alt" style="justify-self:start">NPC</span><p style="font-size:14px">À l'Olympia : les deux mains devant, sur l'avant des hanches ou des quadris, cheveux lâchés dans le dos.</p><p class="soft" style="font-size:13px">Les mains passent dans les deux fédés. Les cheveux dans le dos sont pénalisés en WNBF : ne copie pas l'Olympia si tu montes en WNBF.</p></div>
+      </div>
+    </section>
+
+    <section>
+      <div class="sec-head"><h2>Sur scène</h2></div>
+      <div class="tbl"><table>
+        <tr><th></th><th>WNBF</th><th>NPC</th></tr>
+        <tr><td><b>Quarts de tour</b></td><td>Face, profil, dos, profil, toujours vers la droite</td><td>Face et dos seulement</td></tr>
+        <tr><td><b>Walk individuel</b></td><td>T-walk : grâce, assurance, rien d'emprunté aux autres catégories</td><td>Model Walk : face, demi-tour en pose de dos, retour au centre</td></tr>
+        <tr><td><b>Transitions</b></td><td>Fluides, sans effort apparent : c'est noté</td><td>Libres : c'est là que se fait le style</td></tr>
+        <tr><td><b>Maillot</b></td><td>Deux pièces, coupe pro ou brésilienne, pas de string</td><td>Deux pièces, bas en V, string interdit</td></tr>
+        <tr><td><b>Talons</b></td><td>Obligatoires, 10 à 14 cm en général</td><td>Obligatoires</td></tr>
+      </table></div>
+    </section>
+
+    <div class="card cream">
+      <div class="eyebrow">Ton travail cette semaine</div>
+      <ul class="rule" style="--x:0"><li>Choisis ton option de dos et garde toujours la même.</li><li>Répète le geste « cheveux devant » pendant le quart de tour profil vers dos.</li><li>Vérifie l'écart bras-hanche avec ta main : 2 empans max.</li><li>Filme le tour complet 3 fois par semaine et envoie-moi la vidéo.</li></ul>
+    </div>
+    <p class="soft" style="font-size:11px">Sources : WNBF Judging Criteria and Rules 2026 (2.1.4) · règles officielles NPC Bikini. Photos utilisées à titre d'illustration pédagogique, droits à leurs auteurs.</p>
   </main>
 </div>
 
 <div class="tabs"><nav aria-label="Rubriques">
-  <a href="#accueil" data-tab="accueil"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l9-7 9 7v9h-6v-6H9v6H3z"/></svg>Accueil</a>
-  <a href="#guides" data-tab="guides"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h11a3 3 0 0 1 3 3v13H7a3 3 0 0 1-3-3z"/><path d="M4 17a3 3 0 0 1 3-3h11"/></svg>Guides</a>
-  <a href="#demarrer" data-tab="demarrer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12h20M5 8v8M8 6v12M16 6v12M19 8v8"/></svg>Démarrer</a>
-  <a href="#formation" data-tab="formation"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11v5c3 2 9 2 12 0v-5"/></svg>Formation</a>
-  <a href="#ressources" data-tab="ressources"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="3" width="16" height="18"/><path d="M8 8h8M8 12h8M8 16h5"/></svg>Fiches</a>
+  <a href="#accueil" data-tab="accueil"><span class="ti"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg></span>Accueil</a>
+  <a href="#appel" data-tab="appel"><span class="ti"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M8 3v4M16 3v4M3 10h18"/></svg></span>Appel</a>
+  <a href="#demarrer" data-tab="demarrer"><span class="ti"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 12h20M5 8v8M8 6v12M16 6v12M19 8v8"/></svg></span>Démarrer</a>
+  <a href="#formation" data-tab="formation"><span class="ti"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11v5c3 2 9 2 12 0v-5"/></svg></span>Formation</a>
+  <a href="#ressources" data-tab="ressources"><span class="ti"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg></span>Fiches</a>
 </nav></div>
 <div class="toast" id="toast" role="status"></div>
 
@@ -332,9 +509,10 @@ var MARQUE = {
   nom: 'LF Coaching',                                  // nom affiché partout (décision du 1/12)
   sousTitre: 'Coaching en ligne · bodybuilding naturel' // sous-titre sous le logo
 };
-var SRC = 'app'; // ajouté en ?source= sur les liens Systeme.io pour savoir que la visite vient de l'app
+var SRC = 'app'; // ajouté en ?source= sur les liens Systeme.io
 var LIENS = {
   candidature:      'https://lfauconnier27.systeme.io/98dd870d',
+  agenda:           'https://cal.com/leni-fauconnier/decouverte',
   depart:           'https://lfauconnier27.systeme.io/5e2d6ea8?g=depart',
   testGuide:        'https://lfauconnier27.systeme.io/5e2d6ea8',
   mensurations:     'https://lfauconnier27.systeme.io/0fa00707',
@@ -343,30 +521,31 @@ var LIENS = {
   correctionPosing: 'https://lfauconnier27.systeme.io/5e2d6ea8?g=correction-posing',
   academy:          'https://lfauconnier27.systeme.io/school/course/lf-athlete-academy',
   bienvenue:        'https://drive.google.com/file/d/1IaER-GrIJM2bYmqrxfvET0mxNSHy9g7a/view',
-  tutoSuivi:        'https://www.loom.com/share/a880ddbd7ebb407e93a872ca0953e62f'
+  tutoSuivi:        'https://www.loom.com/share/a880ddbd7ebb407e93a872ca0953e62f',
+  photosDepart:     'https://drive.google.com/file/d/1FwLAJqFCsStMfu3VNMIjznXS-SNmDtVz/view'
 };
+/* Agenda intégré dans l'app (sur le vrai site seulement) : false = simple bouton */
+var AGENDA_INTEGRE = true;
 
 var GUIDES = [
-  {t:'De pratiquant à athlète', d:"Le test pour savoir où tu en es, les 5 piliers de la méthode et ton plan sur 30 jours.", l:'testGuide', tag:'Commence ici'},
-  {t:'Prendre ses mensurations', d:'Les 11 mesures avec le schéma, la bonne méthode et un récap à garder.', l:'mensurations', tag:'Outil'},
-  {t:'Ton potentiel naturel', d:'Combien de muscle tu peux encore gagner sans produits, et en combien de temps.', l:'potentiel', tag:'Outil'},
-  {t:'Le guide posing', d:"Les poses Men's Physique, Classic et Bodybuilding, avec les bons placements et les erreurs qui coûtent des points.", l:'posing', tag:'Guide'}
+  {t:'De pratiquant à athlète', d:'Le test pour savoir où tu en es, les 5 piliers et ton plan sur 30 jours.', l:'testGuide', end:'Commence ici', feat:1},
+  {t:'Prendre ses mensurations', d:'Les 11 mesures avec le schéma et la bonne méthode.', l:'mensurations', end:'Outil'},
+  {t:'Ton potentiel naturel', d:'Combien de muscle tu peux encore gagner sans produits.', l:'potentiel', end:'Outil'},
+  {t:'Le guide posing', d:"Men's Physique, Classic et Bodybuilding : placements et erreurs.", l:'posing', end:'Guide'}
 ];
 
-/* Démarrage : l'ordre de la procédure d'onboarding. qui = qui fait l'étape. */
 var ETAPES = [
   {id:'contrat',   t:'Signer ton contrat', d:"Tu l'as reçu par e-mail après l'appel. Vérifie aussi tes spams.", qui:'Toi'},
-  {id:'start',     t:'Écrire « LF START » sur WhatsApp', d:"Au numéro que je t'ai donné pendant l'appel. Tu reçois tout de suite le message d'accueil.", qui:'Toi'},
+  {id:'start',     t:'Écrire « LF START » sur WhatsApp', d:"Au numéro que je t'ai donné pendant l'appel. Le message d'accueil arrive tout de suite.", qui:'Toi'},
   {id:'bienvenue', t:'Regarder la vidéo de bienvenue', d:'Comment on va travailler ensemble pendant 6 mois.', qui:'Toi', l:'bienvenue', b:'Voir la vidéo'},
-  {id:'academy',   t:"Commencer l'Academy : C01 à C03", d:"Ton accès arrive par e-mail. Ces 3 modules suffisent avant de démarrer.", qui:'Toi', l:'academy', b:"Ouvrir l'Academy"},
-  {id:'depart',    t:'Remplir le questionnaire de départ', d:'Ton quotidien, ton sommeil, ta nutrition. C\'est ce qui me permet de faire un plan qui tient dans ta vie.', qui:'Toi', l:'depart', b:'Remplir'},
-  {id:'appli',     t:"Installer l'app de suivi", d:"Tu reçois l'invitation par e-mail. Le tuto montre le poids du matin et le bilan de la semaine.", qui:'Toi', l:'tutoSuivi', b:'Voir le tuto'},
+  {id:'academy',   t:"Commencer l'Academy : C01 à C03", d:'Ton accès arrive par e-mail. Ces 3 modules suffisent avant de démarrer.', qui:'Toi', l:'academy', b:"Ouvrir l'Academy"},
+  {id:'appli',     t:"Installer l'app de suivi (Fitbrothers)", d:"Tu reçois l'invitation par e-mail. Le tuto montre le poids du matin et le bilan de la semaine.", qui:'Toi', l:'tutoSuivi', b:'Voir le tuto'},
+  {id:'depart',    t:'Remplir le questionnaire de départ', d:"60 questions dans l'app de suivi, 30 minutes au calme. Plus tu es précis, plus ton plan sera adapté. Puis envoie-moi « Questionnaire terminé » sur WhatsApp.", qui:'Toi'},
   {id:'mesures',   t:'Prendre tes mensurations', d:'Au mètre ruban, le matin à jeun. Le guide te montre où mesurer.', qui:'Toi', l:'mensurations', b:'Ouvrir le guide'},
   {id:'video',     t:'Recevoir ta vidéo perso du plan', d:"Je te l'envoie le mardi ou le samedi. Réponds à mes 3 questions de fin sur WhatsApp.", qui:'Leni'},
-  {id:'go',        t:'Jour 1 : photos de départ et première séance', d:'Face, dos, deux profils, lumière de face. Puis tu lances ta première séance.', qui:'Toi'}
+  {id:'go',        t:'Jour 1 : photos de départ et première séance', d:'Face, dos, deux profils, le matin à jeun, lumière de face. Puis tu lances ta première séance.', qui:'Toi', l:'photosDepart', b:'Voir comment faire les photos'}
 ];
 
-/* Formation : repris de academy.html (code, titre, durée, date de sortie). draft = pas encore publié. */
 var MODULES = [
   {c:'C01',t:'Comment fonctionne ton coaching LF',m:10},
   {c:'C02',t:'Tes données et ton check-in',m:11},
@@ -383,126 +562,138 @@ var MODULES = [
 ];
 
 var RESSOURCES = [
-  {t:'Le vacuum', d:'Rentrer le ventre sous la cage, du sol jusqu\'à la scène. Progression en 4 étapes.', f:'ressources/fiche-vacuum.pdf', tag:'Posing'},
-  {t:'Les cheat meals', d:'Comment placer un repas libre sans casser ta semaine.', f:'ressources/fiche-cheat-meals.pdf', tag:'Nutrition'},
-  {t:'Prendre ses mensurations', d:'Les 11 mesures et la bonne méthode.', l:'mensurations', tag:'Guide'},
-  {t:'Le guide posing', d:'Toutes les poses, catégorie par catégorie.', l:'posing', tag:'Guide'}
+  {t:'Le vacuum', d:"Rentrer le ventre sous la cage, du sol jusqu'à la scène.", f:'ressources/fiche-vacuum.pdf', end:'PDF'},
+  {t:'Les cheat meals', d:'Placer un repas libre sans casser ta semaine.', f:'ressources/fiche-cheat-meals.pdf', end:'PDF'},
+  {t:'Posing bikini, WNBF et NPC', d:'Les règles pose par pose, et ce qui change entre fédérations.', v:'bikini', end:'Guide'},
+  {t:'Le guide posing hommes', d:"Men's Physique, Classic et Bodybuilding.", l:'posing', end:'Guide'},
+  {t:'Prendre ses mensurations', d:'Les 11 mesures et la bonne méthode.', l:'mensurations', end:'Guide'}
 ];
 
 /* ================================================================== */
+var ICO={
+  doc:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M14 3H6a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></svg>',
+  pose:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="4.5" r="2"/><path d="M5 9c2 1 4.5 1.5 7 1.5S17 10 19 9M12 10.5V15l-3 6M12 15l3 6"/></svg>',
+  tape:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="9" cy="12" r="6"/><circle cx="9" cy="12" r="1.5"/><path d="M15 12h6v4h-6M18 12v2"/></svg>'
+};
 function $(s,r){return (r||document).querySelector(s)}
 function $$(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))}
 function lien(k){var u=LIENS[k];if(!u)return '#';if(/systeme\.io/.test(u)){try{var x=new URL(u);x.searchParams.set('source',SRC);return x.toString()}catch(e){}}return u}
 function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
 function store(k,v){try{if(v===undefined)return JSON.parse(localStorage.getItem(k)||'null');localStorage.setItem(k,JSON.stringify(v))}catch(e){return null}}
-function toast(t){var el=$('#toast');el.textContent=t;el.classList.add('on');clearTimeout(toast._t);toast._t=setTimeout(function(){el.classList.remove('on')},1800)}
+function toast(t){var el=$('#toast');el.textContent=t;el.classList.add('on');clearTimeout(toast._t);toast._t=setTimeout(function(){el.classList.remove('on')},1900)}
+var ONSITE=location.protocol==='https:'&&!/claude|anthropic|githack|localhost/.test(location.hostname);
 
-/* Marque */
 document.title=MARQUE.nom;
 $$('[data-brand]').forEach(function(el){el.textContent=MARQUE[el.getAttribute('data-brand')]});
-
-/* Liens configurés */
 $$('[data-cfg]').forEach(function(a){a.href=lien(a.getAttribute('data-cfg'));a.target='_blank';a.rel='noopener'});
 
-/* Guides */
-$('#guides-list').innerHTML=GUIDES.map(function(g,i){
-  return '<a class="item" href="'+esc(lien(g.l))+'" target="_blank" rel="noopener"><span class="n">'+(i+1)+'</span><h3>'+esc(g.t)+'</h3><span class="tag'+(i===0?' on':'')+'">'+esc(g.tag)+'</span><p>'+esc(g.d)+'</p></a>';
-}).join('');
+/* Agenda intégré (Cal.com) : seulement sur le vrai site, sinon bouton */
+if(AGENDA_INTEGRE&&ONSITE){
+  $('#cal-slot').innerHTML='<iframe class="cal-frame" title="Agenda de Leni" loading="lazy" src="'+esc(LIENS.agenda)+'/embed?theme=dark"></iframe>';
+}
 
-/* Ressources */
+function line(o,i,href,target){
+  return '<a class="line'+(o.feat?' feat':'')+'" href="'+esc(href)+'"'+(target?' target="_blank" rel="noopener"':'')+'><span class="badge">'+o.badge+'</span><h3>'+esc(o.t)+'</h3><span class="end'+(o.feat?'':'')+'">'+esc(o.end)+'</span><p>'+esc(o.d)+'</p></a>';
+}
+$('#guides-list').innerHTML=GUIDES.map(function(g,i){g.badge=String(i+1).padStart(2,'0');return line(g,i,lien(g.l),true)}).join('');
 $('#res-list').innerHTML=RESSOURCES.map(function(r,i){
-  var href=r.f?r.f:lien(r.l);
-  return '<a class="item" href="'+esc(href)+'" target="_blank" rel="noopener"><span class="n">'+(i+1)+'</span><h3>'+esc(r.t)+'</h3><span class="tag">'+esc(r.f?'PDF':r.tag)+'</span><p>'+esc(r.d)+'</p></a>';
+  r.badge=r.v==='bikini'||/posing/i.test(r.t)?ICO.pose:(/mensur/i.test(r.t)?ICO.tape:ICO.doc);
+  return r.v?line(r,i,'#'+r.v,false):line(r,i,r.f||lien(r.l),true);
 }).join('');
 
-/* Formation */
 (function(){
-  var today=new Date().toISOString().slice(0,10);
+  var today=new Date().toISOString().slice(0,10),dispo=0;
   function fr(d){var p=d.split('-');return p[2]+'/'+p[1]}
-  var dispo=0;
   $('#modules').innerHTML=MODULES.map(function(m){
-    var live=!m.pub||m.pub<=today; if(live)dispo++;
-    return '<div class="item'+(live?'':' locked')+'"><span class="n" style="font-size:18px">'+m.c+'</span><h3>'+esc(m.t)+'</h3><span class="tag'+(live?' on':'')+'">'+(live?m.m+' min':'Le '+fr(m.pub))+'</span></div>';
+    var live=!m.pub||m.pub<=today;if(live)dispo++;
+    return '<div class="line'+(live?'':' locked')+'"><span class="badge">'+m.c+'</span><h3>'+esc(m.t)+'</h3><span class="end">'+(live?m.m+' min':'Le '+fr(m.pub))+'</span><p>'+(live?'Disponible':'Sortie le lundi '+fr(m.pub))+'</p></div>';
   }).join('');
-  $('#mod-count').textContent=dispo+' modules disponibles sur '+MODULES.length;
+  $('#ring').style.setProperty('--p',Math.round(dispo/MODULES.length*100));
+  $('#ring-txt').innerHTML=dispo+'<small>sur '+MODULES.length+'<br>sortis</small>';
 })();
 
 /* Démarrage : la barre */
 var done=store('lf-onboarding')||{};
-var PLATE=10; // kg par disque
-function drawBar(n){
-  var svg=$('#barbell'),W=360,cy=45,h='';
-  h+='<rect x="8" y="'+(cy-3)+'" width="'+(W-16)+'" height="6" fill="#AEB9B2"/>';           // barre
-  h+='<rect x="96" y="'+(cy-9)+'" width="6" height="18" fill="#EBE3D0"/><rect x="'+(W-102)+'" y="'+(cy-9)+'" width="6" height="18" fill="#EBE3D0"/>'; // butées
-  var heights=[80,80,72,72,64,64,56,50,44];
+var PLATE=10;
+function drawBar(n,anim){
+  var W=360,cy=55,h='<defs><linearGradient id="pl" x1="0" x2="1"><stop offset="0" stop-color="#F4EEDF"/><stop offset=".55" stop-color="#EBE3D0"/><stop offset="1" stop-color="#C9C1AE"/></linearGradient><linearGradient id="st" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#D9DED9"/><stop offset="1" stop-color="#7F8D89"/></linearGradient></defs>';
+  h+='<ellipse cx="180" cy="104" rx="150" ry="4" fill="#000" opacity=".25"/>';
+  h+='<rect x="6" y="'+(cy-3.5)+'" width="'+(W-12)+'" height="7" rx="3.5" fill="url(#st)"/>';
+  for(var k=0;k<22;k++){h+='<rect x="'+(134+k*4.2)+'" y="'+(cy-3.5)+'" width="1.3" height="7" fill="#192E33" opacity=".35"/>'}
+  h+='<rect x="92" y="'+(cy-11)+'" width="8" height="22" rx="2" fill="url(#st)"/><rect x="'+(W-100)+'" y="'+(cy-11)+'" width="8" height="22" rx="2" fill="url(#st)"/>';
+  var hs=[92,92,84,84,76,70,62,56,50];
   for(var i=0;i<n;i++){
-    var ph=heights[i]||44,pw=8,gap=2,off=104+i*(pw+gap);
-    h+='<rect x="'+(off)+'" y="'+(cy-ph/2)+'" width="'+pw+'" height="'+ph+'" fill="#EBE3D0"/>';
-    h+='<rect x="'+(W-off-pw)+'" y="'+(cy-ph/2)+'" width="'+pw+'" height="'+ph+'" fill="#EBE3D0"/>';
+    var ph=hs[i]||50,pw=9,off=101+i*(pw+1.5),cls=(anim===i)?' class="plate"':'';
+    h+='<rect'+cls+' x="'+off+'" y="'+(cy-ph/2)+'" width="'+pw+'" height="'+ph+'" rx="2.5" fill="url(#pl)"/>';
+    h+='<rect'+cls+' x="'+(W-off-pw)+'" y="'+(cy-ph/2)+'" width="'+pw+'" height="'+ph+'" rx="2.5" fill="url(#pl)"/>';
   }
-  // poignée moletée
-  for(var k=0;k<14;k++){h+='<rect x="'+(150+k*4.4)+'" y="'+(cy-3)+'" width="1.4" height="6" fill="#192E33" opacity=".6"/>'}
-  svg.innerHTML=h;
+  $('#barbell').innerHTML=h;
 }
-function renderSteps(){
+function burst(){
+  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+  var b=document.createElement('div');b.className='burst';
+  for(var i=0;i<40;i++){var c=document.createElement('i');c.style.left=(Math.random()*100)+'%';c.style.top=(-10-Math.random()*20)+'px';c.style.setProperty('--dx',(Math.random()*120-60)+'px');c.style.setProperty('--rot',(Math.random()*720-360)+'deg');c.style.animationDelay=(Math.random()*.4)+'s';if(i%3===0)c.style.background='#A9B6B0';b.appendChild(c)}
+  document.body.appendChild(b);setTimeout(function(){b.remove()},2200);
+}
+function renderSteps(anim){
   var n=0;ETAPES.forEach(function(e){if(done[e.id])n++});
   $('#kg').innerHTML=(20+n*2*PLATE)+'<small>kg</small>';
-  $('#kg-txt').textContent=n+' étape'+(n>1?'s':'')+' sur '+ETAPES.length;
+  $('#kg-txt').textContent=n===0?'Barre à vide':(n===ETAPES.length?'Barre chargée':'Encore '+(ETAPES.length-n)+' étape'+(ETAPES.length-n>1?'s':''));
   $('#track').style.width=(n/ETAPES.length*100)+'%';
-  drawBar(n);
+  $('#pct').textContent=n+'/'+ETAPES.length;
+  drawBar(n,anim);
   $('#v-demarrer').classList.toggle('all-done',n===ETAPES.length);
+  var nextId=null;for(var j=0;j<ETAPES.length;j++){if(!done[ETAPES[j].id]){nextId=ETAPES[j].id;break}}
   $('#steps').innerHTML=ETAPES.map(function(e,i){
-    var on=!!done[e.id];
-    return '<div class="step'+(on?' done':'')+'"><button class="chk" type="button" data-step="'+e.id+'" aria-pressed="'+on+'" aria-label="'+(on?'Décocher':'Cocher')+' : '+esc(e.t)+'"><svg viewBox="0 0 24 24" fill="none" stroke="#192E33" stroke-width="3"><path d="M4 12l5 5L20 6"/></svg></button>'+
-      '<h3>'+(i+1)+'. '+esc(e.t)+'</h3><div class="body"><span class="who">'+(e.qui==='Leni'?'Leni s\'en occupe':'À toi de jouer')+'</span><p>'+esc(e.d)+'</p>'+
-      (e.l?'<div class="row"><a class="btn small ghost" href="'+esc(lien(e.l))+'" target="_blank" rel="noopener">'+esc(e.b)+'</a></div>':'')+'</div></div>';
+    var on=!!done[e.id],nx=e.id===nextId;
+    return '<div class="step'+(on?' done':'')+(nx?' next':'')+'"><button class="chk" type="button" data-step="'+e.id+'" aria-pressed="'+on+'" aria-label="'+(on?'Décocher':'Cocher')+' : '+esc(e.t)+'"><svg viewBox="0 0 24 24" fill="none" stroke="#192E33" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></button>'+
+      '<div class="t"><span class="who">'+(nx?'Prochaine étape · ':'Étape '+(i+1)+' · ')+(e.qui==='Leni'?'Leni s\'en occupe':'à toi')+'</span><h3>'+esc(e.t)+'</h3></div>'+
+      '<div class="body"><p>'+esc(e.d)+'</p>'+(e.l?'<div class="row"><a class="btn small'+(nx?'':' ghost')+'" href="'+esc(lien(e.l))+'" target="_blank" rel="noopener">'+esc(e.b)+'</a></div>':'')+'</div></div>';
   }).join('');
 }
 $('#steps').addEventListener('click',function(ev){
   var b=ev.target.closest('[data-step]');if(!b)return;
-  var id=b.getAttribute('data-step');done[id]=!done[id];if(!done[id])delete done[id];store('lf-onboarding',done);
+  var id=b.getAttribute('data-step');var was=!!done[id];
+  if(was)delete done[id];else done[id]=1;store('lf-onboarding',done);
   var n=Object.keys(done).length;
-  renderSteps();
-  if(done[id])toast(n===ETAPES.length?'Barre chargée : '+(20+n*2*PLATE)+' kg 💪':'+'+(2*PLATE)+' kg sur la barre');
+  renderSteps(was?null:n-1);
+  if(navigator.vibrate&&!was)try{navigator.vibrate(12)}catch(e){}
+  if(!was){if(n===ETAPES.length){burst();toast('Barre chargée : '+(20+n*2*PLATE)+' kg')}else toast('+'+(2*PLATE)+' kg sur la barre')}
 });
 $('#reset').addEventListener('click',function(){done={};store('lf-onboarding',done);renderSteps();toast('Barre vidée')});
 renderSteps();
 
-/* Copier */
 $$('[data-copy]').forEach(function(b){b.addEventListener('click',function(){
-  var t=$('#'+b.getAttribute('data-copy')).textContent;
-  function ok(){toast('Copié')}
-  try{navigator.clipboard.writeText(t).then(ok,function(){sel()})}catch(e){sel()}
-  function sel(){var r=document.createRange();r.selectNodeContents($('#'+b.getAttribute('data-copy')));var s=getSelection();s.removeAllRanges();s.addRange(r);toast('Sélectionné, tu peux copier')}
+  var el=$('#'+b.getAttribute('data-copy'));
+  function sel(){var r=document.createRange();r.selectNodeContents(el);var s=getSelection();s.removeAllRanges();s.addRange(r);toast('Sélectionné, tu peux copier')}
+  try{navigator.clipboard.writeText(el.textContent).then(function(){toast('Copié')},sel)}catch(e){sel()}
 })});
 
-/* Navigation par onglets (#accueil, #guides, #contact, #demarrer, #formation, #ressources) */
-var VUES=['accueil','guides','contact','demarrer','formation','ressources'];
+/* Navigation */
+var VUES=['accueil','appel','guides','contact','demarrer','formation','ressources','bikini'];
+var TAB_DE={guides:'accueil',contact:'accueil',bikini:'ressources'};
 function route(){
   var v=(location.hash||'').replace('#','');if(VUES.indexOf(v)<0)v='accueil';
   VUES.forEach(function(k){$('#v-'+k).hidden=(k!==v)});
-  $$('.tabs a').forEach(function(a){var t=a.getAttribute('data-tab');if(t===v||(v==='contact'&&t==='accueil'))a.setAttribute('aria-current','page');else a.removeAttribute('aria-current')});
-  if(v==='demarrer'||v==='formation'||v==='ressources')store('lf-eleve',true);
+  var t=TAB_DE[v]||v;
+  $$('.tabs a').forEach(function(a){if(a.getAttribute('data-tab')===t)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current')});
+  if(['demarrer','formation','ressources','bikini'].indexOf(v)>=0){store('lf-eleve',true);$('#who-link').textContent='Mon démarrage'}
   window.scrollTo(0,0);
 }
 window.addEventListener('hashchange',route);route();
-if(store('lf-eleve')){$('#who-link').textContent='Mon démarrage'}
+if(store('lf-eleve'))$('#who-link').textContent='Mon démarrage';
 
-/* Installation sur l'écran d'accueil */
+/* Installation */
 (function(){
   var standalone=window.matchMedia('(display-mode: standalone)').matches||navigator.standalone;
   if(standalone||store('lf-install-x'))return;
-  var ios=/iphone|ipad|ipod/i.test(navigator.userAgent);
-  var box=$('#install'),deferred=null;
-  if(ios){box.hidden=false}
-  window.addEventListener('beforeinstallprompt',function(e){e.preventDefault();deferred=e;box.hidden=false;$('#install-how').innerHTML='<button class="btn small" type="button" id="install-go">Installer l\'app</button>';$('#install-go').onclick=function(){deferred.prompt()}});
+  var box=$('#install');
+  if(/iphone|ipad|ipod/i.test(navigator.userAgent))box.hidden=false;
+  window.addEventListener('beforeinstallprompt',function(e){e.preventDefault();box.hidden=false;$('#install-how').innerHTML='<button class="btn small" type="button" id="install-go">Installer</button>';$('#install-go').onclick=function(){e.prompt()}});
   $('#install-x').onclick=function(){box.hidden=true;store('lf-install-x',true)};
 })();
 
-/* Hors ligne (seulement sur le vrai site) */
-if('serviceWorker' in navigator&&location.protocol==='https:'&&!/claude|anthropic/.test(location.hostname)){
-  try{navigator.serviceWorker.register('sw.js').catch(function(){})}catch(e){}
-}
+if('serviceWorker' in navigator&&ONSITE){try{navigator.serviceWorker.register('sw.js').catch(function(){})}catch(e){}}
 </script>
 <!--shell-->
 </body>
