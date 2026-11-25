@@ -695,7 +695,7 @@ var MODULES = [
 
 var RESSOURCES = [
   {t:'Le vacuum', d:"Rentrer le ventre sous la cage, du sol jusqu'à la scène.", v:'vacuum', end:'Fiche'},
-  {t:'Les cheat meals', d:'Placer un repas libre sans casser ta semaine.', pdf:'pdf/fiche-cheat-meals.pdf', end:'PDF'},
+  {t:'Les cheat meals', d:'Placer un repas libre sans casser ta semaine.', v:'cheatmeals', end:'Fiche'},
   {t:'Posing bikini, WNBF et NPC', d:'Les règles pose par pose, et ce qui change entre fédérations.', v:'bikini', end:'Guide'},
   {t:'Le guide posing hommes', d:"Men's Physique, Classic et Bodybuilding.", l:'posing', end:'Guide'},
   {t:"L'échauffement", d:'Ta routine selon la séance du jour, avec la démo de chaque exercice.', v:'echauffement', end:'Guide'},
@@ -951,7 +951,7 @@ satisRendu();
 
 /* ================= COMPTES : visiteur / élève / coach ================= */
 /* Fiches natives : vue = nom, contenu = fiche-<nom>.html dans Supabase, pdf = version imprimable */
-var FICHES={vacuum:{t:'Fiche vacuum',pdf:'pdf/fiche-vacuum.pdf'}};
+var FICHES={vacuum:{t:'Fiche vacuum',pdf:'pdf/fiche-vacuum.pdf'},cheatmeals:{t:'Fiche cheat meals',cle:'cheat-meals',pdf:'pdf/fiche-cheat-meals.pdf'}};
 var VUES_ELEVE=['demarrer','formation','ressources','bikini','echauffement','parrainage'].concat(Object.keys(FICHES));
 var sb=null,apresCx=null;
 if(SUPA.url&&SUPA.anon){MOI.role='visiteur';if(window.supabase){try{sb=window.supabase.createClient(SUPA.url,SUPA.anon,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}})}catch(e){sb=null}}}
@@ -993,7 +993,7 @@ function chargerFiche(n){
   $('#fiche-pdf-p').hidden=!f.pdf;$('#fiche-pdf').setAttribute('data-pdf',f.pdf||'');
   if(!sb){box.innerHTML='<p class="soft">Cette fiche est réservée aux élèves connectés.</p>';return}
   box.innerHTML='<p class="soft">Chargement de la fiche…</p>';box.dataset.ok='';
-  contenu('fiche-'+n+'.html').then(function(c){if((location.hash||'').slice(1)!==n)return;box.innerHTML=c.donnees;box.dataset.ok=n})
+  contenu('fiche-'+(f.cle||n)+'.html').then(function(c){if((location.hash||'').slice(1)!==n)return;box.innerHTML=c.donnees;box.dataset.ok=n})
     .catch(function(){box.innerHTML='<p class="soft">Fiche indisponible pour le moment.</p>'});
 }
 function chargerBikini(){
@@ -1100,7 +1100,7 @@ $('#co-ct-fichier').addEventListener('change',function(e){
 });
 
 /* Signaler un bug ou une idée : ouvre WhatsApp vers Leni avec un message prérempli */
-var NOMS_VUES={vacuum:'Fiche vacuum',echauffement:'Guide échauffement',demarrer:'Démarrer',formation:'Formation',ressources:'Fiches',bikini:'Guide bikini',parrainage:'Parrainage',coach:'Espace coach'};
+var NOMS_VUES={vacuum:'Fiche vacuum',cheatmeals:'Fiche cheat meals',echauffement:'Guide échauffement',demarrer:'Démarrer',formation:'Formation',ressources:'Fiches',bikini:'Guide bikini',parrainage:'Parrainage',coach:'Espace coach'};
 $('#bug-btn').addEventListener('click',function(){
   var v=(location.hash||'').replace('#','')||'accueil';
   var qui=(MOI.eleve&&MOI.eleve.prenom)||MOI.email||'';
