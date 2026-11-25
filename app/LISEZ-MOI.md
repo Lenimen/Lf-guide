@@ -7,7 +7,7 @@ Aucune donnée d'élève : les coches du démarrage restent dans le téléphone 
 - `index.html` : toute l'app (accueil public avec photo, réservation d'appel, guides, contact, démarrage avec la barre qui se charge, formation, fiches, guide posing bikini).
 - Réservation d'appel : candidature Systeme.io puis Cal.com ; sur le vrai site, l'agenda Cal.com s'affiche dans l'app (`AGENDA_INTEGRE`).
 - Guide posing bikini (`#bikini`) : seulement dans l'espace élève (Fiches), pas lié depuis l'accueil. Photos WNBF / NPC News créditées sous chaque image, risque accepté par Leni le 24/11. Attention : sans connexion, l'espace élève n'est pas protégé par un mot de passe, il est juste non lié.
-- `photos/` : photos de Leni en salle (23/10).
+- `photos/` : photos de Leni sur scène (WNBF short bleu, podium et médaille BFBF), choisies le 25/11 à la demande de Leni (pas de photos de salle).
 - Tous les réglages sont en haut du script : `MARQUE` (nom + sous-titre), `LIENS`, `GUIDES`, `ETAPES`, `MODULES`, `RESSOURCES`.
 - `manifest.webmanifest`, `sw.js` (hors ligne, changer VERSION à chaque mise en ligne), `icons/`, `ressources/` (fiches PDF génériques).
 
