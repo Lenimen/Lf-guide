@@ -39,6 +39,7 @@
   color-scheme:dark;
 }
 *{box-sizing:border-box}
+[hidden]{display:none!important}
 html,body{background:var(--petrole)}
 body{margin:0;color:var(--creme);font-family:var(--body);font-size:16px;line-height:1.55;font-weight:400;-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent}
 body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--petrole);z-index:30}
@@ -141,6 +142,7 @@ a.line:active{transform:scale(.985);background:var(--carte-2)}
 .install img{width:42px;height:42px;border-radius:10px}
 .install .x{background:none;border:0;color:var(--doux);font-size:22px;cursor:pointer;padding:4px 8px}
 
+
 /* Démarrage : la barre */
 .bar-card{display:grid;gap:14px;padding:20px 16px 18px;border-radius:var(--r);background:radial-gradient(120% 90% at 50% 0%,#2C4E55 0%,var(--carte) 55%,var(--abysse) 100%);border:1px solid var(--filet);box-shadow:var(--ombre);overflow:hidden}
 .bar-head{display:flex;justify-content:space-between;align-items:flex-end;gap:10px;flex-wrap:wrap}
@@ -149,6 +151,10 @@ a.line:active{transform:scale(.985);background:var(--carte-2)}
 .barbell{width:100%;height:auto;display:block;max-width:100%;overflow:visible}
 .barbell .plate{transform-box:fill-box;transform-origin:center;animation:plateIn .45s var(--ease) both}
 @keyframes plateIn{from{transform:scaleY(.4) translateY(-8px)}to{transform:none}}
+.bar-card.full{border-color:rgba(235,227,208,.6);box-shadow:0 0 0 1px rgba(235,227,208,.25),0 20px 50px -18px rgba(235,227,208,.35)}
+.bar-card.full .kg{animation:pop .6s var(--ease)}
+@keyframes pop{40%{transform:scale(1.12)}}
+.barbell g.plate{transform-box:fill-box;transform-origin:center;animation:plateIn .45s var(--ease) both}
 .prog{display:flex;align-items:center;gap:12px}
 .track{flex:1;height:8px;border-radius:999px;background:rgba(0,0,0,.35);overflow:hidden}
 .track i{display:block;height:100%;border-radius:999px;background:var(--creme);width:0;transition:width .6s var(--ease)}
@@ -211,6 +217,23 @@ a.line:active{transform:scale(.985);background:var(--carte-2)}
 .tbl th{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--doux);font-weight:600}
 .tbl tr:last-child td{border-bottom:0}
 .back{display:inline-flex;align-items:center;gap:6px;font-size:14px;font-weight:600;color:var(--doux);text-decoration:none}
+
+
+/* Rendez-vous */
+.motif{cursor:pointer;width:100%;text-align:left;font:inherit;color:inherit}
+.qs{display:grid;gap:16px}
+.q{display:grid;gap:8px;border:0;padding:0;margin:0;min-width:0}
+.q>span,.q legend{font-size:14px;font-weight:600;padding:0}
+.q input[type=text],.q input[type=email],.q textarea{width:100%;font:inherit;font-size:16px;color:var(--creme);background:rgba(0,0,0,.22);border:1px solid var(--filet);border-radius:12px;padding:12px 14px}
+.q textarea{min-height:84px;resize:vertical}
+.q input:focus,.q textarea:focus{outline:none;border-color:rgba(235,227,208,.6)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chips label{position:relative}
+.chips input{position:absolute;opacity:0;pointer-events:none}
+.chips span{display:inline-block;padding:9px 13px;border-radius:999px;border:1px solid rgba(235,227,208,.25);font-size:14px;cursor:pointer;transition:background .15s,color .15s}
+.chips input:checked+span{background:var(--creme);color:var(--petrole);border-color:var(--creme);font-weight:600}
+.chips input:focus-visible+span{outline:2px solid var(--creme);outline-offset:2px}
+.err{color:#F2B8A8;font-size:13px;margin:0}
 
 /* Barre d'onglets */
 .tabs{position:fixed;left:0;right:0;bottom:0;z-index:25;background:rgba(16,33,31,.78);backdrop-filter:saturate(1.5) blur(18px);-webkit-backdrop-filter:saturate(1.5) blur(18px);border-top:1px solid var(--filet);padding-bottom:env(safe-area-inset-bottom,0px);padding-left:env(safe-area-inset-left,0px);padding-right:env(safe-area-inset-right,0px)}
@@ -302,25 +325,19 @@ footer{font-size:11px;color:var(--doux);text-align:center;padding-top:4px}
   <!-- ============ APPEL ============ -->
   <main class="view" id="v-appel" hidden>
     <div class="page-head">
-      <div class="eyebrow">Appel découverte · gratuit</div>
-      <h1>Réserve ton appel</h1>
-      <p class="lede">30 minutes en visio pour faire le point sur ton physique, tes objectifs et voir si mon accompagnement te correspond.</p>
+      <div class="eyebrow">Rendez-vous</div>
+      <h1>Prendre rendez-vous</h1>
+      <p class="lede">Choisis pourquoi tu veux m'appeler. Deux ou trois questions, puis tu choisis ton créneau.</p>
     </div>
-    <div class="card">
-      <ol class="steps3">
-        <li><span>Tu réponds à quelques questions sur ton niveau et ton objectif.</span></li>
-        <li><span>Tu choisis ton créneau dans mon agenda.</span></li>
-        <li><span>Tu reçois la confirmation par e-mail avec le lien de l'appel.</span></li>
-      </ol>
-      <a class="btn block" data-cfg="candidature" href="#">Commencer (3 minutes)</a>
-    </div>
-    <div class="card" id="cal-box">
-      <div class="sec-head"><h2>Tu as déjà répondu ?</h2></div>
-      <p class="soft" style="font-size:14px">Choisis directement ton créneau.</p>
-      <div id="cal-slot"></div>
-      <a class="btn ghost block" data-cfg="agenda" href="#">Ouvrir mon agenda</a>
-    </div>
-    <p class="soft" style="font-size:13px;text-align:center">Déjà élève et besoin d'un appel ? Écris-moi sur WhatsApp, on cale ça.</p>
+    <div class="stack" id="motifs"></div>
+    <form class="card" id="rdv-form" hidden novalidate>
+      <div class="sec-head"><h2 id="rdv-titre"></h2><button type="button" class="back" id="rdv-back" style="background:none;border:0;cursor:pointer;padding:0">Changer</button></div>
+      <div id="rdv-q" class="qs"></div>
+      <p class="err" id="rdv-err" hidden>Il manque ton prénom ou ton e-mail.</p>
+      <button class="btn block" type="submit" id="rdv-go">Choisir mon créneau</button>
+      <p class="soft" style="font-size:12px;text-align:center">Tes réponses sont jointes à ta réservation, pour que je prépare l'appel.</p>
+    </form>
+    <div id="cal-slot"></div>
   </main>
 
   <!-- ============ GUIDES (public) ============ -->
@@ -371,7 +388,7 @@ footer{font-size:11px;color:var(--doux);text-align:center;padding-top:4px}
         <div class="kg" id="kg">20<small>kg</small></div>
         <div class="eyebrow" id="kg-txt">Barre à vide</div>
       </div>
-      <svg class="barbell" id="barbell" viewBox="0 0 360 110" role="img" aria-label="Barre de progression"></svg>
+      <svg class="barbell" id="barbell" viewBox="0 0 440 134" role="img" aria-label="Barre de progression"></svg>
       <div class="prog"><div class="track"><i id="track"></i></div><b id="pct">0/9</b></div>
     </div>
     <div class="card cream done-banner" id="done-banner">
@@ -513,6 +530,9 @@ var SRC = 'app'; // ajouté en ?source= sur les liens Systeme.io
 var LIENS = {
   candidature:      'https://lfauconnier27.systeme.io/98dd870d',
   agenda:           'https://cal.com/leni-fauconnier/decouverte',
+  agendaPosing:     'https://cal.com/leni-fauconnier/decouverte', // à remplacer par un événement « posing »
+  agendaPoint:      'https://cal.com/leni-fauconnier/decouverte', // à remplacer par un événement « point élève »
+  agendaFin:        'https://cal.com/leni-fauconnier/decouverte', // à remplacer par un événement « fin d'accompagnement »
   depart:           'https://lfauconnier27.systeme.io/5e2d6ea8?g=depart',
   testGuide:        'https://lfauconnier27.systeme.io/5e2d6ea8',
   mensurations:     'https://lfauconnier27.systeme.io/0fa00707',
@@ -587,11 +607,6 @@ document.title=MARQUE.nom;
 $$('[data-brand]').forEach(function(el){el.textContent=MARQUE[el.getAttribute('data-brand')]});
 $$('[data-cfg]').forEach(function(a){a.href=lien(a.getAttribute('data-cfg'));a.target='_blank';a.rel='noopener'});
 
-/* Agenda intégré (Cal.com) : seulement sur le vrai site, sinon bouton */
-if(AGENDA_INTEGRE&&ONSITE){
-  $('#cal-slot').innerHTML='<iframe class="cal-frame" title="Agenda de Leni" loading="lazy" src="'+esc(LIENS.agenda)+'/embed?theme=dark"></iframe>';
-}
-
 function line(o,i,href,target){
   return '<a class="line'+(o.feat?' feat':'')+'" href="'+esc(href)+'"'+(target?' target="_blank" rel="noopener"':'')+'><span class="badge">'+o.badge+'</span><h3>'+esc(o.t)+'</h3><span class="end'+(o.feat?'':'')+'">'+esc(o.end)+'</span><p>'+esc(o.d)+'</p></a>';
 }
@@ -612,22 +627,112 @@ $('#res-list').innerHTML=RESSOURCES.map(function(r,i){
   $('#ring-txt').innerHTML=dispo+'<small>sur '+MODULES.length+'<br>sortis</small>';
 })();
 
+/* ================= RENDEZ-VOUS =================
+   Motifs d'appel. Chaque motif : ses questions, puis l'agenda (Cal.com pour l'instant).
+   agenda = clé de LIENS : créer un type d'événement Cal.com par motif et mettre son lien dans LIENS. */
+var SOURCES=['Instagram','TikTok','YouTube','Un guide gratuit','Bouche-à-oreille','Un élève','Autre'];
+var MOTIFS=[
+  {id:'decouverte', t:'Je veux être coaché', d:'Appel découverte · 30 min · gratuit', agenda:'agenda', candidature:true, qs:[
+    {k:'objectif', l:'Ton objectif principal', type:'chips', o:['Prendre du muscle','Sécher','Préparer une compétition','Autre']}
+  ]},
+  {id:'posing', t:'Mon posing', d:'Conseils ou correction de tes poses · 20 min', agenda:'agendaPosing', qs:[
+    {k:'categorie', l:'Ta catégorie', type:'chips', o:["Men's Physique",'Classic Physique','Bodybuilding','Bikini','Autre']},
+    {k:'compet', l:'Compétition prévue (nom et date si tu la connais)', type:'text'},
+    {k:'question', l:'Ce que tu veux travailler', type:'area'}
+  ]},
+  {id:'point', t:'Un point pendant mon suivi', d:'Élève · entretien de 15 min', agenda:'agendaPoint', eleve:true, qs:[
+    {k:'sujet', l:'De quoi tu veux parler ?', type:'chips', o:['Entraînement','Nutrition','Motivation','Douleur ou gêne','Autre']},
+    {k:'detail', l:'En deux phrases', type:'area'}
+  ]},
+  {id:'fin', t:'La fin de mon accompagnement', d:'Élève · bilan et suite · 30 min', agenda:'agendaFin', eleve:true, qs:[
+    {k:'suite', l:'Pour la suite, tu penses à quoi ?', type:'chips', o:['Continuer le suivi','Le suivi autonomie','Je ne sais pas encore','Arrêter pour l\'instant']},
+    {k:'bilan', l:'Ce qui a le mieux marché, ce que tu veux revoir', type:'area'}
+  ]}
+];
+var motif=null;
+var ICO_M={decouverte:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 12h20M5 8v8M8 6v12M16 6v12M19 8v8"/></svg>',posing:ICO.pose,point:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/></svg>',fin:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 21V4M5 4h11l-2 4 2 4H5"/></svg>'};
+$('#motifs').innerHTML=MOTIFS.map(function(m,i){
+  return '<button type="button" class="line motif'+(i===0?' feat':'')+'" data-motif="'+m.id+'"><span class="badge">'+ICO_M[m.id]+'</span><h3>'+esc(m.t)+'</h3><span class="end">'+(m.eleve?'Élève':'')+'</span><p>'+esc(m.d)+'</p></button>';
+}).join('');
+function chips(k,opts){return '<div class="chips">'+opts.map(function(o,i){return '<label><input type="radio" name="'+k+'" value="'+esc(o)+'" id="'+k+'-'+i+'"><span>'+esc(o)+'</span></label>'}).join('')+'</div>'}
+function qhtml(q){
+  if(q.type==='chips')return '<fieldset class="q"><legend>'+esc(q.l)+'</legend>'+chips(q.k,q.o)+'</fieldset>';
+  if(q.type==='area')return '<label class="q"><span>'+esc(q.l)+'</span><textarea name="'+q.k+'" id="q-'+q.k+'"></textarea></label>';
+  return '<label class="q"><span>'+esc(q.l)+'</span><input type="'+(q.type==='email'?'email':'text')+'" name="'+q.k+'" id="q-'+q.k+'"'+(q.ac?' autocomplete="'+q.ac+'"':'')+'></label>';
+}
+function openMotif(id){
+  motif=MOTIFS.filter(function(m){return m.id===id})[0];if(!motif)return;
+  $('#motifs').hidden=true;$('#rdv-form').hidden=false;$('#cal-slot').innerHTML='';
+  $('#rdv-titre').textContent=motif.t;
+  var qs=[{k:'prenom',l:'Ton prénom',type:'text',ac:'given-name'},{k:'email',l:'Ton e-mail',type:'email',ac:'email'}].concat(motif.qs);
+  if(!motif.eleve)qs.push({k:'source',l:'Comment tu m\'as connu ?',type:'chips',o:SOURCES});
+  $('#rdv-q').innerHTML=qs.map(qhtml).join('');
+  $('#rdv-go').textContent=motif.candidature?'Continuer':'Choisir mon créneau';
+  $('#rdv-err').hidden=true;
+}
+$('#motifs').addEventListener('click',function(e){var b=e.target.closest('[data-motif]');if(b)openMotif(b.getAttribute('data-motif'))});
+$('#rdv-back').addEventListener('click',function(){$('#motifs').hidden=false;$('#rdv-form').hidden=true;$('#cal-slot').innerHTML='';motif=null});
+$('#rdv-form').addEventListener('submit',function(e){
+  e.preventDefault();var f=e.target,v={};
+  Array.prototype.forEach.call(f.elements,function(el){if(!el.name)return;if(el.type==='radio'){if(el.checked)v[el.name]=el.value}else v[el.name]=el.value.trim()});
+  if(!v.prenom||!/.+@.+\..+/.test(v.email||'')){$('#rdv-err').hidden=false;return}
+  $('#rdv-err').hidden=true;
+  var lignes=['Motif : '+motif.t];
+  motif.qs.forEach(function(q){if(v[q.k])lignes.push(q.l+' : '+v[q.k])});
+  if(v.source)lignes.push('Connu par : '+v.source);
+  var url;
+  if(motif.candidature){
+    /* Client potentiel : on garde la candidature (qualification, parents des mineurs), qui se termine par l'agenda */
+    try{var u=new URL(LIENS.candidature);u.searchParams.set('source','app'+(v.source?'-'+v.source.toLowerCase().replace(/[^a-z]+/g,'-'):''));u.searchParams.set('prenom',v.prenom);u.searchParams.set('email',v.email);if(v.objectif)u.searchParams.set('objectif',v.objectif);url=u.toString()}catch(x){url=LIENS.candidature}
+    window.open(url,'_blank','noopener')||(location.href=url);return;
+  }
+  var base=LIENS[motif.agenda]||LIENS.agenda;
+  var q='name='+encodeURIComponent(v.prenom)+'&email='+encodeURIComponent(v.email)+'&notes='+encodeURIComponent(lignes.join('\n'));
+  url=base+'?'+q;
+  if(AGENDA_INTEGRE&&ONSITE){
+    $('#cal-slot').innerHTML='<iframe class="cal-frame" title="Agenda de Leni" src="'+esc(base+'/embed?theme=dark&'+q)+'"></iframe>';
+    $('#cal-slot').scrollIntoView({behavior:'smooth'});
+  }else{
+    $('#cal-slot').innerHTML='<a class="btn block" href="'+esc(url)+'" target="_blank" rel="noopener">Ouvrir mon agenda</a>';
+  }
+});
+
+
 /* Démarrage : la barre */
 var done=store('lf-onboarding')||{};
-var PLATE=10;
+/* Disques ajoutés de chaque côté, étape par étape (kg par côté) : les gros d'abord, comme en vrai */
+var DISQUES=[25,25,20,20,15,15,10,5,5];
+var DIM={25:[100,16],20:[90,14],15:[76,12],10:[62,10],5:[46,8]}; // hauteur, épaisseur
+function charge(n){var t=20;for(var i=0;i<n;i++)t+=2*DISQUES[i];return t}
 function drawBar(n,anim){
-  var W=360,cy=55,h='<defs><linearGradient id="pl" x1="0" x2="1"><stop offset="0" stop-color="#F4EEDF"/><stop offset=".55" stop-color="#EBE3D0"/><stop offset="1" stop-color="#C9C1AE"/></linearGradient><linearGradient id="st" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#D9DED9"/><stop offset="1" stop-color="#7F8D89"/></linearGradient></defs>';
-  h+='<ellipse cx="180" cy="104" rx="150" ry="4" fill="#000" opacity=".25"/>';
-  h+='<rect x="6" y="'+(cy-3.5)+'" width="'+(W-12)+'" height="7" rx="3.5" fill="url(#st)"/>';
-  for(var k=0;k<22;k++){h+='<rect x="'+(134+k*4.2)+'" y="'+(cy-3.5)+'" width="1.3" height="7" fill="#192E33" opacity=".35"/>'}
-  h+='<rect x="92" y="'+(cy-11)+'" width="8" height="22" rx="2" fill="url(#st)"/><rect x="'+(W-100)+'" y="'+(cy-11)+'" width="8" height="22" rx="2" fill="url(#st)"/>';
-  var hs=[92,92,84,84,76,70,62,56,50];
+  var W=440,cy=58,L=150,R=W-150,full=n===ETAPES.length;
+  var h='<defs><linearGradient id="pl" x1="0" x2="1"><stop offset="0" stop-color="#F6F1E4"/><stop offset=".5" stop-color="#EBE3D0"/><stop offset="1" stop-color="#BFB7A3"/></linearGradient>'+
+    '<linearGradient id="st" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#E4E8E4"/><stop offset=".5" stop-color="#A7B2AE"/><stop offset="1" stop-color="#6E7B78"/></linearGradient>'+
+    '<radialGradient id="glow" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#EBE3D0" stop-opacity=".35"/><stop offset="1" stop-color="#EBE3D0" stop-opacity="0"/></radialGradient></defs>';
+  if(full)h+='<ellipse cx="220" cy="'+cy+'" rx="220" ry="60" fill="url(#glow)"/>';
+  h+='<ellipse cx="220" cy="114" rx="190" ry="4" fill="#000" opacity=".3"/>';
+  /* barre + manchons */
+  h+='<rect x="'+(L-2)+'" y="'+(cy-3.5)+'" width="'+(R-L+4)+'" height="7" rx="3.5" fill="url(#st)"/>';
+  for(var k=0;k<30;k++){var kx=L+22+k*3.2;if(kx>R-22)break;if(k>=12&&k<=17)continue;h+='<rect x="'+kx.toFixed(1)+'" y="'+(cy-3.5)+'" width="1.2" height="7" fill="#192E33" opacity=".35"/>'}
+  h+='<rect x="8" y="'+(cy-6)+'" width="'+(L-8)+'" height="12" rx="3" fill="url(#st)"/><rect x="'+R+'" y="'+(cy-6)+'" width="'+(W-8-R)+'" height="12" rx="3" fill="url(#st)"/>';
+  h+='<rect x="'+(L-6)+'" y="'+(cy-14)+'" width="8" height="28" rx="2" fill="url(#st)"/><rect x="'+(R-2)+'" y="'+(cy-14)+'" width="8" height="28" rx="2" fill="url(#st)"/>';
+  /* disques */
+  var off=0;
   for(var i=0;i<n;i++){
-    var ph=hs[i]||50,pw=9,off=101+i*(pw+1.5),cls=(anim===i)?' class="plate"':'';
-    h+='<rect'+cls+' x="'+off+'" y="'+(cy-ph/2)+'" width="'+pw+'" height="'+ph+'" rx="2.5" fill="url(#pl)"/>';
-    h+='<rect'+cls+' x="'+(W-off-pw)+'" y="'+(cy-ph/2)+'" width="'+pw+'" height="'+ph+'" rx="2.5" fill="url(#pl)"/>';
+    var kg=DISQUES[i],d=DIM[kg],ph=d[0],pw=d[1],cls=(anim===i)?' class="plate"':'';
+    var xl=L-6-off-pw-1.5, xr=R+6+off+1.5;
+    [xl,xr].forEach(function(x){
+      h+='<g'+cls+'><rect x="'+x+'" y="'+(cy-ph/2)+'" width="'+pw+'" height="'+ph+'" rx="3" fill="url(#pl)" stroke="#192E33" stroke-opacity=".25"/>'+
+         '<rect x="'+(x+pw/2-1)+'" y="'+(cy-ph/2+5)+'" width="2" height="'+(ph-10)+'" rx="1" fill="#192E33" opacity=".12"/></g>';
+    });
+    off+=pw+1.5;
   }
+  /* colliers de serrage quand la barre est pleine */
+  if(full){var cx1=L-6-off-12,cx2=R+6+off+1.5;h+='<rect x="'+cx1+'" y="'+(cy-10)+'" width="10" height="20" rx="3" fill="#192E33" stroke="#EBE3D0" stroke-width="1.5"/><rect x="'+cx2+'" y="'+(cy-10)+'" width="10" height="20" rx="3" fill="#192E33" stroke="#EBE3D0" stroke-width="1.5"/>'}
+  /* étiquettes de poids sous les disques */
+  if(n>0){var txt=DISQUES.slice(0,n).filter(function(v,i,a){return a.indexOf(v)===i}).map(function(v){return v}).join(' · ');h+='<text x="220" y="131" text-anchor="middle" font-family="Outfit,Arial" font-size="11" font-weight="600" fill="#A9B6B0" letter-spacing="1">DISQUES '+txt+' KG</text>'}
   $('#barbell').innerHTML=h;
+  $('.bar-card').classList.toggle('full',full);
 }
 function burst(){
   if(window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;
@@ -637,8 +742,8 @@ function burst(){
 }
 function renderSteps(anim){
   var n=0;ETAPES.forEach(function(e){if(done[e.id])n++});
-  $('#kg').innerHTML=(20+n*2*PLATE)+'<small>kg</small>';
-  $('#kg-txt').textContent=n===0?'Barre à vide':(n===ETAPES.length?'Barre chargée':'Encore '+(ETAPES.length-n)+' étape'+(ETAPES.length-n>1?'s':''));
+  $('#kg').innerHTML=charge(n)+'<small>kg</small>';
+  $('#kg-txt').textContent=n===0?'Barre à vide':(n===ETAPES.length?'Record · barre chargée':'Encore '+(ETAPES.length-n)+' étape'+(ETAPES.length-n>1?'s':''));
   $('#track').style.width=(n/ETAPES.length*100)+'%';
   $('#pct').textContent=n+'/'+ETAPES.length;
   drawBar(n,anim);
@@ -658,7 +763,7 @@ $('#steps').addEventListener('click',function(ev){
   var n=Object.keys(done).length;
   renderSteps(was?null:n-1);
   if(navigator.vibrate&&!was)try{navigator.vibrate(12)}catch(e){}
-  if(!was){if(n===ETAPES.length){burst();toast('Barre chargée : '+(20+n*2*PLATE)+' kg')}else toast('+'+(2*PLATE)+' kg sur la barre')}
+  if(!was){if(n===ETAPES.length){burst();toast('Nouveau record : '+charge(n)+' kg')}else toast('+'+(2*DISQUES[n-1])+' kg sur la barre')}
 });
 $('#reset').addEventListener('click',function(){done={};store('lf-onboarding',done);renderSteps();toast('Barre vidée')});
 renderSteps();

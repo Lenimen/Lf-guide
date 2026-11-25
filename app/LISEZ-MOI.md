@@ -5,7 +5,7 @@ Aucune donnée d'élève : les coches du démarrage restent dans le téléphone 
 
 ## Ce qu'il y a
 - `index.html` : toute l'app (accueil public avec photo, réservation d'appel, guides, contact, démarrage avec la barre qui se charge, formation, fiches, guide posing bikini).
-- Réservation d'appel : candidature Systeme.io puis Cal.com ; sur le vrai site, l'agenda Cal.com s'affiche dans l'app (`AGENDA_INTEGRE`).
+- Rendez-vous (`MOTIFS`) : 4 motifs (je veux être coaché, posing, point pendant le suivi, fin d'accompagnement), questions par motif + « Comment tu m'as connu ? » (prospects), réponses jointes à la réservation dans les notes. « Je veux être coaché » passe par la candidature Systeme.io (qualification, mineurs). Les autres ouvrent l'agenda Cal.com (intégré dans l'app sur le vrai site). À faire : créer un type d'événement Cal.com par motif et mettre les liens dans `LIENS.agendaPosing / agendaPoint / agendaFin` (aujourd'hui tous sur « decouverte »). Agenda 100 % maison : seulement avec le serveur de l'étape 4.
 - Guide posing bikini (`#bikini`) : seulement dans l'espace élève (Fiches), pas lié depuis l'accueil. Photos WNBF / NPC News créditées sous chaque image, risque accepté par Leni le 24/11. Attention : sans connexion, l'espace élève n'est pas protégé par un mot de passe, il est juste non lié.
 - `photos/` : photos de Leni sur scène (WNBF short bleu, podium et médaille BFBF), choisies le 25/11 à la demande de Leni (pas de photos de salle).
 - Tous les réglages sont en haut du script : `MARQUE` (nom + sous-titre), `LIENS`, `GUIDES`, `ETAPES`, `MODULES`, `RESSOURCES`.
