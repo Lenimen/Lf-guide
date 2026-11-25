@@ -1005,7 +1005,7 @@ var CT_SRC='https://raw.githubusercontent.com/lenimen/lf-guide/02ed8024a891a3a38
 var CT_ATTENDUS={'pdf/fiche-vacuum.pdf':'ressources/fiche-vacuum.pdf','pdf/fiche-cheat-meals.pdf':'ressources/fiche-cheat-meals.pdf'};
 ['npc-dos-olympia','npc-plateau','wnbf-dos-1','wnbf-dos-2','wnbf-dos-erreurs','wnbf-face-erreurs','wnbf-face','wnbf-profil-erreurs','wnbf-profil'].forEach(function(n){CT_ATTENDUS['img/'+n+'.jpg']='media/bikini/'+n+'.jpg'});
 function b64(blob){return new Promise(function(ok,ko){var r=new FileReader();r.onload=function(){ok(String(r.result).split(',')[1])};r.onerror=ko;r.readAsDataURL(blob)})}
-function ctEnvoyer(cle,blob){return b64(blob).then(function(d){return sb.from('contenus').upsert({cle:cle,mime:blob.type||'application/octet-stream',donnees:d,base64:true,maj_le:new Date().toISOString()})}).then(function(r){if(r.error)throw r.error})}
+function ctEnvoyer(cle,blob){return b64(blob).then(function(d){return sb.from('contenus').upsert({cle:cle,mime:/\.pdf$/.test(cle)?'application/pdf':(blob.type&&blob.type!=='application/octet-stream'?blob.type:'image/jpeg'),donnees:d,base64:true,maj_le:new Date().toISOString()})}).then(function(r){if(r.error)throw r.error})}
 function ctRendu(){
   if(!sb)return;
   sb.from('contenus').select('cle').then(function(r){
