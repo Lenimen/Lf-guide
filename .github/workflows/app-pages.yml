@@ -1,0 +1,35 @@
+# Met en ligne le dossier app/ (web app LF Coaching) sur GitHub Pages à chaque modification sur main.
+# Domaine : app.thelfmethod.com (réglé dans Settings > Pages, DNS OVH : CNAME app -> lenimen.github.io).
+name: App en ligne
+on:
+  push:
+    branches: [main]
+    paths: ['app/**', '.github/workflows/app-pages.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+concurrency:
+  group: pages
+  cancel-in-progress: true
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Préparer le site
+        run: |
+          mkdir -p _site
+          rsync -a --exclude 'LISEZ-MOI.md' app/ _site/
+          echo 'app.thelfmethod.com' > _site/CNAME
+          touch _site/.nojekyll
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+      - id: deployment
+        uses: actions/deploy-pages@v4
