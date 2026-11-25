@@ -187,6 +187,9 @@ a.line:active{transform:scale(.985);background:var(--carte-2)}
 .banner{position:relative;border-radius:var(--r);overflow:hidden;min-height:200px;display:grid;align-content:end;box-shadow:var(--ombre)}
 .banner img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 30%}
 .banner::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(16,33,31,.1),rgba(16,33,31,.92))}
+.banner.tall{aspect-ratio:4/5;min-height:0;background:#10211F}
+.banner.tall img{height:84%;object-position:50% 0}
+.banner.tall::after{background:linear-gradient(180deg,rgba(16,33,31,0) 45%,rgba(16,33,31,.75) 70%,#10211F 86%)}
 .banner .in{position:relative;z-index:1;display:flex;align-items:flex-end;justify-content:space-between;gap:14px;padding:18px}
 .ring{--p:0;width:74px;height:74px;border-radius:50%;flex:none;display:grid;place-items:center;background:conic-gradient(var(--creme) calc(var(--p)*1%),rgba(235,227,208,.18) 0);position:relative}
 .ring::before{content:"";position:absolute;inset:6px;border-radius:50%;background:var(--abysse)}
@@ -402,8 +405,8 @@ footer{font-size:11px;color:var(--doux);text-align:center;padding-top:4px}
 
   <!-- ============ FORMATION ============ -->
   <main class="view" id="v-formation" hidden>
-    <div class="banner">
-      <img src="photos/leni-formation.jpg" alt="Leni Fauconnier sur scène, WNBF" style="object-position:50% 15%">
+    <div class="banner tall">
+      <img src="photos/leni-formation.jpg" alt="Leni Fauconnier sur scène, WNBF">
       <div class="in">
         <div style="display:grid;gap:6px"><div class="eyebrow" style="color:#D6D2C4">LF Athlete Academy</div><h1 style="font-size:32px;font-weight:800">Ta formation</h1></div>
         <div class="ring" id="ring"><b id="ring-txt">0<small>sur 12</small></b></div>
