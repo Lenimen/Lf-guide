@@ -31,3 +31,8 @@ GitHub Pages (gratuit, sans compte en plus) via `.github/workflows/app-pages.yml
 - Vue `#parrainage` (onglet Fiches). Carte en tête des Fiches et sur l'accueil pour les élèves (appareil déjà passé par l'espace élève).
 - Conditions reprises du programme validé le 06/10 : par pote qui démarre, le parrain choisit 1 mois offert (ajouté à la fin du suivi) ou 1 séance présentiel de 2 h (déplacement déjà prévu ou région liégeoise, valable 6 mois). Le filleul paie plein tarif et a un appel prioritaire sous 48 h.
 - Code = `LF-` + prénom saisi par l'élève ; lien = candidature `?source=parrain-<prenom>`. Le prénom reste dans le téléphone (localStorage `lf-parrain`).
+
+## Questionnaire de satisfaction (25/11)
+- Carte en tête des Fiches (et sur l'accueil quand c'est le moment). L'élève indique une fois la date de début de son plan et la durée (16, 20, 24 semaines ou 6 mois), gardées sur son téléphone.
+- Fenêtres : semaine 3 (jours 21-34), mi-parcours (jours 84-104), fin (3 dernières semaines). Lien `LIENS.satisfaction` (?g=satisfaction&v=s3|mid|fin&prenom=, prénom repris du parrainage s'il est rempli).
+- Notifications push : pas encore. Elles demandent un petit serveur qui envoie les rappels (prévu avec l'étape 4, Supabase/Cloudflare). En attendant, rappel affiché à l'ouverture de l'app.
