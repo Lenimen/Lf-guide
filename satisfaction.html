@@ -1,0 +1,216 @@
+<!doctype html>
+<!-- Questionnaire de satisfaction. Prénom via ?prenom=X, version via ?v=s3 (semaine 3, courte) | mid (mois 3) | fin (3 semaines avant la fin). Brique réutilisable : même base que depart.html. -->
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ton avis</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800&display=swap">
+<style>
+/* THE LF METHOD : pétrole + crème en aplats (marque/DA.md). Un seul thème sombre, comme depart.html et hub.html. */
+:root{
+  --paper:#192E33; --sheet:#213B41; --field:#1D353B; --ink:#EBE3D0; --ink-soft:#AEB9B2; --line:#3A5359;
+  --display:"Outfit","Avenir Next","Century Gothic",Arial,sans-serif;
+  --body:Verdana,Geneva,"DejaVu Sans",sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{background:var(--paper)}
+body{color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.55;margin:0;-webkit-text-size-adjust:100%}
+.wrap{max-width:640px;margin:0 auto;padding:0 16px 60px;font-family:var(--body);font-size:15px;line-height:1.55;color:var(--ink);text-align:left}
+/* Chargée dans Systeme.io : la page hôte centre le texte et met une police serif, on reprend la main. */
+.wrap p,.wrap small,.wrap label,.wrap li,.wrap span{font-family:inherit;text-align:inherit}
+.wrap h1,.wrap h2,.wrap .brand,.wrap .btn{font-family:var(--display)}
+.wrap .btn,.wrap .code{text-align:center}
+h1,h2{font-family:var(--display);text-transform:uppercase;letter-spacing:.04em;line-height:1.1;margin:0}
+h1{font-size:28px;font-weight:800}
+h2{font-size:21px;font-weight:700;letter-spacing:.03em}
+p{margin:0}
+.top{display:flex;align-items:center;justify-content:space-between;padding:18px 0;border-bottom:2px solid var(--ink)}
+.brand{font-family:var(--display);font-weight:700;letter-spacing:.18em;font-size:12px}
+.bar{height:4px;background:var(--line);border-radius:2px;overflow:hidden;margin-top:14px}
+.bar i{display:block;height:100%;width:0;background:var(--ink);transition:width .25s}
+.card{margin-top:22px;padding:22px 16px;background:var(--sheet);border-radius:14px}
+.card h2{margin-bottom:6px}
+.hint{font-size:13px;color:var(--ink-soft);margin:0 0 16px}
+.intro{padding:24px 0 0}
+.intro p{color:var(--ink-soft);margin-top:12px}
+.stars{display:flex;justify-content:space-between;gap:6px;margin-top:10px}
+.stars button{flex:1;font-size:34px;line-height:1;color:var(--line);background:var(--field);border:1px solid var(--line);border-radius:12px;min-height:60px;cursor:pointer;padding:0}
+.stars button.on{color:var(--ink);border-color:var(--ink)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
+.chips button{font:15px var(--body);color:var(--ink);background:var(--field);border:1px solid var(--line);border-radius:999px;padding:11px 16px;min-height:46px;cursor:pointer}
+.chips.num{gap:6px}
+.chips.num button{min-width:44px;padding:11px 0;flex:1}
+.chips button[aria-pressed=true]{background:var(--ink);color:var(--paper);border-color:var(--ink);font-weight:bold}
+.ends{display:flex;justify-content:space-between;font-size:12px;color:var(--ink-soft);margin-top:8px}
+textarea{width:100%;font:16px var(--body);color:var(--ink);background:var(--field);border:1px solid var(--line);border-radius:10px;padding:12px;min-height:110px;resize:vertical;margin-top:6px}
+textarea:focus{outline:2px solid var(--ink);border-color:var(--ink)}
+.nav{display:flex;gap:10px;margin-top:22px}
+.btn{display:block;font:700 16px var(--display);letter-spacing:.08em;text-transform:uppercase;text-decoration:none;border-radius:12px;padding:14px;min-height:52px;cursor:pointer;border:2px solid var(--ink);color:var(--ink);background:transparent;flex:1}
+.btn.main{background:var(--ink);color:var(--paper)}
+.btn[disabled]{opacity:.35;cursor:default}
+.btn.back{flex:0 0 96px}
+.code{font:800 26px var(--display);letter-spacing:.1em;border:2px dashed var(--ink);border-radius:12px;padding:14px;margin:14px 0}
+.perk{margin:12px 0 0;padding-left:18px;color:var(--ink-soft);font-size:14px}
+.perk li{margin-bottom:6px}
+a{color:var(--ink)}
+:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
+</style>
+</head>
+<body>
+<div class="wrap" id="sat">
+  <header class="top"><span class="brand">THE LF METHOD</span><span class="brand">TON AVIS</span></header>
+  <div class="bar"><i id="bar"></i></div>
+  <div class="intro" id="intro">
+    <h1>Ton avis compte</h1>
+    <p id="hello">Moins de 2 minutes. Réponds franchement : c'est pour ajuster ton suivi, pas pour me faire plaisir.</p>
+  </div>
+  <div id="stage"></div>
+</div>
+
+<script>
+(function(){
+  // URL du webhook Make (scénario « Questionnaire de satisfaction »). Vide = envoi de secours par WhatsApp uniquement.
+  var WEBHOOK='https://hook.eu1.make.com/zm498rxjvqthnbx985ubsd53af26pk7e';
+  var CANDIDATURE='https://lfauconnier27.systeme.io/98dd870d';
+  var q=new URLSearchParams(location.search);
+  var VERSION=['s3','mid','fin'].indexOf(q.get('v'))>-1?q.get('v'):'mid';
+  var PRENOM=(q.get('prenom')||'').slice(0,40);
+  var KEY='lf-satisfaction-'+VERSION+'-'+PRENOM.toLowerCase();
+  var A={};try{A=JSON.parse(localStorage.getItem(KEY)||'{}')||{}}catch(e){A={}}
+  function save(){try{localStorage.setItem(KEY,JSON.stringify(A))}catch(e){}}
+
+  var AIDE=['Le plan d\'entraînement','Le plan alimentaire','Le bilan vidéo','Mes retours sur tes vidéos','Ma réactivité sur WhatsApp','L\'Academy','La motivation et le suivi','Autre'];
+  var STEPS={
+    s3:['note','onboarding','aide','manque'],
+    mid:['note','reco','aide','manque','tenable','continuer','parrainage','temoignage'],
+    fin:['note','reco','aide','manque','tenable','continuer','parrainage','temoignage']
+  }[VERSION];
+  var DEF={
+    note:{t:'Ton accompagnement en ce moment, tu le notes combien ?',h:'De 1 à 5 étoiles.',type:'stars',req:1},
+    reco:{t:'Serais-tu prêt à parler de moi à tes potes ?',h:'De 0 (pas du tout) à 10 (sans hésiter).',type:'scale',req:1,lo:'Pas du tout',hi:'Sans hésiter'},
+    onboarding:{t:'Ton démarrage, c\'était clair ?',h:'Contrat, accès à l\'appli, premiers plans.',type:'one',opts:['Très clair','Plutôt clair','Un peu confus','Perdu'],req:1},
+    aide:{t:'Qu\'est-ce qui t\'aide le plus ?',h:'Plusieurs choix possibles.',type:'multi',opts:AIDE},
+    manque:{t:'Qu\'est-ce qui te manque ou qu\'on pourrait améliorer ?',h:'Facultatif, mais c\'est ce qui m\'aide le plus.',type:'text'},
+    tenable:{t:'Ton plan est-il tenable dans ta semaine ?',h:'',type:'one',opts:['Oui','Plutôt oui','Plutôt non','Non'],req:1},
+    continuer:{t:'Tu as envie de continuer avec moi après ton engagement ?',h:'',type:'one',opts:['Oui','Je ne sais pas encore','Non'],req:1,why:1},
+    parrainage:{type:'parrain'},
+    temoignage:{t:'Tu m\'autorises à utiliser ta réponse comme témoignage ?',h:'Seulement si tu es content. Tu peux me demander de la retirer quand tu veux.',type:'one',opts:['Oui avec mon prénom','Oui en anonyme','Non'],req:1}
+  };
+  // Écrans réellement affichés : parrainage seulement si reco 9-10, témoignage seulement si content (note >= 4 ou reco >= 9)
+  function visible(){
+    return STEPS.filter(function(s){
+      if(s==='parrainage')return +A.reco>=9;
+      if(s==='temoignage')return +A.note>=4||+A.reco>=9;
+      return true;
+    });
+  }
+  var idx=0, stage=document.getElementById('stage'), bar=document.getElementById('bar');
+
+  function el(tag,cls,txt){var e=document.createElement(tag);if(cls)e.className=cls;if(txt!=null)e.textContent=txt;return e}
+  function render(){
+    var list=visible(), id=list[idx], d=DEF[id];
+    stage.innerHTML='';
+    bar.style.width=Math.round(idx/(list.length)*100)+'%';
+    document.getElementById('intro').style.display=idx===0?'block':'none';
+    var c=el('div','card');
+    stage.appendChild(c);
+    if(d.type==='parrain'){parrain(c,list);return}
+    c.appendChild(el('h2',null,d.t));
+    if(d.h)c.appendChild(el('p','hint',d.h));
+    var cur=A[id];
+    function refreshNext(){nextBtn.disabled=!!d.req&&!(cur!=null&&cur!==''&&!(Array.isArray(cur)&&!cur.length))}
+    if(d.type==='stars'){
+      var s=el('div','stars');
+      for(var i=1;i<=5;i++){(function(i){var b=el('button',i<=(+cur||0)?'on':'','★');b.type='button';b.setAttribute('aria-label',i+' sur 5');
+        b.onclick=function(){cur=A[id]=String(i);save();s.querySelectorAll('button').forEach(function(x,j){x.className=j<i?'on':''});refreshNext()};s.appendChild(b)})(i)}
+      c.appendChild(s);
+    }else if(d.type==='scale'){
+      var g=el('div','chips num');
+      for(var n=0;n<=10;n++){(function(n){var b=el('button',null,String(n));b.type='button';b.setAttribute('aria-pressed',String(cur===String(n)));
+        b.onclick=function(){cur=A[id]=String(n);save();g.querySelectorAll('button').forEach(function(x){x.setAttribute('aria-pressed','false')});b.setAttribute('aria-pressed','true');refreshNext()};g.appendChild(b)})(n)}
+      c.appendChild(g);
+      var e=el('div','ends');e.appendChild(el('span',null,d.lo));e.appendChild(el('span',null,d.hi));c.appendChild(e);
+    }else if(d.type==='one'||d.type==='multi'){
+      var multi=d.type==='multi', g2=el('div','chips'), w=null;
+      d.opts.forEach(function(o){var b=el('button',null,o);b.type='button';
+        b.setAttribute('aria-pressed',String(multi?(cur||[]).indexOf(o)>-1:cur===o));
+        b.onclick=function(){
+          if(multi){var a=(cur||[]).slice(),k=a.indexOf(o);if(k>-1)a.splice(k,1);else a.push(o);cur=A[id]=a;b.setAttribute('aria-pressed',String(k===-1))}
+          else{cur=A[id]=o;g2.querySelectorAll('button').forEach(function(x){x.setAttribute('aria-pressed','false')});b.setAttribute('aria-pressed','true');if(w)w.style.display='block'}
+          save();refreshNext()};
+        g2.appendChild(b)});
+      c.appendChild(g2);
+      if(d.why){w=el('div');w.style.display=cur?'block':'none';w.appendChild(el('p','hint','Pourquoi ? (facultatif)'));
+        var ta=el('textarea');ta.value=A.continuer_pourquoi||'';ta.oninput=function(){A.continuer_pourquoi=ta.value;save()};w.appendChild(ta);c.appendChild(w)}
+    }else if(d.type==='text'){
+      var t=el('textarea');t.value=cur||'';t.oninput=function(){cur=A[id]=t.value;save()};c.appendChild(t);
+    }
+    var nav=el('div','nav');
+    if(idx>0){var back=el('button','btn back','Retour');back.type='button';back.onclick=function(){idx--;render()};nav.appendChild(back)}
+    var last=idx===list.length-1;
+    var nextBtn=el('button','btn main',last?'Envoyer':'Suivant');nextBtn.type='button';
+    nextBtn.onclick=function(){if(last)submit();else{idx++;render()}};
+    nav.appendChild(nextBtn);c.appendChild(nav);
+    refreshNext();
+    window.scrollTo(0,0);
+  }
+
+  function parrain(c,list){
+    var code='LF-'+(PRENOM||'TOI').toUpperCase().replace(/[^A-ZÀ-ÖØ-Ý]/g,'');
+    c.appendChild(el('h2',null,'Fais venir un pote'));
+    c.appendChild(el('p','hint','Content de ton suivi ? Ton pote te remercie, et moi aussi.'));
+    c.appendChild(el('div','code',code));
+    var u=el('ul','perk');
+    ['Pour chaque pote qui démarre avec moi, tu choisis : 1 mois de coaching offert, ou 1 séance en présentiel de 2 h (valable 6 mois, calée sur un déplacement déjà prévu près de chez toi).','Ton pote a un appel découverte prioritaire sous 48 h.'].forEach(function(x){u.appendChild(el('li',null,x))});
+    c.appendChild(u);
+    var share=el('a','btn main','Envoyer à un pote');share.style.marginTop='18px';share.style.textAlign='center';
+    var link=CANDIDATURE+'?source=parrain-'+encodeURIComponent((PRENOM||'').toLowerCase());
+    share.href='https://wa.me/?text='+encodeURIComponent('Je suis suivi par Leni (The LF Method) et ça change tout. Si tu veux en parler avec lui, voilà le lien : '+link);
+    share.target='_blank';share.rel='noopener';
+    c.appendChild(share);
+    A.parrainage_vu='oui';save();
+    var nav=el('div','nav');
+    var back=el('button','btn back','Retour');back.type='button';back.onclick=function(){idx--;render()};nav.appendChild(back);
+    var last=idx===list.length-1;
+    var n=el('button','btn',last?'Envoyer':'Suivant');n.type='button';n.onclick=function(){if(last)submit();else{idx++;render()}};
+    nav.appendChild(n);c.appendChild(nav);
+    window.scrollTo(0,0);
+  }
+
+  function payload(){
+    return {version:VERSION,prenom:PRENOM,note:A.note||'',reco:A.reco||'',onboarding:A.onboarding||'',
+      aide:(A.aide||[]).join(' | '),manque:(A.manque||'').trim(),tenable:A.tenable||'',
+      continuer:A.continuer||'',continuer_pourquoi:(A.continuer_pourquoi||'').trim(),
+      temoignage:A.temoignage||'',parrainage_vu:A.parrainage_vu||'',date:new Date().toISOString()};
+  }
+  function waText(p){
+    var L=['QUESTIONNAIRE DE SATISFACTION ('+VERSION+')'+(PRENOM?' · '+PRENOM:'')];
+    [['Note','note'],['Recommandation 0-10','reco'],['Démarrage','onboarding'],['Ce qui aide','aide'],['Ce qui manque','manque'],['Plan tenable','tenable'],['Continuer','continuer'],['Pourquoi','continuer_pourquoi'],['Témoignage','temoignage']].forEach(function(r){if(p[r[1]])L.push('• '+r[0]+' : '+p[r[1]])});
+    return L.join('\n');
+  }
+  function done(sent,p){
+    bar.style.width='100%';
+    document.getElementById('intro').style.display='none';
+    stage.innerHTML='';
+    var c=el('div','card');
+    c.appendChild(el('h2',null,sent?'Merci':'Presque fini'));
+    c.appendChild(el('p','hint',sent?'Je lis tout, et je m\'en sers pour ajuster ton suivi.':'L\'envoi automatique n\'a pas marché. Un appui ouvre WhatsApp avec tes réponses déjà écrites.'));
+    if(!sent){var a=el('a','btn main','Envoyer sur WhatsApp');a.href='https://wa.me/?text='+encodeURIComponent(waText(p));a.style.textAlign='center';c.appendChild(a)}
+    stage.appendChild(c);window.scrollTo(0,0);
+  }
+  function submit(){
+    var p=payload();
+    stage.querySelectorAll('.btn.main').forEach(function(b){b.disabled=true});
+    if(!WEBHOOK){done(false,p);return}
+    fetch(WEBHOOK,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams(p).toString()})
+      .then(function(){try{localStorage.removeItem(KEY)}catch(e){}done(true,p)},function(){done(false,p)});
+  }
+  render();
+})();
+</script>
+</body>
+</html>
