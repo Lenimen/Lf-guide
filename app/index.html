@@ -652,6 +652,7 @@ var RESSOURCES = [
   {t:'Les cheat meals', d:'Placer un repas libre sans casser ta semaine.', pdf:'pdf/fiche-cheat-meals.pdf', end:'PDF'},
   {t:'Posing bikini, WNBF et NPC', d:'Les règles pose par pose, et ce qui change entre fédérations.', v:'bikini', end:'Guide'},
   {t:'Le guide posing hommes', d:"Men's Physique, Classic et Bodybuilding.", l:'posing', end:'Guide'},
+  {t:"L'échauffement", d:'Préparer ton corps avant chaque séance, étape par étape.', l:'echauffement', end:'Guide'},
   {t:'Prendre ses mensurations', d:'Les 11 mesures et la bonne méthode.', l:'mensurations', end:'Guide'}
 ];
 
@@ -677,10 +678,11 @@ function line(o,i,href,target){
   return '<a class="line'+(o.feat?' feat':'')+'" href="'+esc(href)+'"'+(target?' target="_blank" rel="noopener"':'')+'><span class="badge">'+o.badge+'</span><h3>'+esc(o.t)+'</h3><span class="end'+(o.feat?'':'')+'">'+esc(o.end)+'</span><p>'+esc(o.d)+'</p></a>';
 }
 $('#guides-list').innerHTML=GUIDES.map(function(g,i){g.badge=String(i+1).padStart(2,'0');return line(g,i,lien(g.l),true)}).join('');
-$('#res-list').innerHTML=RESSOURCES.map(function(r,i){
+function renderRes(){$('#res-list').innerHTML=RESSOURCES.map(function(r,i){
   r.badge=r.v==='bikini'||/posing/i.test(r.t)?ICO.pose:(/mensur/i.test(r.t)?ICO.tape:ICO.doc);
   return r.v?line(r,i,'#'+r.v,false):(r.pdf?line(r,i,'#',false).replace('<a class="line','<a data-pdf="'+esc(r.pdf)+'" class="line'):line(r,i,lien(r.l),true));
-}).join('');
+}).join('');}
+renderRes();
 
 (function(){
   var today=new Date().toISOString().slice(0,10),dispo=0;
@@ -908,7 +910,7 @@ if(SUPA.url&&SUPA.anon){MOI.role='visiteur';if(window.supabase){try{sb=window.su
 function aAcces(){return MOI.role==='eleve'||MOI.role==='coach'||MOI.role==='ouvert'}
 function contenu(cle){return sb.from('contenus').select('mime,donnees,base64').eq('cle',cle).maybeSingle().then(function(r){if(r.error||!r.data)throw (r.error||new Error('absent'));return r.data})}
 function blobUrl(c){var b=atob(c.donnees),u=new Uint8Array(b.length);for(var i=0;i<b.length;i++)u[i]=b.charCodeAt(i);return URL.createObjectURL(new Blob([u],{type:c.mime}))}
-function chargerLiens(){return contenu('liens').then(function(c){var o=JSON.parse(c.donnees);Object.keys(o).forEach(function(k){LIENS[k]=o[k]});renderSteps(false)}).catch(function(){})}
+function chargerLiens(){return contenu('liens.json').then(function(c){var o=JSON.parse(c.donnees);Object.keys(o).forEach(function(k){LIENS[k]=o[k]});renderSteps(false);renderRes()}).catch(function(){})}
 function majSession(){
   if(!sb){appliquerRole();return Promise.resolve()}
   return sb.auth.getSession().then(function(r){
