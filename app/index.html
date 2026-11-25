@@ -267,6 +267,11 @@ a.line:active{transform:scale(.985);background:var(--carte-2)}
 .tabs a[aria-current="page"] .ti{background:rgba(235,227,208,.16)}
 
 .toast{position:fixed;left:50%;bottom:calc(var(--tab-h) + 18px + env(safe-area-inset-bottom,0px));transform:translateX(-50%) translateY(16px);background:var(--creme);color:var(--petrole);padding:11px 18px;border-radius:999px;font-weight:700;font-size:14px;opacity:0;pointer-events:none;transition:.3s var(--ease);z-index:40;max-width:calc(100% - 32px);text-align:center;box-shadow:0 12px 30px -10px rgba(0,0,0,.6)}
+.ech-z{padding:0;overflow:hidden}.ech-z>summary{list-style:none;cursor:pointer;padding:14px 16px;display:flex;justify-content:space-between;align-items:center;font-weight:700;font-size:16px}.ech-z>summary::-webkit-details-marker{display:none}.ech-z>summary small{font-weight:500;opacity:.7;font-size:12px}
+.ech-z>summary>span:first-child{flex:1}.ech-z>summary>span[aria-hidden]{order:2;margin-left:10px;transition:transform .2s}.ech-z[open]>summary>span[aria-hidden]{transform:rotate(90deg)}
+.ech-z.du-jour>summary:after{order:1;content:"Séance du jour";font-size:11px;font-weight:600;background:var(--creme);color:var(--petrole);padding:3px 8px;border-radius:999px;margin-left:8px}
+.ech-ex{border-top:1px solid var(--filet);padding:12px 16px;display:grid;gap:4px}.ech-ex .t{display:flex;justify-content:space-between;gap:10px;align-items:baseline}.ech-ex b{font-size:15px}.ech-ex .vol{font-weight:700;white-space:nowrap}.ech-ex p{font-size:13px;opacity:.8}
+.ech-ex button{justify-self:start;margin-top:4px}.ech-vid{position:relative;width:100%;aspect-ratio:9/16;max-height:70vh;border-radius:12px;overflow:hidden;background:#000;margin-top:6px}.ech-vid iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
 .bug-bar{text-align:center;font-size:13px;margin:8px 0 0;opacity:.85}
 .toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
 footer{font-size:11px;color:var(--doux);text-align:center;padding-top:4px}
@@ -559,6 +564,31 @@ footer{font-size:11px;color:var(--doux);text-align:center;padding-top:4px}
     <p class="soft" style="font-size:12px;text-align:center">Tu vois aussi tout l'espace élève (onglets Démarrer, Formation, Fiches). <button class="lien" type="button" data-deco>Se déconnecter</button></p>
   </main>
 
+  <!-- ============ GUIDE ÉCHAUFFEMENT (espace élève, contenu en base) ============ -->
+  <main class="view" id="v-echauffement" hidden>
+    <a class="back" href="#ressources">‹ Tes fiches</a>
+    <div class="page-head">
+      <div class="eyebrow">Guide · Échauffement</div>
+      <h1>Ton échauffement</h1>
+      <p class="lede">8 à 10 minutes, pas plus. Tu montes en température, tu réveilles les zones de ta séance, puis tu fais tes séries d'approche.</p>
+    </div>
+    <div class="card cream">
+      <div class="eyebrow">Les 3 étapes</div>
+      <ul class="rule" style="--x:0"><li><b>Température, 3 à 5 min.</b> Air bike, rameur tranquille, marche inclinée ou corde à sauter. Un peu chaud, pas essoufflé.</li><li><b>Les zones du jour, 4 à 6 min.</b> 2 ou 3 zones selon ta séance, 2 ou 3 exercices par zone. Pas besoin de tout faire.</li><li><b>Séries d'approche.</b> Sur ton premier exercice, tu montes en charge avant ta première série de travail.</li></ul>
+    </div>
+    <section>
+      <div class="sec-head"><h2>Ta séance du jour</h2></div>
+      <div class="chips" id="ech-seances"></div>
+      <p class="soft" style="font-size:13px;margin-top:8px">Une zone te gêne en ce moment ? Ajoute-la, même si elle n'est pas dans la séance.</p>
+    </section>
+    <div class="stack" id="ech-zones"><p class="soft">Chargement du guide…</p></div>
+    <div class="card">
+      <div class="eyebrow">Les règles</div>
+      <ul class="rule" style="--x:0"><li>Mouvements lents et contrôlés, jamais de rebond.</li><li>Charges légères : l'échauffement ne doit pas te fatiguer.</li><li>Une gêne qui monte ou une vraie douleur : tu arrêtes l'exercice et tu m'écris.</li></ul>
+    </div>
+    <p class="soft" style="font-size:11px">Ce guide est informatif et éducatif. Il ne remplace pas un avis médical ou paramédical. En cas de douleur persistante ou de doute, consulte un professionnel de santé. <a id="ech-pdf" href="#" target="_blank" rel="noopener" style="color:inherit">Version PDF</a></p>
+  </main>
+
   <!-- ============ GUIDE POSING BIKINI (espace élève, pas lié depuis l'accueil) ============ -->
   <main class="view" id="v-bikini" hidden>
     <a class="back" href="#ressources">‹ Tes fiches</a>
@@ -652,7 +682,7 @@ var RESSOURCES = [
   {t:'Les cheat meals', d:'Placer un repas libre sans casser ta semaine.', pdf:'pdf/fiche-cheat-meals.pdf', end:'PDF'},
   {t:'Posing bikini, WNBF et NPC', d:'Les règles pose par pose, et ce qui change entre fédérations.', v:'bikini', end:'Guide'},
   {t:'Le guide posing hommes', d:"Men's Physique, Classic et Bodybuilding.", l:'posing', end:'Guide'},
-  {t:"L'échauffement", d:'Préparer ton corps avant chaque séance, étape par étape.', l:'echauffement', end:'Guide'},
+  {t:"L'échauffement", d:'Ta routine selon la séance du jour, avec la démo de chaque exercice.', v:'echauffement', end:'Guide'},
   {t:'Prendre ses mensurations', d:'Les 11 mesures et la bonne méthode.', l:'mensurations', end:'Guide'}
 ];
 
@@ -904,7 +934,7 @@ function satisRendu(){
 satisRendu();
 
 /* ================= COMPTES : visiteur / élève / coach ================= */
-var VUES_ELEVE=['demarrer','formation','ressources','bikini','parrainage'];
+var VUES_ELEVE=['demarrer','formation','ressources','bikini','echauffement','parrainage'];
 var sb=null,apresCx=null;
 if(SUPA.url&&SUPA.anon){MOI.role='visiteur';if(window.supabase){try{sb=window.supabase.createClient(SUPA.url,SUPA.anon,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}})}catch(e){sb=null}}}
 function aAcces(){return MOI.role==='eleve'||MOI.role==='coach'||MOI.role==='ouvert'}
@@ -1044,7 +1074,7 @@ $('#co-ct-fichier').addEventListener('change',function(e){
 });
 
 /* Signaler un bug ou une idée : ouvre WhatsApp vers Leni avec un message prérempli */
-var NOMS_VUES={demarrer:'Démarrer',formation:'Formation',ressources:'Fiches',bikini:'Guide bikini',parrainage:'Parrainage',coach:'Espace coach'};
+var NOMS_VUES={echauffement:'Guide échauffement',demarrer:'Démarrer',formation:'Formation',ressources:'Fiches',bikini:'Guide bikini',parrainage:'Parrainage',coach:'Espace coach'};
 $('#bug-btn').addEventListener('click',function(){
   var v=(location.hash||'').replace('#','')||'accueil';
   var qui=(MOI.eleve&&MOI.eleve.prenom)||MOI.email||'';
@@ -1052,9 +1082,40 @@ $('#bug-btn').addEventListener('click',function(){
   location.href='https://wa.me/'+(LIENS.whatsappLeni||'')+'?text='+encodeURIComponent(t);
 });
 
+/* Guide échauffement : page native, données en base (echauffement.json) */
+var ECH=null;
+function echRendu(){
+  if(!ECH)return;
+  var sel=($('input[name=ech-s]:checked')||{}).value||'',duJour=ECH.seances[sel]||[];
+  $('#ech-zones').innerHTML=ECH.zones.map(function(z){
+    var j=duJour.indexOf(z.z)>=0;
+    return '<details class="card ech-z'+(j?' du-jour':'')+'"'+(j?' open':'')+'><summary><span>'+esc(z.z)+' <small>'+z.ex.length+' exercices</small></span><span aria-hidden="true">›</span></summary>'+
+      z.ex.map(function(e){return '<div class="ech-ex"><div class="t"><b>'+esc(e.n)+'</b><span class="vol">'+esc(e.v)+'</span></div><p>'+esc(e.s)+' · '+esc(e.u)+'</p><button class="lien" type="button" data-vid="'+esc(e.id)+'">▶ Voir la démo</button></div>'}).join('')+'</details>';
+  }).join('')+'<div class="card"><div class="eyebrow">Montée en température</div>'+ECH.cardio.map(function(c){return '<div class="ech-ex" style="padding-left:0;padding-right:0"><div class="t"><b>'+esc(c[0])+'</b><span class="vol">'+esc(c[1])+'</span></div><p>'+esc(c[2])+'</p></div>'}).join('')+'</div>';
+}
+function chargerEchauffement(){
+  if(ECH)return;
+  if(!sb){$('#ech-zones').innerHTML='<p class="soft">Ce guide est réservé aux élèves connectés.</p>';return}
+  contenu('echauffement.json').then(function(c){
+    ECH=JSON.parse(c.donnees);
+    $('#ech-seances').innerHTML=Object.keys(ECH.seances).map(function(k,i){return '<label><input type="radio" name="ech-s" value="'+esc(k)+'"><span>'+esc(k)+'</span></label>'}).join('');
+    if(ECH.pdf)$('#ech-pdf').href=ECH.pdf;else $('#ech-pdf').hidden=true;
+    echRendu();
+  }).catch(function(){$('#ech-zones').innerHTML='<p class="soft">Guide indisponible pour le moment.</p>'});
+}
+$('#ech-seances').addEventListener('change',echRendu);
+$('#ech-zones').addEventListener('click',function(e){
+  var b=e.target.closest('[data-vid]');if(!b)return;
+  var ex=b.parentNode,f=$('.ech-vid',ex);
+  if(f){f.remove();b.textContent='▶ Voir la démo';return}
+  var id=b.getAttribute('data-vid');if(!/^[\w-]{10,}$/.test(id))return;
+  ex.insertAdjacentHTML('beforeend','<div class="ech-vid"><iframe src="https://drive.google.com/file/d/'+id+'/preview" allow="autoplay" allowfullscreen loading="lazy" title="Démo"></iframe></div>');
+  b.textContent='Fermer la démo';
+});
+
 /* Navigation */
-var VUES=['accueil','appel','guides','contact','demarrer','formation','ressources','bikini','parrainage','connexion','coach'];
-var TAB_DE={guides:'accueil',contact:'accueil',bikini:'ressources',parrainage:'ressources',coach:'accueil'};
+var VUES=['accueil','appel','guides','contact','demarrer','formation','ressources','bikini','echauffement','parrainage','connexion','coach'];
+var TAB_DE={guides:'accueil',contact:'accueil',bikini:'ressources',echauffement:'ressources',parrainage:'ressources',coach:'accueil'};
 function route(){
   var v=(location.hash||'').replace('#','');if(VUES.indexOf(v)<0)v='accueil';
   if(VUES_ELEVE.indexOf(v)>=0&&!aAcces()){apresCx=v;v='connexion'}
@@ -1069,6 +1130,7 @@ function route(){
   $('#parr-accueil').hidden=!(MOI.role==='eleve'||MOI.role==='coach'||(MOI.role==='ouvert'&&store('lf-eleve')));
   $('#bug-bar').hidden=!(VUES_ELEVE.indexOf(v)>=0||v==='coach');
   if(v==='bikini')chargerBikini();
+  if(v==='echauffement')chargerEchauffement();
   if(v==='coach'){coachRendu();ctRendu()}
   if(v==='connexion'&&MOI.role!=='ouvert'&&!sb)cxErr('Connexion indisponible pour le moment (pas de réseau ?).');
   if(v==='accueil'||v==='ressources')satisRendu();
