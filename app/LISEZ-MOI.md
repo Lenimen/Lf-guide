@@ -26,3 +26,8 @@ Cloudflare Pages sur app.thelfmethod.com, dossier `app/` de ce dépôt.
 - Le lien Loom du tuto de l'app de suivi : Loom est résilié, accès jusqu'au 28/11/2026. Remplacer `LIENS.tutoSuivi` par le lien Drive.
 - `LIENS.bienvenue` : lien Drive de la vidéo Bienvenue (partagée par lien).
 - `MODULES` : recopié de academy.html, à mettre à jour si les dates de sortie changent.
+
+## Parrainage (ajouté le 25/11, idée de Leni)
+- Vue `#parrainage` (onglet Fiches). Carte en tête des Fiches et sur l'accueil pour les élèves (appareil déjà passé par l'espace élève).
+- Conditions reprises du programme validé le 06/10 : par pote qui démarre, le parrain choisit 1 mois offert (ajouté à la fin du suivi) ou 1 séance présentiel de 2 h (déplacement déjà prévu ou région liégeoise, valable 6 mois). Le filleul paie plein tarif et a un appel prioritaire sous 48 h.
+- Code = `LF-` + prénom saisi par l'élève ; lien = candidature `?source=parrain-<prenom>`. Le prénom reste dans le téléphone (localStorage `lf-parrain`).
