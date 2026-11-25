@@ -512,7 +512,7 @@ footer{font-size:11px;color:var(--doux);text-align:center;padding-top:4px}
     </form>
     <form class="card cx" id="cx-code" hidden novalidate>
       <p class="soft" id="cx-envoye" style="font-size:14px"></p>
-      <label class="q"><span>Le code reçu par e-mail</span><input type="text" id="cx-token" inputmode="numeric" autocomplete="one-time-code" maxlength="8" pattern="[0-9]*"></label>
+      <label class="q"><span>Le code reçu par e-mail</span><input type="text" id="cx-token" inputmode="numeric" autocomplete="one-time-code" maxlength="10" pattern="[0-9]*"></label>
       <button class="btn block" type="submit">Me connecter</button>
       <button class="lien" type="button" id="cx-retour">Changer d'e-mail ou renvoyer un code</button>
     </form>
@@ -954,7 +954,7 @@ $('#cx-form').addEventListener('submit',function(e){e.preventDefault();cxErr('')
 });
 $('#cx-retour').onclick=function(){$('#cx-code').hidden=true;$('#cx-form').hidden=false;cxErr('')};
 $('#cx-code').addEventListener('submit',function(e){e.preventDefault();cxErr('');
-  var t=$('#cx-token').value.replace(/\D/g,'');if(t.length<6){cxErr('Le code fait 6 chiffres.');return}
+  var t=$('#cx-token').value.replace(/\D/g,'');if(t.length<6){cxErr('Recopie tout le code reçu.');return}
   sb.auth.verifyOtp({email:cxEmail,token:t,type:'email'}).then(function(r){
     if(r.error){cxErr('Code incorrect ou expiré. Redemande un code si besoin.');return}
     $('#cx-token').value='';$('#cx-code').hidden=true;$('#cx-form').hidden=false;
