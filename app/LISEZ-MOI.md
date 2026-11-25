@@ -44,3 +44,9 @@ GitHub Pages (gratuit, sans compte en plus) via `.github/workflows/app-pages.yml
 - Espace coach (`#coach`) : ajouter un élève (prénom, e-mail, début, durée), modifier la date, désactiver.
 - Contenus élèves (liens Drive/Loom, guide bikini, fiches PDF, photos bikini) retirés du dépôt public, rangés dans la table `contenus`. Sources privées : /mnt/project-files/outils/app-lf/contenus-eleves/ ; SQL de chargement : `genere-contenus-sql.py`.
 - L'historique Git public contient encore les anciennes versions de ces fichiers (fiches génériques, photos WNBF/NPC publiques, aucune donnée élève).
+
+### Projet Supabase en place (25/11)
+- Projet `lf-coaching` (id cjxedjshafmjgrkhdaqp, Francfort, gratuit). Schéma de `supabase/schema.sql` appliqué, RLS active, rien pour anon (vérifié : 401).
+- La clé dans `SUPA` est la clé anon publique (faite pour être dans le code). Jamais la clé service_role.
+- Contenus : `bikini.html` et `liens.json` chargés. Fiches PDF et photos : bouton « Installer » dans l'espace coach (copie depuis l'historique public du dépôt, avec la session coach). Le même encart permet d'ajouter une fiche plus tard.
+- À faire dans le tableau de bord Supabase : SMTP perso (le SMTP intégré n'envoie qu'aux membres de l'organisation) et modèle d'e-mail avec `{{ .Token }}`.
