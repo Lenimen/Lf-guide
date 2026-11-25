@@ -531,9 +531,17 @@ footer{font-size:11px;color:var(--doux);text-align:center;padding-top:4px}
     <div class="page-head">
       <div class="eyebrow">Espace coach</div>
       <h1>Tes élèves</h1>
-      <p class="lede">Ajoute chaque élève qui démarre : il pourra se connecter avec cet e-mail. Désactive-le à la fin de son suivi.</p>
+      <p class="lede">Tu es connectée en coach. Ajoute ici chaque élève qui démarre : il pourra se connecter avec son e-mail. Désactive-le à la fin de son suivi.</p>
     </div>
-    <form class="card co" id="co-form" novalidate>
+    <div class="card" id="co-contenus">
+      <div class="eyebrow">Contenus de l'espace élève</div>
+      <p class="soft" style="font-size:14px" id="co-ct-etat">Vérification…</p>
+      <button class="btn ghost block" type="button" id="co-ct-install" hidden>Installer les fiches et les photos du guide bikini</button>
+      <label class="q"><span>Ajouter ou remplacer une fiche PDF ou une image</span><input type="file" id="co-ct-fichier" accept="application/pdf,image/jpeg,image/png,image/webp" multiple></label>
+    </div>
+    <button class="btn block" type="button" id="co-ajout">+ Ajouter un élève</button>
+    <form class="card co" id="co-form" novalidate hidden>
+      <div class="eyebrow">Nouvel élève (ses infos, pas les tiennes)</div>
       <label class="q"><span>Prénom</span><input type="text" id="co-prenom" maxlength="60" autocomplete="off"></label>
       <label class="q"><span>E-mail (celui du contrat)</span><input type="email" id="co-email" autocomplete="off"></label>
       <div class="grid2">
@@ -543,12 +551,6 @@ footer{font-size:11px;color:var(--doux);text-align:center;padding-top:4px}
       <button class="btn block" type="submit">Ajouter l'élève</button>
     </form>
     <div class="stack" id="co-list"><p class="soft">Chargement…</p></div>
-    <div class="card" id="co-contenus">
-      <div class="eyebrow">Contenus de l'espace élève</div>
-      <p class="soft" style="font-size:14px" id="co-ct-etat">Vérification…</p>
-      <button class="btn ghost block" type="button" id="co-ct-install" hidden>Installer les fiches et les photos du guide bikini</button>
-      <label class="q"><span>Ajouter ou remplacer une fiche PDF ou une image</span><input type="file" id="co-ct-fichier" accept="application/pdf,image/jpeg,image/png,image/webp" multiple></label>
-    </div>
     <p class="soft" style="font-size:12px;text-align:center">Tu vois aussi tout l'espace élève (onglets Démarrer, Formation, Fiches). <button class="lien" type="button" data-deco>Se déconnecter</button></p>
   </main>
 
@@ -949,15 +951,17 @@ $('#cx-form').addEventListener('submit',function(e){e.preventDefault();cxErr('')
   sb.auth.signInWithOtp({email:cxEmail,options:{shouldCreateUser:true,emailRedirectTo:location.origin+location.pathname}}).then(function(r){
     $('#cx-go').disabled=false;
     if(r.error){cxErr(/rate|seconds|limit/i.test(r.error.message)?'Trop de demandes d\'un coup. Attends une minute et réessaie.':'Envoi impossible. Vérifie ton e-mail et réessaie.');return}
-    $('#cx-form').hidden=true;$('#cx-code').hidden=false;$('#cx-envoye').textContent='Code envoyé à '+cxEmail+'. Regarde aussi dans les spams.';$('#cx-token').focus();
+    store('lf-cx',{e:cxEmail,t:Date.now()});cxEtapeCode();
   });
 });
-$('#cx-retour').onclick=function(){$('#cx-code').hidden=true;$('#cx-form').hidden=false;cxErr('')};
+function cxEtapeCode(){$('#cx-form').hidden=true;$('#cx-code').hidden=false;$('#cx-envoye').textContent='Code envoyé à '+cxEmail+'. Regarde aussi dans les spams.';$('#cx-token').focus()}
+(function(){var p=store('lf-cx');if(p&&p.e&&Date.now()-p.t<3600000)cxEmail=p.e})();
+$('#cx-retour').onclick=function(){store('lf-cx',null);$('#cx-code').hidden=true;$('#cx-form').hidden=false;cxErr('')};
 $('#cx-code').addEventListener('submit',function(e){e.preventDefault();cxErr('');
   var t=$('#cx-token').value.replace(/\D/g,'');if(t.length<6){cxErr('Recopie tout le code reçu.');return}
   sb.auth.verifyOtp({email:cxEmail,token:t,type:'email'}).then(function(r){
     if(r.error){cxErr('Code incorrect ou expiré. Redemande un code si besoin.');return}
-    $('#cx-token').value='';$('#cx-code').hidden=true;$('#cx-form').hidden=false;
+    store('lf-cx',null);$('#cx-token').value='';$('#cx-code').hidden=true;$('#cx-form').hidden=false;
     majSession().then(function(){
       if(MOI.role==='coach')location.hash='#coach';
       else if(MOI.role==='eleve'){location.hash='#'+(apresCx||'demarrer');toast('Bienvenue '+(MOI.eleve&&MOI.eleve.prenom||''))}
@@ -986,12 +990,13 @@ $('#co-list').addEventListener('click',function(e){
   else maj.actif=c.classList.contains('off');
   sb.from('eleves').update(maj).eq('email',em).then(function(r){toast(r.error?'Erreur, réessaie':'Enregistré');coachRendu()});
 });
+$('#co-ajout').addEventListener('click',function(){var f=$('#co-form');f.hidden=!f.hidden;this.textContent=f.hidden?'+ Ajouter un élève':'Fermer';if(!f.hidden)$('#co-prenom').focus()});
 $('#co-form').addEventListener('submit',function(e){e.preventDefault();
   var o={prenom:$('#co-prenom').value.trim(),email:$('#co-email').value.trim().toLowerCase(),date_debut:$('#co-debut').value||null,duree_sem:+$('#co-duree').value};
   if(!o.prenom||!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(o.email)){toast('Prénom et e-mail requis');return}
   sb.from('eleves').insert(o).then(function(r){
     if(r.error){toast(/duplicate|unique/i.test(r.error.message)?'Cet e-mail est déjà dans la liste':'Erreur, réessaie');return}
-    toast(o.prenom+' ajouté');e.target.reset();coachRendu();
+    toast(o.prenom+' ajouté');e.target.reset();e.target.hidden=true;$('#co-ajout').textContent='+ Ajouter un élève';coachRendu();
   });
 });
 
@@ -1000,7 +1005,7 @@ var CT_SRC='https://raw.githubusercontent.com/lenimen/lf-guide/02ed8024a891a3a38
 var CT_ATTENDUS={'pdf/fiche-vacuum.pdf':'ressources/fiche-vacuum.pdf','pdf/fiche-cheat-meals.pdf':'ressources/fiche-cheat-meals.pdf'};
 ['npc-dos-olympia','npc-plateau','wnbf-dos-1','wnbf-dos-2','wnbf-dos-erreurs','wnbf-face-erreurs','wnbf-face','wnbf-profil-erreurs','wnbf-profil'].forEach(function(n){CT_ATTENDUS['img/'+n+'.jpg']='media/bikini/'+n+'.jpg'});
 function b64(blob){return new Promise(function(ok,ko){var r=new FileReader();r.onload=function(){ok(String(r.result).split(',')[1])};r.onerror=ko;r.readAsDataURL(blob)})}
-function ctEnvoyer(cle,blob){return b64(blob).then(function(d){return sb.from('contenus').upsert({cle:cle,mime:blob.type||'application/octet-stream',donnees:d,base64:true,maj_le:new Date().toISOString()})}).then(function(r){if(r.error)throw r.error})}
+function ctEnvoyer(cle,blob){return b64(blob).then(function(d){return sb.from('contenus').upsert({cle:cle,mime:/\.pdf$/.test(cle)?'application/pdf':(blob.type&&blob.type!=='application/octet-stream'?blob.type:'image/jpeg'),donnees:d,base64:true,maj_le:new Date().toISOString()})}).then(function(r){if(r.error)throw r.error})}
 function ctRendu(){
   if(!sb)return;
   sb.from('contenus').select('cle').then(function(r){
@@ -1035,6 +1040,7 @@ function route(){
   if(VUES_ELEVE.indexOf(v)>=0&&!aAcces()){apresCx=v;v='connexion'}
   if(v==='coach'&&MOI.role!=='coach')v=MOI.role==='ouvert'?'accueil':'connexion';
   $('#cx-refus').hidden=!(v==='connexion'&&MOI.email&&MOI.role==='visiteur');
+  if(v==='connexion'&&cxEmail&&!MOI.email&&$('#cx-code').hidden){$('#cx-code').hidden=false;$('#cx-envoye').textContent='Code envoyé à '+cxEmail+'. Regarde aussi dans les spams.'}
   $('#cx-form').hidden=!$('#cx-refus').hidden||!$('#cx-code').hidden;
   VUES.forEach(function(k){$('#v-'+k).hidden=(k!==v)});
   var t=TAB_DE[v]||v;
