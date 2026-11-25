@@ -85,7 +85,7 @@ img{max-width:100%;display:block}
 .page-head .lede{color:var(--doux);font-size:16px}
 
 /* Boutons */
-.btn{white-space:nowrap;display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:52px;padding:14px 20px;border-radius:14px;background:var(--creme);color:var(--petrole);text-decoration:none;font-weight:700;font-size:15px;letter-spacing:.01em;border:0;cursor:pointer;box-shadow:0 8px 24px -10px rgba(235,227,208,.45);transition:transform .15s var(--ease),box-shadow .15s}
+.btn{white-space:normal;text-align:center;display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:52px;padding:14px 20px;border-radius:14px;background:var(--creme);color:var(--petrole);text-decoration:none;font-weight:700;font-size:15px;letter-spacing:.01em;border:0;cursor:pointer;box-shadow:0 8px 24px -10px rgba(235,227,208,.45);transition:transform .15s var(--ease),box-shadow .15s}
 .btn:active{transform:scale(.97)}
 .btn.ghost{background:rgba(235,227,208,.08);color:var(--creme);border:1px solid rgba(235,227,208,.22);box-shadow:none}
 .btn.small{min-height:40px;padding:9px 14px;font-size:13px;border-radius:11px}
@@ -201,12 +201,12 @@ a.line:active{transform:scale(.985);background:var(--carte-2)}
 .satis .q select,.satis .q input[type=date]{width:100%;font:inherit;font-size:16px;color:var(--creme);background:rgba(0,0,0,.22);border:1px solid var(--filet);border-radius:12px;padding:12px 14px;color-scheme:dark}
 .satis .lien{background:none;border:0;color:var(--doux);text-decoration:underline;cursor:pointer;padding:0;font:inherit;font-size:12px;justify-self:start}
 .cx,.co{display:grid;gap:14px}
-.q select,.q input[type=date]{width:100%;font:inherit;font-size:16px;color:var(--creme);background:rgba(0,0,0,.22);border:1px solid var(--filet);border-radius:12px;padding:12px 14px;color-scheme:dark}
+.q select,.q input[type=date],.q input[type=url]{width:100%;min-width:0;max-width:100%;display:block;-webkit-appearance:none;appearance:none;min-height:48px;font:inherit;font-size:16px;color:var(--creme);background:rgba(0,0,0,.22);border:1px solid var(--filet);border-radius:12px;padding:12px 14px;color-scheme:dark}
 .lien{background:none;border:0;color:var(--doux);text-decoration:underline;cursor:pointer;padding:0;font:inherit;font-size:12px;justify-self:start}
 .moi{font-size:12px;text-align:right}
 .co-el{display:grid;gap:10px}
-.co-el .top{display:flex;justify-content:space-between;gap:10px;align-items:baseline}
-.co-el .top small{color:var(--doux);overflow-wrap:anywhere}
+.co-el .co-top{display:flex;justify-content:space-between;gap:10px;align-items:baseline}
+.co-el .co-top small{color:var(--doux);overflow-wrap:anywhere}
 .co-el.off{opacity:.55}
 .co-el .grid2{gap:10px}
 .banner .in{position:relative;z-index:1;display:flex;align-items:flex-end;justify-content:space-between;gap:14px;padding:18px}
@@ -248,6 +248,13 @@ a.line:active{transform:scale(.985);background:var(--carte-2)}
 .etape p{font-size:15px;margin:0}
 .dose{display:grid;grid-template-columns:auto minmax(0,1fr);gap:6px 12px;margin:0;padding:10px 12px;border-radius:12px;background:rgba(0,0,0,.2);font-size:14px}
 .dose dt{font-weight:700}.dose dd{margin:0}
+.academy-box{margin:0 -16px;min-width:0}
+.academy-box #lfa{min-height:0}
+/* La formation reprend academy.html : ses classes (top, btn, chip, steps, end, who, wrap) existent aussi dans l'app.
+   On neutralise ici ce que les styles de l'app y ajouteraient (en-tête collant, boutons sur une ligne...). */
+.academy-box .top{position:static;z-index:auto;background:none;backdrop-filter:none;-webkit-backdrop-filter:none}
+.academy-box .btn{white-space:normal;min-height:0;box-shadow:none}
+.academy-box .chip{backdrop-filter:none;-webkit-backdrop-filter:none}
 .back{display:inline-flex;align-items:center;gap:6px;font-size:14px;font-weight:600;color:var(--doux);text-decoration:none}
 
 
@@ -255,8 +262,12 @@ a.line:active{transform:scale(.985);background:var(--carte-2)}
 .motif{cursor:pointer;width:100%;text-align:left;font:inherit;color:inherit}
 .qs{display:grid;gap:16px}
 .q{display:grid;gap:8px;border:0;padding:0;margin:0;min-width:0}
+/* Safari iPhone : un champ date garde sa largeur propre et déborde de sa colonne sans ces deux règles */
+.q input[type=date]::-webkit-date-and-time-value{text-align:left;min-height:1.5em}
+.grid2>*{min-width:0}
 .q>span,.q legend{font-size:14px;font-weight:600;padding:0}
-.q input[type=text],.q input[type=email],.q textarea{width:100%;font:inherit;font-size:16px;color:var(--creme);background:rgba(0,0,0,.22);border:1px solid var(--filet);border-radius:12px;padding:12px 14px}
+.q input[type=file]{width:100%;min-width:0;max-width:100%;font-size:14px;color:var(--doux)}
+.q input[type=text],.q input[type=email],.q textarea{width:100%;min-width:0;max-width:100%;font:inherit;font-size:16px;color:var(--creme);background:rgba(0,0,0,.22);border:1px solid var(--filet);border-radius:12px;padding:12px 14px}
 .q textarea{min-height:84px;resize:vertical}
 .q input:focus,.q textarea:focus{outline:none;border-color:rgba(235,227,208,.6)}
 .chips{display:flex;flex-wrap:wrap;gap:8px}
@@ -455,12 +466,8 @@ footer{font-size:11px;color:var(--doux);text-align:center;padding-top:4px}
         <div class="ring" id="ring"><b id="ring-txt">0<small>sur 12</small></b></div>
       </div>
     </div>
-    <p class="soft">Un module sort chaque lundi. Commence par C01 à C03 pendant que je prépare ton plan.</p>
-    <a class="btn block" data-cfg="academy" href="#">Ouvrir l'Academy</a>
-    <section>
-      <div class="sec-head"><h2>Les modules</h2></div>
-      <div class="stack" id="modules"></div>
-    </section>
+    <p class="soft">Un module sort chaque lundi. Commence par C01 à C03 pendant que je prépare ton plan. Tu arrives directement sur ton prochain module.</p>
+    <div id="lf-root" class="academy-box" data-lf-module="academy"><p class="soft">Chargement de la formation…</p></div>
   </main>
 
   <!-- ============ FICHES ============ -->
@@ -733,10 +740,10 @@ renderRes();
 (function(){
   var today=new Date().toISOString().slice(0,10),dispo=0;
   function fr(d){var p=d.split('-');return p[2]+'/'+p[1]}
-  $('#modules').innerHTML=MODULES.map(function(m){
+  var modBox=$('#modules'),modHtml=MODULES.map(function(m){
     var live=!m.pub||m.pub<=today;if(live)dispo++;
     return '<div class="line'+(live?'':' locked')+'"><span class="badge">'+m.c+'</span><h3>'+esc(m.t)+'</h3><span class="end">'+(live?m.m+' min':'Le '+fr(m.pub))+'</span><p>'+(live?'Disponible':'Sortie le lundi '+fr(m.pub))+'</p></div>';
-  }).join('');
+  }).join('');if(modBox)modBox.innerHTML=modHtml;
   $('#ring').style.setProperty('--p',Math.round(dispo/MODULES.length*100));
   $('#ring-txt').innerHTML=dispo+'<small>sur '+MODULES.length+'<br>sortis</small>';
 })();
@@ -996,6 +1003,18 @@ function chargerFiche(n){
   contenu('fiche-'+(f.cle||n)+'.html').then(function(c){if((location.hash||'').slice(1)!==n)return;box.innerHTML=c.donnees;box.dataset.ok=n})
     .catch(function(){box.innerHTML='<p class="soft">Fiche indisponible pour le moment.</p>'});
 }
+/* Formation : même fichier que l'Academy Systeme.io (academy.html du dépôt), affiché dans l'app.
+   L'e-mail de l'élève connecté est prérempli pour le suivi et « Envoyer à Leni ». */
+function chargerFormation(){
+  var root=$('#lf-root');if(root.dataset.ok==='1')return;
+  try{var k='lf-academy-v1',st=JSON.parse(localStorage.getItem(k)||'{}')||{};if(MOI.email&&!st._mail){st._mail=MOI.email;localStorage.setItem(k,JSON.stringify(st))}}catch(e){}
+  var urls=['https://raw.githubusercontent.com/Lenimen/Lf-guide/main/academy.html','https://cdn.jsdelivr.net/gh/Lenimen/Lf-guide@main/academy.html'];
+  function get(i){return fetch(urls[i],{cache:'no-cache'}).then(function(r){if(!r.ok)throw 0;return r.text()}).catch(function(e){if(i+1<urls.length)return get(i+1);throw e})}
+  get(0).then(function(html){
+    root.innerHTML=html;root.dataset.ok='1';
+    $$('script',root).forEach(function(old){var sc=document.createElement('script');for(var i=0;i<old.attributes.length;i++)sc.setAttribute(old.attributes[i].name,old.attributes[i].value);sc.text=old.textContent;old.parentNode.replaceChild(sc,old)});
+  }).catch(function(){root.innerHTML='<p class="soft">La formation ne s\'est pas chargée. Vérifie ta connexion et rouvre l\'onglet.</p>'});
+}
 function chargerBikini(){
   var box=$('#bikini-body');if(box.dataset.ok==='1')return;
   if(!sb){box.innerHTML='<p class="soft">Ce guide est réservé aux élèves connectés.</p>';return}
@@ -1043,7 +1062,7 @@ function coachRendu(){
     var l=r.data||[];
     if(!l.length){box.innerHTML='<p class="soft">Aucun élève pour l\'instant.</p>';return}
     box.innerHTML='<div class="sec-head"><h2>'+l.filter(function(x){return x.actif}).length+' élèves actifs</h2></div>'+l.map(function(x){
-      return '<div class="card co-el'+(x.actif?'':' off')+'" data-email="'+esc(x.email)+'"><div class="top"><h3>'+esc(x.prenom)+'</h3><small>'+esc(x.email)+'</small></div>'+
+      return '<div class="card co-el'+(x.actif?'':' off')+'" data-email="'+esc(x.email)+'"><div class="co-top"><h3>'+esc(x.prenom)+'</h3><small>'+esc(x.email)+'</small></div>'+
         '<div class="grid2"><label class="q"><span>Début</span><input type="date" data-k="date_debut" value="'+esc(x.date_debut||'')+'"></label>'+
         '<label class="q"><span>Durée</span><select data-k="duree_sem">'+[16,20,24,26].map(function(n){return '<option value="'+n+'"'+(n==x.duree_sem?' selected':'')+'>'+(n==26?'6 mois':n+' sem.')+'</option>'}).join('')+'</select></label></div>'+
         '<label class="q"><span>Lien de son fichier de suivi (optionnel)</span><input type="url" data-k="lien_suivi" placeholder="https://docs.google.com/…" value="'+esc(x.lien_suivi||'')+'"></label>'+
@@ -1158,6 +1177,7 @@ function route(){
   $('#bug-bar').hidden=!(VUES_ELEVE.indexOf(v)>=0||v==='coach');
   if(v==='bikini')chargerBikini();
   if(v==='echauffement')chargerEchauffement();
+  if(v==='formation'&&aAcces())chargerFormation();
   if(FICHES[v])chargerFiche(v);
   if(v==='coach'){coachRendu();ctRendu()}
   if(v==='connexion'&&MOI.role!=='ouvert'&&!sb)cxErr('Connexion indisponible pour le moment (pas de réseau ?).');
