@@ -36,3 +36,11 @@ GitHub Pages (gratuit, sans compte en plus) via `.github/workflows/app-pages.yml
 - Carte en tête des Fiches (et sur l'accueil quand c'est le moment). L'élève indique une fois la date de début de son plan et la durée (16, 20, 24 semaines ou 6 mois), gardées sur son téléphone.
 - Fenêtres : semaine 3 (jours 21-34), mi-parcours (jours 84-104), fin (3 dernières semaines). Lien `LIENS.satisfaction` (?g=satisfaction&v=s3|mid|fin&prenom=, prénom repris du parrainage s'il est rempli).
 - Notifications push : pas encore. Elles demandent un petit serveur qui envoie les rappels (prévu avec l'étape 4, Supabase/Cloudflare). En attendant, rappel affiché à l'ouverture de l'app.
+
+## Comptes visiteur / élève / coach (25/11, choix de Leni : vrais comptes)
+- Supabase (UE, offre gratuite). Réglage dans `index.html` : `SUPA = { url, anon }` (clé anon publique par conception). Vide = app ouverte comme avant.
+- Base : `supabase/schema.sql` (tables `coachs`, `eleves`, `contenus`, fonction `mon_role()`, droits RLS). Coach si e-mail dans `coachs`, élève si dans `eleves` et actif, sinon visiteur.
+- Connexion : e-mail + code à 6 chiffres (Supabase Auth). Le modèle d'e-mail « Magic Link » doit contenir `{{ .Token }}`.
+- Espace coach (`#coach`) : ajouter un élève (prénom, e-mail, début, durée), modifier la date, désactiver.
+- Contenus élèves (liens Drive/Loom, guide bikini, fiches PDF, photos bikini) retirés du dépôt public, rangés dans la table `contenus`. Sources privées : /mnt/project-files/outils/app-lf/contenus-eleves/ ; SQL de chargement : `genere-contenus-sql.py`.
+- L'historique Git public contient encore les anciennes versions de ces fichiers (fiches génériques, photos WNBF/NPC publiques, aucune donnée élève).
