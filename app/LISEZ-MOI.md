@@ -18,8 +18,8 @@ Ils restent ceux d'aujourd'hui (candidature, questionnaire de départ, guides su
 - `#slot-satisfaction` : questionnaire de satisfaction (fil « Concevoir le questionnaire de satisfaction »).
 - `#slot-suivi` : étape 4, suivi qui remplace Fitbrothers (Supabase UE + relecture RGPD avant toute vraie donnée).
 
-## Mise en ligne prévue (pas faite, attend le go de Leni)
-Cloudflare Pages sur app.thelfmethod.com, dossier `app/` de ce dépôt.
+## Mise en ligne (go de Leni le 25/11)
+GitHub Pages (gratuit, sans compte en plus) via `.github/workflows/app-pages.yml` : chaque modification de `app/` sur main est mise en ligne sur app.thelfmethod.com. Réglages faits une fois par Leni : Settings > Pages > Source « GitHub Actions » + domaine app.thelfmethod.com ; DNS OVH : CNAME `app` -> `lenimen.github.io.`
 
 ## À vérifier
 - Nouveau message LF START prêt à valider : /mnt/project-files/outils/app-lf/lf-start-v2-brouillon.md
