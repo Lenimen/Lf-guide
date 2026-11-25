@@ -15,8 +15,11 @@ create table if not exists public.eleves (
   date_debut  date,
   duree_sem   int  not null default 26 check (duree_sem between 4 and 104),
   actif       boolean not null default true,
-  cree_le     timestamptz not null default now()
+  cree_le     timestamptz not null default now(),
+  lien_suivi  text check (lien_suivi is null or lien_suivi ~ '^https://')
 );
+
+alter table public.eleves add column if not exists lien_suivi text check (lien_suivi is null or lien_suivi ~ '^https://');
 
 -- 3. Le statut de la personne connectée, calculé à chaque requête (rien à synchroniser).
 create or replace function public.mon_role() returns text

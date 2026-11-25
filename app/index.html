@@ -409,6 +409,10 @@ footer{font-size:11px;color:var(--doux);text-align:center;padding-top:4px}
       <h1>Charge ta barre</h1>
       <p class="lede">Chaque étape faite ajoute une paire de disques. Barre pleine, tu es prêt à démarrer.</p>
     </div>
+    <a class="card cream" id="mon-suivi" hidden target="_blank" rel="noopener" style="display:block;text-decoration:none;color:inherit">
+      <div class="eyebrow">Ton suivi</div>
+      <p style="font-size:15px"><b>Ouvrir mon fichier de suivi</b> : ton programme, ta diète et tes saisies de la semaine.</p>
+    </a>
     <div class="bar-card" aria-live="polite">
       <div class="bar-head">
         <div class="kg" id="kg">20<small>kg</small></div>
@@ -909,7 +913,7 @@ function majSession(){
     if(!ses){MOI={role:'visiteur',email:null,eleve:null};return}
     MOI.email=(ses.user.email||'').toLowerCase();
     return sb.rpc('mon_role').then(function(x){MOI.role=x.error?'visiteur':(x.data||'visiteur');
-      if(MOI.role==='eleve')return sb.from('eleves').select('prenom,date_debut,duree_sem').eq('email',MOI.email).maybeSingle().then(function(e){MOI.eleve=e.data||null});
+      if(MOI.role==='eleve')return sb.from('eleves').select('prenom,date_debut,duree_sem,lien_suivi').eq('email',MOI.email).maybeSingle().then(function(e){MOI.eleve=e.data||null});
     }).then(function(){if(MOI.role==='eleve'||MOI.role==='coach')return chargerLiens()});
   }).catch(function(){}).then(appliquerRole);
 }
@@ -920,6 +924,7 @@ function appliquerRole(){
   else{w.textContent='Espace élève';w.href=MOI.role==='ouvert'?'#demarrer':'#connexion'}
   var ml=$('#moi-ligne');ml.hidden=!(sb&&MOI.email&&aAcces());
   if(!ml.hidden)ml.innerHTML='Connecté : '+esc(MOI.eleve&&MOI.eleve.prenom||MOI.email)+' · <button class="lien" type="button" data-deco>Se déconnecter</button>';
+  var su=$('#mon-suivi'),lk=MOI.eleve&&MOI.eleve.lien_suivi;if(lk&&/^https:\/\//.test(lk)){su.href=lk;su.hidden=false}else su.hidden=true;
   if(MOI.eleve&&MOI.eleve.prenom&&!$('#parr-prenom').value){$('#parr-prenom').value=MOI.eleve.prenom;parrMaj()}
   route();
 }
@@ -980,13 +985,14 @@ function coachRendu(){
       return '<div class="card co-el'+(x.actif?'':' off')+'" data-email="'+esc(x.email)+'"><div class="top"><h3>'+esc(x.prenom)+'</h3><small>'+esc(x.email)+'</small></div>'+
         '<div class="grid2"><label class="q"><span>Début</span><input type="date" data-k="date_debut" value="'+esc(x.date_debut||'')+'"></label>'+
         '<label class="q"><span>Durée</span><select data-k="duree_sem">'+[16,20,24,26].map(function(n){return '<option value="'+n+'"'+(n==x.duree_sem?' selected':'')+'>'+(n==26?'6 mois':n+' sem.')+'</option>'}).join('')+'</select></label></div>'+
+        '<label class="q"><span>Lien de son fichier de suivi (optionnel)</span><input type="url" data-k="lien_suivi" placeholder="https://docs.google.com/…" value="'+esc(x.lien_suivi||'')+'"></label>'+
         '<div class="row"><button class="btn ghost" type="button" data-co="save">Enregistrer</button><button class="btn ghost" type="button" data-co="actif">'+(x.actif?'Désactiver':'Réactiver')+'</button></div></div>';
     }).join('');
   });
 }
 $('#co-list').addEventListener('click',function(e){
   var b=e.target.closest('[data-co]');if(!b)return;var c=b.closest('[data-email]'),em=c.getAttribute('data-email'),maj={};
-  if(b.getAttribute('data-co')==='save'){maj.date_debut=$('[data-k=date_debut]',c).value||null;maj.duree_sem=+$('[data-k=duree_sem]',c).value}
+  if(b.getAttribute('data-co')==='save'){maj.date_debut=$('[data-k=date_debut]',c).value||null;maj.duree_sem=+$('[data-k=duree_sem]',c).value;var l=$('[data-k=lien_suivi]',c).value.trim();if(l&&!/^https:\/\//.test(l)){toast('Le lien doit commencer par https://');return}maj.lien_suivi=l||null}
   else maj.actif=c.classList.contains('off');
   sb.from('eleves').update(maj).eq('email',em).then(function(r){toast(r.error?'Erreur, réessaie':'Enregistré');coachRendu()});
 });
