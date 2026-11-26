@@ -136,6 +136,8 @@
 <script>
 (function(){
   /* ---------- Contenu : recopié des leçons Notion « Rédigé V1 » (base Leçons). ---------- */
+  /* Outils cités dans les leçons : un seul endroit à changer si on quitte un outil (ex. l'app de suivi). */
+  var TOOLS={app:'Fitbrothers',cours:'Systeme.io'};
   var MODULES={
     c01:{
       code:'C01',title:'Comment fonctionne ton coaching LF',time:'10 min',
@@ -262,7 +264,7 @@
           "<p><b>Au début</b>, tu n'improvises pas : tu utilises les alternatives prévues dans ton plan ou tu demandes à Leni.</p>"+
           "<p><b>Une fois que tu maîtrises les bases</b>, la hiérarchie LF pour une substitution :</p>"+
           "<ul class='plain'><li>1. Préserver le <b>rôle du repas</b> (ex. repas avant séance) et les contraintes de la journée.</li><li>2. Retrouver un <b>apport énergétique</b> proche.</li><li>3. Affiner les <b>macros</b> selon ton niveau de précision.</li></ul>"+
-          "<p class='key'>Et toujours : tu le signales (journal Fitbrothers ou bilan), pour que Leni lise correctement tes données.</p>",
+          "<p class='key'>Et toujours : tu le signales (journal "+TOOLS.app+" ou bilan), pour que Leni lise correctement tes données.</p>",
           quiz:{q:"Cas rapide : plus de poulet à la maison. Que fais-tu ?",o:["Je saute la protéine de ce repas","Je prends l'alternative prévue (dinde, poisson blanc) en quantité équivalente et je le note","Je prends ce que je trouve sans le dire"],a:1,
             fb:"Tu utilises l'alternative prévue, en quantité équivalente, et tu la notes pour que Leni lise correctement tes données."}},
         {t:"Hydratation et repas hors de chez toi",proof:'Stratégie LF',html:
@@ -273,7 +275,7 @@
         {t:"Action : une substitution bien faite",proof:'Stratégie LF',action:true,html:
           "<p>Cette semaine, fais une substitution d'aliment en suivant la hiérarchie de la leçon 3, puis signale-la.</p>",
           builder:[["Aliment prévu","Ex. : 150 g de poulet"],["Aliment choisi","Ex. : 150 g de dinde"],["Quantité","Ex. : même quantité"],["Raison","Ex. : plus de poulet à la maison"]],
-          after:"<p>Envoie ce message dans ton journal Fitbrothers ou ton prochain bilan. Leni te fait un retour au bilan.</p>"}
+          after:"<p>Envoie ce message dans ton journal "+TOOLS.app+" ou ton prochain bilan. Leni te fait un retour au bilan.</p>"}
       ]},
     c06:{
       code:'C06',title:'Santé, signaux d\'alerte et limites du coaching',time:'10 min',draft:true,sante:1,
@@ -326,7 +328,7 @@
           check:["1. La tâche a-t-elle changé (machine, réglage, ordre, amplitude) ?","2. L'effort est-il réellement produit ?","3. Le contexte : sommeil, stress, alimentation, déficit calorique","4. La durée : quelques séances ne suffisent pas pour parler de plateau"],
           after:"<p class='key'>En déficit, maintenir ses performances peut déjà être un bon résultat. « C'est dans ta tête » n'est jamais l'explication par défaut.</p>"},
         {t:"Action : un exercice qui progresse, un qui stagne",proof:'Stratégie LF',action:true,html:
-          "<p>Dans ton historique Fitbrothers, choisis un exercice qui progresse vraiment et un qui stagne. Pour chacun, propose une hypothèse en une phrase en utilisant la checklist de la leçon 3.</p>",
+          "<p>Dans ton historique "+TOOLS.app+", choisis un exercice qui progresse vraiment et un qui stagne. Pour chacun, propose une hypothèse en une phrase en utilisant la checklist de la leçon 3.</p>",
           builder:[["Exercice qui progresse","Lequel ?"],["Hypothèse (une phrase)","Pourquoi il progresse vraiment, à tâche constante ?"],["Exercice qui stagne","Lequel ?"],["Hypothèse (une phrase)","Tâche, effort, contexte ou durée ?"]],
           after:"<p>Envoie ce message dans ton prochain retour. Leni te fait un retour au bilan.</p>"}
       ]},
@@ -615,7 +617,7 @@
       st.done=1;save();track('module terminé');
       var nx=ORDER[ORDER.indexOf(id)+1];if(nx&&MODULES[nx].draft)nx=null;
       if(auto){var nk=nextMod();document.getElementById('lfa-end').innerHTML="<div class='end'><span class='label'>Module "+M.code+" terminé</span><h2>Bravo</h2><p>Si tu as cliqué « Envoyer à Leni » sur l'exercice, Leni l'a reçu et te fait un retour au bilan.</p>"+(nk?"<button class='btn' id='lfa-nx'>Module suivant : "+MODULES[nk].code+"</button>":"<p>Tu es à jour. Le prochain module arrive lundi.</p>")+"</div>";var b=document.getElementById('lfa-nx');if(b)b.onclick=function(){open(nk);top()};return}
-      document.getElementById('lfa-end').innerHTML="<div class='end'><span class='label'>Module "+M.code+" terminé</span><h2>Il te reste l'action réelle</h2><p>Envoie ton action dans ton prochain retour : Leni te fait un retour au bilan.</p><p class='key'>Dernière étape : clique sur « Terminer la leçon » en haut de la page du cours (bouton Systeme.io). C'est ce qui fait avancer ta barre de progression.</p>"+(nx?"<p>Prochain module : <b>"+MODULES[nx].code+" · "+esc(MODULES[nx].title)+"</b>, dans la leçon suivante du cours.</p>":"")+"</div>";
+      document.getElementById('lfa-end').innerHTML="<div class='end'><span class='label'>Module "+M.code+" terminé</span><h2>Il te reste l'action réelle</h2><p>Envoie ton action dans ton prochain retour : Leni te fait un retour au bilan.</p><p class='key'>Dernière étape : clique sur « Terminer la leçon » en haut de la page du cours (bouton "+TOOLS.cours+"). C'est ce qui fait avancer ta barre de progression.</p>"+(nx?"<p>Prochain module : <b>"+MODULES[nx].code+" · "+esc(MODULES[nx].title)+"</b>, dans la leçon suivante du cours.</p>":"")+"</div>";
     };
   }
   function fallback(txt){var a=document.createElement('textarea');a.value=txt;document.body.appendChild(a);a.select();try{document.execCommand('copy')}catch(e){}document.body.removeChild(a)}
