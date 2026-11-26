@@ -209,6 +209,9 @@ a.line:active{transform:scale(.985);background:var(--carte-2)}
 .co-el .co-top small{color:var(--doux);overflow-wrap:anywhere}
 .co-el.off{opacity:.55}
 .co-barre{display:grid;gap:10px}
+.co-rev{border-top:1px solid var(--filet);padding-top:10px}
+.co-rev summary{cursor:pointer;font-size:15px}
+.co-rev summary small{color:var(--doux)}
 .co-barre input[type=search]{width:100%;min-width:0;padding:12px 14px;border-radius:12px;border:1px solid var(--filet);background:rgba(0,0,0,.15);color:var(--creme);font:inherit;font-size:16px;-webkit-appearance:none;appearance:none}
 .co-barre .chips span{font-size:13px;padding:7px 11px}
 .co-tbl-wrap{display:none}
@@ -309,6 +312,56 @@ a.line:active{transform:scale(.985);background:var(--carte-2)}
 .academy-box .top{position:static;z-index:auto;background:none;backdrop-filter:none;-webkit-backdrop-filter:none}
 .academy-box .btn{white-space:normal;min-height:0;box-shadow:none}
 .academy-box .chip{backdrop-filter:none;-webkit-backdrop-filter:none}
+/* ===== Formation au style de l'app (verre translucide, coins arrondis) =====
+   academy.html garde son style d'origine pour Systeme.io ; dans l'app, tout est repris ici.
+   Le contrôle avant mise en ligne refuse toute bordure de 2 px ou plus, tout coin carré sur un cadre
+   et toute police Verdana dans la Formation. */
+.academy-box #lfa{--paper:transparent;--sheet:rgba(235,227,208,.06);--ink:var(--creme);--ink-soft:var(--doux);--line:var(--filet);--display:var(--display);--body:var(--body);
+  background:none;font-family:var(--body);font-size:16px;line-height:1.55}
+.academy-box #lfa .wrap{padding:0 16px 24px;max-width:none}
+.academy-box #lfa .top{display:none} /* l'en-tête de l'app suffit */
+.academy-box #lfa h1,.academy-box #lfa h2,.academy-box #lfa h3{text-transform:none;letter-spacing:-.01em;line-height:1.1}
+.academy-box #lfa .hero{padding-block:8px 18px}
+.academy-box #lfa .hero h1{font-size:clamp(30px,7vw,40px);font-weight:800}
+.academy-box #lfa .label{font-size:11px;letter-spacing:.16em;font-weight:600;color:var(--doux)}
+.academy-box #lfa .chip{border:1px solid var(--filet);border-radius:999px;padding:4px 10px;background:var(--lueur)}
+/* progression des leçons : pastilles arrondies */
+.academy-box #lfa .steps{gap:6px;margin-block:4px 18px}
+.academy-box #lfa .steps button{height:8px;border:0;border-radius:999px;background:rgba(235,227,208,.14);font-size:0;color:transparent}
+.academy-box #lfa .steps button.done{background:rgba(235,227,208,.45)}
+.academy-box #lfa .steps button.on{background:var(--creme)}
+/* écran de leçon = une carte de verre */
+.academy-box #lfa .screen{border:1px solid var(--filet);border-radius:var(--r);overflow:hidden;background:linear-gradient(180deg,var(--carte-2),var(--carte) 70%);box-shadow:var(--ombre)}
+.academy-box #lfa .screen-head{background:rgba(235,227,208,.05);padding:16px 18px;border-bottom:1px solid var(--filet);gap:4px 12px}
+.academy-box #lfa .screen-head .n{font-size:13px;font-weight:700;letter-spacing:.12em;color:var(--doux);flex-basis:100%}
+.academy-box #lfa .screen-head h2{font-size:clamp(21px,5vw,26px);font-weight:700;min-width:0}
+.academy-box #lfa .screen-body{padding:18px;gap:14px}
+.academy-box #lfa .proof{border:1px solid var(--filet);border-radius:999px;padding:3px 10px;font-weight:600;background:var(--lueur)}
+.academy-box #lfa .key{border:0;border-radius:var(--r-s);background:rgba(235,227,208,.08);padding:12px 14px;font-weight:600;box-shadow:inset 3px 0 0 var(--creme)}
+.academy-box #lfa .vid video,.academy-box #lfa .loom{border:1px solid var(--filet);border-radius:var(--r-s);overflow:hidden}
+.academy-box #lfa .chap button{border:1px solid var(--filet);border-radius:999px;padding:6px 12px;background:var(--lueur)}
+.academy-box #lfa .loop div,.academy-box #lfa .vs div{border:1px solid var(--filet);border-radius:var(--r-s);background:var(--lueur)}
+.academy-box #lfa .vs div.good{border-color:rgba(235,227,208,.45)}
+.academy-box #lfa .case,.academy-box #lfa .end,.academy-box #lfa .who,.academy-box #lfa .check,.academy-box #lfa .toc{border:1px solid var(--filet);border-radius:var(--r);overflow:hidden;background:var(--lueur)}
+.academy-box #lfa .opts button{border:1px solid var(--filet);border-radius:var(--r-s);background:rgba(0,0,0,.12)}
+.academy-box #lfa .opts button.right{background:var(--creme);color:var(--petrole)}
+.academy-box #lfa .fb{border-top:1px solid var(--filet)}
+.academy-box #lfa .check label{border-bottom:1px solid var(--filet)}
+/* champs à remplir : étiquette au-dessus, champ vide, aide en gris italique bien distincte d'une réponse */
+.academy-box #lfa .builder label{font-size:13px;letter-spacing:.04em;text-transform:none;font-weight:600;color:var(--creme);gap:6px}
+.academy-box #lfa .builder textarea{border:1px solid rgba(235,227,208,.22);border-radius:var(--r-s);background:rgba(0,0,0,.18);padding:12px 14px;min-height:84px;font-size:16px}
+.academy-box #lfa .builder textarea::placeholder{color:rgba(169,182,176,.6);font-style:italic;opacity:1}
+.academy-box #lfa .builder textarea:focus{outline:none;border-color:var(--creme)}
+.academy-box #lfa .who input{border:1px solid rgba(235,227,208,.22);border-radius:var(--r-s);background:rgba(0,0,0,.18)}
+.academy-box #lfa .out{border:1px solid var(--filet);border-radius:var(--r);overflow:hidden;background:rgba(0,0,0,.12)}
+.academy-box #lfa .out-head{background:rgba(235,227,208,.08);color:var(--doux)}
+.academy-box #lfa .out-head button{background:var(--creme);color:var(--petrole);border-radius:999px;padding:5px 12px}
+/* boutons comme ceux de l'app */
+.academy-box #lfa .btn{border:0;border-radius:14px;text-transform:none;letter-spacing:.01em;font-size:15px;font-weight:700;padding:14px 20px;background:var(--creme);color:var(--petrole)}
+.academy-box #lfa .btn.ghost{background:rgba(235,227,208,.08);color:var(--creme);border:1px solid rgba(235,227,208,.22)}
+.academy-box #lfa .nav{flex-wrap:wrap}
+.academy-box #lfa .toc a{border-bottom:1px solid var(--filet);padding:14px 16px}
+.academy-box #lfa .toc a span{font-weight:700;color:var(--doux)}
 .retour{display:grid;place-items:center;width:36px;height:36px;border-radius:999px;background:var(--lueur);border:1px solid var(--filet);color:var(--creme);flex:none;padding:0;cursor:pointer}
 .retour[hidden]{display:none}
 .retour svg{width:20px;height:20px}
@@ -715,6 +768,7 @@ footer{font-size:11px;color:var(--doux);text-align:center;padding-top:4px}
       </div>
       <button class="btn block" type="submit">Ajouter l'élève</button>
     </form>
+    <div class="card" id="co-revoir" hidden></div>
     <div class="co-barre">
       <input type="search" id="co-q" placeholder="Rechercher un élève" autocomplete="off" aria-label="Rechercher un élève">
       <div class="chips" id="co-filtres">
@@ -836,7 +890,7 @@ var GUIDES = [
 
 var ETAPES = [
   {id:'contrat',   t:'Signer ton contrat', d:"Tu l'as reçu par e-mail après l'appel. Vérifie aussi tes spams.", qui:'Toi'},
-  {id:'start',     t:'Écrire « LF START » sur WhatsApp', d:"Au numéro que je t'ai donné pendant l'appel. Le message d'accueil arrive tout de suite.", qui:'Toi'},
+  {id:'start',     t:'Écrire « LF START » sur WhatsApp', d:"Au numéro que je t'ai donné pendant l'appel. Le message d'accueil arrive tout de suite. Si tu es connecté ici, c'est que c'est fait : l'étape se coche toute seule.", qui:'Toi'},
   {id:'bienvenue', t:'Regarder la vidéo de bienvenue', d:'Comment on va travailler ensemble pendant 6 mois.', qui:'Toi', l:'bienvenue', b:'Voir la vidéo'},
   {id:'academy',   t:"Commencer l'Academy : C01 à C03", d:'Ton accès arrive par e-mail. Ces 3 modules suffisent avant de démarrer.', qui:'Toi', l:'academy', b:"Ouvrir l'Academy"},
   {id:'appli',     t:"Installer l'app de suivi (Fitbrothers)", d:"Tu reçois l'invitation par e-mail. Le tuto montre le poids du matin et le bilan de la semaine.", qui:'Toi', l:'tutoSuivi', b:'Voir le tuto'},
@@ -1056,8 +1110,10 @@ function chargerEtapes(){
     store('lf-onboarding',done);autoEtapes();renderSteps(false);
   },function(){});
 }
-/* Ce que l'app voit elle-même : Formation C01 à C03 terminés -> étape cochée toute seule */
+/* Ce que l'app voit elle-même : connecté avec son compte élève -> LF START déjà envoyé (c'est par là qu'il reçoit l'app) ;
+   Formation C01 à C03 terminés -> étape cochée toute seule */
 function autoEtapes(){
+  if(MOI.role==='eleve'&&!done.start){done.start=1;store('lf-onboarding',done);syncEtape('start',true,'auto');renderSteps(false)}
   var a=store('lf-academy-v1')||{};
   if(!done.academy&&['c01','c02','c03'].every(function(k){return a[k]&&a[k].done})){done.academy=1;store('lf-onboarding',done);syncEtape('academy',true,'auto');renderSteps(false);toast('Formation C01 à C03 terminée : étape cochée')}
 }
@@ -1117,6 +1173,8 @@ function satisRendu(){
   var box=$('#satis'),e=satisEtat(),acc=$('#satis-accueil');
   acc.hidden=!(e&&e.now);
   if(e&&e.now)$('#satis-accueil-t').textContent='Ton avis · '+SATIS[e.v];
+  if(MOI.role==='eleve'&&!(MOI.eleve&&MOI.eleve.date_debut)){box.hidden=true;acc.hidden=true;return} // date pas encore posée par Leni : on ne demande rien à l'élève
+  box.hidden=false;
   if(!e||satisRendu.edit){
     var d=store('lf-debut')||'',sem=store('lf-duree')||26;
     box.className='card satis';
@@ -1195,6 +1253,21 @@ function chargerFiche(n){
 }
 /* Formation : même fichier que l'Academy Systeme.io (academy.html du dépôt), affiché dans l'app.
    L'e-mail de l'élève connecté est prérempli pour le suivi et « Envoyer à Leni ». */
+/* Formation : quand l'élève clique « Envoyer à Leni », Leni reçoit une notification (groupée, 1 par jour max).
+   Les modules terminés sont recopiés pour être visibles dans l'espace coach. */
+document.addEventListener('click',function(e){
+  var b=e.target.closest&&e.target.closest('#lfa-send');if(!b||!sb||MOI.role!=='eleve')return;
+  setTimeout(function(){if(!b.disabled)return;
+    var l=(($('#lfa .screen-head .n')||{}).textContent||($('#lfa-code')||{}).textContent||'').trim(),o=$('#lfa-out');
+    if(l)sb.rpc('lf_envoi_exercice',{p_lecon:l,p_texte:o?o.textContent:''}).then(function(){},function(){})},50);
+});
+function syncFormation(){
+  if(!sb||MOI.role!=='eleve')return;var a=store('lf-academy-v1')||{},faits=store('lf-formation-sync')||{},n=[];
+  Object.keys(a).forEach(function(k){if(/^[a-z]\d\d$/.test(k)&&a[k]&&a[k].done&&!faits[k])n.push(k)});
+  if(!n.length)return;
+  sb.from('formation_eleve').upsert(n.map(function(k){return {email:MOI.email,module:k.toUpperCase()}}),{onConflict:'email,module',ignoreDuplicates:true}).then(function(r){if(!r.error){n.forEach(function(k){faits[k]=1});store('lf-formation-sync',faits)}},function(){});
+}
+window.addEventListener('focus',syncFormation);
 function chargerFormation(){
   var root=$('#lf-root');if(root.dataset.ok==='1')return;
   try{var k='lf-academy-v1',st=JSON.parse(localStorage.getItem(k)||'{}')||{};if(MOI.email&&!st._mail){st._mail=MOI.email;localStorage.setItem(k,JSON.stringify(st))}}catch(e){}
@@ -1360,20 +1433,33 @@ navigator.serviceWorker&&navigator.serviceWorker.addEventListener&&navigator.ser
 /* Espace coach */
 function coachRendu(){
   var box=$('#co-list');if(!sb)return;
-  Promise.all([sb.from('eleves').select('*').order('actif',{ascending:false}).order('cree_le',{ascending:false}),sb.from('etapes_eleve').select('email,etape,coche,par,quand'),sb.from('reglages').select('email,push,maj_le')]).then(function(rr){
+  Promise.all([sb.from('eleves').select('*').order('actif',{ascending:false}).order('cree_le',{ascending:false}),sb.from('etapes_eleve').select('email,etape,coche,par,quand'),sb.from('reglages').select('email,push,maj_le'),sb.from('formation_eleve').select('email,module,fait_le,envoye_le'),sb.from('formation_envois').select('id,email,lecon,texte,envoye_le,vu_le').is('vu_le',null).order('envoye_le')]).then(function(rr){
+    revoirRendu((rr[4]&&rr[4].data)||[],(rr[0]&&rr[0].data)||[]);
     var r=rr[0];if(r.error){box.innerHTML='<p class="soft">Liste indisponible.</p>';return}
     var l=r.data||[],EE={},RG={};
     (rr[1].data||[]).forEach(function(x){(EE[x.email]=EE[x.email]||{})[x.etape]=x});
     (rr[2].data||[]).forEach(function(x){RG[x.email]=x});
+    var FO={};((rr[3]&&rr[3].data)||[]).forEach(function(x){(FO[x.email]=FO[x.email]||[]).push(x)});
     l.forEach(function(x){var f={};(x.etapes_faites||[]).forEach(function(id){f[id]=1});var m=EE[x.email]||{};Object.keys(m).forEach(function(id){if(m[id].coche)f[id]=1;else delete f[id]});x._f=f;x._m=m;
       x._n=Object.keys(f).filter(function(id){return ETAPES.some(function(e){return e.id===id})}).length;
       var dates=Object.keys(m).filter(function(id){return m[id].par==='eleve'||m[id].par==='auto'}).map(function(id){return Date.parse(m[id].quand)});if(RG[x.email])dates.push(Date.parse(RG[x.email].maj_le));
-      x._act=dates.length?Math.max.apply(null,dates):0;x._push=!!(RG[x.email]&&RG[x.email].push);
+      x._act=dates.length?Math.max.apply(null,dates):0;x._push=!!(RG[x.email]&&RG[x.email].push);x._fo=(FO[x.email]||[]).sort(function(a,b){return a.module<b.module?-1:1});
       x._sem=x.date_debut?Math.floor((Date.now()-Date.parse(x.date_debut))/6048e5)+1:null});
     CO.l=l;coachAffiche();
   });
 }
 var CO={l:[],sel:null,tri:'debut'};
+/* « À revoir » : exercices de formation envoyés par les élèves, traités le jour du bilan */
+function revoirRendu(l,el){
+  var box=$('#co-revoir'),P={};el.forEach(function(x){P[x.email]=x.prenom});
+  if(!l.length){box.hidden=true;return}
+  box.hidden=false;
+  box.innerHTML='<div class="eyebrow">À revoir au bilan · '+l.length+' exercice'+(l.length>1?'s':'')+' de formation</div>'+l.map(function(x){
+    return '<details class="co-rev"><summary><b>'+esc(P[x.email]||x.email)+'</b> · '+esc(x.lecon)+' <small>'+new Date(x.envoye_le).toLocaleDateString('fr-BE',{day:'numeric',month:'short'})+'</small></summary>'+
+      '<p style="white-space:pre-wrap;font-size:14px;margin:8px 0">'+esc(x.texte||'Action déclarée faite, sans texte.')+'</p><button class="btn ghost small" type="button" data-vu="'+x.id+'">Vu, retour fait</button></details>'}).join('');
+}
+$('#co-revoir').addEventListener('click',function(e){var b=e.target.closest('[data-vu]');if(!b)return;
+  sb.from('formation_envois').update({vu_le:new Date().toISOString()}).eq('id',+b.getAttribute('data-vu')).then(function(r){toast(r.error?'Erreur, réessaie':'Marqué comme vu');if(!r.error){b.closest('details').remove();if(!$('#co-revoir details'))$('#co-revoir').hidden=true}})});
 function coSem(x){if(x._sem===null)return '<span class="soft">Pas de date</span>';if(x._sem<1)return 'Démarre le '+new Date(x.date_debut).toLocaleDateString('fr-BE',{day:'numeric',month:'numeric'});if(x._sem>x.duree_sem)return 'Terminé';return 'S'+x._sem+' / '+x.duree_sem}
 function coAct(x){if(!x._act)return '<span class="soft">N\'a pas encore ouvert l\'app</span>';var j=Math.floor((Date.now()-x._act)/864e5);return '<span'+(j>=7?' class="co-alerte"':'')+'>'+(j<1?'Aujourd\'hui':(j<2?'Hier':'Il y a '+j+' j'))+'</span>'}
 function coachAffiche(){
@@ -1402,6 +1488,7 @@ $('#co-filtres').addEventListener('change',coachAffiche);
 function coCarte(x){
       return '<div class="card co-el'+(x.actif?'':' off')+(x.email===CO.sel?' sel':'')+'" data-email="'+esc(x.email)+'"><div class="co-top"><h3>'+esc(x.prenom)+'</h3><small>'+esc(x.email)+'</small></div>'+
         '<p class="soft" style="font-size:13px;margin:0">'+coSem(x)+' · '+coAct(x)+'</p>'+
+        '<p class="soft" style="font-size:13px;margin:0">Formation : '+(x._fo.length?x._fo.map(function(f){return esc(f.module)+(f.envoye_le?' (exercice envoyé)':'')}).join(', '):'aucun module terminé')+'</p>'+
 
         '<div class="grid2"><label class="q"><span>Début</span><input type="date" data-k="date_debut" value="'+esc(x.date_debut||'')+'"></label>'+
         '<label class="q"><span>Durée</span><select data-k="duree_sem">'+[16,20,24,26].map(function(n){return '<option value="'+n+'"'+(n==x.duree_sem?' selected':'')+'>'+(n==26?'6 mois':n+' sem.')+'</option>'}).join('')+'</select></label></div>'+
@@ -1546,7 +1633,7 @@ function route(){
   if(v==='coach'){coachRendu();ctRendu()}
   if(v==='notifs'){notifsRendu();compterNotifs()}
   if(v==='parametres')paramsRendu();
-  if(v==='demarrer'||v==='formation')autoEtapes();
+  if(v==='demarrer'||v==='formation'){autoEtapes();syncFormation()}
   if(PILE[PILE.length-2]===v)PILE.pop();else if(PILE[PILE.length-1]!==v)PILE.push(v);
   majRetour();
   if(v==='connexion'&&MOI.role!=='ouvert'&&!sb)cxErr('Connexion indisponible pour le moment (pas de réseau ?).');

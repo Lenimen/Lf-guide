@@ -122,3 +122,10 @@ create table if not exists public.reglages(
 --                 et annonce les nouveaux modules de formation le jour de leur sortie.
 -- pg_cron : 'lf-relances' (40 16 * * *) puis 'lf-notifs-push' (0 17 * * *, net.http_post vers functions/v1/notifs-push).
 -- Vérification des contrats DocuSeal : tâche planifiée Claude, 17:23 heure de Bruxelles.
+
+-- ===== Formation (26/11/2026) =====
+-- formation_eleve(email, module, fait_le, envoye_le, vu_le) : modules terminés (recopiés depuis le téléphone de l'élève).
+-- formation_envois(id, email, lecon, texte, envoye_le, vu_le) : « Envoyer à Leni » ; liste « À revoir » de l'espace coach.
+-- lf_envoi_exercice(p_lecon, p_texte) (security definer, élève) : enregistre l'envoi et crée une notification pour le coach (type 'eleve').
+-- lf_relances() : relance d'étape (jamais « start » ni « video »), nouveaux modules, et avis sur le coaching
+--   (fenêtres 3e semaine, mi-parcours, 3 semaines avant la fin, calculées sur date_debut et duree_sem).
