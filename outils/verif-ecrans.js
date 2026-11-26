@@ -20,11 +20,13 @@ const ELEVES=[{email:'eleve.avec.un.long.email@exemple.com',prenom:'Maximilien',
 function faux(contenus,eleves){
   function q(t){var f={t:t,cle:null};var o={select:()=>o,order:()=>o,like:()=>o,upsert:()=>o,update:()=>o,insert:()=>o,in:()=>o,is:()=>o,not:()=>o,gte:()=>o,limit:()=>o,
     eq:(k,v)=>{if(k==='cle')f.cle=v;return o},maybeSingle:()=>{f.one=1;return o},
-    then:(ok,ko)=>Promise.resolve(t==='formation_envois'?{data:[{id:1,email:'b@exemple.com',lecon:'C01.4',texte:'Contexte : mardi, séance Legs.\nObservation : la presse était prise.',envoye_le:'2026-11-25T18:00:00Z',vu_le:null}]}:t==='notifs'?{data:[{id:1,type:'etape',titre:'Ton contrat n\'est pas encore signé',texte:'Cherche l\'e-mail de DocuSeal, vérifie aussi tes spams. Une fois signé, recoche l\'étape.',lien:'https://wa.me/32488870608',cree_le:new Date().toISOString(),lue_le:null},{id:2,type:'leni',titre:'Pense à ta photo de face demain matin',texte:null,lien:null,cree_le:'2026-11-20T10:00:00Z',lue_le:'2026-11-21T10:00:00Z'}]}:t==='etapes_eleve'?{data:[{email:'b@exemple.com',etape:'contrat',coche:false,par:'verif',quand:'2026-11-25T18:00:00Z',message:'Ton contrat n\'est pas encore signé sur DocuSeal.',lien:'https://wa.me/32488870608'},{email:'b@exemple.com',etape:'start',coche:true,par:'eleve',quand:'2026-11-24T18:00:00Z'}]}:t==='eleves'?{data:eleves}:t==='contenus'?(f.one?(contenus[f.cle]?{data:{mime:'text/html',donnees:contenus[f.cle],base64:false}}:{data:null}):{data:Object.keys(contenus).map(k=>({cle:k}))}):{data:[]}).then(ok,ko)};return o}
+    then:(ok,ko)=>Promise.resolve(t==='paiements'?{data:[{id:1,email:'b@exemple.com',echeance:'2026-10-12',montant:400,moyen:'stripe',paye_le:'2026-10-12',lien:null},{id:2,email:'b@exemple.com',echeance:'2026-11-12',montant:400,moyen:'wero',paye_le:null,lien:null},{id:3,email:'b@exemple.com',echeance:'2026-12-12',montant:400,moyen:'stripe',paye_le:null,lien:'https://buy.stripe.com/test_exemple'}]}:t==='formation_envois'?{data:[{id:1,email:'b@exemple.com',lecon:'C01.4',texte:'Contexte : mardi, séance Legs.\nObservation : la presse était prise.',envoye_le:'2026-11-25T18:00:00Z',vu_le:null}]}:t==='notifs'?{data:[{id:1,type:'etape',titre:'Ton contrat n\'est pas encore signé',texte:'Cherche l\'e-mail de DocuSeal, vérifie aussi tes spams. Une fois signé, recoche l\'étape.',lien:'https://wa.me/32488870608',cree_le:new Date().toISOString(),lue_le:null},{id:2,type:'leni',titre:'Pense à ta photo de face demain matin',texte:null,lien:null,cree_le:'2026-11-20T10:00:00Z',lue_le:'2026-11-21T10:00:00Z'}]}:t==='etapes_eleve'?{data:[{email:'b@exemple.com',etape:'contrat',coche:false,par:'verif',quand:'2026-11-25T18:00:00Z',message:'Ton contrat n\'est pas encore signé sur DocuSeal.',lien:'https://wa.me/32488870608'},{email:'b@exemple.com',etape:'start',coche:true,par:'eleve',quand:'2026-11-24T18:00:00Z'}]}:t==='eleves'?{data:eleves}:t==='contenus'?(f.one?(contenus[f.cle]?{data:{mime:'text/html',donnees:contenus[f.cle],base64:false}}:{data:null}):{data:Object.keys(contenus).map(k=>({cle:k}))}):{data:[]}).then(ok,ko)};return o}
   return {from:q,functions:{invoke:()=>Promise.resolve({data:{ok:true}})},auth:{signOut:()=>Promise.resolve(),onAuthStateChange:()=>{}}};
 }
-const ROLES={visiteur:['accueil','appel','guides','contact','connexion','mensurations','potentiel','posing'],eleve:['accueil','demarrer','formation','ressources','bikini','echauffement','parrainage','tuto','vacuum','cheatmeals','notifs','parametres'],coach:['coach','notifs','accueil','ressources']};
+const ROLES={visiteur:['accueil','appel','guides','contact','connexion','mensurations','potentiel','posing'],eleve:['accueil','paiements','demarrer','formation','ressources','bikini','echauffement','parrainage','tuto','vacuum','cheatmeals','notifs','parametres'],coach:['coach','notifs','accueil','ressources']};
 (async()=>{const b=await chromium.launch();let pb=0;const log=m=>{console.log(m)};
+/* Mise à jour : le service worker doit revalider les pages (GitHub Pages met max-age=600, sinon l'ancienne version reste 10 min) */
+if(!/cache:'no-cache'/.test(fs.readFileSync(path.join(APP,'sw.js'),'utf8'))){pb++;log('✗ sw.js : les pages ne sont pas revalidées (cache:\'no-cache\' manquant), une mise en ligne peut rester invisible 10 min')}else log('✓ sw.js revalide les pages à chaque ouverture');
 for(const w of [390,320,820,1280,'390-app-installee']){
   const W=parseInt(w),ENC=typeof w==='string';
   const p=await b.newPage({viewport:{width:W,height:844}});const errs=[];p.on('pageerror',e=>errs.push(e.message+(process.env.PILE?' @ '+(e.stack||'').split('\n').slice(1,3).join(' '):'')));
@@ -121,4 +123,31 @@ for(const w of [390,320,820,1280,'390-app-installee']){
   if(errs.length){pb++;log('✗ erreurs JS ('+w+') : '+errs.join(' | '))}
   await p.close();
 }
+/* Aperçu coach (Visiteur / Élève) : bandeau visible, rôle simulé, et AUCUNE écriture (ni base, ni téléphone de Leni). */
+{const p=await b.newPage({viewport:{width:390,height:844}});const errs=[];p.on('pageerror',e=>errs.push(e.message));
+  await p.route(/supabase-js/,r=>r.fulfill({contentType:'text/javascript',body:`window.__ecritures=[];window.supabase={createClient:function(){
+    function q(t){var o={},un=0;['select','order','like','in','is','not','gte','limit','eq'].forEach(function(k){o[k]=function(){return o}});o.maybeSingle=function(){un=1;return o};
+      ['insert','upsert','update','delete'].forEach(function(k){o[k]=function(){window.__ecritures.push(t+'.'+k);return o}});
+      o.then=function(ok,ko){var e={email:'b@exemple.com',prenom:'Noah',date_debut:'2026-06-29',duree_sem:26,lien_suivi:null,lien_contrat:null,etapes_faites:[],actif:true};return Promise.resolve(t==='eleves'?{data:un?e:[e]}:{data:un?null:[]}).then(ok,ko)};return o}
+    return {from:q,rpc:function(n){if(n!=='mon_role')window.__ecritures.push('rpc.'+n);return Promise.resolve({data:n==='mon_role'?'coach':null})},functions:{invoke:function(){window.__ecritures.push('fn');return Promise.resolve({data:null})}},
+      auth:{getSession:function(){return Promise.resolve({data:{session:{user:{email:'coach@exemple.com'}}}})},onAuthStateChange:function(){},signOut:function(){return Promise.resolve()}}}}};`}));
+  const o=[];
+  for(const a of [{role:'eleve',email:'b@exemple.com'},{role:'eleve'},{role:'visiteur'}]){
+    await p.goto('http://localhost:8768/');await p.evaluate(a=>{localStorage.setItem('lf-onboarding','{"temoin":1}');sessionStorage.setItem('lf-apercu',JSON.stringify(a))},a);
+    await p.reload();await p.waitForTimeout(900);
+    const r=await p.evaluate(async a=>{const o=[];const ban=document.getElementById('apercu');if(!ban||ban.hidden)o.push('bandeau d\'aperçu absent');
+      const role=document.body.dataset.role||'';const pill=document.getElementById('who-link').textContent.trim();
+      if(a.role==='visiteur'&&pill!=='Se connecter')o.push('aperçu visiteur : bouton du haut « '+pill+' »');
+      if(a.role==='eleve'){location.hash='#demarrer';await new Promise(r=>setTimeout(r,300));const c=document.querySelector('#steps [data-step]');if(c){c.click();await new Promise(r=>setTimeout(r,300))}
+        if(document.body.dataset.vue!=='demarrer')o.push('aperçu élève : Démarrer ne s\'ouvre pas');}
+      if(window.__ecritures.length)o.push('écriture en base pendant l\'aperçu : '+window.__ecritures.join(', '));
+      if(localStorage.getItem('lf-onboarding')!=='{"temoin":1}')o.push('le téléphone du coach a été modifié pendant l\'aperçu');
+      return o},a);
+    await Promise.all([p.waitForNavigation({timeout:5000}).catch(()=>{}),p.click('#apercu-x').catch(()=>r.push('bouton « Revenir en coach » introuvable'))]);
+    if(await p.evaluate(()=>sessionStorage.getItem('lf-apercu')))r.push('« Revenir en coach » ne quitte pas l\'aperçu');
+    o.push(...r.map(x=>x+' ('+(a.email||a.role)+')'));await p.waitForTimeout(600);
+  }
+  if(errs.length)o.push('erreurs JS : '+errs.join(' | '));
+  if(o.length){pb++;log('✗ aperçu coach : '+o.join(' ; '))}else log('✓ aperçu coach : visiteur, élève type, élève choisi, sans aucune écriture');
+  await p.close();}
 await b.close();srv.close();process.exit(pb?1:0)})();

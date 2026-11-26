@@ -213,6 +213,21 @@ a.line:active{transform:scale(.985);background:var(--carte-2)}
 .co-el .co-top small{color:var(--doux);overflow-wrap:anywhere}
 .co-el.off{opacity:.55}
 .co-barre{display:grid;gap:10px}
+.pa-l{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 12px;align-items:center;padding:12px 0;border-bottom:1px solid var(--filet)}
+.pa-l:last-child{border-bottom:0}
+.pa-l b{font-size:15px}.pa-l small{grid-column:1/-1;color:var(--doux);font-size:13px}
+.pa-s{font-size:12px;font-weight:700;letter-spacing:.04em;padding:4px 10px;border-radius:999px;background:var(--lueur);border:1px solid var(--filet);white-space:nowrap}
+.pa-s.ok{background:rgba(235,227,208,.16)}.pa-s.ko{color:#E8B48A;border-color:rgba(232,180,138,.45)}
+.pa-l label{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--doux);white-space:nowrap}
+.pa-form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.pa-form input,.pa-form select{width:100%;min-width:0;padding:10px 12px;border-radius:10px;border:1px solid var(--filet);background:rgba(0,0,0,.15);color:var(--creme);font:inherit;font-size:16px;-webkit-appearance:none;appearance:none}
+.pa-form .large{grid-column:1/-1}
+.apercu-barre{position:fixed;left:12px;right:12px;bottom:calc(var(--tab-h) + 10px + env(safe-area-inset-bottom,0px));z-index:45;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 12px 10px 16px;border-radius:14px;background:var(--creme);color:var(--petrole);font-size:13px;font-weight:600;box-shadow:0 10px 30px -10px rgba(0,0,0,.6);max-width:560px;margin:0 auto}
+.apercu-barre[hidden]{display:none}
+.apercu-barre button{flex:none;border:0;border-radius:999px;background:var(--petrole);color:var(--creme);font:inherit;font-size:13px;padding:8px 12px;cursor:pointer}
+body.apercu main.view{padding-bottom:70px}
+.co-vue .row{flex-wrap:wrap}
+.co-vue select{flex:1 1 180px;min-width:0;padding:12px 14px;border-radius:12px;border:1px solid var(--filet);background:rgba(0,0,0,.15);color:var(--creme);font:inherit;font-size:16px;-webkit-appearance:none;appearance:none}
 .co-rev{border-top:1px solid var(--filet);padding-top:10px}
 .co-rev summary{cursor:pointer;font-size:15px}
 .co-rev summary small{color:var(--doux)}
@@ -494,6 +509,10 @@ footer{font-size:11px;color:var(--doux);text-align:center;padding-top:4px}
         <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/></svg></span>
         <div><h3>Me contacter</h3><p class="soft" style="font-size:13px">Instagram ou e-mail</p></div>
       </a>
+      <a class="card eleve-seul" href="#paiements">
+        <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20M6 15h4"/></svg></span>
+        <div><h3>Mes paiements</h3><p class="soft" style="font-size:13px">Échéances et statut</p></div>
+      </a>
       <a class="card eleve-seul" data-cfg="depart" href="#">
         <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 8h6M9 12h6M9 16h3"/></svg></span>
         <div><h3>Questionnaire de départ</h3><p class="soft" style="font-size:13px">Pour les nouveaux élèves</p></div>
@@ -769,7 +788,13 @@ footer{font-size:11px;color:var(--doux);text-align:center;padding-top:4px}
     <div class="page-head">
       <div class="eyebrow">Espace coach</div>
       <h1>Tes élèves</h1>
-      <p class="lede">Tu es connectée en coach. Ajoute ici chaque élève qui démarre : il pourra se connecter avec son e-mail. Désactive-le à la fin de son suivi.</p>
+      <p class="lede">Connexion en coach. Ajoute ici chaque élève qui démarre : il pourra se connecter avec son e-mail. Désactive-le à la fin de son suivi.</p>
+    </div>
+    <div class="card co-vue">
+      <div class="eyebrow">Voir l'app comme</div>
+      <p class="soft" style="font-size:14px;margin:0">En lecture seule : rien n'est modifié chez l'élève, et tu reviens en coach avec le bandeau en bas.</p>
+      <div class="row"><button class="btn ghost small" type="button" data-apercu="visiteur">Un visiteur</button><button class="btn ghost small" type="button" data-apercu="eleve">Un élève type</button></div>
+      <div class="row"><select id="apercu-el" aria-label="Choisir un élève"><option value="">Un élève précis…</option></select><button class="btn ghost small" type="button" data-apercu="choisi">Voir comme lui</button></div>
     </div>
     <div class="card" id="co-contenus">
       <div class="eyebrow">Contenus de l'espace élève</div>
@@ -789,12 +814,14 @@ footer{font-size:11px;color:var(--doux);text-align:center;padding-top:4px}
       <button class="btn block" type="submit">Ajouter l'élève</button>
     </form>
     <div class="card" id="co-revoir" hidden></div>
+    <div class="card" id="co-paie" hidden></div>
     <div class="co-barre">
       <input type="search" id="co-q" placeholder="Rechercher un élève" autocomplete="off" aria-label="Rechercher un élève">
       <div class="chips" id="co-filtres">
         <label><input type="radio" name="co-f" value="actifs" checked><span>Actifs</span></label>
         <label><input type="radio" name="co-f" value="demarrage"><span>Démarrage en cours</span></label>
         <label><input type="radio" name="co-f" value="calme"><span>Pas vus depuis 7 jours</span></label>
+        <label><input type="radio" name="co-f" value="fo"><span>Formation à l'arrêt</span></label>
         <label><input type="radio" name="co-f" value="inactifs"><span>Inactifs</span></label>
         <label><input type="radio" name="co-f" value="tous"><span>Tous</span></label>
       </div>
@@ -843,6 +870,16 @@ footer{font-size:11px;color:var(--doux);text-align:center;padding-top:4px}
     <button class="btn ghost block no-print" type="button" id="outil-pdf">Télécharger en PDF</button>
   </main>
 
+  <!-- ============ MES PAIEMENTS (élève, lecture seule) ============ -->
+  <main class="view" id="v-paiements" hidden>
+    <div class="page-head">
+      <div class="eyebrow">Espace élève</div>
+      <h1>Mes paiements</h1>
+      <p class="lede">Tes échéances et leur statut. Une question ? Écris-moi.</p>
+    </div>
+    <div class="stack" id="pa-body"><p class="soft">Chargement…</p></div>
+  </main>
+
   <!-- ============ FICHE NATIVE (contenu dans Supabase : fiche-<nom>.html) ============ -->
   <main class="view" id="v-fiche" hidden>
     <a class="back" href="#ressources">‹ Tes ressources</a>
@@ -860,6 +897,7 @@ footer{font-size:11px;color:var(--doux);text-align:center;padding-top:4px}
   <a href="#ressources" data-tab="ressources"><span class="ti"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg></span>Ressources</a>
 </nav></div>
 <div class="toast" id="toast" role="status"></div>
+<div class="apercu-barre" id="apercu" hidden role="status"><span id="apercu-t">Aperçu</span><button type="button" id="apercu-x">Revenir en coach</button></div>
 <div class="voile" id="verrou" hidden role="dialog" aria-modal="true" aria-labelledby="verrou-t">
   <div class="card">
     <div class="eyebrow">🔒 Espace élève</div>
@@ -980,11 +1018,50 @@ document.addEventListener('click',function(e){var a=e.target.closest&&e.target.c
   var m=a.getAttribute('data-lecon').split('.'),n=0;
   (function essai(){if(typeof window.lfaOpen==='function'){window.lfaOpen(m[0],+m[1]);window.scrollTo(0,0);return}if(++n<30)setTimeout(essai,100)})();
 });
+/* ================= PAIEMENTS =================
+   Table paiements : une ligne par échéance (date, montant, moyen, payée le, lien Stripe).
+   Lecture seule pour l'élève ; Leni coche « payé » (Wero, virement) et ajoute les échéances dans l'espace coach. */
+function euros(n){return (+n).toLocaleString('fr-BE',{minimumFractionDigits:0,maximumFractionDigits:2})+' €'}
+function jourFr(d){return new Date(d+'T12:00:00').toLocaleDateString('fr-BE',{day:'numeric',month:'long',year:'numeric'})}
+function paStatut(x){var auj=new Date().toISOString().slice(0,10);return x.paye_le?{c:'ok',t:'Payée'}:(x.echeance<auj?{c:'ko',t:'En retard'}:{c:'',t:'À venir'})}
+var MOYENS={stripe:'Carte (Stripe)',wero:'Wero',virement:'Virement',autre:'Autre'};
+function paiementsRendu(){
+  var box=$('#pa-body');if(!sb||!MOI.email){box.innerHTML='<p class="soft">Connecte-toi pour voir tes paiements.</p>';return}
+  sb.from('paiements').select('id,echeance,montant,moyen,paye_le,lien').eq('email',MOI.email).order('echeance').then(function(r){
+    var l=(r&&r.data)||[];if(r&&r.error){box.innerHTML='<p class="soft">Paiements indisponibles pour le moment.</p>';return}
+    if(!l.length){box.innerHTML='<div class="card"><p class="soft" style="margin:0">Rien à afficher pour l\'instant. Tes échéances apparaîtront ici.</p></div>';return}
+    var tot=0,paye=0;l.forEach(function(x){tot+=+x.montant;if(x.paye_le)paye+=+x.montant});
+    var pro=l.filter(function(x){return !x.paye_le})[0];
+    box.innerHTML='<div class="card cream"><div class="eyebrow">Ta formule</div><h3>'+(l.length>1?l.length+' échéances':'1 paiement')+' · '+euros(tot)+'</h3><p style="margin:0">Payé : '+euros(paye)+(tot-paye>0?' · Reste : '+euros(tot-paye):' · Tout est réglé')+'</p>'+
+      (pro&&pro.lien?'<a class="btn dark block" href="'+esc(pro.lien)+'" target="_blank" rel="noopener">Payer l\'échéance du '+esc(jourFr(pro.echeance))+'</a>':'')+'</div>'+
+      '<div class="card"><div class="eyebrow">Tes échéances</div><div>'+l.map(function(x){var st=paStatut(x);
+        return '<div class="pa-l"><b>'+esc(jourFr(x.echeance))+' · '+euros(x.montant)+'</b><span class="pa-s '+st.c+'">'+st.t+'</span><small>'+esc(MOYENS[x.moyen]||x.moyen)+(x.paye_le?' · payée le '+esc(jourFr(x.paye_le)):'')+'</small></div>'}).join('')+'</div></div>';
+  });
+}
+/* Coach : échéances en retard et des 30 prochains jours, toutes élèves confondus */
+function coPaieRendu(l,eleves){
+  var box=$('#co-paie');if(!box)return;var auj=new Date().toISOString().slice(0,10),lim=new Date(Date.now()+30*864e5).toISOString().slice(0,10);
+  var nom={};(eleves||[]).forEach(function(e){nom[e.email]=e.prenom});
+  var a=l.filter(function(x){return !x.paye_le&&x.echeance<=lim});box.hidden=false;
+  var ret=a.filter(function(x){return x.echeance<auj}).length;
+  box.innerHTML='<div class="eyebrow">Échéances · en retard et 30 prochains jours</div>'+(a.length?'<h3>'+a.length+' à suivre'+(ret?' · <span class="co-alerte">'+ret+' en retard</span>':'')+'</h3><div>'+a.map(function(x){var st=paStatut(x);
+    return '<div class="pa-l"><b>'+esc(nom[x.email]||x.email)+' · '+euros(x.montant)+'</b><label><input type="checkbox" data-pa-paye="'+x.id+'"> Payé</label><small><span class="pa-s '+st.c+'">'+st.t+'</span> '+esc(jourFr(x.echeance))+' · '+esc(MOYENS[x.moyen]||x.moyen)+'</small></div>'}).join('')+'</div>':'<p class="soft" style="margin:0">Rien en retard, rien dans les 30 prochains jours.</p>');
+}
+function coPaieEleve(x){var l=x._pa||[];
+  return '<details class="co-et"><summary>Paiements : '+(l.length?l.filter(function(y){return y.paye_le}).length+'/'+l.length+' payés':'aucune échéance')+'</summary><div style="margin-top:6px">'+l.map(function(y){var st=paStatut(y);
+    return '<div class="pa-l"><b>'+esc(jourFr(y.echeance))+' · '+euros(y.montant)+'</b><label><input type="checkbox" data-pa-paye="'+y.id+'"'+(y.paye_le?' checked':'')+'> Payé</label><small><span class="pa-s '+st.c+'">'+st.t+'</span> '+esc(MOYENS[y.moyen]||y.moyen)+(y.lien?' · lien de paiement':'')+'</small></div>'}).join('')+
+    '<div class="pa-form" style="margin-top:10px"><input type="date" data-pa="echeance" aria-label="Date de l\'échéance"><input type="number" data-pa="montant" min="0" step="1" placeholder="Montant €" inputmode="decimal" aria-label="Montant"><select data-pa="moyen" aria-label="Moyen">'+Object.keys(MOYENS).map(function(k){return '<option value="'+k+'">'+MOYENS[k]+'</option>'}).join('')+'</select><input type="url" data-pa="lien" placeholder="Lien Stripe (optionnel)" aria-label="Lien de paiement"><button class="btn ghost small large" type="button" data-co="pa-ajout">Ajouter l\'échéance</button></div></div></details>'}
+document.addEventListener('change',function(e){var c=e.target.closest&&e.target.closest('[data-pa-paye]');if(!c||MOI.role!=='coach')return;
+  sb.from('paiements').update({paye_le:c.checked?new Date().toISOString().slice(0,10):null}).eq('id',+c.getAttribute('data-pa-paye')).then(function(r){toast(r&&r.error?'Erreur, réessaie':(c.checked?'Échéance payée':'Échéance remise à payer'));if(!(r&&r.error))coachRendu()})});
 function majBilan(){var bi=$('#acc-bilan');if(!bi)return;var lk=MOI.eleve&&MOI.eleve.lien_suivi,ok=lk&&/^https:\/\//.test(lk),u=ok?lk:lien('tutoSuivi');
   bi.href=u;bi.hidden=u==='#';$('#acc-bilan-d').textContent=ok?'Ton fichier de suivi':'Le tuto de ton app de suivi'}
 function lien(k){var u=LIENS[k];if(!u)return '#';if(/systeme\.io/.test(u)){try{var x=new URL(u);x.searchParams.set('source',SRC);return x.toString()}catch(e){}}return u}
 function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
-function store(k,v){try{if(v===undefined)return JSON.parse(localStorage.getItem(k)||'null');localStorage.setItem(k,JSON.stringify(v))}catch(e){return null}}
+/* Aperçu coach (Visiteur / Élève) : choisi dans l'espace coach, gardé le temps de l'onglet.
+   En aperçu, store() lit et écrit dans une mémoire à part, et sb n'écrit rien (voir lectureSeule). */
+var APERCU=null,APERCU_MEM={};try{APERCU=JSON.parse(sessionStorage.getItem('lf-apercu')||'null')}catch(e){}
+function store(k,v){if(APERCU){if(v===undefined)return APERCU_MEM.hasOwnProperty(k)?APERCU_MEM[k]:null;APERCU_MEM[k]=v;return}
+  try{if(v===undefined)return JSON.parse(localStorage.getItem(k)||'null');localStorage.setItem(k,JSON.stringify(v))}catch(e){return null}}
 function toast(t){var el=$('#toast');el.textContent=t;el.classList.add('on');clearTimeout(toast._t);toast._t=setTimeout(function(){el.classList.remove('on')},1900)}
 var ONSITE=location.protocol==='https:'&&!/claude|anthropic|githack|localhost/.test(location.hostname);
 
@@ -1261,13 +1338,22 @@ satisRendu();
 /* ================= COMPTES : visiteur / élève / coach ================= */
 /* Ressources natives : vue = nom, contenu = fiche-<nom>.html dans Supabase. Le PDF se fabrique depuis la page (bouton Télécharger en PDF). */
 var FICHES={tuto:{t:"Tuto de l'app"},vacuum:{t:'Ressource vacuum'},cheatmeals:{t:'Ressource cheat meals',cle:'cheat-meals'}};
-var VUES_ELEVE=['demarrer','formation','ressources','bikini','echauffement','parrainage','notifs','parametres'].concat(Object.keys(FICHES));
+var VUES_ELEVE=['paiements','demarrer','formation','ressources','bikini','echauffement','parrainage','notifs','parametres'].concat(Object.keys(FICHES));
 var sb=null,apresCx=null;
 if(SUPA.url&&SUPA.anon){MOI.role='visiteur';if(window.supabase){try{sb=window.supabase.createClient(SUPA.url,SUPA.anon,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}})}catch(e){sb=null}}}
 function aAcces(){return MOI.role==='eleve'||MOI.role==='coach'||MOI.role==='ouvert'}
 function contenu(cle){return sb.from('contenus').select('mime,donnees,base64').eq('cle',cle).maybeSingle().then(function(r){if(r.error||!r.data)throw (r.error||new Error('absent'));return r.data})}
 function blobUrl(c){var b=atob(c.donnees),u=new Uint8Array(b.length);for(var i=0;i<b.length;i++)u[i]=b.charCodeAt(i);return URL.createObjectURL(new Blob([u],{type:c.mime}))}
 function chargerLiens(){return contenu('liens.json').then(function(c){var o=JSON.parse(c.donnees);Object.keys(o).forEach(function(k){LIENS[k]=o[k]});renderSteps(false);renderRes();majBilan()}).catch(function(){})}
+/* Client en lecture seule pour l'aperçu : les lectures passent, toute écriture (insert, upsert, update, delete, rpc, fonctions) est ignorée. */
+function lectureSeule(c){
+  function vide(){var p=Promise.resolve({data:null,error:null}),o=new Proxy(function(){},{get:function(t,k){if(k==='then')return p.then.bind(p);if(k==='catch')return p.catch.bind(p);return function(){return o}}});return o}
+  return new Proxy(c,{get:function(t,k){
+    if(k==='from')return function(tb){var b=t.from(tb);return new Proxy(b,{get:function(bb,kk){if(['insert','upsert','update','delete'].indexOf(kk)>=0)return function(){return vide()};var v=bb[kk];return typeof v==='function'?v.bind(bb):v}})};
+    if(k==='rpc')return function(){return vide()};
+    if(k==='functions')return {invoke:function(){return vide()}};
+    var v=t[k];return typeof v==='function'?v.bind(t):v}});
+}
 function majSession(){
   if(!sb){appliquerRole();return Promise.resolve()}
   return sb.auth.getSession().then(function(r){
@@ -1275,6 +1361,12 @@ function majSession(){
     if(!ses){MOI={role:'visiteur',email:null,eleve:null};return}
     MOI.email=(ses.user.email||'').toLowerCase();
     return sb.rpc('mon_role').then(function(x){MOI.role=x.error?'visiteur':(x.data||'visiteur');
+      if(MOI.role!=='coach'&&APERCU){APERCU=null;APERCU_MEM={};try{sessionStorage.removeItem('lf-apercu')}catch(e){}}
+      if(MOI.role==='coach'&&APERCU){MOI.vrai='coach';if(!sb.__ls){sb=lectureSeule(sb);sb.__ls=1;window.sb=sb}
+        if(APERCU.role==='visiteur'){MOI.role='visiteur';MOI.email=null;MOI.eleve=null;return}
+        MOI.role='eleve';
+        if(!APERCU.email){MOI.email=null;MOI.eleve={prenom:'Élève type',date_debut:null,duree_sem:26,lien_suivi:null,lien_contrat:null,etapes_faites:[]};return}
+        MOI.email=APERCU.email;}
       if(MOI.role==='eleve')return sb.from('eleves').select('prenom,date_debut,duree_sem,lien_suivi,lien_contrat,etapes_faites').eq('email',MOI.email).maybeSingle().then(function(e){MOI.eleve=e.data||null;
         var f=(MOI.eleve&&MOI.eleve.etapes_faites)||[],chg=0;f.forEach(function(id){if(!done[id]){done[id]=1;chg=1}});if(chg){store('lf-onboarding',done);renderSteps(false)}
         return chargerEtapes()});
@@ -1283,6 +1375,8 @@ function majSession(){
 }
 function appliquerRole(){
   var w=$('#who-link');
+  document.body.classList.toggle('apercu',!!(APERCU&&MOI.vrai==='coach'));$('#apercu').hidden=!(APERCU&&MOI.vrai==='coach');
+  if(APERCU&&MOI.vrai==='coach')$('#apercu-t').textContent='Aperçu '+(APERCU.role==='visiteur'?'visiteur':'élève · '+((MOI.eleve&&MOI.eleve.prenom)||APERCU.email||'type'))+' · lecture seule';
   if(MOI.role==='coach'){w.textContent='Coach';w.href='#coach'}
   else if(MOI.role==='eleve'){w.textContent=(MOI.eleve&&MOI.eleve.prenom)||'Mon espace';w.href='#demarrer'}
   else if(MOI.role==='ouvert'&&store('lf-eleve')){w.textContent='Mon espace';w.href='#demarrer'}
@@ -1333,7 +1427,7 @@ function syncFormation(){
 window.addEventListener('focus',syncFormation);
 function chargerFormation(){
   var root=$('#lf-root');if(root.dataset.ok==='1')return;
-  try{var k='lf-academy-v1',st=JSON.parse(localStorage.getItem(k)||'{}')||{};if(MOI.email&&!st._mail){st._mail=MOI.email;localStorage.setItem(k,JSON.stringify(st))}}catch(e){}
+  if(!APERCU)try{var k='lf-academy-v1',st=JSON.parse(localStorage.getItem(k)||'{}')||{};if(MOI.email&&!st._mail){st._mail=MOI.email;localStorage.setItem(k,JSON.stringify(st))}}catch(e){}
   var urls=['https://raw.githubusercontent.com/Lenimen/Lf-guide/main/academy.html','https://cdn.jsdelivr.net/gh/Lenimen/Lf-guide@main/academy.html'];
   function get(i){return fetch(urls[i],{cache:'no-cache'}).then(function(r){if(!r.ok)throw 0;return r.text()}).catch(function(e){if(i+1<urls.length)return get(i+1);throw e})}
   get(0).then(function(html){
@@ -1496,7 +1590,8 @@ navigator.serviceWorker&&navigator.serviceWorker.addEventListener&&navigator.ser
 /* Espace coach */
 function coachRendu(){
   var box=$('#co-list');if(!sb)return;
-  Promise.all([sb.from('eleves').select('*').order('actif',{ascending:false}).order('cree_le',{ascending:false}),sb.from('etapes_eleve').select('email,etape,coche,par,quand'),sb.from('reglages').select('email,push,maj_le'),sb.from('formation_eleve').select('email,module,fait_le,envoye_le'),sb.from('formation_envois').select('id,email,lecon,texte,envoye_le,vu_le').is('vu_le',null).order('envoye_le')]).then(function(rr){
+  Promise.all([sb.from('eleves').select('*').order('actif',{ascending:false}).order('cree_le',{ascending:false}),sb.from('etapes_eleve').select('email,etape,coche,par,quand'),sb.from('reglages').select('email,push,maj_le'),sb.from('formation_eleve').select('email,module,fait_le,envoye_le'),sb.from('formation_envois').select('id,email,lecon,texte,envoye_le,vu_le').is('vu_le',null).order('envoye_le'),sb.from('paiements').select('id,email,echeance,montant,moyen,paye_le,lien').order('echeance')]).then(function(rr){
+    var PA={},pal=(rr[5]&&rr[5].data)||[];pal.forEach(function(x){(PA[x.email]=PA[x.email]||[]).push(x)});coPaieRendu(pal,(rr[0]&&rr[0].data)||[]);
     revoirRendu((rr[4]&&rr[4].data)||[],(rr[0]&&rr[0].data)||[]);
     var r=rr[0];if(r.error){box.innerHTML='<p class="soft">Liste indisponible.</p>';return}
     var l=r.data||[],EE={},RG={};
@@ -1506,9 +1601,13 @@ function coachRendu(){
     l.forEach(function(x){var f={};(x.etapes_faites||[]).forEach(function(id){f[id]=1});var m=EE[x.email]||{};Object.keys(m).forEach(function(id){if(m[id].coche)f[id]=1;else delete f[id]});x._f=f;x._m=m;
       x._n=Object.keys(f).filter(function(id){return ETAPES.some(function(e){return e.id===id})}).length;
       var dates=Object.keys(m).filter(function(id){return m[id].par==='eleve'||m[id].par==='auto'}).map(function(id){return Date.parse(m[id].quand)});if(RG[x.email])dates.push(Date.parse(RG[x.email].maj_le));
-      x._act=dates.length?Math.max.apply(null,dates):0;x._push=!!(RG[x.email]&&RG[x.email].push);x._fo=(FO[x.email]||[]).sort(function(a,b){return a.module<b.module?-1:1});
+      x._act=dates.length?Math.max.apply(null,dates):0;x._push=!!(RG[x.email]&&RG[x.email].push);x._pa=PA[x.email]||[];x._fo=(FO[x.email]||[]).sort(function(a,b){return a.module<b.module?-1:1});
+      var fd=x._fo.filter(function(f){return f.fait_le}).sort(function(a,b){return Date.parse(b.fait_le)-Date.parse(a.fait_le)});x._foDer=fd[0]||null;
+      var ref=x._foDer?Date.parse(x._foDer.fait_le):(x.date_debut?Date.parse(x.date_debut):0);
+      x._foBloque=x.actif&&x._fo.length<MODULES.length&&ref>0&&Date.now()-ref>14*864e5;
       x._sem=x.date_debut?Math.floor((Date.now()-Date.parse(x.date_debut))/6048e5)+1:null});
     CO.l=l;coachAffiche();
+    var se=$('#apercu-el');if(se)se.innerHTML='<option value="">Un élève précis…</option>'+l.filter(function(x){return x.actif}).map(function(x){return '<option value="'+esc(x.email)+'">'+esc(x.prenom)+'</option>'}).join('');
   });
 }
 var CO={l:[],sel:null,tri:'debut'};
@@ -1524,6 +1623,9 @@ function revoirRendu(l,el){
 $('#co-revoir').addEventListener('click',function(e){var b=e.target.closest('[data-vu]');if(!b)return;
   sb.from('formation_envois').update({vu_le:new Date().toISOString()}).eq('id',+b.getAttribute('data-vu')).then(function(r){toast(r.error?'Erreur, réessaie':'Marqué comme vu');if(!r.error){b.closest('details').remove();if(!$('#co-revoir details'))$('#co-revoir').hidden=true}})});
 function coSem(x){if(x._sem===null)return '<span class="soft">Pas de date</span>';if(x._sem<1)return 'Démarre le '+new Date(x.date_debut).toLocaleDateString('fr-BE',{day:'numeric',month:'numeric'});if(x._sem>x.duree_sem)return 'Terminé';return 'S'+x._sem+' / '+x.duree_sem}
+/* Formation : modules terminés / total, dernier module terminé, repère si rien depuis 14 jours */
+function coFo(x){var n=x._fo.length,t=MODULES.length,d=x._foDer;
+  return '<span class="co-jauge"><i><b style="width:'+Math.round(n/t*100)+'%"></b></i>'+n+'/'+t+'</span>'+(d?'<small>'+esc(d.module)+' le '+new Date(d.fait_le).toLocaleDateString('fr-BE',{day:'numeric',month:'numeric'})+'</small>':'')+(x._foBloque?'<small class="co-alerte">Rien depuis plus de 14 j</small>':'')}
 function coAct(x){if(!x._act)return '<span class="soft">N\'a pas encore ouvert l\'app</span>';var j=Math.floor((Date.now()-x._act)/864e5);return '<span'+(j>=7?' class="co-alerte"':'')+'>'+(j<1?'Aujourd\'hui':(j<2?'Hier':'Il y a '+j+' j'))+'</span>'}
 function coachAffiche(){
   var box=$('#co-list'),q=($('#co-q').value||'').trim().toLowerCase(),f=(($$('[name=co-f]').filter(function(i){return i.checked})[0])||{}).value||'actifs';
@@ -1531,19 +1633,20 @@ function coachAffiche(){
     if(q&&(x.prenom+' '+x.email).toLowerCase().indexOf(q)<0)return false;
     if(f==='actifs')return x.actif;if(f==='inactifs')return !x.actif;
     if(f==='demarrage')return x.actif&&x._n<ETAPES.length;
+    if(f==='fo')return x._foBloque;
     if(f==='calme')return x.actif&&(!x._act||Date.now()-x._act>=7*864e5);
     return true});
-  var cle={prenom:function(x){return x.prenom.toLowerCase()},debut:function(x){return -(x.date_debut?Date.parse(x.date_debut):0)},etapes:function(x){return x._n},act:function(x){return -x._act}}[CO.tri]||function(){return 0};
+  var cle={prenom:function(x){return x.prenom.toLowerCase()},debut:function(x){return -(x.date_debut?Date.parse(x.date_debut):0)},etapes:function(x){return x._n},fo:function(x){return x._fo.length},act:function(x){return -x._act}}[CO.tri]||function(){return 0};
   l.sort(function(a,b){var u=cle(a),v=cle(b);return u<v?-1:(u>v?1:0)});
   if(!CO.l.length){box.innerHTML='<p class="soft">Aucun élève pour l\'instant.</p>';return}
   if(!l.length){box.innerHTML='<p class="soft">Aucun élève dans ce filtre.</p>';return}
   if(!CO.sel||!l.some(function(x){return x.email===CO.sel}))CO.sel=l[0].email;
   var th=function(k,t){return '<th'+(k?' data-tri="'+k+'"'+(CO.tri===k?' class="on"':''):'')+'>'+t+'</th>'};
   box.innerHTML='<div class="sec-head"><h2>'+l.length+' élève'+(l.length>1?'s':'')+'</h2></div><div class="co-grid">'+
-    '<div class="co-tbl-wrap"><table class="co-tbl"><thead><tr>'+th('prenom','Élève')+th('debut','Début')+th('','Semaine')+th('etapes','Étapes')+th('act','Dernière activité')+th('','Notifs')+'</tr></thead><tbody>'+
+    '<div class="co-tbl-wrap"><table class="co-tbl"><thead><tr>'+th('prenom','Élève')+th('debut','Début')+th('','Semaine')+th('etapes','Étapes')+th('fo','Formation')+th('act','Dernière activité')+th('','Notifs')+'</tr></thead><tbody>'+
     l.map(function(x){return '<tr data-sel="'+esc(x.email)+'" class="'+(x.email===CO.sel?'sel':'')+(x.actif?'':' off')+'"><td><b>'+esc(x.prenom)+'</b><small>'+esc(x.email)+'</small></td>'+
       '<td>'+(x.date_debut?new Date(x.date_debut).toLocaleDateString('fr-BE',{day:'numeric',month:'short',year:'2-digit'}):'<span class="soft">À poser</span>')+'</td><td>'+coSem(x)+'</td>'+
-      '<td><span class="co-jauge"><i><b style="width:'+Math.round(x._n/ETAPES.length*100)+'%"></b></i>'+x._n+'/'+ETAPES.length+'</span></td><td>'+coAct(x)+'</td><td>'+(x._push?'Oui':'<span class="soft">Non</span>')+'</td></tr>'}).join('')+
+      '<td><span class="co-jauge"><i><b style="width:'+Math.round(x._n/ETAPES.length*100)+'%"></b></i>'+x._n+'/'+ETAPES.length+'</span></td><td>'+coFo(x)+'</td><td>'+coAct(x)+'</td><td>'+(x._push?'Oui':'<span class="soft">Non</span>')+'</td></tr>'}).join('')+
     '</tbody></table></div><div class="co-cards stack">'+l.map(coCarte).join('')+'</div></div>';
 }
 $('#co-q').addEventListener('input',coachAffiche);
@@ -1551,13 +1654,15 @@ $('#co-filtres').addEventListener('change',coachAffiche);
 function coCarte(x){
       return '<div class="card co-el'+(x.actif?'':' off')+(x.email===CO.sel?' sel':'')+'" data-email="'+esc(x.email)+'"><div class="co-top"><h3>'+esc(x.prenom)+'</h3><small>'+esc(x.email)+'</small></div>'+
         '<p class="soft" style="font-size:13px;margin:0">'+coSem(x)+' · '+coAct(x)+'</p>'+
-        '<p class="soft" style="font-size:13px;margin:0">Formation : '+(x._fo.length?x._fo.map(function(f){return esc(f.module)+(f.envoye_le?' (exercice envoyé)':'')}).join(', '):'aucun module terminé')+'</p>'+
+        '<details class="co-et"><summary>Formation : '+x._fo.length+'/'+MODULES.length+' modules terminés'+(x._foBloque?' · <span class="co-alerte">rien depuis plus de 14 j</span>':'')+'</summary><div class="stack" style="margin-top:8px;gap:4px">'+
+          MODULES.map(function(m){var f=x._fo.filter(function(y){return y.module===m.c})[0];return '<p class="soft" style="font-size:13px;margin:0">'+(f?'✓ ':'○ ')+esc(m.c)+' · '+esc(m.t)+(f&&f.fait_le?' · le '+new Date(f.fait_le).toLocaleDateString('fr-BE',{day:'numeric',month:'numeric'}):'')+(f&&f.envoye_le?' · exercice envoyé':'')+'</p>'}).join('')+'</div></details>'+
 
         '<div class="grid2"><label class="q"><span>Début</span><input type="date" data-k="date_debut" value="'+esc(x.date_debut||'')+'"></label>'+
         '<label class="q"><span>Durée</span><select data-k="duree_sem">'+[16,20,24,26].map(function(n){return '<option value="'+n+'"'+(n==x.duree_sem?' selected':'')+'>'+(n==26?'6 mois':n+' sem.')+'</option>'}).join('')+'</select></label></div>'+
         '<label class="q"><span>Lien de signature de son contrat (DocuSeal, tant qu\'il n\'a pas signé)</span><input type="url" data-k="lien_contrat" placeholder="https://docuseal.com/s/…" value="'+esc(x.lien_contrat||'')+'"></label>'+
         '<label class="q"><span>Lien de son fichier de suivi (optionnel)</span><input type="url" data-k="lien_suivi" placeholder="https://docs.google.com/…" value="'+esc(x.lien_suivi||'')+'"></label>'+
         '<details class="co-et"><summary>Étapes « Démarrer » faites : '+Object.keys(x._f).length+'/'+ETAPES.length+'</summary><div class="chips">'+ETAPES.map(function(t){var m=x._m[t.id],qui=m?({eleve:'par l\'élève',auto:'par l\'app',coach:'par toi',verif:'vérification'}[m.par]||'')+' le '+new Date(m.quand).toLocaleDateString('fr-BE',{day:'numeric',month:'numeric'}):'';return '<label><input type="checkbox" data-et="'+esc(t.id)+'"'+(x._f[t.id]?' checked':'')+'><span>'+esc(t.t)+(qui?'<small class="co-qui">'+(m.coche?'Cochée ':'Décochée ')+esc(qui)+'</small>':'')+'</span></label>'}).join('')+'</div></details>'+
+        coPaieEleve(x)+
         '<details class="co-msg"><summary class="co-et-s">Écrire un message dans son app</summary><div class="stack" style="margin-top:10px"><textarea data-k="msg" maxlength="500" placeholder="Il le verra dans ses notifications."></textarea><button class="btn ghost small" type="button" data-co="msg">Envoyer dans l\'app</button></div></details>'+
         '<div class="row"><button class="btn ghost" type="button" data-co="save">Enregistrer</button><button class="btn ghost" type="button" data-co="actif">'+(x.actif?'Désactiver':'Réactiver')+'</button></div></div>';
 }
@@ -1570,6 +1675,9 @@ $('#co-list').addEventListener('click',function(e){
     /* les coches changées par Leni sont aussi notées dans etapes_eleve (elles priment sur celles de l'élève) */
     var now=new Date().toISOString(),ch=$$('[data-et]',c).filter(function(i){return i.checked!==i.defaultChecked}).map(function(i){return {email:em,etape:i.getAttribute('data-et'),coche:i.checked,par:'coach',quand:now,message:null,lien:null}});
     if(ch.length)sb.from('etapes_eleve').upsert(ch).then(function(){},function(){})}
+  else if(b.getAttribute('data-co')==='pa-ajout'){var g=function(k){return $('[data-pa='+k+']',c).value.trim()},d=g('echeance'),m=g('montant'),li=g('lien');
+    if(!d||!m){toast('Date et montant obligatoires');return}if(li&&!/^https:\/\//.test(li)){toast('Le lien doit commencer par https://');return}
+    sb.from('paiements').insert({email:em,echeance:d,montant:+m,moyen:g('moyen'),lien:li||null}).then(function(r){toast(r&&r.error?'Erreur, réessaie':'Échéance ajoutée');if(!(r&&r.error))coachRendu()});return}
   else if(b.getAttribute('data-co')==='msg'){var t=$('[data-k=msg]',c).value.trim();if(!t){toast('Message vide');return}
     sb.from('notifs').insert({email:em,type:'leni',titre:t.length>70?t.slice(0,67)+'…':t,texte:t.length>70?t:null,lien:null}).then(function(r){toast(r.error?'Erreur, réessaie':'Envoyé dans son app');if(!r.error)$('[data-k=msg]',c).value=''});return}
   else maj.actif=c.classList.contains('off');
@@ -1662,7 +1770,7 @@ $('#ech-zones').addEventListener('click',function(e){
 /* Navigation */
 /* Outils publics : vue = nom, fichier servi dans guides/ */
 var OUTILS={mensurations:'mensurations.html',potentiel:'potentiel.html',posing:'posing.html'};
-var VUES=['accueil','appel','guides','contact','demarrer','formation','ressources','bikini','echauffement','parrainage','connexion','coach','notifs','parametres'].concat(Object.keys(FICHES),Object.keys(OUTILS));
+var VUES=['paiements','accueil','appel','guides','contact','demarrer','formation','ressources','bikini','echauffement','parrainage','connexion','coach','notifs','parametres'].concat(Object.keys(FICHES),Object.keys(OUTILS));
 var TAB_DE={guides:'accueil',contact:'accueil',bikini:'ressources',echauffement:'ressources',parrainage:'ressources',coach:'accueil',notifs:'accueil',parametres:'accueil'};
 Object.keys(FICHES).forEach(function(k){TAB_DE[k]='ressources'});
 Object.keys(OUTILS).forEach(function(k){TAB_DE[k]='accueil'});
@@ -1670,7 +1778,7 @@ Object.keys(OUTILS).forEach(function(k){TAB_DE[k]='accueil'});
    pages vues, clics importants (analyse offerte, candidature, créneau). Le coach n'est pas compté. */
 var STAT_VUES={};
 function stat(type,cible){
-  if(!sb||MOI.role==='coach'||!ONSITE)return;
+  if(!sb||MOI.role==='coach'||APERCU||!ONSITE)return; // pas de stats pour le coach ni en aperçu
   try{sb.from('stats').insert({type:type,cible:String(cible).slice(0,40),source:String(SRC).slice(0,40),role:MOI.role}).then(function(){},function(){})}catch(e){}
 }
 (function(){var j=new Date().toISOString().slice(0,10);if(store('lf-visite')!==j){store('lf-visite',j);setTimeout(function(){stat('visite',(location.hash||'#accueil').slice(1)||'accueil')},1500)}})();
@@ -1702,6 +1810,7 @@ function route(){
   majRetour();majLecon(v);
   if(v==='connexion'&&MOI.role!=='ouvert'&&!sb)cxErr('Connexion indisponible pour le moment (pas de réseau ?).');
   if(v==='accueil'||v==='ressources')satisRendu();
+  if(v==='paiements')paiementsRendu();
   remonter();
 }
 /* Chaque page s'ouvre tout en haut, sous l'en-tête (Safari peut rétablir l'ancienne position après le changement de page) */
@@ -1712,7 +1821,7 @@ function remonter(){window.scrollTo(0,0);requestAnimationFrame(function(){window
    (module de formation ouvert, créneau en cours de réservation) comptent comme niveau 2.
    Dans l'app installée, glisser depuis le bord gauche fait la même chose (iOS ne le fait pas tout seul). */
 var NIV1=['accueil','appel','demarrer','formation','ressources','coach'];
-var PARENT={guides:'accueil',contact:'accueil',connexion:'accueil',notifs:'accueil',parametres:'notifs',bikini:'ressources',echauffement:'ressources',parrainage:'ressources'};
+var PARENT={paiements:'accueil',guides:'accueil',contact:'accueil',connexion:'accueil',notifs:'accueil',parametres:'notifs',bikini:'ressources',echauffement:'ressources',parrainage:'ressources'};
 var PILE=[];
 function sousEtat(v){var sel={formation:'#lfa-home',appel:'#rdv-back'}[v],b=sel&&$(sel);return b&&b.offsetParent!==null?b:null}
 function majRetour(){var v=document.body.dataset.vue;$('#retour').hidden=NIV1.indexOf(v)>=0&&!sousEtat(v)}
@@ -1734,6 +1843,13 @@ document.addEventListener('click',function(e){
   var a=e.target.closest('.tabs a.verrou,[data-verrouille]');
   if(a&&!aAcces()){e.preventDefault();$('#verrou').hidden=false;stat('clic','verrou-'+(a.getAttribute('data-tab')||a.getAttribute('data-verrouille')));return}
   if(e.target.closest('[data-verrou-x]')||e.target.id==='verrou')$('#verrou').hidden=true;
+});
+document.addEventListener('click',function(e){
+  var b=e.target.closest('[data-apercu]');if(b&&MOI.role==='coach'){var t=b.getAttribute('data-apercu'),a={role:t==='visiteur'?'visiteur':'eleve'};
+    if(t==='choisi'){a.email=$('#apercu-el').value;if(!a.email){toast('Choisis un élève');return}}
+    try{sessionStorage.setItem('lf-apercu',JSON.stringify(a))}catch(er){toast('Aperçu indisponible');return}
+    location.hash='#accueil';location.reload();return}
+  if(e.target.closest('#apercu-x')){try{sessionStorage.removeItem('lf-apercu')}catch(er){}location.hash='#coach';location.reload()}
 });
 window.addEventListener('hashchange',route);
 appliquerRole();majSession();
