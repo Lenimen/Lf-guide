@@ -935,6 +935,7 @@ var MODULES = [
 ];
 
 var RESSOURCES = [
+  {t:"Comment utiliser l'app", d:'Connexion, écran d\'accueil et les 5 onglets, en une minute.', v:'tuto', end:'Guide'},
   {t:'Le vacuum', d:"Rentrer le ventre sous la cage, du sol jusqu'à la scène.", v:'vacuum', end:'Guide'},
   {t:'Les cheat meals', d:'Placer un repas libre sans casser ta semaine.', v:'cheatmeals', end:'Guide'},
   {t:'Posing bikini, WNBF et NPC', d:'Les règles pose par pose, et ce qui change entre fédérations.', v:'bikini', end:'Guide'},
@@ -1220,7 +1221,7 @@ satisRendu();
 
 /* ================= COMPTES : visiteur / élève / coach ================= */
 /* Ressources natives : vue = nom, contenu = fiche-<nom>.html dans Supabase. Le PDF se fabrique depuis la page (bouton Télécharger en PDF). */
-var FICHES={vacuum:{t:'Ressource vacuum'},cheatmeals:{t:'Ressource cheat meals',cle:'cheat-meals'}};
+var FICHES={tuto:{t:"Tuto de l'app"},vacuum:{t:'Ressource vacuum'},cheatmeals:{t:'Ressource cheat meals',cle:'cheat-meals'}};
 var VUES_ELEVE=['demarrer','formation','ressources','bikini','echauffement','parrainage','notifs','parametres'].concat(Object.keys(FICHES));
 var sb=null,apresCx=null;
 if(SUPA.url&&SUPA.anon){MOI.role='visiteur';if(window.supabase){try{sb=window.supabase.createClient(SUPA.url,SUPA.anon,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}})}catch(e){sb=null}}}
