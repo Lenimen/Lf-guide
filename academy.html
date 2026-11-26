@@ -53,6 +53,8 @@
 #lfa .screen-body{padding:18px 16px;display:grid;gap:14px}
 #lfa .proof{justify-self:start;font-size:10px;letter-spacing:.14em;text-transform:uppercase;font-weight:bold;border:1px solid var(--ink-soft);color:var(--ink-soft);padding:2px 8px}
 #lfa .key{border-left:4px solid var(--ink);padding:10px 14px;background:var(--sheet);font-weight:bold}
+#lfa details.sci{border:1px solid var(--line);padding:8px 14px;margin:14px 0;background:var(--sheet)}
+#lfa details.sci summary{cursor:pointer;font-weight:bold}
 #lfa .vids{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(150px,1fr);gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:6px}
 #lfa .vid{display:grid;gap:6px;align-content:start;scroll-snap-align:start}
 #lfa .vid video{width:100%;aspect-ratio:9/16;background:#000;border:1px solid var(--line);display:block}
@@ -346,9 +348,10 @@
           "<p>Ces signaux peuvent être intéressants, mais aucun ne prouve seul qu'un exercice fait mieux grossir :</p>"+
           "<ul class='plain'><li>le <b>pump</b> ;</li><li>les <b>courbatures</b> ;</li><li>l'<b>EMG</b> (activité électrique du muscle) ;</li><li>la <b>sensation</b> de « bien sentir le muscle ».</li></ul>"+
           "<p class='key'>Les vrais juges restent le physique sur la durée, les performances comparables et la cohérence du plan.</p>"+
-          "<p><b>Où en est la science ?</b> Exemple : faire correspondre la courbe de résistance d'un exercice à la courbe de force du muscle.</p>"+
+          "<details class='sci'><summary>Pour les curieux : où en est la science</summary>"+
+          "<p>Exemple : faire correspondre la courbe de résistance d'un exercice à la courbe de force du muscle.</p>"+
           "<ul class='plain'><li><b>Établi :</b> travailler le muscle dans une position étirée donne, selon une revue systématique, un avantage pour certains muscles.</li><li><b>Débattu :</b> des travaux plus récents trouvent des effets proches entre amplitudes, avec des résultats qui varient selon le muscle et le niveau.</li><li><b>Inconnu :</b> l'intérêt direct de faire correspondre les deux courbes. Ce raisonnement vient surtout de la biomécanique, pas d'études qui l'ont testé.</li></ul>"+
-          "<p>Donc : une piste intéressante à tester avec méthode, pas une règle prouvée.</p>",
+          "<p>Donc : une piste à tester avec méthode, pas une règle prouvée.</p></details>",
           quiz:{q:"Gros pump pendant la séance, courbatures le lendemain. Ça prouve…",o:["Que cet exercice fait mieux grossir","Rien à lui seul : les vrais juges sont le physique sur la durée et les performances comparables","Qu'il faut le garder à chaque séance"],a:1,
             fb:"Pump et courbatures peuvent être intéressants, mais aucun ne prouve seul qu'un exercice fait mieux grossir."}},
         {t:"Action : défendre un exercice de ton plan",proof:'Stratégie LF',action:true,html:
