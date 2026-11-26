@@ -1,5 +1,5 @@
 /* Hors ligne : garde l'app et les fiches en cache. Changer VERSION à chaque mise en ligne. */
-var VERSION='lf-app-v17';
+var VERSION='lf-app-v19';
 var FICHIERS=['./','index.html','manifest.webmanifest','icons/logo-creme.png','icons/icon-192.png'];
 self.addEventListener('install',function(e){e.waitUntil(caches.open(VERSION).then(function(c){return c.addAll(FICHIERS)}).then(function(){return self.skipWaiting()}))});
 self.addEventListener('activate',function(e){e.waitUntil(caches.keys().then(function(k){return Promise.all(k.filter(function(n){return n!==VERSION}).map(function(n){return caches.delete(n)}))}).then(function(){return self.clients.claim()}))});

@@ -208,6 +208,37 @@ a.line:active{transform:scale(.985);background:var(--carte-2)}
 .co-el .co-top{display:flex;justify-content:space-between;gap:10px;align-items:baseline}
 .co-el .co-top small{color:var(--doux);overflow-wrap:anywhere}
 .co-el.off{opacity:.55}
+.co-barre{display:grid;gap:10px}
+.co-barre input[type=search]{width:100%;min-width:0;padding:12px 14px;border-radius:12px;border:1px solid var(--filet);background:rgba(0,0,0,.15);color:var(--creme);font:inherit;font-size:16px;-webkit-appearance:none;appearance:none}
+.co-barre .chips span{font-size:13px;padding:7px 11px}
+.co-tbl-wrap{display:none}
+.co-tbl{width:100%;border-collapse:collapse;font-size:14px}
+.co-tbl th{text-align:left;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--doux);font-weight:600;padding:10px 12px;border-bottom:1px solid var(--filet);cursor:pointer;white-space:nowrap;user-select:none}
+.co-tbl th[data-tri].on::after{content:' ↓'}
+.co-tbl td{padding:12px;border-bottom:1px solid var(--filet);vertical-align:middle}
+.co-tbl td small{display:block;color:var(--doux);font-size:12px}
+.co-tbl tbody tr{cursor:pointer;transition:background .12s}
+.co-tbl tbody tr:hover{background:rgba(235,227,208,.05)}
+.co-tbl tbody tr.sel{background:rgba(235,227,208,.12)}
+.co-tbl tr.off{opacity:.5}
+.co-jauge{display:flex;align-items:center;gap:8px}
+.co-jauge i{display:block;width:60px;height:6px;border-radius:3px;background:rgba(235,227,208,.15);overflow:hidden}
+.co-jauge i b{display:block;height:100%;background:var(--creme)}
+.co-alerte{color:#E8B48A}
+@media (min-width:1000px){
+  body[data-vue=coach] .wrap{max-width:1320px}
+  #v-coach{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px;align-items:start}
+  #v-coach>*{grid-column:1/-1}
+  #v-coach>.page-head{grid-column:1}
+  #v-coach>#co-contenus{grid-column:2}
+  #v-coach>#co-ajout{max-width:300px}
+  #v-coach>#co-form{max-width:620px}
+  .co-barre{grid-template-columns:320px minmax(0,1fr);align-items:center}
+  .co-grid{display:grid;grid-template-columns:minmax(0,1fr) 420px;gap:24px;align-items:start}
+  .co-tbl-wrap{display:block;border:1px solid var(--filet);border-radius:var(--r);overflow:auto;background:linear-gradient(180deg,var(--carte-2),var(--carte) 70%)}
+  .co-cards{position:sticky;top:84px;max-height:calc(100vh - 110px);overflow:auto}
+  .co-cards .co-el:not(.sel){display:none}
+}
 .cloche{position:relative;display:grid;place-items:center;width:38px;height:38px;border-radius:999px;background:var(--lueur);border:1px solid var(--filet);color:var(--creme);flex:none}
 .cloche svg{width:18px;height:18px}
 .cloche b{position:absolute;top:-4px;right:-4px;min-width:18px;height:18px;padding:0 5px;border-radius:999px;background:var(--creme);color:var(--petrole);font-size:11px;font-weight:700;display:grid;place-items:center}
@@ -278,6 +309,10 @@ a.line:active{transform:scale(.985);background:var(--carte-2)}
 .academy-box .top{position:static;z-index:auto;background:none;backdrop-filter:none;-webkit-backdrop-filter:none}
 .academy-box .btn{white-space:normal;min-height:0;box-shadow:none}
 .academy-box .chip{backdrop-filter:none;-webkit-backdrop-filter:none}
+.retour{display:grid;place-items:center;width:36px;height:36px;border-radius:999px;background:var(--lueur);border:1px solid var(--filet);color:var(--creme);flex:none;padding:0;cursor:pointer}
+.retour[hidden]{display:none}
+.retour svg{width:20px;height:20px}
+main.view>.back{display:none} /* remplacé par la flèche retour de l'en-tête */
 .back{display:inline-flex;align-items:center;gap:6px;font-size:14px;font-weight:600;color:var(--doux);text-decoration:none}
 
 
@@ -346,6 +381,7 @@ footer{font-size:11px;color:var(--doux);text-align:center;padding-top:4px}
 
 <div class="wrap">
   <header class="top">
+    <button class="retour" type="button" id="retour" hidden aria-label="Retour"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button>
     <img src="icons/logo-creme.png" alt="LF" width="28" height="28">
     <div class="brand"><b data-brand="nom">LF Coaching</b><small data-brand="sousTitre">Coaching en ligne · bodybuilding naturel</small></div>
     <a class="cloche" href="#notifs" id="cloche" hidden aria-label="Notifications"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg><b id="cloche-n" hidden></b></a>
@@ -679,6 +715,16 @@ footer{font-size:11px;color:var(--doux);text-align:center;padding-top:4px}
       </div>
       <button class="btn block" type="submit">Ajouter l'élève</button>
     </form>
+    <div class="co-barre">
+      <input type="search" id="co-q" placeholder="Rechercher un élève" autocomplete="off" aria-label="Rechercher un élève">
+      <div class="chips" id="co-filtres">
+        <label><input type="radio" name="co-f" value="actifs" checked><span>Actifs</span></label>
+        <label><input type="radio" name="co-f" value="demarrage"><span>Démarrage en cours</span></label>
+        <label><input type="radio" name="co-f" value="calme"><span>Pas vus depuis 7 jours</span></label>
+        <label><input type="radio" name="co-f" value="inactifs"><span>Inactifs</span></label>
+        <label><input type="radio" name="co-f" value="tous"><span>Tous</span></label>
+      </div>
+    </div>
     <div class="stack" id="co-list"><p class="soft">Chargement…</p></div>
     <p class="soft" style="font-size:12px;text-align:center">Tu vois aussi tout l'espace élève (onglets Démarrer, Formation, Ressources). <button class="lien" type="button" data-deco>Se déconnecter</button></p>
   </main>
@@ -1122,8 +1168,9 @@ function majSession(){
 function appliquerRole(){
   var w=$('#who-link');
   if(MOI.role==='coach'){w.textContent='Coach';w.href='#coach'}
-  else if(MOI.role==='eleve'||(MOI.role==='ouvert'&&store('lf-eleve'))){w.textContent='Mon espace';w.href='#demarrer'}
-  else{w.textContent='Espace élève';w.href=MOI.role==='ouvert'?'#demarrer':'#connexion'}
+  else if(MOI.role==='eleve'){w.textContent=(MOI.eleve&&MOI.eleve.prenom)||'Mon espace';w.href='#demarrer'}
+  else if(MOI.role==='ouvert'&&store('lf-eleve')){w.textContent='Mon espace';w.href='#demarrer'}
+  else{w.textContent='Se connecter';w.href=MOI.role==='ouvert'?'#demarrer':'#connexion'}
   var el=aAcces()&&(MOI.role!=='ouvert'||store('lf-eleve'));
   $$('.eleve-seul').forEach(function(x){x.hidden=!el});$$('.visiteur-seul').forEach(function(x){x.hidden=el});
   $('#cloche').hidden=!(sb&&MOI.email&&(MOI.role==='eleve'||MOI.role==='coach'));if(!$('#cloche').hidden)compterNotifs();
@@ -1314,24 +1361,60 @@ navigator.serviceWorker&&navigator.serviceWorker.addEventListener&&navigator.ser
 /* Espace coach */
 function coachRendu(){
   var box=$('#co-list');if(!sb)return;
-  Promise.all([sb.from('eleves').select('*').order('actif',{ascending:false}).order('cree_le',{ascending:false}),sb.from('etapes_eleve').select('email,etape,coche,par,quand')]).then(function(rr){
+  Promise.all([sb.from('eleves').select('*').order('actif',{ascending:false}).order('cree_le',{ascending:false}),sb.from('etapes_eleve').select('email,etape,coche,par,quand'),sb.from('reglages').select('email,push,maj_le')]).then(function(rr){
     var r=rr[0];if(r.error){box.innerHTML='<p class="soft">Liste indisponible.</p>';return}
-    var l=r.data||[],EE={};
+    var l=r.data||[],EE={},RG={};
     (rr[1].data||[]).forEach(function(x){(EE[x.email]=EE[x.email]||{})[x.etape]=x});
-    l.forEach(function(x){var f={};(x.etapes_faites||[]).forEach(function(id){f[id]=1});var m=EE[x.email]||{};Object.keys(m).forEach(function(id){if(m[id].coche)f[id]=1;else delete f[id]});x._f=f;x._m=m});
-    if(!l.length){box.innerHTML='<p class="soft">Aucun élève pour l\'instant.</p>';return}
-    box.innerHTML='<div class="sec-head"><h2>'+l.filter(function(x){return x.actif}).length+' élèves actifs</h2></div>'+l.map(function(x){
-      return '<div class="card co-el'+(x.actif?'':' off')+'" data-email="'+esc(x.email)+'"><div class="co-top"><h3>'+esc(x.prenom)+'</h3><small>'+esc(x.email)+'</small></div>'+
+    (rr[2].data||[]).forEach(function(x){RG[x.email]=x});
+    l.forEach(function(x){var f={};(x.etapes_faites||[]).forEach(function(id){f[id]=1});var m=EE[x.email]||{};Object.keys(m).forEach(function(id){if(m[id].coche)f[id]=1;else delete f[id]});x._f=f;x._m=m;
+      x._n=Object.keys(f).filter(function(id){return ETAPES.some(function(e){return e.id===id})}).length;
+      var dates=Object.keys(m).filter(function(id){return m[id].par==='eleve'||m[id].par==='auto'}).map(function(id){return Date.parse(m[id].quand)});if(RG[x.email])dates.push(Date.parse(RG[x.email].maj_le));
+      x._act=dates.length?Math.max.apply(null,dates):0;x._push=!!(RG[x.email]&&RG[x.email].push);
+      x._sem=x.date_debut?Math.floor((Date.now()-Date.parse(x.date_debut))/6048e5)+1:null});
+    CO.l=l;coachAffiche();
+  });
+}
+var CO={l:[],sel:null,tri:'debut'};
+function coSem(x){if(x._sem===null)return '<span class="soft">Pas de date</span>';if(x._sem<1)return 'Démarre le '+new Date(x.date_debut).toLocaleDateString('fr-BE',{day:'numeric',month:'numeric'});if(x._sem>x.duree_sem)return 'Terminé';return 'S'+x._sem+' / '+x.duree_sem}
+function coAct(x){if(!x._act)return '<span class="soft">N\'a pas encore ouvert l\'app</span>';var j=Math.floor((Date.now()-x._act)/864e5);return '<span'+(j>=7?' class="co-alerte"':'')+'>'+(j<1?'Aujourd\'hui':(j<2?'Hier':'Il y a '+j+' j'))+'</span>'}
+function coachAffiche(){
+  var box=$('#co-list'),q=($('#co-q').value||'').trim().toLowerCase(),f=(($$('[name=co-f]').filter(function(i){return i.checked})[0])||{}).value||'actifs';
+  var l=CO.l.filter(function(x){
+    if(q&&(x.prenom+' '+x.email).toLowerCase().indexOf(q)<0)return false;
+    if(f==='actifs')return x.actif;if(f==='inactifs')return !x.actif;
+    if(f==='demarrage')return x.actif&&x._n<ETAPES.length;
+    if(f==='calme')return x.actif&&(!x._act||Date.now()-x._act>=7*864e5);
+    return true});
+  var cle={prenom:function(x){return x.prenom.toLowerCase()},debut:function(x){return -(x.date_debut?Date.parse(x.date_debut):0)},etapes:function(x){return x._n},act:function(x){return -x._act}}[CO.tri]||function(){return 0};
+  l.sort(function(a,b){var u=cle(a),v=cle(b);return u<v?-1:(u>v?1:0)});
+  if(!CO.l.length){box.innerHTML='<p class="soft">Aucun élève pour l\'instant.</p>';return}
+  if(!l.length){box.innerHTML='<p class="soft">Aucun élève dans ce filtre.</p>';return}
+  if(!CO.sel||!l.some(function(x){return x.email===CO.sel}))CO.sel=l[0].email;
+  var th=function(k,t){return '<th'+(k?' data-tri="'+k+'"'+(CO.tri===k?' class="on"':''):'')+'>'+t+'</th>'};
+  box.innerHTML='<div class="sec-head"><h2>'+l.length+' élève'+(l.length>1?'s':'')+'</h2></div><div class="co-grid">'+
+    '<div class="co-tbl-wrap"><table class="co-tbl"><thead><tr>'+th('prenom','Élève')+th('debut','Début')+th('','Semaine')+th('etapes','Étapes')+th('act','Dernière activité')+th('','Notifs')+'</tr></thead><tbody>'+
+    l.map(function(x){return '<tr data-sel="'+esc(x.email)+'" class="'+(x.email===CO.sel?'sel':'')+(x.actif?'':' off')+'"><td><b>'+esc(x.prenom)+'</b><small>'+esc(x.email)+'</small></td>'+
+      '<td>'+(x.date_debut?new Date(x.date_debut).toLocaleDateString('fr-BE',{day:'numeric',month:'short',year:'2-digit'}):'<span class="soft">À poser</span>')+'</td><td>'+coSem(x)+'</td>'+
+      '<td><span class="co-jauge"><i><b style="width:'+Math.round(x._n/ETAPES.length*100)+'%"></b></i>'+x._n+'/'+ETAPES.length+'</span></td><td>'+coAct(x)+'</td><td>'+(x._push?'Oui':'<span class="soft">Non</span>')+'</td></tr>'}).join('')+
+    '</tbody></table></div><div class="co-cards stack">'+l.map(coCarte).join('')+'</div></div>';
+}
+$('#co-q').addEventListener('input',coachAffiche);
+$('#co-filtres').addEventListener('change',coachAffiche);
+function coCarte(x){
+      return '<div class="card co-el'+(x.actif?'':' off')+(x.email===CO.sel?' sel':'')+'" data-email="'+esc(x.email)+'"><div class="co-top"><h3>'+esc(x.prenom)+'</h3><small>'+esc(x.email)+'</small></div>'+
+        '<p class="soft" style="font-size:13px;margin:0">'+coSem(x)+' · '+coAct(x)+'</p>'+
+
         '<div class="grid2"><label class="q"><span>Début</span><input type="date" data-k="date_debut" value="'+esc(x.date_debut||'')+'"></label>'+
         '<label class="q"><span>Durée</span><select data-k="duree_sem">'+[16,20,24,26].map(function(n){return '<option value="'+n+'"'+(n==x.duree_sem?' selected':'')+'>'+(n==26?'6 mois':n+' sem.')+'</option>'}).join('')+'</select></label></div>'+
         '<label class="q"><span>Lien de son fichier de suivi (optionnel)</span><input type="url" data-k="lien_suivi" placeholder="https://docs.google.com/…" value="'+esc(x.lien_suivi||'')+'"></label>'+
         '<details class="co-et"><summary>Étapes « Démarrer » faites : '+Object.keys(x._f).length+'/'+ETAPES.length+'</summary><div class="chips">'+ETAPES.map(function(t){var m=x._m[t.id],qui=m?({eleve:'par l\'élève',auto:'par l\'app',coach:'par toi',verif:'vérification'}[m.par]||'')+' le '+new Date(m.quand).toLocaleDateString('fr-BE',{day:'numeric',month:'numeric'}):'';return '<label><input type="checkbox" data-et="'+esc(t.id)+'"'+(x._f[t.id]?' checked':'')+'><span>'+esc(t.t)+(qui?'<small class="co-qui">'+(m.coche?'Cochée ':'Décochée ')+esc(qui)+'</small>':'')+'</span></label>'}).join('')+'</div></details>'+
         '<details class="co-msg"><summary class="co-et-s">Écrire un message dans son app</summary><div class="stack" style="margin-top:10px"><textarea data-k="msg" maxlength="500" placeholder="Il le verra dans ses notifications."></textarea><button class="btn ghost small" type="button" data-co="msg">Envoyer dans l\'app</button></div></details>'+
         '<div class="row"><button class="btn ghost" type="button" data-co="save">Enregistrer</button><button class="btn ghost" type="button" data-co="actif">'+(x.actif?'Désactiver':'Réactiver')+'</button></div></div>';
-    }).join('');
-  });
 }
 $('#co-list').addEventListener('click',function(e){
+  var th=e.target.closest('th[data-tri]');if(th){CO.tri=th.getAttribute('data-tri');coachAffiche();return}
+  var tr=e.target.closest('tr[data-sel]');
+  if(tr){CO.sel=tr.getAttribute('data-sel');$$('#co-list [data-sel]').forEach(function(r){r.classList.toggle('sel',r===tr)});$$('#co-list .co-el').forEach(function(c){c.classList.toggle('sel',c.getAttribute('data-email')===CO.sel)});return}
   var b=e.target.closest('[data-co]');if(!b)return;var c=b.closest('[data-email]'),em=c.getAttribute('data-email'),maj={};
   if(b.getAttribute('data-co')==='save'){maj.date_debut=$('[data-k=date_debut]',c).value||null;maj.duree_sem=+$('[data-k=duree_sem]',c).value;var l=$('[data-k=lien_suivi]',c).value.trim();if(l&&!/^https:\/\//.test(l)){toast('Le lien doit commencer par https://');return}maj.lien_suivi=l||null;maj.etapes_faites=$$('[data-et]',c).filter(function(i){return i.checked}).map(function(i){return i.getAttribute('data-et')});
     /* les coches changées par Leni sont aussi notées dans etapes_eleve (elles priment sur celles de l'élève) */
@@ -1465,10 +1548,38 @@ function route(){
   if(v==='notifs'){notifsRendu();compterNotifs()}
   if(v==='parametres')paramsRendu();
   if(v==='demarrer'||v==='formation')autoEtapes();
+  if(PILE[PILE.length-2]===v)PILE.pop();else if(PILE[PILE.length-1]!==v)PILE.push(v);
+  majRetour();
   if(v==='connexion'&&MOI.role!=='ouvert'&&!sb)cxErr('Connexion indisponible pour le moment (pas de réseau ?).');
   if(v==='accueil'||v==='ressources')satisRendu();
-  window.scrollTo(0,0);
+  remonter();
 }
+/* Chaque page s'ouvre tout en haut, sous l'en-tête (Safari peut rétablir l'ancienne position après le changement de page) */
+try{history.scrollRestoration='manual'}catch(e){}
+function remonter(){window.scrollTo(0,0);requestAnimationFrame(function(){window.scrollTo(0,0)});setTimeout(function(){window.scrollTo(0,0)},60)}
+/* Flèche retour : toute page qui n'est pas un onglet (niveau 2 ou plus) en a une, en haut.
+   Elle revient à la page précédente de l'app, sinon à la page parente. Les sous-états d'un onglet
+   (module de formation ouvert, créneau en cours de réservation) comptent comme niveau 2.
+   Dans l'app installée, glisser depuis le bord gauche fait la même chose (iOS ne le fait pas tout seul). */
+var NIV1=['accueil','appel','demarrer','formation','ressources','coach'];
+var PARENT={guides:'accueil',contact:'accueil',connexion:'accueil',notifs:'accueil',parametres:'notifs',bikini:'ressources',echauffement:'ressources',parrainage:'ressources'};
+var PILE=[];
+function sousEtat(v){var sel={formation:'#lfa-home',appel:'#rdv-back'}[v],b=sel&&$(sel);return b&&b.offsetParent!==null?b:null}
+function majRetour(){var v=document.body.dataset.vue;$('#retour').hidden=NIV1.indexOf(v)>=0&&!sousEtat(v)}
+function parentDe(v){if(FICHES[v])return 'ressources';if(OUTILS[v])return ($('#outil-back').getAttribute('href')||'#guides').slice(1);return PARENT[v]||TAB_DE[v]||'accueil'}
+function retour(){
+  var v=document.body.dataset.vue,s=sousEtat(v);
+  if(s){s.click();window.scrollTo(0,0);setTimeout(majRetour,0);return}
+  if(PILE.length>1)history.back();else location.hash='#'+parentDe(v);
+}
+$('#retour').addEventListener('click',retour);
+document.addEventListener('click',function(){setTimeout(majRetour,0)});
+(function(){
+  var standalone=window.matchMedia('(display-mode: standalone)').matches||navigator.standalone,x0=null,y0=0;
+  if(!standalone)return; // dans Safari, le balayage natif s'en charge déjà
+  document.addEventListener('touchstart',function(e){var t=e.touches[0];x0=t.clientX<24?t.clientX:null;y0=t.clientY},{passive:true});
+  document.addEventListener('touchend',function(e){if(x0===null)return;var t=e.changedTouches[0];if(t.clientX-x0>80&&Math.abs(t.clientY-y0)<60&&!$('#retour').hidden)retour();x0=null},{passive:true});
+})();
 window.addEventListener('hashchange',route);
 appliquerRole();majSession();
 if(sb)sb.auth.onAuthStateChange(function(ev){if(ev==='SIGNED_IN'||ev==='SIGNED_OUT')majSession()});
