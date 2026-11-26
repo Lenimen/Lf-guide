@@ -53,6 +53,8 @@
 #lfa .screen-body{padding:18px 16px;display:grid;gap:14px}
 #lfa .proof{justify-self:start;font-size:10px;letter-spacing:.14em;text-transform:uppercase;font-weight:bold;border:1px solid var(--ink-soft);color:var(--ink-soft);padding:2px 8px}
 #lfa .key{border-left:4px solid var(--ink);padding:10px 14px;background:var(--sheet);font-weight:bold}
+#lfa details.sci{border:1px solid var(--line);padding:8px 14px;margin:14px 0;background:var(--sheet)}
+#lfa details.sci summary{cursor:pointer;font-weight:bold}
 #lfa .vids{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(150px,1fr);gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:6px}
 #lfa .vid{display:grid;gap:6px;align-content:start;scroll-snap-align:start}
 #lfa .vid video{width:100%;aspect-ratio:9/16;background:#000;border:1px solid var(--line);display:block}
@@ -315,14 +317,14 @@
           quiz:{q:"Cas rapide : +5 kg au développé, mais l'exercice est passé en premier dans la séance au lieu du troisième. Que fais-tu ?",o:["Je le célèbre comme un record","Je le note : une partie de la hausse vient de la fatigue en moins","Je conclus que mon muscle a grossi"],a:1,
             fb:"La place dans la séance a changé, donc la tâche aussi. La hausse est en partie due à la fatigue en moins : à noter, pas à célébrer comme un record."}},
         {t:"Tes indicateurs et ce qu'ils disent",proof:'Connaissance enseignable',html:
-          "<ul class='plain'><li><b>Photos standardisées</b> : le physique reste central. Elles se lisent sur plusieurs semaines.</li>"+
+          "<ul class='plain'><li><b>Photos standardisées</b> : le physique reste central. Le rythme de lecture dépend de la phase : en prise de masse, un gain de muscle se voit difficilement d'un mois à l'autre, alors que le gras bouge plus vite ; en fin de préparation, les changements se lisent sur quelques jours, parfois quelques heures.</li>"+
           "<li><b>Performances comparables</b> : signal d'entraînement, à exécution constante.</li>"+
-          "<li><b>Poids moyen</b> : tendance d'énergie, pas une mesure de gras ou de muscle.</li>"+
+          "<li><b>Poids moyen</b> : il montre si tu manges plus ou moins de calories que tu n'en dépenses, pas une mesure de gras ou de muscle.</li>"+
           "<li><b>Mensurations</b> : utiles si prises toujours au même endroit et dans les mêmes conditions.</li>"+
           "<li><b>Sensations, faim, sommeil, énergie</b> : contexte indispensable pour interpréter le reste.</li></ul>"+
           "<p class='key'>Aucun indicateur ne décide seul. Leni les croise.</p>",
-          quiz:{q:"Ton poids moyen a baissé cette semaine. Ça te dit…",o:["Que tu as perdu du gras","Une tendance d'énergie, à croiser avec les autres indicateurs","Que tu as perdu du muscle"],a:1,
-            fb:"Le poids moyen montre une tendance d'énergie. Il ne mesure ni le gras ni le muscle, et aucun indicateur ne décide seul."}},
+          quiz:{q:"Ton poids moyen a baissé cette semaine. Ça te dit…",o:["Que tu as perdu du gras","Que tu manges probablement moins de calories que tu n'en dépenses, à croiser avec les autres indicateurs","Que tu as perdu du muscle"],a:1,
+            fb:"Le poids moyen montre si tu manges plus ou moins de calories que tu n'en dépenses. Il ne mesure ni le gras ni le muscle, et aucun indicateur ne décide seul."}},
         {t:"Un plateau n'est pas un échec",proof:'Stratégie LF',html:
           "<p>Avant de conclure qu'un exercice stagne, on vérifie dans cet ordre :</p>",
           check:["1. La tâche a-t-elle changé (machine, réglage, ordre, amplitude) ?","2. L'effort est-il réellement produit ?","3. Le contexte : sommeil, stress, alimentation, déficit calorique","4. La durée : quelques séances ne suffisent pas pour parler de plateau"],
@@ -338,14 +340,18 @@
       lessons:[
         {t:"Ce qui fait grossir un muscle",proof:'Connaissance enseignable',html:
           "<p>Un modèle simple et défendable :</p>"+
-          "<ul class='plain'><li>des séries <b>suffisamment proches de l'échec</b> pour solliciter fortement le muscle ;</li><li>un <b>volume suffisant</b> et répété dans le temps ;</li><li>une <b>progression</b> sur des exercices stables ;</li><li>assez d'<b>énergie, de protéines et de récupération</b> ;</li><li>et surtout du <b>temps</b> : on parle de mois, pas de semaines.</li></ul>"+
+          "<ul class='plain'><li>des séries <b>suffisamment proches de l'échec</b> pour solliciter fortement le muscle ;</li><li>un <b>volume suffisant</b> et répété dans le temps ;</li><li>une <b>progression</b> mesurée dans des conditions standardisées (même exécution, même amplitude, même tempo, mêmes repos), comme vu dans le module A01 ;</li><li>assez d'<b>énergie, de protéines et de récupération</b> ;</li><li>et surtout du <b>temps</b> : on parle de mois, pas de semaines.</li></ul>"+
           "<p class='key'>Il n'existe pas de nombre de séries ou de fréquence idéale pour tout le monde. Ton plan part d'une dose gérable puis s'ajuste selon ta réponse.</p>",
           quiz:{q:"Combien de séries par semaine faut-il pour faire grossir un muscle ?",o:["Un nombre idéal, le même pour tout le monde","Il n'y a pas de chiffre universel : le plan part d'une dose gérable puis s'ajuste","Le plus possible"],a:1,
             fb:"Pas de nombre de séries ni de fréquence idéale pour tout le monde. On part d'une dose gérable et on ajuste selon ta réponse."}},
         {t:"Ce qui ne prouve pas que ça marche",proof:'Connaissance enseignable',html:
           "<p>Ces signaux peuvent être intéressants, mais aucun ne prouve seul qu'un exercice fait mieux grossir :</p>"+
           "<ul class='plain'><li>le <b>pump</b> ;</li><li>les <b>courbatures</b> ;</li><li>l'<b>EMG</b> (activité électrique du muscle) ;</li><li>la <b>sensation</b> de « bien sentir le muscle ».</li></ul>"+
-          "<p class='key'>Les vrais juges restent le physique sur la durée, les performances comparables et la cohérence du plan.</p>",
+          "<p class='key'>Les vrais juges restent le physique sur la durée, les performances comparables et la cohérence du plan.</p>"+
+          "<details class='sci'><summary>Pour les curieux : où en est la science</summary>"+
+          "<p>Exemple : faire correspondre la courbe de résistance d'un exercice à la courbe de force du muscle.</p>"+
+          "<ul class='plain'><li><b>Établi :</b> travailler le muscle dans une position étirée donne, selon une revue systématique, un avantage pour certains muscles.</li><li><b>Débattu :</b> des travaux plus récents trouvent des effets proches entre amplitudes, avec des résultats qui varient selon le muscle et le niveau.</li><li><b>Inconnu :</b> l'intérêt direct de faire correspondre les deux courbes. Ce raisonnement vient surtout de la biomécanique, pas d'études qui l'ont testé.</li></ul>"+
+          "<p>Donc : une piste à tester avec méthode, pas une règle prouvée.</p></details>",
           quiz:{q:"Gros pump pendant la séance, courbatures le lendemain. Ça prouve…",o:["Que cet exercice fait mieux grossir","Rien à lui seul : les vrais juges sont le physique sur la durée et les performances comparables","Qu'il faut le garder à chaque séance"],a:1,
             fb:"Pump et courbatures peuvent être intéressants, mais aucun ne prouve seul qu'un exercice fait mieux grossir."}},
         {t:"Action : défendre un exercice de ton plan",proof:'Stratégie LF',action:true,html:
