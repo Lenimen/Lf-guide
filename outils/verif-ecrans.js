@@ -27,7 +27,7 @@ const ROLES={visiteur:['accueil','appel','guides','contact','connexion','mensura
 (async()=>{const b=await chromium.launch();let pb=0;const log=m=>{console.log(m)};
 /* Mise à jour : le service worker doit revalider les pages (GitHub Pages met max-age=600, sinon l'ancienne version reste 10 min) */
 if(!/cache:'no-cache'/.test(fs.readFileSync(path.join(APP,'sw.js'),'utf8'))){pb++;log('✗ sw.js : les pages ne sont pas revalidées (cache:\'no-cache\' manquant), une mise en ligne peut rester invisible 10 min')}else log('✓ sw.js revalide les pages à chaque ouverture');
-for(const w of [390,320,820,1280,'390-app-installee']){
+for(const w of [390,320,820,1280,1920,2560,'390-app-installee']){
   const W=parseInt(w),ENC=typeof w==='string';
   const p=await b.newPage({viewport:{width:W,height:844}});const errs=[];p.on('pageerror',e=>errs.push(e.message+(process.env.PILE?' @ '+(e.stack||'').split('\n').slice(1,3).join(' '):'')));
   await p.route('https://raw.githubusercontent.com/**',r=>r.fulfill({status:200,contentType:'text/html',body:fs.readFileSync(path.join(__dirname,'..','academy.html'),'utf8')}));
@@ -64,6 +64,9 @@ for(const w of [390,320,820,1280,'390-app-installee']){
               const n=(o.replace(/rgba?\([^)]*\)/,'').match(/-?[\d.]+px/g)||[]).map(parseFloat),bas=(n[1]||0)+(n[3]||0)+(n[2]||0)*.6;if(bas>g)out.push('lueur claire de « '+nom(a)+' » qui déborde sur le titre « '+nom(b)+' »')})}}}
         /* la carte « Ton avis » ne demande jamais la date de début ni la durée (elles viennent de l'espace coach), quel que soit le rôle */
         if([...document.querySelectorAll('#satis-debut,#satis-duree,#satis-mod')].some(e=>e.offsetParent))out.push('la carte « Ton avis » demande la date de début ou la durée ('+document.body.dataset.role+')');
+        /* grand écran : menu à gauche (pas de barre du bas façon téléphone), et l'espace coach prend la largeur */
+        if(W>=1200){const t=document.querySelector('.tabs').getBoundingClientRect();if(!(t.height>innerHeight*.8&&t.width<320&&t.left<=1))out.push('grand écran : barre d\'onglets en bas au lieu du menu à gauche');
+          if(v==='coach'&&v0){const dispo=W-t.width,l=v0.getBoundingClientRect().width;if(l<dispo*.8)out.push('grand écran : l\'espace coach n\'occupe que '+Math.round(l/dispo*100)+' % de la largeur')}}
         /* un élève ne voit ni l'acquisition (« Réserver un appel », « Deviens un athlète ») ni le mot « gratuit » */
         if(document.body.dataset.role==='eleve'&&v0){const tx=v0.innerText||'';const m=tx.match(/gratuit\w*|r[ée]server (un|mon) appel|deviens un\s+athl[èe]te/ig);if(m)out.push('texte destiné aux visiteurs affiché à un élève : « '+[...new Set(m)].join(' », « ')+' »')}
         if(document.documentElement.scrollWidth>W+1)out.push('page plus large que l\'écran ('+document.documentElement.scrollWidth+' px)');

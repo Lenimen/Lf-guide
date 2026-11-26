@@ -433,7 +433,44 @@ main.view>.back{display:none} /* remplacé par la flèche retour de l'en-tête *
 .tabs a svg{width:22px;height:22px}
 .tabs a[aria-current="page"]{color:var(--creme)}
 .tabs a[aria-current="page"] .ti{background:rgba(235,227,208,.16)}
-/* Visiteur : onglets réservés aux élèves, atténués avec un cadenas */
+/* Le lien « Mes élèves » n'existe que dans le menu latéral (grand écran, compte coach) */
+.tabs a.tab-coach{display:none}
+/* ===== Vue ordinateur (1200 px et plus) : menu à gauche à la place de la barre du bas =====
+   Le contrôle avant mise en ligne teste 1280, 1920 et 2560 px et refuse une barre en bas ou un espace coach étroit. */
+@media (min-width:1200px){
+  :root{--menu-l:232px}
+  body{padding-left:var(--menu-l)}
+  .tabs{top:0;bottom:0;right:auto;width:var(--menu-l);border-top:0;border-right:1px solid var(--filet);padding:96px 14px 24px;background:rgba(16,33,31,.6)}
+  .tabs nav{max-width:none;display:flex;flex-direction:column;gap:4px}
+  .tabs a{display:flex;align-items:center;justify-items:start;gap:12px;height:48px;padding:0 10px;border-radius:12px;font-size:15px;letter-spacing:0}
+  .tabs a .ti{width:36px;height:36px}
+  .tabs a:hover{background:rgba(235,227,208,.06);color:var(--creme)}
+  .tabs a[aria-current="page"]{background:rgba(235,227,208,.1)}
+  .tabs a[aria-current="page"] .ti{background:none}
+  body[data-role=coach] .tabs a.tab-coach{display:flex}
+  .wrap{max-width:820px;padding-bottom:64px}
+  .apercu-barre{bottom:16px!important;left:calc(var(--menu-l) + 16px)!important}
+  body.apercu main.view{padding-bottom:0}
+  .voile{padding-bottom:16px!important}
+  .toast{bottom:24px!important}
+  /* espace coach : toute la largeur */
+  body[data-vue=coach] .wrap{max-width:none;padding-left:32px;padding-right:32px}
+  .co-grid{grid-template-columns:minmax(0,1fr) minmax(400px,30%)}
+  /* espace coach grand écran : en-tête + bouton d'ajout | à revoir | échéances, puis le tableau sur toute la largeur, les réglages en bas */
+  #v-coach{grid-template-columns:repeat(3,minmax(0,1fr));column-gap:20px}
+  #v-coach>*{grid-column:1/-1}
+  #v-coach>.page-head{grid-column:1;grid-row:1}
+  #v-coach>#co-ajout{grid-column:1;grid-row:2;max-width:300px}
+  #v-coach>#co-revoir{grid-column:2;grid-row:1/3}
+  #v-coach>#co-paie{grid-column:3;grid-row:1/3;max-height:420px;overflow:auto}
+  #v-coach>#co-revoir[hidden]+#co-paie{grid-column:2/4}
+  #v-coach>#co-form{grid-row:3}
+  #v-coach>.co-barre{grid-row:4}
+  #v-coach>#co-list{grid-row:5}
+  #v-coach>.co-vue{grid-column:1/3;grid-row:6}
+  #v-coach>#co-contenus{grid-column:3;grid-row:6}
+  #v-coach>p{grid-row:7}
+}
 .tabs a.verrou{color:rgba(169,182,176,.55)}
 .tabs a.verrou .ti{position:relative}
 .tabs a.verrou .ti::after{content:'';position:absolute;right:4px;bottom:0;width:14px;height:14px;border-radius:50%;background:var(--petrole) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23EBE3D0' stroke-width='3' stroke-linecap='round'%3E%3Crect x='5' y='11' width='14' height='10' rx='2'/%3E%3Cpath d='M8 11V8a4 4 0 0 1 8 0v3'/%3E%3C/svg%3E") center/9px no-repeat;border:1px solid rgba(235,227,208,.3)}
@@ -894,6 +931,7 @@ footer{font-size:11px;color:var(--doux);text-align:center;padding-top:4px}
   <a href="#appel" data-tab="appel"><span class="ti"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M8 3v4M16 3v4M3 10h18"/></svg></span>Appel</a>
   <a href="#demarrer" data-tab="demarrer"><span class="ti"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 12h20M5 8v8M8 6v12M16 6v12M19 8v8"/></svg></span>Démarrer</a>
   <a href="#formation" data-tab="formation"><span class="ti"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11v5c3 2 9 2 12 0v-5"/></svg></span>Formation</a>
+  <a href="#coach" data-tab="coach" class="tab-coach"><span class="ti"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.9M16 3.1a4 4 0 0 1 0 7.8"/></svg></span>Mes élèves</a>
   <a href="#ressources" data-tab="ressources"><span class="ti"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg></span>Ressources</a>
 </nav></div>
 <div class="toast" id="toast" role="status"></div>
@@ -1374,7 +1412,7 @@ function majSession(){
   }).catch(function(){}).then(appliquerRole);
 }
 function appliquerRole(){
-  var w=$('#who-link');
+  var w=$('#who-link');document.body.dataset.role=MOI.role;
   document.body.classList.toggle('apercu',!!(APERCU&&MOI.vrai==='coach'));$('#apercu').hidden=!(APERCU&&MOI.vrai==='coach');
   if(APERCU&&MOI.vrai==='coach')$('#apercu-t').textContent='Aperçu '+(APERCU.role==='visiteur'?'visiteur':'élève · '+((MOI.eleve&&MOI.eleve.prenom)||APERCU.email||'type'))+' · lecture seule';
   if(MOI.role==='coach'){w.textContent='Coach';w.href='#coach'}
@@ -1771,7 +1809,7 @@ $('#ech-zones').addEventListener('click',function(e){
 /* Outils publics : vue = nom, fichier servi dans guides/ */
 var OUTILS={mensurations:'mensurations.html',potentiel:'potentiel.html',posing:'posing.html'};
 var VUES=['paiements','accueil','appel','guides','contact','demarrer','formation','ressources','bikini','echauffement','parrainage','connexion','coach','notifs','parametres'].concat(Object.keys(FICHES),Object.keys(OUTILS));
-var TAB_DE={guides:'accueil',contact:'accueil',bikini:'ressources',echauffement:'ressources',parrainage:'ressources',coach:'accueil',notifs:'accueil',parametres:'accueil'};
+var TAB_DE={guides:'accueil',contact:'accueil',bikini:'ressources',echauffement:'ressources',parrainage:'ressources',coach:'coach',notifs:'accueil',parametres:'accueil'};
 Object.keys(FICHES).forEach(function(k){TAB_DE[k]='ressources'});
 Object.keys(OUTILS).forEach(function(k){TAB_DE[k]='accueil'});
 /* Statistiques anonymes (aucune donnée personnelle, pas de cookie) : arrivée du jour + source,
