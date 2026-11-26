@@ -208,6 +208,9 @@ a.line:active{transform:scale(.985);background:var(--carte-2)}
 .co-el .co-top{display:flex;justify-content:space-between;gap:10px;align-items:baseline}
 .co-el .co-top small{color:var(--doux);overflow-wrap:anywhere}
 .co-el.off{opacity:.55}
+.co-et summary{cursor:pointer;font-size:14px;font-weight:600;color:var(--doux)}
+.co-et .chips{margin-top:10px}
+.co-et .chips span{font-size:13px;padding:7px 11px}
 .co-el .grid2{gap:10px}
 .banner .in{position:relative;z-index:1;display:flex;align-items:flex-end;justify-content:space-between;gap:14px;padding:18px}
 .ring{--p:0;width:74px;height:74px;border-radius:50%;flex:none;display:grid;place-items:center;background:conic-gradient(var(--creme) calc(var(--p)*1%),rgba(235,227,208,.18) 0);position:relative}
@@ -1022,7 +1025,8 @@ function majSession(){
     if(!ses){MOI={role:'visiteur',email:null,eleve:null};return}
     MOI.email=(ses.user.email||'').toLowerCase();
     return sb.rpc('mon_role').then(function(x){MOI.role=x.error?'visiteur':(x.data||'visiteur');
-      if(MOI.role==='eleve')return sb.from('eleves').select('prenom,date_debut,duree_sem,lien_suivi').eq('email',MOI.email).maybeSingle().then(function(e){MOI.eleve=e.data||null});
+      if(MOI.role==='eleve')return sb.from('eleves').select('prenom,date_debut,duree_sem,lien_suivi,etapes_faites').eq('email',MOI.email).maybeSingle().then(function(e){MOI.eleve=e.data||null;
+        var f=(MOI.eleve&&MOI.eleve.etapes_faites)||[],chg=0;f.forEach(function(id){if(!done[id]){done[id]=1;chg=1}});if(chg){store('lf-onboarding',done);renderSteps(false)}});
     }).then(function(){if(MOI.role==='eleve'||MOI.role==='coach')return chargerLiens()});
   }).catch(function(){}).then(appliquerRole);
 }
@@ -1142,13 +1146,14 @@ function coachRendu(){
         '<div class="grid2"><label class="q"><span>Début</span><input type="date" data-k="date_debut" value="'+esc(x.date_debut||'')+'"></label>'+
         '<label class="q"><span>Durée</span><select data-k="duree_sem">'+[16,20,24,26].map(function(n){return '<option value="'+n+'"'+(n==x.duree_sem?' selected':'')+'>'+(n==26?'6 mois':n+' sem.')+'</option>'}).join('')+'</select></label></div>'+
         '<label class="q"><span>Lien de son fichier de suivi (optionnel)</span><input type="url" data-k="lien_suivi" placeholder="https://docs.google.com/…" value="'+esc(x.lien_suivi||'')+'"></label>'+
+        '<details class="co-et"><summary>Étapes « Démarrer » déjà faites : '+(x.etapes_faites||[]).length+'/'+ETAPES.length+'</summary><div class="chips">'+ETAPES.map(function(t){return '<label><input type="checkbox" data-et="'+esc(t.id)+'"'+((x.etapes_faites||[]).indexOf(t.id)>=0?' checked':'')+'><span>'+esc(t.t)+'</span></label>'}).join('')+'</div></details>'+
         '<div class="row"><button class="btn ghost" type="button" data-co="save">Enregistrer</button><button class="btn ghost" type="button" data-co="actif">'+(x.actif?'Désactiver':'Réactiver')+'</button></div></div>';
     }).join('');
   });
 }
 $('#co-list').addEventListener('click',function(e){
   var b=e.target.closest('[data-co]');if(!b)return;var c=b.closest('[data-email]'),em=c.getAttribute('data-email'),maj={};
-  if(b.getAttribute('data-co')==='save'){maj.date_debut=$('[data-k=date_debut]',c).value||null;maj.duree_sem=+$('[data-k=duree_sem]',c).value;var l=$('[data-k=lien_suivi]',c).value.trim();if(l&&!/^https:\/\//.test(l)){toast('Le lien doit commencer par https://');return}maj.lien_suivi=l||null}
+  if(b.getAttribute('data-co')==='save'){maj.date_debut=$('[data-k=date_debut]',c).value||null;maj.duree_sem=+$('[data-k=duree_sem]',c).value;var l=$('[data-k=lien_suivi]',c).value.trim();if(l&&!/^https:\/\//.test(l)){toast('Le lien doit commencer par https://');return}maj.lien_suivi=l||null;maj.etapes_faites=$$('[data-et]',c).filter(function(i){return i.checked}).map(function(i){return i.getAttribute('data-et')})}
   else maj.actif=c.classList.contains('off');
   sb.from('eleves').update(maj).eq('email',em).then(function(r){toast(r.error?'Erreur, réessaie':'Enregistré');coachRendu()});
 });
