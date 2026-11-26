@@ -18,7 +18,7 @@ function faux(contenus,eleves){
     then:(ok,ko)=>Promise.resolve(t==='eleves'?{data:eleves}:t==='contenus'?(f.one?(contenus[f.cle]?{data:{mime:'text/html',donnees:contenus[f.cle],base64:false}}:{data:null}):{data:Object.keys(contenus).map(k=>({cle:k}))}):{data:[]}).then(ok,ko)};return o}
   return {from:q,auth:{signOut:()=>Promise.resolve(),onAuthStateChange:()=>{}}};
 }
-const ROLES={visiteur:['accueil','appel','guides','contact','connexion','mensurations','potentiel','posing'],eleve:['demarrer','formation','ressources','bikini','echauffement','parrainage','vacuum','cheatmeals'],coach:['coach']};
+const ROLES={visiteur:['accueil','appel','guides','contact','connexion','mensurations','potentiel','posing'],eleve:['demarrer','formation','ressources','bikini','echauffement','parrainage','tuto','vacuum','cheatmeals'],coach:['coach']};
 (async()=>{const b=await chromium.launch();let pb=0;const log=m=>{console.log(m)};
 for(const w of [390,320]){
   const p=await b.newPage({viewport:{width:w,height:844}});const errs=[];p.on('pageerror',e=>errs.push(e.message));
