@@ -226,6 +226,7 @@ a.line:active{transform:scale(.985);background:var(--carte-2)}
 .tl-e.fait h3{opacity:.7}
 .pa-l{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 12px;align-items:center;padding:12px 0;border-bottom:1px solid var(--filet)}
 .pa-l:last-child{border-bottom:0}
+.pa-c{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:10px;align-items:center;padding:8px 0;border-bottom:1px solid var(--filet);font-size:14px}.pa-c b{overflow-wrap:anywhere}.pa-c:last-child{border-bottom:0}
 .pa-l b{font-size:15px}.pa-l small{grid-column:1/-1;color:var(--doux);font-size:13px}
 .pa-s{font-size:12px;font-weight:700;letter-spacing:.04em;padding:4px 10px;border-radius:999px;background:var(--lueur);border:1px solid var(--filet);white-space:nowrap}
 .pa-s.ok{background:rgba(235,227,208,.16)}.pa-s.ko{color:#E8B48A;border-color:rgba(232,180,138,.45)}
@@ -1105,7 +1106,8 @@ document.addEventListener('click',function(e){var a=e.target.closest&&e.target.c
 });
 /* ================= PAIEMENTS =================
    Table paiements : une ligne par échéance (date, montant, moyen, payée le, lien Stripe).
-   Lecture seule pour l'élève ; Leni coche « payé » (Wero, virement) et ajoute les échéances dans l'espace coach. */
+   Lecture seule pour l'élève ; Leni coche « payé » (Wero, virement) et ajoute les échéances dans l'espace coach.
+   Lignes remplies depuis Notion Clients (Prochaine échéance, Montant échéance, Moyen de paiement) le 26/11. */
 /* ================= PRÉPA COMPÉTITION =================
    Table prepa_etapes : étapes datées jusqu'au jour J (scene = jour J). Posées par Leni après l'appel de construction,
    visibles en lecture seule par l'élève (accueil + page « Ta prépa »). */
@@ -1133,19 +1135,33 @@ function euros(n){return (+n).toLocaleString('fr-BE',{minimumFractionDigits:0,ma
 function jourFr(d){return new Date(d+'T12:00:00').toLocaleDateString('fr-BE',{day:'numeric',month:'long',year:'numeric'})}
 function paStatut(x){var auj=new Date().toISOString().slice(0,10);return x.paye_le?{c:'ok',t:'Payée'}:(x.echeance<auj?{c:'ko',t:'En retard'}:{c:'',t:'À venir'})}
 var MOYENS={stripe:'Carte (Stripe)',wero:'Wero',virement:'Virement',autre:'Autre'};
+/* Moyen habituel de l'élève (idée de Leni 26/11) : la prochaine échéance montre comment payer, selon la ligne paiements.
+   stripe + lien : bouton ; stripe sans lien : prélèvement auto (2×/3×) ; virement : IBAN + communication ; wero : Wero, IBAN en secours. */
+var PA_IBAN='BE97 1030 8541 6349',PA_BENEF='Leni Fauconnier',PA_WERO='';
+var PA_MOIS=['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'];
+function paComm(x){var p=(MOI.eleve&&MOI.eleve.prenom)||'';var d=new Date(x.echeance+'T12:00:00');return ('Coaching '+p+' '+PA_MOIS[d.getMonth()]+' '+d.getFullYear()).replace(/\s+/g,' ')}
+function paLigneCopie(lab,val){return '<div class="pa-c"><span class="soft">'+lab+'</span><b>'+esc(val)+'</b><button class="lien" type="button" data-pa-copy="'+esc(val)+'">Copier</button></div>'}
+function paBlocVirement(x){return paLigneCopie('IBAN',PA_IBAN)+paLigneCopie('Bénéficiaire',PA_BENEF)+paLigneCopie('Montant',String(+x.montant).replace('.',','))+paLigneCopie('Communication',paComm(x))}
+function paInstr(x){var m=x.moyen;
+  if(m==='stripe'&&x.lien)return '<a class="btn dark block" href="'+esc(x.lien)+'" target="_blank" rel="noopener">Payer par carte</a>';
+  if(m==='stripe')return '<p class="soft" style="margin:8px 0 0">Prélevée automatiquement sur ta carte, tu n\'as rien à faire.</p>';
+  if(m==='virement')return '<p class="soft" style="margin:8px 0 4px">Par virement depuis ton app bancaire :</p>'+paBlocVirement(x);
+  if(m==='wero')return '<p class="soft" style="margin:8px 0 4px">Par Wero depuis ton app bancaire'+(PA_WERO?', à '+esc(PA_WERO):'')+'. Si Wero ne marche pas, le virement classique fonctionne aussi :</p>'+paBlocVirement(x);
+  return '<p class="soft" style="margin:8px 0 0">Je t\'envoie les infos pour régler avant la date.</p>'}
 function paiementsRendu(){
   var box=$('#pa-body');if(!sb||!MOI.email){box.innerHTML='<p class="soft">Connecte-toi pour voir tes paiements.</p>';return}
   sb.from('paiements').select('id,echeance,montant,moyen,paye_le,lien').eq('email',MOI.email).order('echeance').then(function(r){
     var l=(r&&r.data)||[];if(r&&r.error){box.innerHTML='<p class="soft">Paiements indisponibles pour le moment.</p>';return}
-    if(!l.length){box.innerHTML='<div class="card"><p class="soft" style="margin:0">Rien à afficher pour l\'instant. Tes échéances apparaîtront ici.</p></div>';return}
-    var tot=0,paye=0;l.forEach(function(x){tot+=+x.montant;if(x.paye_le)paye+=+x.montant});
+    if(!l.length){box.innerHTML='<div class="card"><p class="soft" style="margin:0">Aucune échéance à venir. Tout est réglé de ton côté.</p></div>';return}
     var pro=l.filter(function(x){return !x.paye_le})[0];
-    box.innerHTML='<div class="card cream"><div class="eyebrow">Ta formule</div><h3>'+(l.length>1?l.length+' échéances':'1 paiement')+' · '+euros(tot)+'</h3><p style="margin:0">Payé : '+euros(paye)+(tot-paye>0?' · Reste : '+euros(tot-paye):' · Tout est réglé')+'</p>'+
-      (pro&&pro.lien?'<a class="btn dark block" href="'+esc(pro.lien)+'" target="_blank" rel="noopener">Payer l\'échéance du '+esc(jourFr(pro.echeance))+'</a>':'')+'</div>'+
+    box.innerHTML=(pro?'<div class="card cream" id="pa-pro"><div class="eyebrow">Prochaine échéance</div><h3>'+esc(jourFr(pro.echeance))+' · '+euros(pro.montant)+'</h3>'+(paStatut(pro).c==='ko'?'<p style="margin:0">Elle est passée, règle-la dès que tu peux ou écris-moi.</p>':'')+paInstr(pro)+'</div>'
+        :'<div class="card cream"><div class="eyebrow">Paiements</div><h3>Tout est réglé</h3></div>')+
       '<div class="card"><div class="eyebrow">Tes échéances</div><div>'+l.map(function(x){var st=paStatut(x);
         return '<div class="pa-l"><b>'+esc(jourFr(x.echeance))+' · '+euros(x.montant)+'</b><span class="pa-s '+st.c+'">'+st.t+'</span><small>'+esc(MOYENS[x.moyen]||x.moyen)+(x.paye_le?' · payée le '+esc(jourFr(x.paye_le)):'')+'</small></div>'}).join('')+'</div></div>';
   });
 }
+document.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('[data-pa-copy]');if(!b)return;var v=b.getAttribute('data-pa-copy');
+  try{navigator.clipboard.writeText(v).then(function(){toast('Copié')},function(){toast('Copie : '+v)})}catch(err){toast('Copie : '+v)}});
 /* Coach : échéances en retard et des 30 prochains jours, toutes élèves confondus */
 function coPaieRendu(l,eleves){
   var box=$('#co-paie');if(!box)return;var auj=new Date().toISOString().slice(0,10),lim=new Date(Date.now()+30*864e5).toISOString().slice(0,10);
