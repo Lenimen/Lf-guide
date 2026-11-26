@@ -1,5 +1,5 @@
 /* Vérification avant chaque mise en ligne de l'app : capture chaque vue en largeur iPhone
-   (390 et 320 px), iPad (820 px) et ordinateur (1280 px), en visiteur, en élève et en coach (données fictives), et signale :
+   (390 et 320 px), iPad (820 px), ordinateur (1280 px) et app installée sur iPhone (encoche simulée), en visiteur, en élève et en coach (données fictives), et signale :
    - un débordement horizontal de la page ;
    - un élément qui sort de sa carte ou de sa colonne (champ date, select, image...) ;
    - une classe d'en-tête global (.top) réutilisée dans une vue ;
@@ -11,7 +11,8 @@ const {chromium}=require('playwright');const http=require('http');const fs=requi
 const APP=path.join(__dirname,'..','app');const OUT=process.argv[2]||'captures';const FICHES=process.argv[3]||'';
 fs.mkdirSync(OUT,{recursive:true});
 const MIME={'.html':'text/html','.js':'text/javascript','.json':'application/json','.png':'image/png','.jpg':'image/jpeg','.webmanifest':'application/manifest+json','.css':'text/css'};
-const srv=http.createServer((q,r)=>{const u=decodeURIComponent(q.url.split('?')[0]);let f=u.startsWith('/guides/')?path.join(APP,'..',u.slice(8)):path.join(APP,u);if(f.endsWith('/'))f+='index.html';fs.readFile(f,(e,d)=>{if(e){r.writeHead(404);r.end();return}r.writeHead(200,{'Content-Type':MIME[path.extname(f)]||'application/octet-stream'});r.end(d)})}).listen(8768);
+/* ?encoche=47 : simule l'app installée sur iPhone (zone de l'encoche en haut), invisible dans un navigateur normal */
+const srv=http.createServer((q,r)=>{const u=decodeURIComponent(q.url.split('?')[0]);const enc=(q.url.match(/[?&]encoche=(\d+)/)||[])[1];let f=u.startsWith('/guides/')?path.join(APP,'..',u.slice(8)):path.join(APP,u);if(f.endsWith('/'))f+='index.html';fs.readFile(f,(e,d)=>{if(e){r.writeHead(404);r.end();return}if(enc&&f.endsWith('.html'))d=String(d).replace(/env\(safe-area-inset-top(,\s*0px)?\)/g,enc+'px');r.writeHead(200,{'Content-Type':MIME[path.extname(f)]||'application/octet-stream'});r.end(d)})}).listen(8768);
 const contenus={};if(FICHES&&fs.existsSync(FICHES))fs.readdirSync(FICHES).filter(f=>f.endsWith('.html')).forEach(f=>contenus['fiche-'+f]=fs.readFileSync(path.join(FICHES,f),'utf8'));
 const ELEVES=[{email:'eleve.avec.un.long.email@exemple.com',prenom:'Maximilien',date_debut:null,duree_sem:26,lien_suivi:null,actif:true},{email:'b@exemple.com',prenom:'Noah',date_debut:'2026-06-29',duree_sem:26,lien_suivi:'https://docs.google.com/spreadsheets/d/xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx/edit',actif:true}];
 function faux(contenus,eleves){
@@ -22,10 +23,11 @@ function faux(contenus,eleves){
 }
 const ROLES={visiteur:['accueil','appel','guides','contact','connexion','mensurations','potentiel','posing'],eleve:['demarrer','formation','ressources','bikini','echauffement','parrainage','tuto','vacuum','cheatmeals','notifs','parametres'],coach:['coach','notifs']};
 (async()=>{const b=await chromium.launch();let pb=0;const log=m=>{console.log(m)};
-for(const w of [390,320,820,1280]){
-  const p=await b.newPage({viewport:{width:w,height:844}});const errs=[];p.on('pageerror',e=>errs.push(e.message+(process.env.PILE?' @ '+(e.stack||'').split('\n').slice(1,3).join(' '):'')));
+for(const w of [390,320,820,1280,'390-app-installee']){
+  const W=parseInt(w),ENC=typeof w==='string';
+  const p=await b.newPage({viewport:{width:W,height:844}});const errs=[];p.on('pageerror',e=>errs.push(e.message+(process.env.PILE?' @ '+(e.stack||'').split('\n').slice(1,3).join(' '):'')));
   await p.route('https://raw.githubusercontent.com/**',r=>r.fulfill({status:200,contentType:'text/html',body:fs.readFileSync(path.join(__dirname,'..','academy.html'),'utf8')}));
-  await p.goto('http://localhost:8768/');await p.waitForTimeout(800);
+  await p.goto('http://localhost:8768/'+(ENC?'?encoche=47':''));await p.waitForTimeout(800);
   for(const role of Object.keys(ROLES)){
     await p.evaluate(([role,contenus,eleves,fx])=>{window.sb=eval('('+fx+')')(contenus,eleves);sb=window.sb;MOI.role=role;MOI.email=role==='visiteur'?null:'x@exemple.com';MOI.eleve=role==='eleve'?{prenom:'Test'}:null;document.body.dataset.role=role;if(window.appliquerRole)appliquerRole()},[role,contenus,ELEVES,faux.toString()]);
     for(const v of ROLES[role]){
@@ -74,6 +76,32 @@ for(const w of [390,320,820,1280]){
         await p.waitForTimeout(200);pbs.push(...r.map(x=>x+' ('+v+')'));}
       if(pbs.length){pb++;log('✗ '+nom+' : '+pbs.join(' ; '))}else log('✓ '+nom);
     }
+  }
+  /* Vue visiteur : chaque onglet et chaque bouton doit produire une réaction visible (page, fenêtre, message). */
+  if(w===390){
+    await p.evaluate(([contenus,eleves,fx])=>{window.sb=eval('('+fx+')')(contenus,eleves);sb=window.sb;MOI.role='visiteur';MOI.email=null;MOI.eleve=null;document.body.dataset.role='visiteur';appliquerRole()},[contenus,ELEVES,faux.toString()]);
+    p.on('popup',pp=>pp.close().catch(()=>{}));
+    const snap=()=>p.evaluate(()=>location.hash+'|'+(document.body.dataset.imprime||'')+'|'+document.body.innerHTML.length+'|'+document.body.innerHTML.slice(0,5000).length+'|'+[...document.querySelectorAll('main.view:not([hidden]),.voile:not([hidden]),.toast.on')].map(e=>e.id+e.className+e.innerHTML.length).join(','));
+    const muets=[];
+    for(const t of ['accueil','appel','demarrer','formation','ressources']){
+      await p.evaluate(()=>{location.hash='#accueil';route();document.getElementById('verrou').hidden=true});await p.waitForTimeout(200);
+      const avant=await snap();await p.click('.tabs a[data-tab="'+t+'"]');await p.waitForTimeout(350);
+      if(t!=='accueil'&&(await snap())===avant)muets.push('onglet '+t);
+    }
+    for(const v of ROLES.visiteur){
+      await p.evaluate(v=>{location.hash='#'+v;route();document.getElementById('verrou').hidden=true},v);await p.waitForTimeout(300);
+      const n=await p.evaluate(()=>{const vue=[...document.querySelectorAll('main.view')].find(m=>!m.hidden);return vue?[...vue.querySelectorAll('button')].filter(b=>b.offsetParent&&!b.disabled).length:0});
+      for(let i=0;i<n;i++){
+        await p.evaluate(v=>{if(location.hash!=='#'+v){location.hash='#'+v;route()}document.getElementById('verrou').hidden=true},v);await p.waitForTimeout(150);
+        const avant=await snap();
+        const lab=await p.evaluate(i=>{const vue=[...document.querySelectorAll('main.view')].find(m=>!m.hidden);const b=[...vue.querySelectorAll('button')].filter(b=>b.offsetParent&&!b.disabled)[i];if(!b)return null;
+          /* l'impression (PDF) ouvre une fenêtre du système : comptée comme réaction */
+          const imp=()=>{document.body.dataset.imprime=Date.now()};window.print=imp;document.querySelectorAll('iframe').forEach(f=>{try{f.contentWindow.print=imp}catch(e){}});b.click();return (b.textContent||b.getAttribute('aria-label')||b.id).trim().slice(0,30)},i);
+        if(lab===null)continue;await p.waitForTimeout(300);
+        if((await snap())===avant)muets.push(v+' : bouton « '+lab+' »');
+      }
+    }
+    if(muets.length){pb++;log('✗ visiteur, sans réaction visible : '+muets.join(' ; '))}else log('✓ visiteur : chaque onglet et chaque bouton réagit');
   }
   if(errs.length){pb++;log('✗ erreurs JS ('+w+') : '+errs.join(' | '))}
   await p.close();

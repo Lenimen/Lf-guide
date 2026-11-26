@@ -150,7 +150,7 @@
         {t:"Un bon message donne du contexte",proof:'Stratégie LF',html:
           "<div class='vs'><div><span class='label'>Au lieu de</span><p>« Cette machine ne va pas. »</p></div>"+
           "<div class='good'><span class='label'>Écris plutôt</span><ul class='plain'><li>l'exercice prévu</li><li>le problème précis</li><li>le matériel disponible</li><li>ce que tu as essayé</li><li>une vidéo si utile</li><li>une question claire</li></ul></div></div>",
-          quiz:{q:"Cas rapide : la machine prescrite n'existe pas dans ta salle. Que fais-tu ?",o:["Je saute l'exercice","Je prends n'importe quelle machine qui ressemble","Si je maîtrise la fonction et les alternatives convenues, je choisis une substitution cohérente et je la signale. Sinon, je demande avant d'improviser."],a:2,
+          quiz:{q:"Cas rapide : aujourd'hui tu t'entraînes dans une autre salle que d'habitude, ou la machine prescrite est prise ou indisponible. Que fais-tu ?",o:["Je saute l'exercice","Je prends n'importe quelle machine qui ressemble","Si je maîtrise la fonction et les alternatives convenues, je choisis une substitution cohérente et je la signale. Sinon, je demande avant d'improviser."],a:2,
             fb:"Tu peux substituer seul quand tu connais la fonction recherchée et les alternatives convenues, et tu le signales toujours. Dans le doute, tu demandes."}},
         {t:"Autonomie progressive",proof:'Stratégie LF',html:
           "<p><b>Au début :</b> tu appliques, et tu demandes avant tout changement qui modifie le plan.</p>"+
@@ -159,7 +159,7 @@
           "<p>Une urgence ou un problème de santé sort du délai normal du coaching (voir module C06).</p>",
           quiz:{q:"Tu as remplacé un exercice cette semaine parce que la salle était bondée. Que fais-tu ?",o:["Rien, c'est un détail","Je le signale dans mon retour","J'attends le bilan dans un mois pour en parler"],a:1,
             fb:"Un changement non signalé fausse les données. Tu le signales simplement, même s'il te semble petit."}},
-        {t:"Action : ton premier retour exploitable",proof:'Stratégie LF',action:true,html:
+        {t:"Action : ton premier retour utile",proof:'Stratégie LF',action:true,html:
           "<p>Avant ton prochain bilan, envoie au moins un retour construit en 4 parties, sur n'importe quel petit imprévu de ta semaine. Remplis les cases : ton message se prépare tout seul, tu n'as plus qu'à le copier.</p>"+
           "<div class='good'><span class='label'>Exemple</span><ul class='plain'><li><b>Contexte :</b> mardi, séance Legs, presse à cuisses.</li><li><b>Observation :</b> la presse était prise, j'ai fait le hack squat à la place.</li><li><b>Ce qui a changé :</b> l'exercice, donc la charge n'est pas comparable. Je sentais plus les quadriceps, moins les fessiers.</li><li><b>Question ou action proposée :</b> si ça se reproduit, je garde le hack squat ou j'attends la presse ?</li></ul></div>",
           builder:[['Contexte','Quel jour, quelle séance, quel exercice ou quel repas ?'],['Observation','Ce qui s\'est passé, tel quel. Pas encore ta solution.'],['Ce qui a changé','Ce qui était différent de d\'habitude, et ce que ça a donné (ressenti, reps, charge).'],['Question ou action proposée','Ce que tu demandes à Leni, ou ce que tu proposes de faire.']],
@@ -177,7 +177,7 @@
             fb:"On veut des données fiables et utiles pour décider, pas un maximum de chiffres."}},
         {t:"Comparable ne veut pas dire parfait",proof:'Connaissance enseignable',html:
           "<p>Pour que tes données se comparent d'une semaine à l'autre :</p>",
-          check:["Même heure et mêmes conditions quand c'est possible","Photos standardisées (même lieu, même lumière, mêmes poses)","Même machine et mêmes réglages quand c'est pertinent","Je note les différences importantes"],
+          check:["Pesée : même balance, posée au même endroit (sol dur, pas de tapis), le matin à jeun","Photos standardisées (même lieu, même lumière, mêmes poses)","En séance : même machine et mêmes réglages pour comparer tes charges","Je note les différences importantes"],
           after:"<p class='key'>Une moyenne de poids réduit le bruit, mais elle ne mesure pas directement la graisse perdue ou gagnée.</p>"},
         {t:"Observation ≠ conclusion",proof:'Connaissance enseignable',html:
           "<div class='vs'><div class='good'><span class='label'>Observation</span><p>« +0,8 kg ce matin. »</p></div><div><span class='label'>Conclusion non justifiée</span><p>« J'ai pris 0,8 kg de gras. »</p></div></div>"+
@@ -185,7 +185,7 @@
           quiz:{q:"Cas rapide : tu changes de salle. Même nom d'exercice, machine différente, charge plus basse. Que fais-tu ?",o:["Je conclus que j'ai perdu de la force","Je documente le changement et je recrée une référence sur la nouvelle machine","Je force pour retrouver mes anciennes charges"],a:1,
             fb:"Ce n'est pas la même tâche, donc pas la même référence. Tu notes le changement et tu repars de cette nouvelle base."}},
         {t:"Action : un check-in analysable",proof:'Stratégie LF',action:true,html:
-          "<p>Ton prochain check-in doit pouvoir être analysé sans aller-retour pour une donnée essentielle.</p>",
+          "<p>Ton prochain check-in doit être complet : Leni doit pouvoir l'analyser sans avoir à te redemander une donnée (poids, photos, etc.).</p>",
           check:["Toutes les données demandées sont remplies","Les différences de conditions sont notées (heure, salle, machine…)","Une donnée manquante est marquée « manquante », pas reconstruite de mémoire"],
           after:"<p>Leni te fait un retour au bilan.</p>"}
       ]},
@@ -202,12 +202,12 @@
           "<p>Réglages, stabilité, amplitude tolérée, trajectoire et repères personnels servent à rendre l'exercice reproductible. Trois exemples en vidéo sur des machines courantes :</p>",
           vids:[['leg-extension-amplitude','Leg extension',"Récupérer l'amplitude que la machine te vole."],['rowing-reglages','Rowing buste supporté','Régler la machine avant de charger.'],['elevation-poulie-standardiser','Élévations à la poulie','Refaire le même mouvement à chaque série.']],
           check:["Je note mes réglages (siège, dossier, poulie, prise…)","Je sais où se trouve mon amplitude de travail","Je garde la même trajectoire d'une série à l'autre","J'ai mes repères personnels pour me replacer vite"],
-          after:"<p class='key'>Contrôle ne veut pas forcément dire tempo lent. Le but est une exécution définie et exploitable.</p>"},
+          after:"<p class='key'>Contrôle ne veut pas forcément dire tempo lent. Le but est une exécution précise, que Leni peut vraiment juger.</p>"},
         {t:"Une correction doit être observable",proof:'Stratégie LF',html:
           "<p>Après une correction, tu dois pouvoir dire quel paramètre a changé : réglage, amplitude, trajectoire, prise, stabilité, charge ou autre.</p>"+
           "<p>Si la correction t'oblige à baisser la charge, ce n'est pas une régression automatique.</p>",
-          quiz:{q:"Cas rapide : semaine 1, 80 kg × 11, propre et comparable. Semaine 2, 85 kg × 10 avec une amplitude réduite. Quelle performance est la plus exploitable ?",o:["85 kg × 10, c'est plus lourd","80 kg × 11, la tâche était respectée","Les deux se valent"],a:1,
-            fb:"Avec une amplitude réduite, ce n'est plus la même tâche. LF ne considère pas automatiquement 85 × 10 comme une meilleure performance exploitable."}},
+          quiz:{q:"Cas rapide : semaine 1, 80 kg × 11, propre et comparable. Semaine 2, 85 kg × 10 avec une amplitude réduite. Quelle performance te dit vraiment si tu progresses ?",o:["85 kg × 10, c'est plus lourd","80 kg × 11, la tâche était respectée","Les deux se valent"],a:1,
+            fb:"Avec une amplitude réduite, ce n'est plus la même tâche. LF ne considère pas automatiquement 85 × 10 comme une meilleure performance."}},
         {t:"Action : filmer, corriger, refilmer",proof:'Stratégie LF',action:true,html:
           "<p>Sur un exercice choisi avec Leni :</p>",
           check:["Je filme une série","J'applique une correction ciblée","Je refilme la série","J'explique en une phrase ce qui a changé"],
@@ -234,7 +234,7 @@
             fb:"Il n'y a pas de RIR magique. La cible s'adapte à l'exercice, au risque, à ton niveau, à la fatigue de la semaine et à la phase."}},
         {t:"Ne pas acheter une répétition avec ton exécution",proof:'Stratégie LF',html:
           "<p>Pousser plus fort ne doit pas changer l'exercice. Si les dernières répétitions se font avec une amplitude réduite, un élan ou une position différente, elles ne sont plus comparables à ta référence.</p>"+
-          "<p class='key'>Règle LF : la progression se compte à exécution constante. Une répétition de plus obtenue en trichant n'est pas une progression exploitable.</p>",
+          "<p class='key'>Règle LF : la progression se compte à exécution constante. Une répétition de plus obtenue en trichant n'est pas une vraie progression.</p>",
           quiz:{q:"Cas rapide : semaine 1, 12 répétitions propres à RIR 1. Semaine 2, 13 répétitions dont 2 en demi-amplitude. Que notes-tu ?",o:["13, j'ai progressé","11 répétitions comparables, et je précise les 2 en demi-amplitude","12, pour faire la moyenne"],a:1,
             fb:"Pour le suivi, ta performance comparable est 11, pas 13. Tu le notes tel quel, sans arrondir à ton avantage."}},
         {t:"Action : une semaine de RIR noté",proof:'Stratégie LF',action:true,html:
@@ -372,12 +372,12 @@
           "<ul class='plain'><li><b>Réglages</b> : le pivot de la machine est-il aligné avec ton articulation ? Le siège est-il noté pour être reproduit ?</li><li><b>Stabilité</b> : es-tu assez calé pour que l'effort aille au muscle visé et pas à la compensation ?</li><li><b>Profil de résistance</b> : à quel moment du mouvement c'est le plus dur ? Est-ce cohérent avec ce que tu veux travailler ?</li></ul>",
           vids:[['curl-pupitre-profil','Curl pupitre','Où se trouve le pic de tension dans le mouvement.'],['extension-triceps-stabilite','Extension triceps à la poulie','Barre en V, poulie à hauteur de tête, hanches calées.']],
           check:["Le pivot de la machine est aligné avec mon articulation","Mon réglage de siège est noté","Je suis assez calé pour que l'effort aille au muscle visé","Je sais à quel moment du mouvement c'est le plus dur"]},
-        {t:"Remplacer une machine quand ta salle ne l'a pas",proof:'Stratégie LF',action:true,html:
+        {t:"Remplacer une machine prise ou absente ce jour-là",proof:'Stratégie LF',action:true,html:
           "<p>Quand tu as acquis cette compétence, tu peux remplacer ponctuellement un exercice. Deux exemples en vidéo :</p>",
-          vids:[['incline-press-shoulder-press','Incliné sur shoulder press',"Quand ta salle n'a pas de bonne machine inclinée."],['alternative-tirage-sagittal','Tirage dans le plan sagittal','Une alternative à la poulie de tirage, poignée simple.']],
+          vids:[['incline-press-shoulder-press','Incliné sur shoulder press',"Quand il n'y a pas de bonne machine inclinée libre."],['alternative-tirage-sagittal','Tirage dans le plan sagittal','Une alternative à la poulie de tirage, poignée simple.']],
           check:["Même fonction articulaire","Réglable et stable","Un profil de résistance proche","Je le signale et je crée une nouvelle référence de charges"],
           builder:[["Machine de ton plan","Laquelle ?"],["Remplacement proposé","Quel exercice ou quelle machine ?"],["Fonction","La fonction articulaire est-elle la même ?"],["Réglages et stabilité","Comment tu le règles et comment tu te cales."],["Profil de résistance","Où c'est le plus dur, comparé à l'original."]],
-          after:"<p>Propose ce remplacement à Leni dans ton prochain retour, comme si ta salle n'avait pas la machine. Leni te fait un retour au bilan.</p>"}
+          after:"<p>Propose ce remplacement à Leni dans ton prochain retour, comme si la machine était prise ou que tu t'entraînais dans une autre salle ce jour-là. Leni te fait un retour au bilan.</p>"}
       ]},
     a04:{
       code:'A04',title:'Comprendre ta programmation',time:'15 min',pub:'2026-12-07',

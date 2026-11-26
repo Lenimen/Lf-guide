@@ -49,7 +49,7 @@ p{margin:0;max-width:60ch}
 button{font:inherit;color:inherit}
 img{max-width:100%;display:block}
 :focus-visible{outline:2px solid var(--creme);outline-offset:3px;border-radius:6px}
-.wrap{max-width:620px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 calc(var(--tab-h) + 48px + env(safe-area-inset-bottom,0px))}
+.wrap{max-width:620px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 calc(var(--tab-h) + 48px + env(safe-area-inset-bottom,0px));padding-top:env(safe-area-inset-top,0px)}
 .eyebrow{font-size:11px;letter-spacing:.18em;text-transform:uppercase;font-weight:600;color:var(--doux)}
 .soft{color:var(--doux)}
 
@@ -414,6 +414,14 @@ main.view>.back{display:none} /* remplacé par la flèche retour de l'en-tête *
 .tabs a svg{width:22px;height:22px}
 .tabs a[aria-current="page"]{color:var(--creme)}
 .tabs a[aria-current="page"] .ti{background:rgba(235,227,208,.16)}
+/* Visiteur : onglets réservés aux élèves, atténués avec un cadenas */
+.tabs a.verrou{color:rgba(169,182,176,.55)}
+.tabs a.verrou .ti{position:relative}
+.tabs a.verrou .ti::after{content:'';position:absolute;right:4px;bottom:0;width:14px;height:14px;border-radius:50%;background:var(--petrole) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23EBE3D0' stroke-width='3' stroke-linecap='round'%3E%3Crect x='5' y='11' width='14' height='10' rx='2'/%3E%3Cpath d='M8 11V8a4 4 0 0 1 8 0v3'/%3E%3C/svg%3E") center/9px no-repeat;border:1px solid rgba(235,227,208,.3)}
+.voile{position:fixed;inset:0;z-index:40;background:rgba(10,20,22,.55);display:grid;align-items:end;justify-items:center;padding:16px;padding-bottom:calc(var(--tab-h) + 16px + env(safe-area-inset-bottom,0px))}
+.voile .card{width:100%;max-width:440px;backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px)}
+.carte-verrou{opacity:.8}
+.carte-verrou .badge{position:relative}
 
 .toast{position:fixed;left:50%;bottom:calc(var(--tab-h) + 18px + env(safe-area-inset-bottom,0px));transform:translateX(-50%) translateY(16px);background:var(--creme);color:var(--petrole);padding:11px 18px;border-radius:999px;font-weight:700;font-size:14px;opacity:0;pointer-events:none;transition:.3s var(--ease);z-index:40;max-width:calc(100% - 32px);text-align:center;box-shadow:0 12px 30px -10px rgba(0,0,0,.6)}
 .ech-z{padding:0;overflow:hidden}.ech-z>summary{list-style:none;cursor:pointer;padding:14px 16px;display:flex;justify-content:space-between;align-items:center;font-weight:700;font-size:16px}.ech-z>summary::-webkit-details-marker{display:none}.ech-z>summary small{font-weight:500;opacity:.7;font-size:12px}
@@ -544,6 +552,7 @@ footer{font-size:11px;color:var(--doux);text-align:center;padding-top:4px}
       <span class="arrow">Écrire ANALYSE en DM</span>
     </a>
     <div class="stack" id="guides-list"></div>
+    <a class="line carte-verrou visiteur-seul" href="#ressources" data-verrouille="ressources"><span class="badge">🔒</span><h3>Les ressources des élèves</h3><span class="end">Élèves</span><p>Vacuum, cheat meals, échauffement, posing bikini : réservées aux élèves LF.</p></a>
     <a class="card cream" data-cfg="correctionPosing" href="#" style="text-decoration:none">
       <div class="eyebrow">Offre ponctuelle · 49 €</div>
       <h2>Correction posing en vidéo</h2>
@@ -840,6 +849,16 @@ footer{font-size:11px;color:var(--doux);text-align:center;padding-top:4px}
   <a href="#ressources" data-tab="ressources"><span class="ti"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg></span>Ressources</a>
 </nav></div>
 <div class="toast" id="toast" role="status"></div>
+<div class="voile" id="verrou" hidden role="dialog" aria-modal="true" aria-labelledby="verrou-t">
+  <div class="card">
+    <div class="eyebrow">🔒 Espace élève</div>
+    <h3 id="verrou-t">Réservé aux élèves LF</h3>
+    <p class="soft" style="font-size:14px" id="verrou-d">Le démarrage, la formation et les ressources des élèves s'ouvrent avec ton compte, dès que ton coaching commence.</p>
+    <a class="btn block" href="#connexion" data-verrou-x>Se connecter</a>
+    <a class="btn ghost block" href="#appel" data-verrou-x>Découvrir le coaching</a>
+    <button class="lien" type="button" data-verrou-x style="justify-self:center">Fermer</button>
+  </div>
+</div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
 <script>
@@ -1230,6 +1249,9 @@ function appliquerRole(){
   else if(MOI.role==='ouvert'&&store('lf-eleve')){w.textContent='Mon espace';w.href='#demarrer'}
   else{w.textContent='Se connecter';w.href=MOI.role==='ouvert'?'#demarrer':'#connexion'}
   var el=aAcces()&&(MOI.role!=='ouvert'||store('lf-eleve'));
+  /* visiteur : Démarrer et Formation verrouillés, Ressources ouvre les ressources gratuites */
+  ['demarrer','formation'].forEach(function(t){var a=$('.tabs a[data-tab="'+t+'"]');a.classList.toggle('verrou',!aAcces());a.setAttribute('aria-label',a.textContent.trim()+(aAcces()?'':' (réservé aux élèves)'))});
+  $('.tabs a[data-tab="ressources"]').setAttribute('href',aAcces()?'#ressources':'#guides');
   $$('.eleve-seul').forEach(function(x){x.hidden=!el});$$('.visiteur-seul').forEach(function(x){x.hidden=el});
   $('#cloche').hidden=!(sb&&MOI.email&&(MOI.role==='eleve'||MOI.role==='coach'));if(!$('#cloche').hidden)compterNotifs();
   var ml=$('#moi-ligne');ml.hidden=!(sb&&MOI.email&&aAcces());
@@ -1621,7 +1643,7 @@ function route(){
   $('#cx-form').hidden=!$('#cx-refus').hidden||!$('#cx-code').hidden;
   VUES.forEach(function(k){var el=$('#v-'+k);if(el)el.hidden=(k!==v)});document.body.dataset.vue=v;$('#v-fiche').hidden=!FICHES[v];$('#v-outil').hidden=!OUTILS[v];
   if(OUTILS[v])ouvrirOutil(v);
-  var t=TAB_DE[v]||v;
+  var t=TAB_DE[v]||v;if(v==='guides'&&!aAcces())t='ressources';
   $$('.tabs a').forEach(function(a){if(a.getAttribute('data-tab')===t)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current')});
   if(MOI.role==='ouvert'&&VUES_ELEVE.indexOf(v)>=0)store('lf-eleve',true);
   $('#parr-accueil').hidden=!(MOI.role==='eleve'||MOI.role==='coach'||(MOI.role==='ouvert'&&store('lf-eleve')));
@@ -1667,6 +1689,11 @@ document.addEventListener('click',function(){setTimeout(majRetour,0)});
   document.addEventListener('touchstart',function(e){var t=e.touches[0];x0=t.clientX<24?t.clientX:null;y0=t.clientY},{passive:true});
   document.addEventListener('touchend',function(e){if(x0===null)return;var t=e.changedTouches[0];if(t.clientX-x0>80&&Math.abs(t.clientY-y0)<60&&!$('#retour').hidden)retour();x0=null},{passive:true});
 })();
+document.addEventListener('click',function(e){
+  var a=e.target.closest('.tabs a.verrou,[data-verrouille]');
+  if(a&&!aAcces()){e.preventDefault();$('#verrou').hidden=false;stat('clic','verrou-'+(a.getAttribute('data-tab')||a.getAttribute('data-verrouille')));return}
+  if(e.target.closest('[data-verrou-x]')||e.target.id==='verrou')$('#verrou').hidden=true;
+});
 window.addEventListener('hashchange',route);
 appliquerRole();majSession();
 if(sb)sb.auth.onAuthStateChange(function(ev){if(ev==='SIGNED_IN'||ev==='SIGNED_OUT')majSession()});
