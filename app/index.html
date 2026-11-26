@@ -99,7 +99,10 @@ img{max-width:100%;display:block}
 a.card:active,button.card:active{transform:scale(.985)}
 .card h2{font-size:21px;font-weight:700;letter-spacing:-.01em}
 .card h3{font-size:17px;font-weight:600}
-.card.cream{background:var(--creme);color:var(--petrole);border-color:transparent;box-shadow:0 18px 40px -18px rgba(235,227,208,.5)}
+.card.cream{background:var(--creme);color:var(--petrole);border-color:transparent;box-shadow:0 10px 22px -14px rgba(235,227,208,.28)}
+/* Pages ressources chargées depuis Supabase : même espacement entre blocs que les autres pages.
+   Sans ça, le contenu injecté était un bloc simple : cartes collées, titres trop près du cadre au-dessus. */
+#fiche-body,#bikini-body{display:grid;grid-template-columns:minmax(0,1fr);gap:28px;min-width:0}
 .card.cream .soft,.card.cream .eyebrow{color:#4A5E5F}
 .card.dash{background:transparent;border:1px dashed rgba(235,227,208,.25);box-shadow:none}
 .arrow{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:700;letter-spacing:.02em}

@@ -5,6 +5,7 @@
    - une classe d'en-tête global (.top) réutilisée dans une vue ;
    - une sous-page (ou un sous-écran d'onglet) sans flèche retour en haut ;
    - une page qui ne s'ouvre pas tout en haut, ou un texte caché sous l'en-tête fixe.
+   - des blocs collés, un titre trop près du cadre au-dessus, ou une lueur claire qui déborde sur un titre.
    Usage : node outils/verif-ecrans.js [dossier-captures] [dossier-fiches]
    (sert app/ sur le port 8768). Sortie non nulle s'il y a un problème. */
 const {chromium}=require('playwright');const http=require('http');const fs=require('fs');const path=require('path');
@@ -49,6 +50,15 @@ for(const w of [390,320,820,1280,'390-app-installee']){
         const hb=document.querySelector('.top').getBoundingClientRect().bottom;
         const v0=[...document.querySelectorAll('main.view')].find(m=>!m.hidden);
         if(v0)[...v0.querySelectorAll('h1,h2,h3,p,.eyebrow,a,button,label')].filter(e=>e.getBoundingClientRect().height&&getComputedStyle(e).visibility!=='hidden').slice(0,6).forEach(e=>{const t=e.getBoundingClientRect().top;if(t<hb-1)out.push('texte recouvert par l\'en-tête : « '+(e.textContent||'').trim().slice(0,30)+' »')});
+        /* espacement entre blocs : cartes collées, titre trop près du cadre au-dessus, lueur claire qui déborde sur un titre */
+        if(v0){const B=[...v0.querySelectorAll('.card,.sec-head,.etape,figure,.page-head,.line')].filter(e=>{const r=e.getBoundingClientRect();return r.height&&r.width&&!e.parentElement.closest('.card,.line,.etape,.voile,#lfa,.co-cards')&&getComputedStyle(e).position!=='absolute'});
+          const nom=e=>(e.querySelector('h1,h2,h3,.eyebrow,.fed,summary')||e).textContent.trim().replace(/\s+/g,' ').slice(0,28);
+          for(let i=1;i<B.length;i++){const a=B[i-1],b=B[i];if(a.contains(b)||b.contains(a))continue;const ra=a.getBoundingClientRect(),rb=b.getBoundingClientRect();
+            if(rb.left>=ra.right-1||rb.right<=ra.left+1||rb.top<ra.top)continue; // côte à côte (grille) : pas un empilement
+            const g=rb.top-ra.bottom,mini=b.matches('.sec-head')?18:8;
+            if(g<mini)out.push((b.matches('.sec-head')?'titre trop près du bloc au-dessus':'blocs collés')+' : « '+nom(a)+' » / « '+nom(b)+' » ('+Math.round(g)+' px)');
+            if(b.matches('.sec-head,.page-head')){const sh=getComputedStyle(a).boxShadow;(sh.match(/rgba?\([^)]*\)[^,]*(?=,\s*rgba?|$)/g)||[]).forEach(o=>{const c=(o.match(/rgba?\(([^)]*)\)/)[1]).split(',').map(parseFloat),al=c.length>3?c[3]:1;if(/inset/.test(o)||al<.08||c[0]+c[1]+c[2]<450)return;
+              const n=(o.replace(/rgba?\([^)]*\)/,'').match(/-?[\d.]+px/g)||[]).map(parseFloat),bas=(n[1]||0)+(n[3]||0)+(n[2]||0)*.6;if(bas>g)out.push('lueur claire de « '+nom(a)+' » qui déborde sur le titre « '+nom(b)+' »')})}}}
         if(document.documentElement.scrollWidth>W+1)out.push('page plus large que l\'écran ('+document.documentElement.scrollWidth+' px)');
         const vue=[...document.querySelectorAll('main.view')].find(m=>!m.hidden);if(!vue)return ['aucune vue visible'];
         vue.querySelectorAll('.top').forEach(t=>{if(!t.closest('#lfa'))out.push('classe .top (en-tête global) utilisée dans la vue')});
