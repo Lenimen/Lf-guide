@@ -13,21 +13,21 @@ const srv=http.createServer((q,r)=>{const u=decodeURIComponent(q.url.split('?')[
 const contenus={};if(FICHES&&fs.existsSync(FICHES))fs.readdirSync(FICHES).filter(f=>f.endsWith('.html')).forEach(f=>contenus['fiche-'+f]=fs.readFileSync(path.join(FICHES,f),'utf8'));
 const ELEVES=[{email:'eleve.avec.un.long.email@exemple.com',prenom:'Maximilien',date_debut:null,duree_sem:26,lien_suivi:null,actif:true},{email:'b@exemple.com',prenom:'Noah',date_debut:'2026-06-29',duree_sem:26,lien_suivi:'https://docs.google.com/spreadsheets/d/xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx/edit',actif:true}];
 function faux(contenus,eleves){
-  function q(t){var f={t:t,cle:null};var o={select:()=>o,order:()=>o,like:()=>o,upsert:()=>o,update:()=>o,insert:()=>o,
+  function q(t){var f={t:t,cle:null};var o={select:()=>o,order:()=>o,like:()=>o,upsert:()=>o,update:()=>o,insert:()=>o,in:()=>o,not:()=>o,gte:()=>o,limit:()=>o,
     eq:(k,v)=>{if(k==='cle')f.cle=v;return o},maybeSingle:()=>{f.one=1;return o},
-    then:(ok,ko)=>Promise.resolve(t==='eleves'?{data:eleves}:t==='contenus'?(f.one?(contenus[f.cle]?{data:{mime:'text/html',donnees:contenus[f.cle],base64:false}}:{data:null}):{data:Object.keys(contenus).map(k=>({cle:k}))}):{data:[]}).then(ok,ko)};return o}
-  return {from:q,auth:{signOut:()=>Promise.resolve(),onAuthStateChange:()=>{}}};
+    then:(ok,ko)=>Promise.resolve(t==='notifs'?{data:[{id:1,type:'etape',titre:'Ton contrat n\'est pas encore signé',texte:'Cherche l\'e-mail de DocuSeal, vérifie aussi tes spams. Une fois signé, recoche l\'étape.',lien:'https://wa.me/32488870608',cree_le:new Date().toISOString(),lue_le:null},{id:2,type:'leni',titre:'Pense à ta photo de face demain matin',texte:null,lien:null,cree_le:'2026-11-20T10:00:00Z',lue_le:'2026-11-21T10:00:00Z'}]}:t==='etapes_eleve'?{data:[{email:'b@exemple.com',etape:'contrat',coche:false,par:'verif',quand:'2026-11-25T18:00:00Z',message:'Ton contrat n\'est pas encore signé sur DocuSeal.',lien:'https://wa.me/32488870608'},{email:'b@exemple.com',etape:'start',coche:true,par:'eleve',quand:'2026-11-24T18:00:00Z'}]}:t==='eleves'?{data:eleves}:t==='contenus'?(f.one?(contenus[f.cle]?{data:{mime:'text/html',donnees:contenus[f.cle],base64:false}}:{data:null}):{data:Object.keys(contenus).map(k=>({cle:k}))}):{data:[]}).then(ok,ko)};return o}
+  return {from:q,functions:{invoke:()=>Promise.resolve({data:{ok:true}})},auth:{signOut:()=>Promise.resolve(),onAuthStateChange:()=>{}}};
 }
-const ROLES={visiteur:['accueil','appel','guides','contact','connexion','mensurations','potentiel','posing'],eleve:['demarrer','formation','ressources','bikini','echauffement','parrainage','tuto','vacuum','cheatmeals'],coach:['coach']};
+const ROLES={visiteur:['accueil','appel','guides','contact','connexion','mensurations','potentiel','posing'],eleve:['demarrer','formation','ressources','bikini','echauffement','parrainage','tuto','vacuum','cheatmeals','notifs','parametres'],coach:['coach','notifs']};
 (async()=>{const b=await chromium.launch();let pb=0;const log=m=>{console.log(m)};
 for(const w of [390,320]){
-  const p=await b.newPage({viewport:{width:w,height:844}});const errs=[];p.on('pageerror',e=>errs.push(e.message));
+  const p=await b.newPage({viewport:{width:w,height:844}});const errs=[];p.on('pageerror',e=>errs.push(e.message+(process.env.PILE?' @ '+(e.stack||'').split('\n').slice(1,3).join(' '):'')));
   await p.route('https://raw.githubusercontent.com/**',r=>r.fulfill({status:200,contentType:'text/html',body:fs.readFileSync(path.join(__dirname,'..','academy.html'),'utf8')}));
   await p.goto('http://localhost:8768/');await p.waitForTimeout(800);
   for(const role of Object.keys(ROLES)){
     await p.evaluate(([role,contenus,eleves,fx])=>{window.sb=eval('('+fx+')')(contenus,eleves);sb=window.sb;MOI.role=role;MOI.email=role==='visiteur'?null:'x@exemple.com';MOI.eleve=role==='eleve'?{prenom:'Test'}:null;if(window.appliquerRole)appliquerRole()},[role,contenus,ELEVES,faux.toString()]);
     for(const v of ROLES[role]){
-      await p.evaluate(v=>{location.hash='#'+v;route()},v);await p.waitForTimeout(500);
+      await p.evaluate(v=>{location.hash='#'+v;route()},v);await p.waitForTimeout(500);if(v==='coach')await p.evaluate(()=>document.querySelectorAll('#co-list details').forEach(d=>d.open=true));
       const pbs=await p.evaluate((v)=>{const out=[];
         if(document.body.dataset.vue!==v)out.push('la vue affichée est « '+document.body.dataset.vue+' » au lieu de « '+v+' »');const W=document.documentElement.clientWidth;
         if(document.documentElement.scrollWidth>W+1)out.push('page plus large que l\'écran ('+document.documentElement.scrollWidth+' px)');
