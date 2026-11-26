@@ -126,6 +126,8 @@ create table if not exists public.reglages(
 
 -- ===== Formation (26/11/2026) =====
 -- formation_eleve(email, module, fait_le, envoye_le, vu_le) : modules terminés (recopiés depuis le téléphone de l'élève).
+-- prepa_etapes(id, email, jour, titre, detail, scene, fait) : timeline de prépa compétition, posée par le coach, lue par l'élève.
+-- paiements(id, email, echeance, montant, moyen, paye_le, lien, ref_stripe) : échéances ; élève en lecture, coach gère.
 -- formation_envois(id, email, lecon, texte, envoye_le, vu_le) : « Envoyer à Leni » ; liste « À revoir » de l'espace coach.
 -- lf_envoi_exercice(p_lecon, p_texte) (security definer, élève) : enregistre l'envoi et crée une notification pour le coach (type 'eleve').
 -- lf_relances() : relance d'étape (jamais « start » ni « video »), nouveaux modules, et avis sur le coaching
