@@ -1137,7 +1137,7 @@ function paStatut(x){var auj=new Date().toISOString().slice(0,10);return x.paye_
 var MOYENS={stripe:'Carte (Stripe)',wero:'Wero',virement:'Virement',autre:'Autre'};
 /* Moyen habituel de l'élève (idée de Leni 26/11) : la prochaine échéance montre comment payer, selon la ligne paiements.
    stripe + lien : bouton ; stripe sans lien : prélèvement auto (2×/3×) ; virement : IBAN + communication ; wero : Wero, IBAN en secours. */
-var PA_IBAN='BE97 1030 8541 6349',PA_BENEF='Leni Fauconnier',PA_WERO='';
+var PA_IBAN='BE97 1030 8541 6349',PA_BENEF='Leni Fauconnier',PA_WERO='+32 488 87 06 08';
 var PA_MOIS=['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'];
 function paComm(x){var p=(MOI.eleve&&MOI.eleve.prenom)||'';var d=new Date(x.echeance+'T12:00:00');return ('Coaching '+p+' '+PA_MOIS[d.getMonth()]+' '+d.getFullYear()).replace(/\s+/g,' ')}
 function paLigneCopie(lab,val){return '<div class="pa-c"><span class="soft">'+lab+'</span><b>'+esc(val)+'</b><button class="lien" type="button" data-pa-copy="'+esc(val)+'">Copier</button></div>'}
@@ -1146,7 +1146,7 @@ function paInstr(x){var m=x.moyen;
   if(m==='stripe'&&x.lien)return '<a class="btn dark block" href="'+esc(x.lien)+'" target="_blank" rel="noopener">Payer par carte</a>';
   if(m==='stripe')return '<p class="soft" style="margin:8px 0 0">Prélevée automatiquement sur ta carte, tu n\'as rien à faire.</p>';
   if(m==='virement')return '<p class="soft" style="margin:8px 0 4px">Par virement depuis ton app bancaire :</p>'+paBlocVirement(x);
-  if(m==='wero')return '<p class="soft" style="margin:8px 0 4px">Par Wero depuis ton app bancaire'+(PA_WERO?', à '+esc(PA_WERO):'')+'. Si Wero ne marche pas, le virement classique fonctionne aussi :</p>'+paBlocVirement(x);
+  if(m==='wero')return '<p class="soft" style="margin:8px 0 4px">Par Wero depuis ton app bancaire :</p>'+paLigneCopie('Numéro',PA_WERO)+paLigneCopie('Montant',String(+x.montant).replace('.',','))+paLigneCopie('Message',paComm(x))+'<p class="soft" style="margin:12px 0 4px">Si Wero ne marche pas, le virement classique fonctionne aussi :</p>'+paLigneCopie('IBAN',PA_IBAN)+paLigneCopie('Bénéficiaire',PA_BENEF);
   return '<p class="soft" style="margin:8px 0 0">Je t\'envoie les infos pour régler avant la date.</p>'}
 function paiementsRendu(){
   var box=$('#pa-body');if(!sb||!MOI.email){box.innerHTML='<p class="soft">Connecte-toi pour voir tes paiements.</p>';return}
