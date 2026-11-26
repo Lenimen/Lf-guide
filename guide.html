@@ -246,6 +246,7 @@ html,body{background:#192E33!important;overflow-x:hidden}
       <div class="fields">
         <div class="field"><label for="gPrenom">Prénom</label><input type="text" id="gPrenom" autocomplete="given-name" required></div>
         <div class="field" style="flex:1 1 220px"><label for="gEmail">Email</label><input type="email" id="gEmail" autocomplete="email" required></div>
+        <div class="field" id="gIgWrap" style="flex:1 1 220px" hidden><label for="gIg">Pseudo Instagram (facultatif)</label><input type="text" id="gIg" autocomplete="off" autocapitalize="none" placeholder="@toi"></div>
       </div>
       <input type="text" id="gHp" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px">
       <label class="consent" for="gOk"><input type="checkbox" id="gOk"> J'accepte de recevoir le guide et des emails de LF Coaching (conseils, contenus, offres). Désinscription en un clic à tout moment.</label>
@@ -611,7 +612,7 @@ html,body{background:#192E33!important;overflow-x:hidden}
   function score(){
     var n=0,answered=0;for(var k in S.quiz){answered++;if(S.quiz[k]==='oui')n++}
     if(answered>=10&&!S.testSent&&!isClient){S.testSent=true;save();track('test')}
-    if(answered>=10&&S.email&&!S.scoreSent&&!isClient){S.scoreSent=true;save();var d={type:'score',email:S.email,score:n,profil:profil(n),source:SOURCE,manques:manques()};setTimeout(function(){send(d)},2500)}
+    if(answered>=10&&S.email&&!S.scoreSent&&!isClient){S.scoreSent=true;save();var d={type:'score',email:S.email,instagram:S.ig||'',score:n,profil:profil(n),source:SOURCE,manques:manques()};setTimeout(function(){send(d)},2500)}
     $('scoreN').textContent=n;$('gaugeBar').style.width=(n*10)+'%';
     var L,T;
     if(answered===0){L='Réponds aux questions';T="Chaque « oui » te rapproche du profil d'athlète."}
@@ -770,16 +771,18 @@ html,body{background:#192E33!important;overflow-x:hidden}
   /* Capture */
   function applyLock(){var unlocked=isClient||S.unlocked;document.body.classList.toggle('locked',!unlocked);$('gate').hidden=!!unlocked;
     if(isClient){$('clientCta').hidden=false;var c=document.querySelector('#suite .cta:not(.client-only)');if(c)c.hidden=true}}
+  var IGQ=String(qs.ig||'').trim().replace(/^@+/,'').replace(/\s+/g,'').toLowerCase().slice(0,30);
+  if(/^meta-ads/.test(SOURCE)){$('gIgWrap').hidden=false;if(IGQ)$('gIg').value=IGQ}
   applyLock();
   $('gate').addEventListener('submit',function(e){e.preventDefault();
-    var p=$('gPrenom').value.trim(),m=$('gEmail').value.trim(),err=$('gErr');
+    var p=$('gPrenom').value.trim(),m=$('gEmail').value.trim(),err=$('gErr'),ig=/^meta-ads/.test(SOURCE)?$('gIg').value.trim().replace(/^@+/,'').replace(/\s+/g,'').toLowerCase().slice(0,30):'';
     if($('gHp').value)return;
     if(!p){err.hidden=false;err.textContent='Indique ton prénom.';return}
     if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(m)){err.hidden=false;err.textContent='Cet email ne semble pas valide. Vérifie-le.';return}
     if(!$('gOk').checked){err.hidden=false;err.textContent='Coche la case pour recevoir le guide par email.';return}
     err.hidden=true;
-    send({type:'lead',prenom:p,email:m,score:'',profil:'',source:SOURCE,consentement:'oui'});
-    S.unlocked=true;S.email=m;save();applyLock();score();$('scoreBox').scrollIntoView({behavior:'smooth',block:'start'})});
+    send({type:'lead',prenom:p,email:m,instagram:ig,score:'',profil:'',source:SOURCE,consentement:'oui'});
+    S.unlocked=true;S.email=m;S.ig=ig;save();applyLock();score();$('scoreBox').scrollIntoView({behavior:'smooth',block:'start'})});
   /* Avis */
   var fbNote=0;for(var r=1;r<=5;r++)(function(r){var b=el('button',null,String(r));b.type='button';b.setAttribute('aria-pressed','false');b.setAttribute('aria-label',r+' sur 5');
     b.onclick=function(){fbNote=r;$('fbRate').querySelectorAll('button').forEach(function(x,i){x.setAttribute('aria-pressed',i<r?'true':'false')})};$('fbRate').appendChild(b)})(r);
