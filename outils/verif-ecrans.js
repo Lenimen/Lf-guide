@@ -5,7 +5,8 @@
    - une classe d'en-tête global (.top) réutilisée dans une vue ;
    - une sous-page (ou un sous-écran d'onglet) sans flèche retour en haut ;
    - une page qui ne s'ouvre pas tout en haut, ou un texte caché sous l'en-tête fixe.
-   - des blocs collés, un titre trop près du cadre au-dessus, ou une lueur claire qui déborde sur un titre.
+   - des blocs collés, un titre trop près du cadre au-dessus, ou une lueur claire qui déborde sur un titre ;
+   - chez un élève : un texte destiné aux visiteurs (« gratuit », « Réserver un appel », « Deviens un athlète »).
    Usage : node outils/verif-ecrans.js [dossier-captures] [dossier-fiches]
    (sert app/ sur le port 8768). Sortie non nulle s'il y a un problème. */
 const {chromium}=require('playwright');const http=require('http');const fs=require('fs');const path=require('path');
@@ -22,7 +23,7 @@ function faux(contenus,eleves){
     then:(ok,ko)=>Promise.resolve(t==='formation_envois'?{data:[{id:1,email:'b@exemple.com',lecon:'C01.4',texte:'Contexte : mardi, séance Legs.\nObservation : la presse était prise.',envoye_le:'2026-11-25T18:00:00Z',vu_le:null}]}:t==='notifs'?{data:[{id:1,type:'etape',titre:'Ton contrat n\'est pas encore signé',texte:'Cherche l\'e-mail de DocuSeal, vérifie aussi tes spams. Une fois signé, recoche l\'étape.',lien:'https://wa.me/32488870608',cree_le:new Date().toISOString(),lue_le:null},{id:2,type:'leni',titre:'Pense à ta photo de face demain matin',texte:null,lien:null,cree_le:'2026-11-20T10:00:00Z',lue_le:'2026-11-21T10:00:00Z'}]}:t==='etapes_eleve'?{data:[{email:'b@exemple.com',etape:'contrat',coche:false,par:'verif',quand:'2026-11-25T18:00:00Z',message:'Ton contrat n\'est pas encore signé sur DocuSeal.',lien:'https://wa.me/32488870608'},{email:'b@exemple.com',etape:'start',coche:true,par:'eleve',quand:'2026-11-24T18:00:00Z'}]}:t==='eleves'?{data:eleves}:t==='contenus'?(f.one?(contenus[f.cle]?{data:{mime:'text/html',donnees:contenus[f.cle],base64:false}}:{data:null}):{data:Object.keys(contenus).map(k=>({cle:k}))}):{data:[]}).then(ok,ko)};return o}
   return {from:q,functions:{invoke:()=>Promise.resolve({data:{ok:true}})},auth:{signOut:()=>Promise.resolve(),onAuthStateChange:()=>{}}};
 }
-const ROLES={visiteur:['accueil','appel','guides','contact','connexion','mensurations','potentiel','posing'],eleve:['demarrer','formation','ressources','bikini','echauffement','parrainage','tuto','vacuum','cheatmeals','notifs','parametres'],coach:['coach','notifs']};
+const ROLES={visiteur:['accueil','appel','guides','contact','connexion','mensurations','potentiel','posing'],eleve:['accueil','demarrer','formation','ressources','bikini','echauffement','parrainage','tuto','vacuum','cheatmeals','notifs','parametres'],coach:['coach','notifs']};
 (async()=>{const b=await chromium.launch();let pb=0;const log=m=>{console.log(m)};
 for(const w of [390,320,820,1280,'390-app-installee']){
   const W=parseInt(w),ENC=typeof w==='string';
@@ -30,7 +31,7 @@ for(const w of [390,320,820,1280,'390-app-installee']){
   await p.route('https://raw.githubusercontent.com/**',r=>r.fulfill({status:200,contentType:'text/html',body:fs.readFileSync(path.join(__dirname,'..','academy.html'),'utf8')}));
   await p.goto('http://localhost:8768/'+(ENC?'?encoche=47':''));await p.waitForTimeout(800);
   for(const role of Object.keys(ROLES)){
-    await p.evaluate(([role,contenus,eleves,fx])=>{window.sb=eval('('+fx+')')(contenus,eleves);sb=window.sb;MOI.role=role;MOI.email=role==='visiteur'?null:'x@exemple.com';MOI.eleve=role==='eleve'?{prenom:'Test'}:null;document.body.dataset.role=role;if(window.appliquerRole)appliquerRole()},[role,contenus,ELEVES,faux.toString()]);
+    await p.evaluate(([role,contenus,eleves,fx])=>{window.sb=eval('('+fx+')')(contenus,eleves);sb=window.sb;MOI.role=role;MOI.email=role==='visiteur'?null:'x@exemple.com';MOI.eleve=role==='eleve'?{prenom:'Test',lien_contrat:'https://docuseal.com/s/exemple'}:null;document.body.dataset.role=role;if(window.appliquerRole)appliquerRole()},[role,contenus,ELEVES,faux.toString()]);
     for(const v of ROLES[role]){
       await p.evaluate(v=>{location.hash='#'+v;route()},v);await p.waitForTimeout(500);if(v==='coach')await p.evaluate(()=>document.querySelectorAll('#co-list details').forEach(d=>d.open=true));
       const pbs=await p.evaluate((v)=>{const out=[];
@@ -59,6 +60,8 @@ for(const w of [390,320,820,1280,'390-app-installee']){
             if(g<mini)out.push((b.matches('.sec-head')?'titre trop près du bloc au-dessus':'blocs collés')+' : « '+nom(a)+' » / « '+nom(b)+' » ('+Math.round(g)+' px)');
             if(b.matches('.sec-head,.page-head')){const sh=getComputedStyle(a).boxShadow;(sh.match(/rgba?\([^)]*\)[^,]*(?=,\s*rgba?|$)/g)||[]).forEach(o=>{const c=(o.match(/rgba?\(([^)]*)\)/)[1]).split(',').map(parseFloat),al=c.length>3?c[3]:1;if(/inset/.test(o)||al<.08||c[0]+c[1]+c[2]<450)return;
               const n=(o.replace(/rgba?\([^)]*\)/,'').match(/-?[\d.]+px/g)||[]).map(parseFloat),bas=(n[1]||0)+(n[3]||0)+(n[2]||0)*.6;if(bas>g)out.push('lueur claire de « '+nom(a)+' » qui déborde sur le titre « '+nom(b)+' »')})}}}
+        /* un élève ne voit ni l'acquisition (« Réserver un appel », « Deviens un athlète ») ni le mot « gratuit » */
+        if(document.body.dataset.role==='eleve'&&v0){const tx=v0.innerText||'';const m=tx.match(/gratuit\w*|r[ée]server (un|mon) appel|deviens un\s+athl[èe]te/ig);if(m)out.push('texte destiné aux visiteurs affiché à un élève : « '+[...new Set(m)].join(' », « ')+' »')}
         if(document.documentElement.scrollWidth>W+1)out.push('page plus large que l\'écran ('+document.documentElement.scrollWidth+' px)');
         const vue=[...document.querySelectorAll('main.view')].find(m=>!m.hidden);if(!vue)return ['aucune vue visible'];
         vue.querySelectorAll('.top').forEach(t=>{if(!t.closest('#lfa'))out.push('classe .top (en-tête global) utilisée dans la vue')});

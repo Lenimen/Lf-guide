@@ -113,6 +113,7 @@ a:hover .arrow::after{transform:translateX(3px)}
 .card.cream .ico{background:var(--petrole);color:var(--creme);border:0}
 
 .grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.acces .card{min-height:118px}
 .grid2 .card{align-content:space-between;min-height:150px}
 .grid2 .card h3{font-size:17px;line-height:1.15}
 section{display:grid;gap:14px}
@@ -454,7 +455,18 @@ footer{font-size:11px;color:var(--doux);text-align:center;padding-top:4px}
 
   <!-- ============ ACCUEIL (public) ============ -->
   <main class="view" id="v-accueil">
-    <div class="cover">
+    <div class="page-head eleve-seul" hidden>
+      <div class="eyebrow">Espace élève</div>
+      <h1>Ton espace</h1>
+      <p class="lede">Tout ton coaching au même endroit.</p>
+    </div>
+    <div class="grid2 acces eleve-seul" hidden>
+      <a class="card" href="#demarrer"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 12h20M5 8v8M8 6v12M16 6v12M19 8v8"/></svg></span><div><h3>Démarrer</h3><p class="soft" style="font-size:13px">Tes étapes de départ</p></div></a>
+      <a class="card" href="#formation"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11v5c3 2 9 2 12 0v-5"/></svg></span><div><h3>Formation</h3><p class="soft" style="font-size:13px">Tes modules</p></div></a>
+      <a class="card" href="#ressources"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 5a2 2 0 0 1 2-2h12v15H6a2 2 0 0 0-2 2z"/><path d="M4 20a2 2 0 0 1 2-2h12v3H6a2 2 0 0 1-2-1z"/></svg></span><div><h3>Ressources</h3><p class="soft" style="font-size:13px">Guides et outils</p></div></a>
+      <a class="card" id="acc-bilan" href="#" target="_blank" rel="noopener"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg></span><div><h3>Ton bilan</h3><p class="soft" style="font-size:13px" id="acc-bilan-d">Dans ton app de suivi</p></div></a>
+    </div>
+    <div class="cover visiteur-seul">
       <img src="photos/leni-hero.jpg" alt="Leni Fauconnier sur scène en Men's Physique, WNBF" fetchpriority="high">
       <div class="in">
         <div class="tagline"><span class="chip">🥇 Men's Physique BIFBB</span><span class="chip">Athlète naturel</span></div>
@@ -474,7 +486,7 @@ footer{font-size:11px;color:var(--doux);text-align:center;padding-top:4px}
     </div>
 
     <div class="grid2">
-      <a class="card" href="#guides">
+      <a class="card visiteur-seul" href="#guides">
         <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 5a2 2 0 0 1 2-2h12v15H6a2 2 0 0 0-2 2z"/><path d="M4 20a2 2 0 0 1 2-2h12v3H6a2 2 0 0 1-2-1z"/></svg></span>
         <div><h3>Ressources gratuites</h3><p class="soft" style="font-size:13px">Analyse offerte, test, posing</p></div>
       </a>
@@ -485,10 +497,6 @@ footer{font-size:11px;color:var(--doux);text-align:center;padding-top:4px}
       <a class="card eleve-seul" data-cfg="depart" href="#">
         <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 8h6M9 12h6M9 16h3"/></svg></span>
         <div><h3>Questionnaire de départ</h3><p class="soft" style="font-size:13px">Pour les nouveaux élèves</p></div>
-      </a>
-      <a class="card eleve-seul" href="#demarrer">
-        <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 12h20M5 8v8M8 6v12M16 6v12M19 8v8"/></svg></span>
-        <div><h3>Ton démarrage</h3><p class="soft" style="font-size:13px">Charge ta barre, étape par étape</p></div>
       </a>
     </div>
 
@@ -514,7 +522,7 @@ footer{font-size:11px;color:var(--doux);text-align:center;padding-top:4px}
       </div>
     </section>
 
-    <a class="card cream" href="#appel" style="text-decoration:none">
+    <a class="card cream visiteur-seul" href="#appel" style="text-decoration:none">
       <div class="eyebrow">Coaching individuel · 6 mois</div>
       <h2>On regarde ensemble si c'est fait pour toi</h2>
       <p class="soft">Quelques questions, puis un appel découverte de 30 minutes. Tu choisis ton créneau.</p>
@@ -893,6 +901,7 @@ var LIENS = {
   academy:          'https://lfauconnier27.systeme.io/school/course/lf-athlete-academy',
   bienvenue:        '',   /* liens élèves : chargés depuis Supabase après connexion (contenu « liens ») */
   tutoSuivi:        '',
+  tutoApp:          '#tuto',
   photosDepart:     ''
 };
 /* Agenda intégré dans l'app (sur le vrai site seulement) : false = simple bouton */
@@ -911,6 +920,7 @@ var GUIDES = [
 ];
 
 var ETAPES = [
+  {id:'tuto',      t:"Regarder le tuto de l'app", d:"1 min 30 pour savoir où tout se trouve. L'étape se coche toute seule quand tu as vu la vidéo.", qui:'Toi', l:'tutoApp', b:'Voir le tuto'},
   {id:'contrat',   t:'Signer ton contrat', d:"Tu l'as reçu par e-mail après l'appel. Vérifie aussi tes spams.", qui:'Toi'},
   {id:'start',     t:'Écrire « LF START » sur WhatsApp', d:"Au numéro que je t'ai donné pendant l'appel. Le message d'accueil arrive tout de suite. Si tu es connecté ici, c'est que c'est fait : l'étape se coche toute seule.", qui:'Toi'},
   {id:'bienvenue', t:'Regarder la vidéo de bienvenue', d:'Comment on va travailler ensemble pendant 6 mois.', qui:'Toi', l:'bienvenue', b:'Voir la vidéo'},
@@ -937,6 +947,7 @@ var MODULES = [
   {c:'A06',t:"Ton rôle d'athlète : communication et esprit critique",m:17,pub:'2026-12-28'}
 ];
 
+/* Pour un élève, une seule liste : ses ressources + les guides publics (sans le mot « gratuit »). */
 var RESSOURCES = [
   {t:"Comment utiliser l'app", d:'Connexion, écran d\'accueil et les 5 onglets, en une minute.', v:'tuto', end:'Guide'},
   {t:'Le vacuum', d:"Rentrer le ventre sous la cage, du sol jusqu'à la scène.", v:'vacuum', end:'Guide'},
@@ -944,7 +955,9 @@ var RESSOURCES = [
   {t:'Posing bikini, WNBF et NPC', d:'Les règles pose par pose, et ce qui change entre fédérations.', v:'bikini', end:'Guide'},
   {t:'Le guide posing hommes', d:"Men's Physique, Classic et Bodybuilding.", l:'posing', end:'Guide'},
   {t:"L'échauffement", d:'Ta routine selon la séance du jour, avec la démo de chaque exercice.', v:'echauffement', end:'Guide'},
-  {t:'Prendre ses mensurations', d:'Les 11 mesures et la bonne méthode.', l:'mensurations', end:'Guide'}
+  {t:'Prendre ses mensurations', d:'Les 11 mesures et la bonne méthode.', l:'mensurations', end:'Guide'},
+  {t:'Ton potentiel naturel', d:'Combien de muscle tu peux encore gagner sans produits.', l:'potentiel', end:'Outil'},
+  {t:'De pratiquant à athlète', d:'Le test pour savoir où tu en es, les 5 piliers et ton plan sur 30 jours.', l:'testGuide', end:'Guide'}
 ];
 
 /* ================================================================== */
@@ -955,6 +968,20 @@ var ICO={
 };
 function $(s,r){return (r||document).querySelector(s)}
 function $$(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))}
+/* Accueil élève, carte « Ton bilan » : son fichier de suivi s'il existe, sinon le tuto de l'app de suivi (Fitbrothers) */
+/* Ressource -> leçon de la Formation qui en parle (élèves seulement) */
+var LECON_DE={cheatmeals:'C05.4',echauffement:'C03.2',mensurations:'A01.2'};
+function majLecon(v){var vue=$('#v-'+(FICHES[v]?'fiche':(OUTILS[v]?'outil':v)));$$('.lecon-liee').forEach(function(x){x.parentNode.removeChild(x)});
+  if(!vue||!LECON_DE[v]||!aAcces())return;var a=document.createElement('a');a.className='card lecon-liee no-print';a.href='#formation';a.setAttribute('data-lecon',LECON_DE[v]);
+  a.innerHTML='<div class="eyebrow">Dans ta formation</div><h3>Leçon '+LECON_DE[v]+'</h3><p class="soft" style="font-size:14px">La leçon qui explique pourquoi et quand t\'en servir.</p>';
+  var pdf=vue.querySelector('[data-pdf-page],#outil-pdf');vue.insertBefore(a,pdf||null)}
+/* Clic sur la leçon liée : ouvre la Formation, puis la leçon précise si academy.html expose lfaOpen(code, numéro) */
+document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('[data-lecon]');if(!a)return;
+  var m=a.getAttribute('data-lecon').split('.'),n=0;
+  (function essai(){if(typeof window.lfaOpen==='function'){window.lfaOpen(m[0],+m[1]);window.scrollTo(0,0);return}if(++n<30)setTimeout(essai,100)})();
+});
+function majBilan(){var bi=$('#acc-bilan');if(!bi)return;var lk=MOI.eleve&&MOI.eleve.lien_suivi,ok=lk&&/^https:\/\//.test(lk),u=ok?lk:lien('tutoSuivi');
+  bi.href=u;bi.hidden=u==='#';$('#acc-bilan-d').textContent=ok?'Ton fichier de suivi':'Le tuto de ton app de suivi'}
 function lien(k){var u=LIENS[k];if(!u)return '#';if(/systeme\.io/.test(u)){try{var x=new URL(u);x.searchParams.set('source',SRC);return x.toString()}catch(e){}}return u}
 function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
 function store(k,v){try{if(v===undefined)return JSON.parse(localStorage.getItem(k)||'null');localStorage.setItem(k,JSON.stringify(v))}catch(e){return null}}
@@ -1112,11 +1139,14 @@ function renderSteps(anim){
     var on=!!done[e.id],nx=e.id===nextId;
     return '<div class="step'+(on?' done':'')+(nx?' next':'')+'"><button class="chk" type="button" data-step="'+e.id+'" aria-pressed="'+on+'" aria-label="'+(on?'Décocher':'Cocher')+' : '+esc(e.t)+'"><svg viewBox="0 0 24 24" fill="none" stroke="#192E33" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></button>'+
       '<div class="t"><span class="who">'+(nx?'Prochaine étape · ':'Étape '+(i+1)+' · ')+(e.qui==='Leni'?'Leni s\'en occupe':'à toi')+'</span><h3>'+esc(e.t)+'</h3></div>'+
-      '<div class="body">'+(VERIF[e.id]?'<p class="verif">'+esc(VERIF[e.id].m)+(VERIF[e.id].l?' <a href="'+esc(VERIF[e.id].l)+'"'+(VERIF[e.id].l.charAt(0)==='#'?'':' target="_blank" rel="noopener"')+'>Ouvrir</a>':'')+'</p>':'')+'<p>'+esc(e.d)+'</p>'+(e.l?'<div class="row"><a class="btn small'+(nx?'':' ghost')+'" href="'+esc(lien(e.l))+'"'+(lien(e.l).charAt(0)==='#'?'':' target="_blank" rel="noopener"')+'>'+esc(e.b)+'</a></div>':'')+'</div></div>';
+      '<div class="body">'+(VERIF[e.id]?'<p class="verif">'+esc(VERIF[e.id].m)+(VERIF[e.id].l?' <a href="'+esc(VERIF[e.id].l)+'"'+(VERIF[e.id].l.charAt(0)==='#'?'':' target="_blank" rel="noopener"')+'>Ouvrir</a>':'')+'</p>':'')+'<p>'+esc(e.d)+'</p>'+(e.id==='contrat'&&!on&&lienContrat()?'<div class="row"><a class="btn small" href="'+esc(lienContrat())+'" target="_blank" rel="noopener">Signer mon contrat</a></div>':'')+(e.l?'<div class="row"><a class="btn small'+(nx?'':' ghost')+'" href="'+esc(lien(e.l))+'"'+(lien(e.l).charAt(0)==='#'?'':' target="_blank" rel="noopener"')+'>'+esc(e.b)+'</a></div>':'')+'</div></div>';
   }).join('');
 }
 /* Synchro des étapes avec le serveur (table etapes_eleve) : l'élève coche sans attendre,
    Leni peut décocher depuis l'espace coach, la vérification du soir peut décocher avec un message. */
+/* Contrat : lien de signature DocuSeal propre à l'élève, collé par Leni dans l'espace coach (le connecteur DocuSeal ne le donne pas).
+   Bouton « Signer mon contrat » tant que l'étape n'est pas cochée. */
+function lienContrat(){var l=MOI.eleve&&MOI.eleve.lien_contrat;return l&&/^https:\/\/[^/]*docuseal[^/]*\//.test(l)?l:''}
 var VERIF={}; // id d'étape -> {message, lien} quand une vérification a décoché
 function syncEtape(id,on,par){
   if(!sb||MOI.role!=='eleve'||!MOI.email)return;
@@ -1141,6 +1171,9 @@ function autoEtapes(){
   if(!done.academy&&['c01','c02','c03'].every(function(k){return a[k]&&a[k].done})){done.academy=1;store('lf-onboarding',done);syncEtape('academy',true,'auto');renderSteps(false);toast('Formation C01 à C03 terminée : étape cochée')}
 }
 window.addEventListener('focus',autoEtapes);
+/* Tuto de l'app : étape cochée toute seule quand la vidéo est vue presque en entier (90 %) */
+document.addEventListener('timeupdate',function(e){var v=e.target;if(!v||v.tagName!=='VIDEO'||!/tuto-app-lf/.test(v.currentSrc||v.src||''))return;
+  if(v.duration&&v.currentTime/v.duration>=.9&&!done.tuto){done.tuto=1;store('lf-onboarding',done);syncEtape('tuto',true,'auto');renderSteps(false);toast('Tuto vu : étape cochée')}},true);
 $('#steps').addEventListener('click',function(ev){
   var b=ev.target.closest('[data-step]');if(!b)return;
   var id=b.getAttribute('data-step');var was=!!done[id];
@@ -1231,7 +1264,7 @@ if(SUPA.url&&SUPA.anon){MOI.role='visiteur';if(window.supabase){try{sb=window.su
 function aAcces(){return MOI.role==='eleve'||MOI.role==='coach'||MOI.role==='ouvert'}
 function contenu(cle){return sb.from('contenus').select('mime,donnees,base64').eq('cle',cle).maybeSingle().then(function(r){if(r.error||!r.data)throw (r.error||new Error('absent'));return r.data})}
 function blobUrl(c){var b=atob(c.donnees),u=new Uint8Array(b.length);for(var i=0;i<b.length;i++)u[i]=b.charCodeAt(i);return URL.createObjectURL(new Blob([u],{type:c.mime}))}
-function chargerLiens(){return contenu('liens.json').then(function(c){var o=JSON.parse(c.donnees);Object.keys(o).forEach(function(k){LIENS[k]=o[k]});renderSteps(false);renderRes()}).catch(function(){})}
+function chargerLiens(){return contenu('liens.json').then(function(c){var o=JSON.parse(c.donnees);Object.keys(o).forEach(function(k){LIENS[k]=o[k]});renderSteps(false);renderRes();majBilan()}).catch(function(){})}
 function majSession(){
   if(!sb){appliquerRole();return Promise.resolve()}
   return sb.auth.getSession().then(function(r){
@@ -1239,7 +1272,7 @@ function majSession(){
     if(!ses){MOI={role:'visiteur',email:null,eleve:null};return}
     MOI.email=(ses.user.email||'').toLowerCase();
     return sb.rpc('mon_role').then(function(x){MOI.role=x.error?'visiteur':(x.data||'visiteur');
-      if(MOI.role==='eleve')return sb.from('eleves').select('prenom,date_debut,duree_sem,lien_suivi,etapes_faites').eq('email',MOI.email).maybeSingle().then(function(e){MOI.eleve=e.data||null;
+      if(MOI.role==='eleve')return sb.from('eleves').select('prenom,date_debut,duree_sem,lien_suivi,lien_contrat,etapes_faites').eq('email',MOI.email).maybeSingle().then(function(e){MOI.eleve=e.data||null;
         var f=(MOI.eleve&&MOI.eleve.etapes_faites)||[],chg=0;f.forEach(function(id){if(!done[id]){done[id]=1;chg=1}});if(chg){store('lf-onboarding',done);renderSteps(false)}
         return chargerEtapes()});
     }).then(function(){if(MOI.role==='eleve'||MOI.role==='coach')return chargerLiens()});
@@ -1260,6 +1293,7 @@ function appliquerRole(){
   var ml=$('#moi-ligne');ml.hidden=!(sb&&MOI.email&&aAcces());
   if(!ml.hidden)ml.innerHTML='Connecté : '+esc(MOI.eleve&&MOI.eleve.prenom||MOI.email)+' · <button class="lien" type="button" data-deco>Se déconnecter</button>';
   var su=$('#mon-suivi'),lk=MOI.eleve&&MOI.eleve.lien_suivi;if(lk&&/^https:\/\//.test(lk)){su.href=lk;su.hidden=false}else su.hidden=true;
+  majBilan();
   if(MOI.eleve&&MOI.eleve.prenom&&!$('#parr-prenom').value){$('#parr-prenom').value=MOI.eleve.prenom;parrMaj()}
   route();
 }
@@ -1518,6 +1552,7 @@ function coCarte(x){
 
         '<div class="grid2"><label class="q"><span>Début</span><input type="date" data-k="date_debut" value="'+esc(x.date_debut||'')+'"></label>'+
         '<label class="q"><span>Durée</span><select data-k="duree_sem">'+[16,20,24,26].map(function(n){return '<option value="'+n+'"'+(n==x.duree_sem?' selected':'')+'>'+(n==26?'6 mois':n+' sem.')+'</option>'}).join('')+'</select></label></div>'+
+        '<label class="q"><span>Lien de signature de son contrat (DocuSeal, tant qu\'il n\'a pas signé)</span><input type="url" data-k="lien_contrat" placeholder="https://docuseal.com/s/…" value="'+esc(x.lien_contrat||'')+'"></label>'+
         '<label class="q"><span>Lien de son fichier de suivi (optionnel)</span><input type="url" data-k="lien_suivi" placeholder="https://docs.google.com/…" value="'+esc(x.lien_suivi||'')+'"></label>'+
         '<details class="co-et"><summary>Étapes « Démarrer » faites : '+Object.keys(x._f).length+'/'+ETAPES.length+'</summary><div class="chips">'+ETAPES.map(function(t){var m=x._m[t.id],qui=m?({eleve:'par l\'élève',auto:'par l\'app',coach:'par toi',verif:'vérification'}[m.par]||'')+' le '+new Date(m.quand).toLocaleDateString('fr-BE',{day:'numeric',month:'numeric'}):'';return '<label><input type="checkbox" data-et="'+esc(t.id)+'"'+(x._f[t.id]?' checked':'')+'><span>'+esc(t.t)+(qui?'<small class="co-qui">'+(m.coche?'Cochée ':'Décochée ')+esc(qui)+'</small>':'')+'</span></label>'}).join('')+'</div></details>'+
         '<details class="co-msg"><summary class="co-et-s">Écrire un message dans son app</summary><div class="stack" style="margin-top:10px"><textarea data-k="msg" maxlength="500" placeholder="Il le verra dans ses notifications."></textarea><button class="btn ghost small" type="button" data-co="msg">Envoyer dans l\'app</button></div></details>'+
@@ -1528,7 +1563,7 @@ $('#co-list').addEventListener('click',function(e){
   var tr=e.target.closest('tr[data-sel]');
   if(tr){CO.sel=tr.getAttribute('data-sel');$$('#co-list [data-sel]').forEach(function(r){r.classList.toggle('sel',r===tr)});$$('#co-list .co-el').forEach(function(c){c.classList.toggle('sel',c.getAttribute('data-email')===CO.sel)});return}
   var b=e.target.closest('[data-co]');if(!b)return;var c=b.closest('[data-email]'),em=c.getAttribute('data-email'),maj={};
-  if(b.getAttribute('data-co')==='save'){maj.date_debut=$('[data-k=date_debut]',c).value||null;maj.duree_sem=+$('[data-k=duree_sem]',c).value;var l=$('[data-k=lien_suivi]',c).value.trim();if(l&&!/^https:\/\//.test(l)){toast('Le lien doit commencer par https://');return}maj.lien_suivi=l||null;maj.etapes_faites=$$('[data-et]',c).filter(function(i){return i.checked}).map(function(i){return i.getAttribute('data-et')});
+  if(b.getAttribute('data-co')==='save'){maj.date_debut=$('[data-k=date_debut]',c).value||null;maj.duree_sem=+$('[data-k=duree_sem]',c).value;var l=$('[data-k=lien_suivi]',c).value.trim();if(l&&!/^https:\/\//.test(l)){toast('Le lien doit commencer par https://');return}maj.lien_suivi=l||null;var lc=$('[data-k=lien_contrat]',c).value.trim();if(lc&&!/^https:\/\/[^/]*docuseal[^/]*\//.test(lc)){toast('Colle le lien DocuSeal (https://docuseal…)');return}maj.lien_contrat=lc||null;maj.etapes_faites=$$('[data-et]',c).filter(function(i){return i.checked}).map(function(i){return i.getAttribute('data-et')});
     /* les coches changées par Leni sont aussi notées dans etapes_eleve (elles priment sur celles de l'élève) */
     var now=new Date().toISOString(),ch=$$('[data-et]',c).filter(function(i){return i.checked!==i.defaultChecked}).map(function(i){return {email:em,etape:i.getAttribute('data-et'),coche:i.checked,par:'coach',quand:now,message:null,lien:null}});
     if(ch.length)sb.from('etapes_eleve').upsert(ch).then(function(){},function(){})}
@@ -1661,7 +1696,7 @@ function route(){
   if(v==='parametres')paramsRendu();
   if(v==='demarrer'||v==='formation'){autoEtapes();syncFormation()}
   if(PILE[PILE.length-2]===v)PILE.pop();else if(PILE[PILE.length-1]!==v)PILE.push(v);
-  majRetour();
+  majRetour();majLecon(v);
   if(v==='connexion'&&MOI.role!=='ouvert'&&!sb)cxErr('Connexion indisponible pour le moment (pas de réseau ?).');
   if(v==='accueil'||v==='ressources')satisRendu();
   remonter();

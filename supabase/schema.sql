@@ -69,6 +69,7 @@ revoke all on public.contenus from anon;
 
 -- 26/11 : étapes « Démarrer » déjà faites, cochées par le coach
 alter table public.eleves add column if not exists etapes_faites text[] not null default '{}';
+alter table public.eleves add column if not exists lien_contrat text check (lien_contrat is null or lien_contrat ~ '^https://(docuseal\.(com|eu|co)|[a-z0-9.-]*docuseal[a-z0-9.-]*)/'); -- lien de signature DocuSeal collé par Leni (bouton « Signer mon contrat »)
 
 -- 26/11 : statistiques anonymes (ajout par tous, lecture coach seulement, aucune donnée personnelle)
 create table if not exists public.stats(
