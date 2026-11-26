@@ -2,7 +2,9 @@
    (390 et 320 px), iPad (820 px) et ordinateur (1280 px), en visiteur, en élève et en coach (données fictives), et signale :
    - un débordement horizontal de la page ;
    - un élément qui sort de sa carte ou de sa colonne (champ date, select, image...) ;
-   - une classe d'en-tête global (.top) réutilisée dans une vue.
+   - une classe d'en-tête global (.top) réutilisée dans une vue ;
+   - une sous-page (ou un sous-écran d'onglet) sans flèche retour en haut ;
+   - une page qui ne s'ouvre pas tout en haut, ou un texte caché sous l'en-tête fixe.
    Usage : node outils/verif-ecrans.js [dossier-captures] [dossier-fiches]
    (sert app/ sur le port 8768). Sortie non nulle s'il y a un problème. */
 const {chromium}=require('playwright');const http=require('http');const fs=require('fs');const path=require('path');
@@ -25,11 +27,18 @@ for(const w of [390,320,820,1280]){
   await p.route('https://raw.githubusercontent.com/**',r=>r.fulfill({status:200,contentType:'text/html',body:fs.readFileSync(path.join(__dirname,'..','academy.html'),'utf8')}));
   await p.goto('http://localhost:8768/');await p.waitForTimeout(800);
   for(const role of Object.keys(ROLES)){
-    await p.evaluate(([role,contenus,eleves,fx])=>{window.sb=eval('('+fx+')')(contenus,eleves);sb=window.sb;MOI.role=role;MOI.email=role==='visiteur'?null:'x@exemple.com';MOI.eleve=role==='eleve'?{prenom:'Test'}:null;if(window.appliquerRole)appliquerRole()},[role,contenus,ELEVES,faux.toString()]);
+    await p.evaluate(([role,contenus,eleves,fx])=>{window.sb=eval('('+fx+')')(contenus,eleves);sb=window.sb;MOI.role=role;MOI.email=role==='visiteur'?null:'x@exemple.com';MOI.eleve=role==='eleve'?{prenom:'Test'}:null;document.body.dataset.role=role;if(window.appliquerRole)appliquerRole()},[role,contenus,ELEVES,faux.toString()]);
     for(const v of ROLES[role]){
       await p.evaluate(v=>{location.hash='#'+v;route()},v);await p.waitForTimeout(500);if(v==='coach')await p.evaluate(()=>document.querySelectorAll('#co-list details').forEach(d=>d.open=true));
       const pbs=await p.evaluate((v)=>{const out=[];
+        if(['accueil','appel','demarrer','formation','ressources','coach'].indexOf(v)<0&&document.getElementById('retour').hidden)out.push('pas de flèche retour sur une sous-page');
         if(document.body.dataset.vue!==v)out.push('la vue affichée est « '+document.body.dataset.vue+' » au lieu de « '+v+' »');const W=document.documentElement.clientWidth;
+        const pill=document.getElementById('who-link').textContent.trim(),attendu={visiteur:'Se connecter',eleve:'Test',coach:'Coach'}[document.body.dataset.role];
+        if(attendu&&pill!==attendu)out.push('bouton du haut « '+pill+' » au lieu de « '+attendu+' » ('+document.body.dataset.role+')');
+        if(window.scrollY>0)out.push('la page ne s\'ouvre pas tout en haut (défilée de '+Math.round(window.scrollY)+' px)');
+        const hb=document.querySelector('.top').getBoundingClientRect().bottom;
+        const v0=[...document.querySelectorAll('main.view')].find(m=>!m.hidden);
+        if(v0)[...v0.querySelectorAll('h1,h2,h3,p,.eyebrow,a,button,label')].filter(e=>e.getBoundingClientRect().height&&getComputedStyle(e).visibility!=='hidden').slice(0,6).forEach(e=>{const t=e.getBoundingClientRect().top;if(t<hb-1)out.push('texte recouvert par l\'en-tête : « '+(e.textContent||'').trim().slice(0,30)+' »')});
         if(document.documentElement.scrollWidth>W+1)out.push('page plus large que l\'écran ('+document.documentElement.scrollWidth+' px)');
         const vue=[...document.querySelectorAll('main.view')].find(m=>!m.hidden);if(!vue)return ['aucune vue visible'];
         vue.querySelectorAll('.top').forEach(t=>{if(!t.closest('#lfa'))out.push('classe .top (en-tête global) utilisée dans la vue')});
@@ -39,6 +48,11 @@ for(const w of [390,320,820,1280]){
           if(r.right>pr.right+1||r.left<pr.left-1)out.push((el.tagName.toLowerCase()+(el.type?'['+el.type+']':'')+' '+(el.className||'')).trim()+' déborde de '+(par.className||par.tagName));});
         return [...new Set(out)]},v);
       const nom=w+'-'+role+'-'+v;await p.screenshot({path:path.join(OUT,nom+'.png'),fullPage:true});
+      /* sous-états d'un onglet : module de formation ouvert, réservation de créneau → flèche retour obligatoire, et elle ramène au niveau 1 */
+      const sous={formation:'#lf-root [data-mod]',appel:'[data-motif]'}[v];
+      if(sous&&await p.$(sous)){await p.click(sous);await p.waitForTimeout(300);
+        const r=await p.evaluate(async()=>{const o=[];if(document.getElementById('retour').hidden)o.push('pas de flèche retour dans le sous-écran');else{document.getElementById('retour').click();await new Promise(r=>setTimeout(r,150));if(!document.getElementById('retour').hidden)o.push('la flèche retour ne ramène pas à l\'onglet')}return o});
+        await p.waitForTimeout(200);pbs.push(...r.map(x=>x+' ('+v+')'));}
       if(pbs.length){pb++;log('✗ '+nom+' : '+pbs.join(' ; '))}else log('✓ '+nom);
     }
   }

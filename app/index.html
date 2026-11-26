@@ -309,6 +309,10 @@ a.line:active{transform:scale(.985);background:var(--carte-2)}
 .academy-box .top{position:static;z-index:auto;background:none;backdrop-filter:none;-webkit-backdrop-filter:none}
 .academy-box .btn{white-space:normal;min-height:0;box-shadow:none}
 .academy-box .chip{backdrop-filter:none;-webkit-backdrop-filter:none}
+.retour{display:grid;place-items:center;width:36px;height:36px;border-radius:999px;background:var(--lueur);border:1px solid var(--filet);color:var(--creme);flex:none;padding:0;cursor:pointer}
+.retour[hidden]{display:none}
+.retour svg{width:20px;height:20px}
+main.view>.back{display:none} /* remplacé par la flèche retour de l'en-tête */
 .back{display:inline-flex;align-items:center;gap:6px;font-size:14px;font-weight:600;color:var(--doux);text-decoration:none}
 
 
@@ -377,6 +381,7 @@ footer{font-size:11px;color:var(--doux);text-align:center;padding-top:4px}
 
 <div class="wrap">
   <header class="top">
+    <button class="retour" type="button" id="retour" hidden aria-label="Retour"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button>
     <img src="icons/logo-creme.png" alt="LF" width="28" height="28">
     <div class="brand"><b data-brand="nom">LF Coaching</b><small data-brand="sousTitre">Coaching en ligne · bodybuilding naturel</small></div>
     <a class="cloche" href="#notifs" id="cloche" hidden aria-label="Notifications"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg><b id="cloche-n" hidden></b></a>
@@ -1162,8 +1167,9 @@ function majSession(){
 function appliquerRole(){
   var w=$('#who-link');
   if(MOI.role==='coach'){w.textContent='Coach';w.href='#coach'}
-  else if(MOI.role==='eleve'||(MOI.role==='ouvert'&&store('lf-eleve'))){w.textContent='Mon espace';w.href='#demarrer'}
-  else{w.textContent='Espace élève';w.href=MOI.role==='ouvert'?'#demarrer':'#connexion'}
+  else if(MOI.role==='eleve'){w.textContent=(MOI.eleve&&MOI.eleve.prenom)||'Mon espace';w.href='#demarrer'}
+  else if(MOI.role==='ouvert'&&store('lf-eleve')){w.textContent='Mon espace';w.href='#demarrer'}
+  else{w.textContent='Se connecter';w.href=MOI.role==='ouvert'?'#demarrer':'#connexion'}
   var el=aAcces()&&(MOI.role!=='ouvert'||store('lf-eleve'));
   $$('.eleve-seul').forEach(function(x){x.hidden=!el});$$('.visiteur-seul').forEach(function(x){x.hidden=el});
   $('#cloche').hidden=!(sb&&MOI.email&&(MOI.role==='eleve'||MOI.role==='coach'));if(!$('#cloche').hidden)compterNotifs();
@@ -1541,10 +1547,38 @@ function route(){
   if(v==='notifs'){notifsRendu();compterNotifs()}
   if(v==='parametres')paramsRendu();
   if(v==='demarrer'||v==='formation')autoEtapes();
+  if(PILE[PILE.length-2]===v)PILE.pop();else if(PILE[PILE.length-1]!==v)PILE.push(v);
+  majRetour();
   if(v==='connexion'&&MOI.role!=='ouvert'&&!sb)cxErr('Connexion indisponible pour le moment (pas de réseau ?).');
   if(v==='accueil'||v==='ressources')satisRendu();
-  window.scrollTo(0,0);
+  remonter();
 }
+/* Chaque page s'ouvre tout en haut, sous l'en-tête (Safari peut rétablir l'ancienne position après le changement de page) */
+try{history.scrollRestoration='manual'}catch(e){}
+function remonter(){window.scrollTo(0,0);requestAnimationFrame(function(){window.scrollTo(0,0)});setTimeout(function(){window.scrollTo(0,0)},60)}
+/* Flèche retour : toute page qui n'est pas un onglet (niveau 2 ou plus) en a une, en haut.
+   Elle revient à la page précédente de l'app, sinon à la page parente. Les sous-états d'un onglet
+   (module de formation ouvert, créneau en cours de réservation) comptent comme niveau 2.
+   Dans l'app installée, glisser depuis le bord gauche fait la même chose (iOS ne le fait pas tout seul). */
+var NIV1=['accueil','appel','demarrer','formation','ressources','coach'];
+var PARENT={guides:'accueil',contact:'accueil',connexion:'accueil',notifs:'accueil',parametres:'notifs',bikini:'ressources',echauffement:'ressources',parrainage:'ressources'};
+var PILE=[];
+function sousEtat(v){var sel={formation:'#lfa-home',appel:'#rdv-back'}[v],b=sel&&$(sel);return b&&b.offsetParent!==null?b:null}
+function majRetour(){var v=document.body.dataset.vue;$('#retour').hidden=NIV1.indexOf(v)>=0&&!sousEtat(v)}
+function parentDe(v){if(FICHES[v])return 'ressources';if(OUTILS[v])return ($('#outil-back').getAttribute('href')||'#guides').slice(1);return PARENT[v]||TAB_DE[v]||'accueil'}
+function retour(){
+  var v=document.body.dataset.vue,s=sousEtat(v);
+  if(s){s.click();window.scrollTo(0,0);setTimeout(majRetour,0);return}
+  if(PILE.length>1)history.back();else location.hash='#'+parentDe(v);
+}
+$('#retour').addEventListener('click',retour);
+document.addEventListener('click',function(){setTimeout(majRetour,0)});
+(function(){
+  var standalone=window.matchMedia('(display-mode: standalone)').matches||navigator.standalone,x0=null,y0=0;
+  if(!standalone)return; // dans Safari, le balayage natif s'en charge déjà
+  document.addEventListener('touchstart',function(e){var t=e.touches[0];x0=t.clientX<24?t.clientX:null;y0=t.clientY},{passive:true});
+  document.addEventListener('touchend',function(e){if(x0===null)return;var t=e.changedTouches[0];if(t.clientX-x0>80&&Math.abs(t.clientY-y0)<60&&!$('#retour').hidden)retour();x0=null},{passive:true});
+})();
 window.addEventListener('hashchange',route);
 appliquerRole();majSession();
 if(sb)sb.auth.onAuthStateChange(function(ev){if(ev==='SIGNED_IN'||ev==='SIGNED_OUT')majSession()});
