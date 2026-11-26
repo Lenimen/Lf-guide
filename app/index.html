@@ -1229,9 +1229,12 @@ function satisRendu(){
   var box=$('#satis'),e=satisEtat(),acc=$('#satis-accueil');
   acc.hidden=!(e&&e.now);
   if(e&&e.now)$('#satis-accueil-t').textContent='Ton avis · '+SATIS[e.v];
-  if(MOI.role==='eleve'&&!(MOI.eleve&&MOI.eleve.date_debut)){box.hidden=true;acc.hidden=true;return} // date pas encore posée par Leni : on ne demande rien à l'élève
+  /* Début du plan et durée viennent UNIQUEMENT de l'espace coach : on ne les demande jamais.
+     Pas un élève, ou date pas encore posée par Leni : la carte n'apparaît pas (ni pour le coach, ni pour un visiteur). */
+  if(MOI.role!=='eleve'||!(MOI.eleve&&MOI.eleve.date_debut)){box.hidden=true;acc.hidden=true;return}
   box.hidden=false;
-  if(!e||satisRendu.edit){
+  if(!e){box.hidden=true;acc.hidden=true;return}
+  if(false){
     var d=store('lf-debut')||'',sem=store('lf-duree')||26;
     box.className='card satis';
     box.innerHTML='<div class="eyebrow">Ton avis sur le coaching</div><h3>Je te demande ton avis 3 fois</h3><p class="soft" style="font-size:14px">À la 3e semaine, à mi-parcours et 3 semaines avant la fin. Deux minutes à chaque fois. Indique quand ton plan a démarré, l\'app te le rappellera au bon moment.</p>'+
