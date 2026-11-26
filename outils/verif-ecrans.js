@@ -28,7 +28,8 @@ for(const w of [390,320]){
     await p.evaluate(([role,contenus,eleves,fx])=>{window.sb=eval('('+fx+')')(contenus,eleves);sb=window.sb;MOI.role=role;MOI.email=role==='visiteur'?null:'x@exemple.com';MOI.eleve=role==='eleve'?{prenom:'Test'}:null;if(window.appliquerRole)appliquerRole()},[role,contenus,ELEVES,faux.toString()]);
     for(const v of ROLES[role]){
       await p.evaluate(v=>{location.hash='#'+v;route()},v);await p.waitForTimeout(500);
-      const pbs=await p.evaluate(()=>{const out=[];const W=document.documentElement.clientWidth;
+      const pbs=await p.evaluate((v)=>{const out=[];
+        if(document.body.dataset.vue!==v)out.push('la vue affichée est « '+document.body.dataset.vue+' » au lieu de « '+v+' »');const W=document.documentElement.clientWidth;
         if(document.documentElement.scrollWidth>W+1)out.push('page plus large que l\'écran ('+document.documentElement.scrollWidth+' px)');
         const vue=[...document.querySelectorAll('main.view')].find(m=>!m.hidden);if(!vue)return ['aucune vue visible'];
         vue.querySelectorAll('.top').forEach(t=>{if(!t.closest('#lfa'))out.push('classe .top (en-tête global) utilisée dans la vue')});
@@ -36,7 +37,7 @@ for(const w of [390,320]){
           let par=el.parentElement;while(par&&par!==vue&&getComputedStyle(par).overflowX==='visible'&&!par.classList.contains('card'))par=par.parentElement;
           if(!par||el.closest('.tbl'))return;if(par!==vue&&!par.classList.contains('card')&&getComputedStyle(par).overflowX!=='visible')return;const pr=par.getBoundingClientRect();
           if(r.right>pr.right+1||r.left<pr.left-1)out.push((el.tagName.toLowerCase()+(el.type?'['+el.type+']':'')+' '+(el.className||'')).trim()+' déborde de '+(par.className||par.tagName));});
-        return [...new Set(out)]});
+        return [...new Set(out)]},v);
       const nom=w+'-'+role+'-'+v;await p.screenshot({path:path.join(OUT,nom+'.png'),fullPage:true});
       if(pbs.length){pb++;log('✗ '+nom+' : '+pbs.join(' ; '))}else log('✓ '+nom);
     }

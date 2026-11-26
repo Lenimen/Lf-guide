@@ -1239,7 +1239,7 @@ $('#ech-zones').addEventListener('click',function(e){
 /* Navigation */
 /* Outils publics : vue = nom, fichier servi dans guides/ */
 var OUTILS={mensurations:'mensurations.html',potentiel:'potentiel.html',posing:'posing.html'};
-var VUES=['accueil','appel','guides','contact','demarrer','formation','ressources','bikini','echauffement','parrainage','connexion','coach'].concat(Object.keys(FICHES));
+var VUES=['accueil','appel','guides','contact','demarrer','formation','ressources','bikini','echauffement','parrainage','connexion','coach'].concat(Object.keys(FICHES),Object.keys(OUTILS));
 var TAB_DE={guides:'accueil',contact:'accueil',bikini:'ressources',echauffement:'ressources',parrainage:'ressources',coach:'accueil'};
 Object.keys(FICHES).forEach(function(k){TAB_DE[k]='ressources'});
 Object.keys(OUTILS).forEach(function(k){TAB_DE[k]='accueil'});
@@ -1259,8 +1259,7 @@ function route(){
   $('#cx-refus').hidden=!(v==='connexion'&&MOI.email&&MOI.role==='visiteur');
   if(v==='connexion'&&cxEmail&&!MOI.email&&$('#cx-code').hidden){$('#cx-code').hidden=false;$('#cx-envoye').textContent='Code envoyé à '+cxEmail+'. Regarde aussi dans les spams.'}
   $('#cx-form').hidden=!$('#cx-refus').hidden||!$('#cx-code').hidden;
-  if(OUTILS[v]&&VUES.indexOf(v)<0)VUES.push(v);
-  VUES.forEach(function(k){var el=$('#v-'+k);if(el)el.hidden=(k!==v)});$('#v-fiche').hidden=!FICHES[v];$('#v-outil').hidden=!OUTILS[v];
+  VUES.forEach(function(k){var el=$('#v-'+k);if(el)el.hidden=(k!==v)});document.body.dataset.vue=v;$('#v-fiche').hidden=!FICHES[v];$('#v-outil').hidden=!OUTILS[v];
   if(OUTILS[v])ouvrirOutil(v);
   var t=TAB_DE[v]||v;
   $$('.tabs a').forEach(function(a){if(a.getAttribute('data-tab')===t)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current')});
