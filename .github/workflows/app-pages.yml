@@ -4,7 +4,7 @@ name: App en ligne
 on:
   push:
     branches: [main]
-    paths: ['app/**', '.github/workflows/app-pages.yml']
+    paths: ['app/**', 'mensurations.html', 'potentiel.html', 'posing.html', '.github/workflows/app-pages.yml']
   workflow_dispatch:
 permissions:
   contents: read
@@ -22,6 +22,8 @@ jobs:
         run: |
           mkdir -p _site
           rsync -a --exclude 'LISEZ-MOI.md' app/ _site/
+          # Guides publics affichés dans l'app (même fichier que sur Systeme.io : une seule source)
+          mkdir -p _site/guides && cp mensurations.html potentiel.html posing.html _site/guides/
           echo 'app.thelfmethod.com' > _site/CNAME
           touch _site/.nojekyll
       - uses: actions/configure-pages@v5
