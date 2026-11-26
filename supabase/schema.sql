@@ -86,3 +86,39 @@ drop policy if exists stats_coach on public.stats;
 create policy stats_coach on public.stats for select to authenticated using (public.mon_role()='coach');
 grant insert on public.stats to anon, authenticated;
 grant select on public.stats to authenticated;
+
+-- ===== Étapes « Démarrer », notifications, réglages (26/11/2026) =====
+-- etapes_eleve : coches de l'élève (par eleve/auto), de Leni (coach) ou de la vérification du soir (verif, avec message + lien).
+create table if not exists public.etapes_eleve(
+  email text not null, etape text not null check (length(etape)<=20),
+  coche boolean not null default true,
+  par text not null default 'eleve' check (par in ('eleve','auto','coach','verif')),
+  quand timestamptz not null default now(),
+  message text check (length(message)<=300),
+  lien text check (lien is null or lien ~ '^https://'),
+  primary key (email, etape));
+-- RLS : l'élève lit/écrit ses lignes (par eleve/auto, sans message), le coach tout.
+
+-- notifs : centre de notifications. Une seule relance par étape = clé unique (email, cle).
+create table if not exists public.notifs(
+  id bigserial primary key, email text not null,
+  type text not null check (type in ('etape','leni','formation')),
+  cle text check (length(cle)<=40), titre text not null check (length(titre)<=80),
+  texte text check (length(texte)<=500), lien text check (lien is null or lien ~ '^(https://|#)'),
+  cree_le timestamptz not null default now(), lue_le timestamptz, push_le timestamptz,
+  unique (email, cle));
+-- RLS : l'élève lit les siennes et ne peut modifier que lue_le (grant update (lue_le)) ; le coach tout.
+
+-- reglages : types de notifications, fréquence (jour = 1 par jour max, semaine, app = pas de push), abonnement push.
+create table if not exists public.reglages(
+  email text primary key,
+  types jsonb not null default '{"etape":true,"leni":true,"formation":true}',
+  frequence text not null default 'jour' check (frequence in ('jour','semaine','app')),
+  push jsonb, maj_le timestamptz not null default now());
+
+-- Clés VAPID et clé du cron : dans le coffre (vault), noms lf_vapid_prive, lf_vapid_public, lf_vapid_sujet, lf_cron_cle.
+-- lf_secrets() (security definer, service_role seulement) les donne à la fonction notifs-push.
+-- lf_relances() : chaque jour 16:40 UTC, relance la prochaine étape après 3 jours sans avancer (élèves ayant ouvert l'app)
+--                 et annonce les nouveaux modules de formation le jour de leur sortie.
+-- pg_cron : 'lf-relances' (40 16 * * *) puis 'lf-notifs-push' (0 17 * * *, net.http_post vers functions/v1/notifs-push).
+-- Vérification des contrats DocuSeal : tâche planifiée Claude, 17:23 heure de Bruxelles.

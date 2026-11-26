@@ -208,7 +208,27 @@ a.line:active{transform:scale(.985);background:var(--carte-2)}
 .co-el .co-top{display:flex;justify-content:space-between;gap:10px;align-items:baseline}
 .co-el .co-top small{color:var(--doux);overflow-wrap:anywhere}
 .co-el.off{opacity:.55}
-.co-et summary{cursor:pointer;font-size:14px;font-weight:600;color:var(--doux)}
+.cloche{position:relative;display:grid;place-items:center;width:38px;height:38px;border-radius:999px;background:var(--lueur);border:1px solid var(--filet);color:var(--creme);flex:none}
+.cloche svg{width:18px;height:18px}
+.cloche b{position:absolute;top:-4px;right:-4px;min-width:18px;height:18px;padding:0 5px;border-radius:999px;background:var(--creme);color:var(--petrole);font-size:11px;font-weight:700;display:grid;place-items:center}
+.top .cloche+.pill{margin-left:0}
+.top .cloche{margin-left:auto}
+.notif{display:grid;gap:6px;text-decoration:none}
+.notif.lue{opacity:.6}
+.notif .quand{font-size:12px;color:var(--doux)}
+.notif p{font-size:14px;color:var(--doux);margin:0}
+.notif:not(.lue) h3::before{content:'';display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--creme);margin-right:8px;vertical-align:middle}
+.param{display:flex;justify-content:space-between;align-items:center;gap:12px;min-width:0}
+.param span{min-width:0;font-size:15px}
+.param small{display:block;color:var(--doux);font-size:12px}
+.param input[type=checkbox]{-webkit-appearance:none;appearance:none;flex:none;width:50px;height:30px;border-radius:999px;background:rgba(235,227,208,.18);position:relative;cursor:pointer;transition:background .15s;margin:0}
+.param input[type=checkbox]::after{content:'';position:absolute;top:3px;left:3px;width:24px;height:24px;border-radius:50%;background:var(--creme);transition:transform .15s}
+.param input[type=checkbox]:checked{background:var(--doux)}
+.param input[type=checkbox]:checked::after{transform:translateX(20px)}
+.step .verif{font-size:13px;padding:10px 12px;border-radius:12px;background:rgba(235,227,208,.1);border:1px solid var(--filet)}
+.co-qui{font-size:12px;color:var(--doux);display:block;margin-top:2px}
+.co-msg textarea{width:100%;min-width:0;min-height:70px;padding:10px 12px;border-radius:12px;border:1px solid var(--filet);background:rgba(0,0,0,.15);color:var(--creme);font:inherit;font-size:15px;resize:vertical}
+.co-et summary,.co-msg summary{cursor:pointer;font-size:14px;font-weight:600;color:var(--doux)}
 .co-et .chips{margin-top:10px}
 .co-et .chips span{font-size:13px;padding:7px 11px}
 .co-el .grid2{gap:10px}
@@ -328,6 +348,7 @@ footer{font-size:11px;color:var(--doux);text-align:center;padding-top:4px}
   <header class="top">
     <img src="icons/logo-creme.png" alt="LF" width="28" height="28">
     <div class="brand"><b data-brand="nom">LF Coaching</b><small data-brand="sousTitre">Coaching en ligne · bodybuilding naturel</small></div>
+    <a class="cloche" href="#notifs" id="cloche" hidden aria-label="Notifications"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg><b id="cloche-n" hidden></b></a>
     <a class="pill" href="#demarrer" id="who-link">Espace élève</a>
   </header>
 
@@ -531,6 +552,48 @@ footer{font-size:11px;color:var(--doux);text-align:center;padding-top:4px}
   </main>
 
   <!-- ============ PARRAINAGE (espace élève) ============ -->
+  <!-- ============ NOTIFICATIONS (élève) ============ -->
+  <main class="view" id="v-notifs" hidden>
+    <div class="page-head">
+      <div class="eyebrow">Espace élève</div>
+      <h1>Notifications</h1>
+      <p class="lede">Ce que tu as à faire et ce qui est nouveau. Jamais plus d'une notification par jour sur ton téléphone.</p>
+    </div>
+    <div class="stack" id="notifs-list"><p class="soft">Chargement…</p></div>
+    <div class="row"><button class="btn ghost small" type="button" id="notifs-lu">Tout marquer comme lu</button><a class="btn ghost small" href="#parametres">Paramètres</a></div>
+  </main>
+
+  <!-- ============ PARAMÈTRES (élève) ============ -->
+  <main class="view" id="v-parametres" hidden>
+    <div class="page-head">
+      <div class="eyebrow">Espace élève</div>
+      <h1>Paramètres</h1>
+      <p class="lede">Tu choisis ce qui te prévient sur ton téléphone. Dans l'app, tout reste visible dans les notifications.</p>
+    </div>
+    <div class="card" id="pa-push">
+      <div class="eyebrow">Sur ce téléphone</div>
+      <h3 id="pa-push-t">Notifications</h3>
+      <p class="soft" id="pa-push-d" style="font-size:14px"></p>
+      <div class="row" id="pa-push-b"></div>
+    </div>
+    <div class="card">
+      <div class="eyebrow">Me prévenir pour</div>
+      <label class="param"><span>Les étapes à faire<small>Une seule relance par étape, et si une étape cochée n'est pas faite (ex. contrat pas signé)</small></span><input type="checkbox" data-pa="etape"></label>
+      <label class="param"><span>Les messages de Leni</span><input type="checkbox" data-pa="leni"></label>
+      <label class="param"><span>Les nouveaux modules de formation</span><input type="checkbox" data-pa="formation"></label>
+    </div>
+    <div class="card">
+      <div class="eyebrow">À quelle fréquence</div>
+      <div class="chips" id="pa-freq">
+        <label><input type="radio" name="pa-freq" value="jour"><span>1 par jour maximum</span></label>
+        <label><input type="radio" name="pa-freq" value="semaine"><span>1 résumé par semaine</span></label>
+        <label><input type="radio" name="pa-freq" value="app"><span>Seulement dans l'app</span></label>
+      </div>
+      <p class="soft" style="font-size:13px">Quand il y a plusieurs nouveautés, elles arrivent ensemble dans une seule notification, vers 18 h.</p>
+    </div>
+    <p class="soft" id="pa-moi" style="font-size:13px"></p>
+  </main>
+
   <main class="view" id="v-parrainage" hidden>
     <div class="page-head">
       <div class="eyebrow">Espace élève · Parrainage</div>
@@ -926,13 +989,37 @@ function renderSteps(anim){
     var on=!!done[e.id],nx=e.id===nextId;
     return '<div class="step'+(on?' done':'')+(nx?' next':'')+'"><button class="chk" type="button" data-step="'+e.id+'" aria-pressed="'+on+'" aria-label="'+(on?'Décocher':'Cocher')+' : '+esc(e.t)+'"><svg viewBox="0 0 24 24" fill="none" stroke="#192E33" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></button>'+
       '<div class="t"><span class="who">'+(nx?'Prochaine étape · ':'Étape '+(i+1)+' · ')+(e.qui==='Leni'?'Leni s\'en occupe':'à toi')+'</span><h3>'+esc(e.t)+'</h3></div>'+
-      '<div class="body"><p>'+esc(e.d)+'</p>'+(e.l?'<div class="row"><a class="btn small'+(nx?'':' ghost')+'" href="'+esc(lien(e.l))+'"'+(lien(e.l).charAt(0)==='#'?'':' target="_blank" rel="noopener"')+'>'+esc(e.b)+'</a></div>':'')+'</div></div>';
+      '<div class="body">'+(VERIF[e.id]?'<p class="verif">'+esc(VERIF[e.id].m)+(VERIF[e.id].l?' <a href="'+esc(VERIF[e.id].l)+'"'+(VERIF[e.id].l.charAt(0)==='#'?'':' target="_blank" rel="noopener"')+'>Ouvrir</a>':'')+'</p>':'')+'<p>'+esc(e.d)+'</p>'+(e.l?'<div class="row"><a class="btn small'+(nx?'':' ghost')+'" href="'+esc(lien(e.l))+'"'+(lien(e.l).charAt(0)==='#'?'':' target="_blank" rel="noopener"')+'>'+esc(e.b)+'</a></div>':'')+'</div></div>';
   }).join('');
 }
+/* Synchro des étapes avec le serveur (table etapes_eleve) : l'élève coche sans attendre,
+   Leni peut décocher depuis l'espace coach, la vérification du soir peut décocher avec un message. */
+var VERIF={}; // id d'étape -> {message, lien} quand une vérification a décoché
+function syncEtape(id,on,par){
+  if(!sb||MOI.role!=='eleve'||!MOI.email)return;
+  delete VERIF[id];
+  sb.from('etapes_eleve').upsert({email:MOI.email,etape:id,coche:on,par:par||'eleve',quand:new Date().toISOString(),message:null,lien:null}).then(function(){},function(){});
+}
+function chargerEtapes(){
+  if(!sb||MOI.role!=='eleve')return Promise.resolve();
+  return sb.from('etapes_eleve').select('etape,coche,par,message,lien').eq('email',MOI.email).then(function(r){
+    var rows=r.data||[],vus={};VERIF={};
+    rows.forEach(function(x){vus[x.etape]=1;if(x.coche)done[x.etape]=1;else{delete done[x.etape];if(x.message)VERIF[x.etape]={m:x.message,l:x.lien}}});
+    /* coches faites avant la connexion : envoyées une fois */
+    Object.keys(done).forEach(function(id){if(!vus[id]&&((MOI.eleve&&MOI.eleve.etapes_faites)||[]).indexOf(id)<0)syncEtape(id,true,'eleve')});
+    store('lf-onboarding',done);autoEtapes();renderSteps(false);
+  },function(){});
+}
+/* Ce que l'app voit elle-même : Formation C01 à C03 terminés -> étape cochée toute seule */
+function autoEtapes(){
+  var a=store('lf-academy-v1')||{};
+  if(!done.academy&&['c01','c02','c03'].every(function(k){return a[k]&&a[k].done})){done.academy=1;store('lf-onboarding',done);syncEtape('academy',true,'auto');renderSteps(false);toast('Formation C01 à C03 terminée : étape cochée')}
+}
+window.addEventListener('focus',autoEtapes);
 $('#steps').addEventListener('click',function(ev){
   var b=ev.target.closest('[data-step]');if(!b)return;
   var id=b.getAttribute('data-step');var was=!!done[id];
-  if(was)delete done[id];else done[id]=1;store('lf-onboarding',done);
+  if(was)delete done[id];else done[id]=1;store('lf-onboarding',done);syncEtape(id,!was,'eleve');
   var n=Object.keys(done).length;
   renderSteps(was?null:n-1);
   if(navigator.vibrate&&!was)try{navigator.vibrate(12)}catch(e){}
@@ -1011,7 +1098,7 @@ satisRendu();
 /* ================= COMPTES : visiteur / élève / coach ================= */
 /* Ressources natives : vue = nom, contenu = fiche-<nom>.html dans Supabase. Le PDF se fabrique depuis la page (bouton Télécharger en PDF). */
 var FICHES={vacuum:{t:'Ressource vacuum'},cheatmeals:{t:'Ressource cheat meals',cle:'cheat-meals'}};
-var VUES_ELEVE=['demarrer','formation','ressources','bikini','echauffement','parrainage'].concat(Object.keys(FICHES));
+var VUES_ELEVE=['demarrer','formation','ressources','bikini','echauffement','parrainage','notifs','parametres'].concat(Object.keys(FICHES));
 var sb=null,apresCx=null;
 if(SUPA.url&&SUPA.anon){MOI.role='visiteur';if(window.supabase){try{sb=window.supabase.createClient(SUPA.url,SUPA.anon,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}})}catch(e){sb=null}}}
 function aAcces(){return MOI.role==='eleve'||MOI.role==='coach'||MOI.role==='ouvert'}
@@ -1026,7 +1113,8 @@ function majSession(){
     MOI.email=(ses.user.email||'').toLowerCase();
     return sb.rpc('mon_role').then(function(x){MOI.role=x.error?'visiteur':(x.data||'visiteur');
       if(MOI.role==='eleve')return sb.from('eleves').select('prenom,date_debut,duree_sem,lien_suivi,etapes_faites').eq('email',MOI.email).maybeSingle().then(function(e){MOI.eleve=e.data||null;
-        var f=(MOI.eleve&&MOI.eleve.etapes_faites)||[],chg=0;f.forEach(function(id){if(!done[id]){done[id]=1;chg=1}});if(chg){store('lf-onboarding',done);renderSteps(false)}});
+        var f=(MOI.eleve&&MOI.eleve.etapes_faites)||[],chg=0;f.forEach(function(id){if(!done[id]){done[id]=1;chg=1}});if(chg){store('lf-onboarding',done);renderSteps(false)}
+        return chargerEtapes()});
     }).then(function(){if(MOI.role==='eleve'||MOI.role==='coach')return chargerLiens()});
   }).catch(function(){}).then(appliquerRole);
 }
@@ -1037,6 +1125,7 @@ function appliquerRole(){
   else{w.textContent='Espace élève';w.href=MOI.role==='ouvert'?'#demarrer':'#connexion'}
   var el=aAcces()&&(MOI.role!=='ouvert'||store('lf-eleve'));
   $$('.eleve-seul').forEach(function(x){x.hidden=!el});$$('.visiteur-seul').forEach(function(x){x.hidden=el});
+  $('#cloche').hidden=!(sb&&MOI.email&&(MOI.role==='eleve'||MOI.role==='coach'));if(!$('#cloche').hidden)compterNotifs();
   var ml=$('#moi-ligne');ml.hidden=!(sb&&MOI.email&&aAcces());
   if(!ml.hidden)ml.innerHTML='Connecté : '+esc(MOI.eleve&&MOI.eleve.prenom||MOI.email)+' · <button class="lien" type="button" data-deco>Se déconnecter</button>';
   var su=$('#mon-suivi'),lk=MOI.eleve&&MOI.eleve.lien_suivi;if(lk&&/^https:\/\//.test(lk)){su.href=lk;su.hidden=false}else su.hidden=true;
@@ -1134,26 +1223,121 @@ $('#cx-code').addEventListener('submit',function(e){e.preventDefault();cxErr('')
     });
   });
 });
+/* Centre de notifications */
+var NOTIFS=[];
+function quand(d){var t=new Date(d),j=Math.floor((Date.now()-t)/864e5);return j<1?'Aujourd\'hui':(j<2?'Hier':'Le '+t.toLocaleDateString('fr-BE',{day:'numeric',month:'long'}))}
+function compterNotifs(){
+  if(!sb||!MOI.email)return;
+  sb.from('notifs').select('id,type,titre,texte,lien,cree_le,lue_le').eq('email',MOI.email).order('cree_le',{ascending:false}).limit(40).then(function(r){
+    NOTIFS=r.data||[];var n=NOTIFS.filter(function(x){return !x.lue_le}).length,b=$('#cloche-n');
+    b.hidden=!n;b.textContent=n>9?'9+':n;
+    if(document.body.dataset.vue==='notifs')notifsRendu();
+  },function(){});
+}
+function notifsRendu(){
+  var box=$('#notifs-list');
+  if(!NOTIFS.length){box.innerHTML='<div class="card"><p class="soft">Rien pour l\'instant. Quand il y aura une étape à faire ou un message de Leni, ça arrivera ici.</p></div>';return}
+  box.innerHTML=NOTIFS.map(function(x){
+    var l=x.lien||'',ext=l&&l.charAt(0)!=='#';
+    return '<a class="card notif'+(x.lue_le?' lue':'')+'" data-notif="'+x.id+'" href="'+esc(l||'#notifs')+'"'+(ext?' target="_blank" rel="noopener"':'')+'><span class="quand">'+quand(x.cree_le)+(x.type==='leni'?' · Message de Leni':'')+'</span><h3>'+esc(x.titre)+'</h3>'+(x.texte?'<p>'+esc(x.texte)+'</p>':'')+'</a>';
+  }).join('');
+}
+function marquerLu(ids){
+  if(!ids.length||!sb)return;var t=new Date().toISOString();
+  NOTIFS.forEach(function(x){if(ids.indexOf(x.id)>=0)x.lue_le=t});
+  sb.from('notifs').update({lue_le:t}).in('id',ids).then(function(){compterNotifs()},function(){});
+}
+$('#notifs-list').addEventListener('click',function(e){var a=e.target.closest('[data-notif]');if(a)marquerLu([+a.getAttribute('data-notif')])});
+$('#notifs-lu').addEventListener('click',function(){marquerLu(NOTIFS.filter(function(x){return !x.lue_le}).map(function(x){return x.id}));notifsRendu();toast('Tout est lu')});
+
+/* Paramètres : types, fréquence, push sur ce téléphone */
+var VAPID='BHc1nPh3wVhs-2hjllgcr96pNMAcjfVeXUCEyr7_jd9hSa8QyfGq6vV3SJ4FWri8lHXpOqhhbxewUAbs4p7Zxd4';
+var REG={types:{etape:true,leni:true,formation:true},frequence:'jour',push:null};
+function paramsRendu(){
+  if(!sb||!MOI.email)return;
+  $('#pa-moi').innerHTML='Connecté : '+esc(MOI.email)+' · <button class="lien" type="button" data-deco>Se déconnecter</button>';
+  sb.from('reglages').select('types,frequence,push').eq('email',MOI.email).maybeSingle().then(function(r){
+    if(r.data&&r.data.types){REG=r.data;REG.types=REG.types||{}}
+    $$('[data-pa]').forEach(function(i){i.checked=REG.types[i.getAttribute('data-pa')]!==false});
+    $$('[name=pa-freq]').forEach(function(i){i.checked=i.value===REG.frequence});
+    pushRendu();
+  },function(){});
+}
+function regSauver(maj){
+  Object.keys(maj).forEach(function(k){REG[k]=maj[k]});
+  return sb.from('reglages').upsert({email:MOI.email,types:REG.types,frequence:REG.frequence,push:REG.push,maj_le:new Date().toISOString()}).then(function(r){if(r.error)throw r.error});
+}
+$('#v-parametres').addEventListener('change',function(e){
+  var i=e.target;if(!sb||!MOI.email)return;
+  if(i.hasAttribute('data-pa')){var t=JSON.parse(JSON.stringify(REG.types));t[i.getAttribute('data-pa')]=i.checked;regSauver({types:t}).then(function(){toast('Enregistré')},function(){toast('Erreur, réessaie')})}
+  if(i.name==='pa-freq')regSauver({frequence:i.value}).then(function(){toast('Enregistré')},function(){toast('Erreur, réessaie')});
+});
+function pushPossible(){return 'serviceWorker' in navigator&&'PushManager' in window&&'Notification' in window}
+function pushRendu(){
+  var d=$('#pa-push-d'),b=$('#pa-push-b'),t=$('#pa-push-t');
+  var ios=/iphone|ipad|ipod/i.test(navigator.userAgent),standalone=window.matchMedia('(display-mode: standalone)').matches||navigator.standalone;
+  if(!pushPossible()){
+    t.textContent='Notifications indisponibles ici';
+    d.textContent=ios&&!standalone?'Sur iPhone, ajoute d\'abord l\'app à ton écran d\'accueil (bouton Partager, puis « Sur l\'écran d\'accueil »), ouvre-la depuis l\'icône, puis reviens ici.':'Ce navigateur ne gère pas les notifications. Tu verras tout dans la cloche en haut de l\'app.';
+    b.innerHTML='';return;
+  }
+  if(Notification.permission==='denied'){t.textContent='Notifications bloquées';d.textContent='Tu les as refusées. Pour les réactiver : Réglages du téléphone, Notifications, LF Coaching.';b.innerHTML='';return}
+  navigator.serviceWorker.ready.then(function(sw){return sw.pushManager.getSubscription()}).then(function(sub){
+    if(sub&&REG.push){t.textContent='Notifications activées';d.textContent='Ce téléphone reçoit au maximum une notification par jour, selon tes choix ci-dessous.';
+      b.innerHTML='<button class="btn ghost small" type="button" id="pa-test">M\'envoyer un test</button><button class="btn ghost small" type="button" id="pa-off">Désactiver</button>'}
+    else{t.textContent='Activer les notifications';d.textContent='Pour savoir tout de suite quand Leni t\'écrit ou qu\'une étape t\'attend. Jamais plus d\'une par jour.';
+      b.innerHTML='<button class="btn small" type="button" id="pa-on">Activer sur ce téléphone</button>'}
+  }).catch(function(){b.innerHTML='';d.textContent='Ouvre l\'app depuis son icône pour activer les notifications.'});
+}
+function cleVapid(){var s=VAPID.replace(/-/g,'+').replace(/_/g,'/');s+='='.repeat((4-s.length%4)%4);var b=atob(s),u=new Uint8Array(b.length);for(var i=0;i<b.length;i++)u[i]=b.charCodeAt(i);return u}
+$('#pa-push').addEventListener('click',function(e){
+  var id=e.target.id;
+  if(id==='pa-on'){
+    Notification.requestPermission().then(function(p){
+      if(p!=='granted'){pushRendu();return}
+      return navigator.serviceWorker.ready.then(function(sw){return sw.pushManager.subscribe({userVisibleOnly:true,applicationServerKey:cleVapid()})})
+        .then(function(sub){return regSauver({push:sub.toJSON()})}).then(function(){toast('Notifications activées');stat('clic','push-on');pushRendu()});
+    }).catch(function(){toast('Activation impossible, réessaie depuis l\'icône de l\'app')});
+  }
+  if(id==='pa-off'){
+    navigator.serviceWorker.ready.then(function(sw){return sw.pushManager.getSubscription()}).then(function(sub){return sub&&sub.unsubscribe()})
+      .then(function(){return regSauver({push:null})}).then(function(){toast('Notifications désactivées');pushRendu()}).catch(function(){toast('Erreur, réessaie')});
+  }
+  if(id==='pa-test'){
+    toast('Envoi…');
+    sb.functions.invoke('notifs-push',{body:{mode:'test'}}).then(function(r){toast(r.data&&r.data.ok?'Envoyée : regarde ton téléphone':'Pas reçue : désactive puis réactive')},function(){toast('Erreur, réessaie')});
+  }
+});
+navigator.serviceWorker&&navigator.serviceWorker.addEventListener&&navigator.serviceWorker.addEventListener('message',function(e){if(e.data&&e.data.lien){location.hash=e.data.lien}});
+
 /* Espace coach */
 function coachRendu(){
   var box=$('#co-list');if(!sb)return;
-  sb.from('eleves').select('*').order('actif',{ascending:false}).order('cree_le',{ascending:false}).then(function(r){
-    if(r.error){box.innerHTML='<p class="soft">Liste indisponible.</p>';return}
-    var l=r.data||[];
+  Promise.all([sb.from('eleves').select('*').order('actif',{ascending:false}).order('cree_le',{ascending:false}),sb.from('etapes_eleve').select('email,etape,coche,par,quand')]).then(function(rr){
+    var r=rr[0];if(r.error){box.innerHTML='<p class="soft">Liste indisponible.</p>';return}
+    var l=r.data||[],EE={};
+    (rr[1].data||[]).forEach(function(x){(EE[x.email]=EE[x.email]||{})[x.etape]=x});
+    l.forEach(function(x){var f={};(x.etapes_faites||[]).forEach(function(id){f[id]=1});var m=EE[x.email]||{};Object.keys(m).forEach(function(id){if(m[id].coche)f[id]=1;else delete f[id]});x._f=f;x._m=m});
     if(!l.length){box.innerHTML='<p class="soft">Aucun élève pour l\'instant.</p>';return}
     box.innerHTML='<div class="sec-head"><h2>'+l.filter(function(x){return x.actif}).length+' élèves actifs</h2></div>'+l.map(function(x){
       return '<div class="card co-el'+(x.actif?'':' off')+'" data-email="'+esc(x.email)+'"><div class="co-top"><h3>'+esc(x.prenom)+'</h3><small>'+esc(x.email)+'</small></div>'+
         '<div class="grid2"><label class="q"><span>Début</span><input type="date" data-k="date_debut" value="'+esc(x.date_debut||'')+'"></label>'+
         '<label class="q"><span>Durée</span><select data-k="duree_sem">'+[16,20,24,26].map(function(n){return '<option value="'+n+'"'+(n==x.duree_sem?' selected':'')+'>'+(n==26?'6 mois':n+' sem.')+'</option>'}).join('')+'</select></label></div>'+
         '<label class="q"><span>Lien de son fichier de suivi (optionnel)</span><input type="url" data-k="lien_suivi" placeholder="https://docs.google.com/…" value="'+esc(x.lien_suivi||'')+'"></label>'+
-        '<details class="co-et"><summary>Étapes « Démarrer » déjà faites : '+(x.etapes_faites||[]).length+'/'+ETAPES.length+'</summary><div class="chips">'+ETAPES.map(function(t){return '<label><input type="checkbox" data-et="'+esc(t.id)+'"'+((x.etapes_faites||[]).indexOf(t.id)>=0?' checked':'')+'><span>'+esc(t.t)+'</span></label>'}).join('')+'</div></details>'+
+        '<details class="co-et"><summary>Étapes « Démarrer » faites : '+Object.keys(x._f).length+'/'+ETAPES.length+'</summary><div class="chips">'+ETAPES.map(function(t){var m=x._m[t.id],qui=m?({eleve:'par l\'élève',auto:'par l\'app',coach:'par toi',verif:'vérification'}[m.par]||'')+' le '+new Date(m.quand).toLocaleDateString('fr-BE',{day:'numeric',month:'numeric'}):'';return '<label><input type="checkbox" data-et="'+esc(t.id)+'"'+(x._f[t.id]?' checked':'')+'><span>'+esc(t.t)+(qui?'<small class="co-qui">'+(m.coche?'Cochée ':'Décochée ')+esc(qui)+'</small>':'')+'</span></label>'}).join('')+'</div></details>'+
+        '<details class="co-msg"><summary class="co-et-s">Écrire un message dans son app</summary><div class="stack" style="margin-top:10px"><textarea data-k="msg" maxlength="500" placeholder="Il le verra dans ses notifications."></textarea><button class="btn ghost small" type="button" data-co="msg">Envoyer dans l\'app</button></div></details>'+
         '<div class="row"><button class="btn ghost" type="button" data-co="save">Enregistrer</button><button class="btn ghost" type="button" data-co="actif">'+(x.actif?'Désactiver':'Réactiver')+'</button></div></div>';
     }).join('');
   });
 }
 $('#co-list').addEventListener('click',function(e){
   var b=e.target.closest('[data-co]');if(!b)return;var c=b.closest('[data-email]'),em=c.getAttribute('data-email'),maj={};
-  if(b.getAttribute('data-co')==='save'){maj.date_debut=$('[data-k=date_debut]',c).value||null;maj.duree_sem=+$('[data-k=duree_sem]',c).value;var l=$('[data-k=lien_suivi]',c).value.trim();if(l&&!/^https:\/\//.test(l)){toast('Le lien doit commencer par https://');return}maj.lien_suivi=l||null;maj.etapes_faites=$$('[data-et]',c).filter(function(i){return i.checked}).map(function(i){return i.getAttribute('data-et')})}
+  if(b.getAttribute('data-co')==='save'){maj.date_debut=$('[data-k=date_debut]',c).value||null;maj.duree_sem=+$('[data-k=duree_sem]',c).value;var l=$('[data-k=lien_suivi]',c).value.trim();if(l&&!/^https:\/\//.test(l)){toast('Le lien doit commencer par https://');return}maj.lien_suivi=l||null;maj.etapes_faites=$$('[data-et]',c).filter(function(i){return i.checked}).map(function(i){return i.getAttribute('data-et')});
+    /* les coches changées par Leni sont aussi notées dans etapes_eleve (elles priment sur celles de l'élève) */
+    var now=new Date().toISOString(),ch=$$('[data-et]',c).filter(function(i){return i.checked!==i.defaultChecked}).map(function(i){return {email:em,etape:i.getAttribute('data-et'),coche:i.checked,par:'coach',quand:now,message:null,lien:null}});
+    if(ch.length)sb.from('etapes_eleve').upsert(ch).then(function(){},function(){})}
+  else if(b.getAttribute('data-co')==='msg'){var t=$('[data-k=msg]',c).value.trim();if(!t){toast('Message vide');return}
+    sb.from('notifs').insert({email:em,type:'leni',titre:t.length>70?t.slice(0,67)+'…':t,texte:t.length>70?t:null,lien:null}).then(function(r){toast(r.error?'Erreur, réessaie':'Envoyé dans son app');if(!r.error)$('[data-k=msg]',c).value=''});return}
   else maj.actif=c.classList.contains('off');
   sb.from('eleves').update(maj).eq('email',em).then(function(r){toast(r.error?'Erreur, réessaie':'Enregistré');coachRendu()});
 });
@@ -1200,7 +1384,7 @@ $('#co-ct-fichier').addEventListener('change',function(e){
 });
 
 /* Signaler un bug ou une idée : ouvre WhatsApp vers Leni avec un message prérempli */
-var NOMS_VUES={vacuum:'Ressource vacuum',cheatmeals:'Ressource cheat meals',echauffement:'Guide échauffement',demarrer:'Démarrer',formation:'Formation',ressources:'Ressources',bikini:'Guide bikini',parrainage:'Parrainage',coach:'Espace coach'};
+var NOMS_VUES={vacuum:'Ressource vacuum',cheatmeals:'Ressource cheat meals',echauffement:'Guide échauffement',demarrer:'Démarrer',formation:'Formation',ressources:'Ressources',bikini:'Guide bikini',parrainage:'Parrainage',coach:'Espace coach',notifs:'Notifications',parametres:'Paramètres'};
 $('#bug-btn').addEventListener('click',function(){
   var v=(location.hash||'').replace('#','')||'accueil';
   var qui=(MOI.eleve&&MOI.eleve.prenom)||MOI.email||'';
@@ -1244,8 +1428,8 @@ $('#ech-zones').addEventListener('click',function(e){
 /* Navigation */
 /* Outils publics : vue = nom, fichier servi dans guides/ */
 var OUTILS={mensurations:'mensurations.html',potentiel:'potentiel.html',posing:'posing.html'};
-var VUES=['accueil','appel','guides','contact','demarrer','formation','ressources','bikini','echauffement','parrainage','connexion','coach'].concat(Object.keys(FICHES),Object.keys(OUTILS));
-var TAB_DE={guides:'accueil',contact:'accueil',bikini:'ressources',echauffement:'ressources',parrainage:'ressources',coach:'accueil'};
+var VUES=['accueil','appel','guides','contact','demarrer','formation','ressources','bikini','echauffement','parrainage','connexion','coach','notifs','parametres'].concat(Object.keys(FICHES),Object.keys(OUTILS));
+var TAB_DE={guides:'accueil',contact:'accueil',bikini:'ressources',echauffement:'ressources',parrainage:'ressources',coach:'accueil',notifs:'accueil',parametres:'accueil'};
 Object.keys(FICHES).forEach(function(k){TAB_DE[k]='ressources'});
 Object.keys(OUTILS).forEach(function(k){TAB_DE[k]='accueil'});
 /* Statistiques anonymes (aucune donnée personnelle, pas de cookie) : arrivée du jour + source,
@@ -1277,6 +1461,9 @@ function route(){
   if(v==='formation'&&aAcces())chargerFormation();
   if(FICHES[v])chargerFiche(v);
   if(v==='coach'){coachRendu();ctRendu()}
+  if(v==='notifs'){notifsRendu();compterNotifs()}
+  if(v==='parametres')paramsRendu();
+  if(v==='demarrer'||v==='formation')autoEtapes();
   if(v==='connexion'&&MOI.role!=='ouvert'&&!sb)cxErr('Connexion indisponible pour le moment (pas de réseau ?).');
   if(v==='accueil'||v==='ressources')satisRendu();
   window.scrollTo(0,0);
