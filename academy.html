@@ -55,6 +55,13 @@
 #lfa .key{border-left:4px solid var(--ink);padding:10px 14px;background:var(--sheet);font-weight:bold}
 #lfa details.sci{border:1px solid var(--line);padding:8px 14px;margin:14px 0;background:var(--sheet)}
 #lfa details.sci summary{cursor:pointer;font-weight:bold}
+#lfa .reslink{margin:14px 0}
+#lfa .reslink .btn{display:inline-block}
+#lfa-ov{position:fixed;inset:0;z-index:9999;background:var(--paper);display:flex;flex-direction:column}
+#lfa-ov .ov-head{display:flex;gap:12px;align-items:center;justify-content:space-between;padding:10px 16px;border-bottom:1px solid var(--line)}
+#lfa-ov .ov-head b{font-size:14px}
+#lfa-ov iframe{flex:1;width:100%;border:0;background:#fff}
+#lfa-ov .ov-foot{padding:8px 16px;font-size:13px;border-top:1px solid var(--line)}
 #lfa .vids{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(150px,1fr);gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:6px}
 #lfa .vid{display:grid;gap:6px;align-content:start;scroll-snap-align:start}
 #lfa .vid video{width:100%;aspect-ratio:9/16;background:#000;border:1px solid var(--line);display:block}
@@ -204,6 +211,7 @@
             fb:"Tout ça forme une seule tâche. Si l'un de ces éléments change beaucoup, la comparaison avec la semaine d'avant perd de sa valeur."}},
         {t:"Standardiser ce qui compte",proof:'Stratégie LF',html:
           "<p>Réglages, stabilité, amplitude tolérée, trajectoire et repères personnels servent à rendre l'exercice reproductible. Trois exemples en vidéo sur des machines courantes :</p>",
+          res:{t:"Ouvrir le guide d'échauffement",d:"Un échauffement adapté à la séance du jour aide à reproduire tes premières séries dans de bonnes conditions. Le guide donne le déroulé en 3 étapes et une vidéo par exercice.",u:"https://drive.google.com/file/d/1nUQmbepir5MRV6vJdsQLzxuYf8KHX7mk/preview"},
           vids:[['leg-extension-amplitude','Leg extension',"Récupérer l'amplitude que la machine te vole."],['rowing-reglages','Rowing buste supporté','Régler la machine avant de charger.'],['elevation-poulie-standardiser','Élévations à la poulie','Refaire le même mouvement à chaque série.']],
           check:["Je note mes réglages (siège, dossier, poulie, prise…)","Je sais où se trouve mon amplitude de travail","Je garde la même trajectoire d'une série à l'autre","J'ai mes repères personnels pour me replacer vite"],
           after:"<p class='key'>Contrôle ne veut pas forcément dire tempo lent. Le but est une exécution précise, que Leni peut vraiment juger.</p>"},
@@ -273,6 +281,7 @@
           "<p><b>Hydratation</b> : vise une habitude régulière plutôt qu'un chiffre parfait. Note-la si ton plan le demande ; signale les journées très chaudes ou très actives.</p>"+
           "<p><b>Restaurant, repas de famille, événement</b> : estime au mieux (portion, type de plat), profite du moment et reprends le plan au repas suivant.</p>"+
           "<p class='key'>Une photo seule ne permet pas d'estimer : c'est la photo analysée par Leni ou par l'IA qui donne une estimation. Pour que ce soit possible, prends la photo avec ta main ou un objet à côté du plat pour donner l'échelle, et ajoute une courte description. Même ainsi, elle ne permet pas une compensation exacte. Pas besoin de « rattraper » en sautant des repas.</p>",
+          res:{t:"Ouvrir la fiche cheat meals",d:"Un repas plus gros que prévu n'efface pas ton plan. Si tu le sais à l'avance, Leni peut répartir l'écart sur plusieurs jours ; sinon tu reprends ton plan au repas suivant, sans sauter de repas. La fiche détaille trois niveaux d'écart (petit écart, repas complet, journée ou week-end).",u:"https://drive.google.com/file/d/1zEDz6D7Yu91gtVfNE9jhiY569GR-0wuC/preview"},
           check:["Je prends une photo du plat avec ma main ou un objet à côté, et une courte description, ou j'estime la portion","Je profite du moment","Je reprends mon plan au repas suivant","Je ne saute pas de repas pour « rattraper »"]},
         {t:"Action : une substitution bien faite",proof:'Stratégie LF',action:true,html:
           "<p>Cette semaine, fais une substitution d'aliment en suivant la hiérarchie de la leçon 3, puis signale-la.</p>",
@@ -564,6 +573,7 @@
       h+="<div class='builder'>";L.builder.forEach(function(b,j){var k=cur+'-'+j;h+="<label>"+esc(b[0])+"<textarea data-b='"+k+"' placeholder='"+esc(b[1])+"'>"+esc(st.b[k]||'')+"</textarea></label>"});
       h+="<div class='out'><div class='out-head'><span>Ton message</span><button type='button' id='lfa-copy'>Copier</button></div><pre id='lfa-out'></pre></div>"+(course&&!M.sante?"<button type='button' class='btn' id='lfa-send'>Envoyer à Leni</button>":"")+"</div>";
     }
+    if(L.res)h+="<div class='reslink'><span class='label'>Ressource liée</span><p>"+esc(L.res.d)+"</p><button type='button' class='btn' data-res='1'>"+esc(L.res.t)+"</button></div>";
     if(L.after)h+=L.after;
     if(course&&L.action&&!L.builder)h+="<button type='button' class='btn' id='lfa-send'>C'est fait, je l'ai envoyé à Leni</button>";
     if(L.quiz){
@@ -587,7 +597,14 @@
     document.getElementById('lfa-out').textContent=lines.length?lines.join('\n'):'Remplis les cases ci-dessus.';
   }
 
+  function openRes(r){
+    var ov=document.createElement('div');ov.id='lfa-ov';ov.setAttribute('role','dialog');ov.setAttribute('aria-label',r.t);
+    ov.innerHTML="<div class='ov-head'><button type='button' class='btn' id='lfa-ov-back'>Retour à la leçon</button><b>"+esc(r.t)+"</b></div><iframe src='"+esc(r.u)+"' title='"+esc(r.t)+"' allow='fullscreen'></iframe><div class='ov-foot'>Le document ne s'affiche pas ? <a href='"+esc(r.u)+"' target='_blank' rel='noopener'>Ouvre-le dans un nouvel onglet</a>.</div>";
+    document.body.appendChild(ov);
+    document.getElementById('lfa-ov-back').onclick=function(){ov.remove()};
+  }
   function bind(){
+    app.querySelectorAll('[data-res]').forEach(function(b){b.onclick=function(){openRes(M.lessons[cur].res)}});
     app.querySelectorAll('[data-go]').forEach(function(b){b.onclick=function(){cur=+b.getAttribute('data-go');render();top()}});
     app.querySelectorAll('[data-t]').forEach(function(b){b.onclick=function(){var f=document.getElementById('lfa-loom');if(f)f.src=f.getAttribute('data-src')+'&t='+b.getAttribute('data-t')+'&autoplay=1'}});
     app.querySelectorAll('[data-ck]').forEach(function(c){c.onchange=function(){st.check[c.getAttribute('data-ck')]=c.checked?1:0;save()}});
