@@ -278,6 +278,23 @@ a.line:active{transform:scale(.985);background:var(--carte-2)}
 .chips input:focus-visible+span{outline:2px solid var(--creme);outline-offset:2px}
 .err{color:#F2B8A8;font-size:13px;margin:0}
 
+/* Impression / PDF : fond crème, texte pétrole, sans navigation */
+@media print{
+  @page{margin:14mm}
+  :root{--petrole:#FFFFFF;--abysse:#FFFFFF;--carte:#FFFFFF;--carte-2:#FFFFFF;--creme:#192E33;--papier:#F4EFE3;--doux:#4A5E5F;--filet:rgba(25,46,51,.25);--lueur:transparent}
+  html,body{background:#fff!important;color:#192E33}
+  .top,.tabs,.back,.bug-bar,.no-print,.install,#toast,[data-vid]{display:none!important}
+  .card,.etape{box-shadow:none!important;background:#fff!important;border:1px solid rgba(25,46,51,.25)!important;break-inside:avoid}
+  .card.cream{background:#F4EFE3!important;color:#192E33}
+  .fed{background:#192E33!important;color:#fff!important}
+  .fed.alt{background:#fff!important;color:#192E33!important;border:1px solid #192E33}
+  .steps3 li::before,.etape .num{background:#192E33!important;color:#fff!important}
+  .rule li::before{background:#192E33!important}
+  .dose{background:#F4EFE3!important}
+  main.view{padding-bottom:0!important}
+  details>summary{list-style:none}
+  a{color:inherit;text-decoration:none}
+}
 /* Barre d'onglets */
 .tabs{position:fixed;left:0;right:0;bottom:0;z-index:25;background:rgba(16,33,31,.78);backdrop-filter:saturate(1.5) blur(18px);-webkit-backdrop-filter:saturate(1.5) blur(18px);border-top:1px solid var(--filet);padding-bottom:env(safe-area-inset-bottom,0px);padding-left:env(safe-area-inset-left,0px);padding-right:env(safe-area-inset-right,0px)}
 .tabs nav{max-width:620px;margin:0 auto;display:grid;grid-template-columns:repeat(5,1fr)}
@@ -290,7 +307,7 @@ a.line:active{transform:scale(.985);background:var(--carte-2)}
 .toast{position:fixed;left:50%;bottom:calc(var(--tab-h) + 18px + env(safe-area-inset-bottom,0px));transform:translateX(-50%) translateY(16px);background:var(--creme);color:var(--petrole);padding:11px 18px;border-radius:999px;font-weight:700;font-size:14px;opacity:0;pointer-events:none;transition:.3s var(--ease);z-index:40;max-width:calc(100% - 32px);text-align:center;box-shadow:0 12px 30px -10px rgba(0,0,0,.6)}
 .ech-z{padding:0;overflow:hidden}.ech-z>summary{list-style:none;cursor:pointer;padding:14px 16px;display:flex;justify-content:space-between;align-items:center;font-weight:700;font-size:16px}.ech-z>summary::-webkit-details-marker{display:none}.ech-z>summary small{font-weight:500;opacity:.7;font-size:12px}
 .ech-z>summary>span:first-child{flex:1}.ech-z>summary>span[aria-hidden]{order:2;margin-left:10px;transition:transform .2s}.ech-z[open]>summary>span[aria-hidden]{transform:rotate(90deg)}
-.ech-z.du-jour>summary:after{order:1;content:"Séance du jour";font-size:11px;font-weight:600;background:var(--creme);color:var(--petrole);padding:3px 8px;border-radius:999px;margin-left:8px}
+.ech-z.du-jour>summary:after{order:1;content:"À préparer";font-size:11px;font-weight:600;background:var(--creme);color:var(--petrole);padding:3px 8px;border-radius:999px;margin-left:8px}
 .ech-ex{border-top:1px solid var(--filet);padding:12px 16px;display:grid;gap:4px}.ech-ex .t{display:flex;justify-content:space-between;gap:10px;align-items:baseline}.ech-ex b{font-size:15px}.ech-ex .vol{font-weight:700;white-space:nowrap}.ech-ex p{font-size:13px;opacity:.8}
 .ech-ex button{justify-self:start;margin-top:4px}.ech-vid{position:relative;width:100%;aspect-ratio:9/16;max-height:70vh;border-radius:12px;overflow:hidden;background:#000;margin-top:6px}.ech-vid iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
 .bug-bar{text-align:center;font-size:13px;margin:8px 0 0;opacity:.85}
@@ -591,31 +608,34 @@ footer{font-size:11px;color:var(--doux);text-align:center;padding-top:4px}
     </div>
     <div class="card cream">
       <div class="eyebrow">Les 3 étapes</div>
-      <ul class="rule" style="--x:0"><li><b>Température, 3 à 5 min.</b> Air bike, rameur tranquille, marche inclinée ou corde à sauter. Un peu chaud, pas essoufflé.</li><li><b>Les zones du jour, 4 à 6 min.</b> 2 ou 3 zones selon ta séance, 2 ou 3 exercices par zone. Pas besoin de tout faire.</li><li><b>Séries d'approche.</b> Sur ton premier exercice, tu montes en charge avant ta première série de travail.</li></ul>
+      <ul class="rule" style="--x:0"><li><b>Température, 3 à 5 min.</b> Air bike, rameur tranquille, marche inclinée ou corde à sauter. Un peu chaud, pas essoufflé.</li><li><b>Les articulations de tes muscles du jour, 4 à 6 min.</b> 2 ou 3 zones selon ta séance, 2 ou 3 exercices par zone. Pas besoin de tout faire.</li><li><b>Séries d'approche.</b> Sur ton premier exercice, tu montes en charge avant ta première série de travail.</li></ul>
     </div>
     <section>
-      <div class="sec-head"><h2>Ta séance du jour</h2></div>
+      <div class="sec-head"><h2>Tes muscles du jour</h2></div>
+      <p class="soft" style="font-size:13px;margin-bottom:8px">Coche les groupes musculaires de ta séance : l'app ouvre les articulations à préparer.</p>
       <div class="chips" id="ech-seances"></div>
-      <p class="soft" style="font-size:13px;margin-top:8px">Une zone te gêne en ce moment ? Ajoute-la, même si elle n'est pas dans la séance.</p>
+      <p class="soft" style="font-size:13px;margin-top:8px">Une zone te gêne en ce moment ? Ouvre-la aussi, même si elle n'est pas dans ta liste.</p>
     </section>
     <div class="stack" id="ech-zones"><p class="soft">Chargement du guide…</p></div>
     <div class="card">
       <div class="eyebrow">Les règles</div>
       <ul class="rule" style="--x:0"><li>Mouvements lents et contrôlés, jamais de rebond.</li><li>Charges légères : l'échauffement ne doit pas te fatiguer.</li><li>Une gêne qui monte ou une vraie douleur : tu arrêtes l'exercice et tu m'écris.</li></ul>
     </div>
-    <p class="soft" style="font-size:11px">Ce guide est informatif et éducatif. Il ne remplace pas un avis médical ou paramédical. En cas de douleur persistante ou de doute, consulte un professionnel de santé. <a id="ech-pdf" href="#" target="_blank" rel="noopener" style="color:inherit">Version PDF</a></p>
+    <p class="soft" style="font-size:11px">Ce guide est informatif et éducatif. Il ne remplace pas un avis médical ou paramédical. En cas de douleur persistante ou de doute, consulte un professionnel de santé.</p>
+    <button class="btn ghost block no-print" type="button" data-pdf-page>Télécharger en PDF</button>
   </main>
 
   <!-- ============ GUIDE POSING BIKINI (espace élève, pas lié depuis l'accueil) ============ -->
   <main class="view" id="v-bikini" hidden>
     <a class="back" href="#ressources">‹ Tes ressources</a>
     <div id="bikini-body"><p class="soft">Chargement du guide…</p></div>
+    <button class="btn ghost block no-print" type="button" data-pdf-page>Télécharger en PDF</button>
   </main>
   <!-- ============ FICHE NATIVE (contenu dans Supabase : fiche-<nom>.html) ============ -->
   <main class="view" id="v-fiche" hidden>
     <a class="back" href="#ressources">‹ Tes ressources</a>
     <div id="fiche-body"><p class="soft">Chargement…</p></div>
-    <p class="soft" style="font-size:12px" id="fiche-pdf-p" hidden>Besoin de l'imprimer ? <a href="#" id="fiche-pdf" data-pdf="">Version PDF</a></p>
+    <button class="btn ghost block no-print" type="button" data-pdf-page>Télécharger en PDF</button>
   </main>
   <p class="bug-bar" id="bug-bar" hidden><button class="lien" type="button" id="bug-btn">Signaler un bug ou une idée</button></p>
 </div>
@@ -957,8 +977,8 @@ function satisRendu(){
 satisRendu();
 
 /* ================= COMPTES : visiteur / élève / coach ================= */
-/* Fiches natives : vue = nom, contenu = fiche-<nom>.html dans Supabase, pdf = version imprimable */
-var FICHES={vacuum:{t:'Fiche vacuum',pdf:'pdf/fiche-vacuum.pdf'},cheatmeals:{t:'Fiche cheat meals',cle:'cheat-meals',pdf:'pdf/fiche-cheat-meals.pdf'}};
+/* Ressources natives : vue = nom, contenu = fiche-<nom>.html dans Supabase. Le PDF se fabrique depuis la page (bouton Télécharger en PDF). */
+var FICHES={vacuum:{t:'Ressource vacuum'},cheatmeals:{t:'Ressource cheat meals',cle:'cheat-meals'}};
 var VUES_ELEVE=['demarrer','formation','ressources','bikini','echauffement','parrainage'].concat(Object.keys(FICHES));
 var sb=null,apresCx=null;
 if(SUPA.url&&SUPA.anon){MOI.role='visiteur';if(window.supabase){try{sb=window.supabase.createClient(SUPA.url,SUPA.anon,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}})}catch(e){sb=null}}}
@@ -997,7 +1017,6 @@ document.addEventListener('click',function(e){
 });
 function chargerFiche(n){
   var box=$('#fiche-body'),f=FICHES[n];if(box.dataset.ok===n)return;
-  $('#fiche-pdf-p').hidden=!f.pdf;$('#fiche-pdf').setAttribute('data-pdf',f.pdf||'');
   if(!sb){box.innerHTML='<p class="soft">Cette ressource est réservée aux élèves connectés.</p>';return}
   box.innerHTML='<p class="soft">Chargement…</p>';box.dataset.ok='';
   contenu('fiche-'+(f.cle||n)+'.html').then(function(c){if((location.hash||'').slice(1)!==n)return;box.innerHTML=c.donnees;box.dataset.ok=n})
@@ -1015,6 +1034,15 @@ function chargerFormation(){
     $$('script',root).forEach(function(old){var sc=document.createElement('script');for(var i=0;i<old.attributes.length;i++)sc.setAttribute(old.attributes[i].name,old.attributes[i].value);sc.text=old.textContent;old.parentNode.replaceChild(sc,old)});
   }).catch(function(){root.innerHTML='<p class="soft">La formation ne s\'est pas chargée. Vérifie ta connexion et rouvre l\'onglet.</p>'});
 }
+/* PDF fabriqué depuis la page elle-même : la page de l'app est la seule source, plus de PDF à tenir à jour à part.
+   Sur iPhone : la feuille d'impression s'ouvre, « Enregistrer dans Fichiers » ou partager donne le PDF. */
+document.addEventListener('click',function(e){
+  if(!e.target.closest('[data-pdf-page]'))return;
+  var fermes=$$('main.view:not([hidden]) details:not([open])');fermes.forEach(function(d){d.open=true});
+  $$('main.view:not([hidden]) .ech-vid').forEach(function(v){v.remove()});
+  var titre=document.title,h=$('main.view:not([hidden]) h1');if(h)document.title=h.textContent.trim()+' - '+MARQUE.nom;
+  setTimeout(function(){window.print();document.title=titre;fermes.forEach(function(d){d.open=false})},150);
+});
 function chargerBikini(){
   var box=$('#bikini-body');if(box.dataset.ok==='1')return;
   if(!sb){box.innerHTML='<p class="soft">Ce guide est réservé aux élèves connectés.</p>';return}
@@ -1131,7 +1159,9 @@ $('#bug-btn').addEventListener('click',function(){
 var ECH=null;
 function echRendu(){
   if(!ECH)return;
-  var sel=($('input[name=ech-s]:checked')||{}).value||'',duJour=ECH.seances[sel]||[];
+  var G=ECH.groupes||ECH.seances,duJour=[];
+  $$('input[name=ech-s]:checked').forEach(function(c){(G[c.value]||[]).forEach(function(z){if(duJour.indexOf(z)<0)duJour.push(z)})});
+  try{localStorage.setItem('lf-ech-groupes',JSON.stringify($$('input[name=ech-s]:checked').map(function(c){return c.value})))}catch(e){}
   $('#ech-zones').innerHTML=ECH.zones.map(function(z){
     var j=duJour.indexOf(z.z)>=0;
     return '<details class="card ech-z'+(j?' du-jour':'')+'"'+(j?' open':'')+'><summary><span>'+esc(z.z)+' <small>'+z.ex.length+' exercices</small></span><span aria-hidden="true">›</span></summary>'+
@@ -1143,8 +1173,8 @@ function chargerEchauffement(){
   if(!sb){$('#ech-zones').innerHTML='<p class="soft">Ce guide est réservé aux élèves connectés.</p>';return}
   contenu('echauffement.json').then(function(c){
     ECH=JSON.parse(c.donnees);
-    $('#ech-seances').innerHTML=Object.keys(ECH.seances).map(function(k,i){return '<label><input type="radio" name="ech-s" value="'+esc(k)+'"><span>'+esc(k)+'</span></label>'}).join('');
-    if(ECH.pdf)$('#ech-pdf').href=ECH.pdf;else $('#ech-pdf').hidden=true;
+    var G=ECH.groupes||ECH.seances,deja=[];try{deja=JSON.parse(localStorage.getItem('lf-ech-groupes')||'[]')||[]}catch(e){}
+    $('#ech-seances').innerHTML=Object.keys(G).map(function(k){return '<label><input type="checkbox" name="ech-s" value="'+esc(k)+'"'+(deja.indexOf(k)>=0?' checked':'')+'><span>'+esc(k)+'</span></label>'}).join('');
     echRendu();
   }).catch(function(){$('#ech-zones').innerHTML='<p class="soft">Guide indisponible pour le moment.</p>'});
 }
