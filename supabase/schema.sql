@@ -66,3 +66,23 @@ drop policy if exists contenus_coach on public.contenus;
 create policy contenus_coach on public.contenus for all to authenticated
   using (public.mon_role() = 'coach') with check (public.mon_role() = 'coach');
 revoke all on public.contenus from anon;
+
+-- 26/11 : étapes « Démarrer » déjà faites, cochées par le coach
+alter table public.eleves add column if not exists etapes_faites text[] not null default '{}';
+
+-- 26/11 : statistiques anonymes (ajout par tous, lecture coach seulement, aucune donnée personnelle)
+create table if not exists public.stats(
+  id bigint generated always as identity primary key,
+  quand timestamptz not null default now(),
+  type text not null check (type in ('visite','vue','clic')),
+  cible text not null check (length(cible)<=40),
+  source text check (length(source)<=40),
+  role text check (role in ('visiteur','eleve','coach','ouvert'))
+);
+alter table public.stats enable row level security;
+drop policy if exists stats_ajout on public.stats;
+create policy stats_ajout on public.stats for insert to anon, authenticated with check (true);
+drop policy if exists stats_coach on public.stats;
+create policy stats_coach on public.stats for select to authenticated using (public.mon_role()='coach');
+grant insert on public.stats to anon, authenticated;
+grant select on public.stats to authenticated;
