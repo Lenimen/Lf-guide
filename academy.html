@@ -211,7 +211,7 @@
             fb:"Tout ça forme une seule tâche. Si l'un de ces éléments change beaucoup, la comparaison avec la semaine d'avant perd de sa valeur."}},
         {t:"Standardiser ce qui compte",proof:'Stratégie LF',html:
           "<p>Réglages, stabilité, amplitude tolérée, trajectoire et repères personnels servent à rendre l'exercice reproductible. Trois exemples en vidéo sur des machines courantes :</p>",
-          res:{t:"Ouvrir le guide d'échauffement",d:"Un échauffement adapté à la séance du jour aide à reproduire tes premières séries dans de bonnes conditions. Le guide donne le déroulé en 3 étapes et une vidéo par exercice.",u:"https://drive.google.com/file/d/1nUQmbepir5MRV6vJdsQLzxuYf8KHX7mk/preview"},
+          res:{t:"Ouvrir le guide d'échauffement",d:"Un échauffement adapté à la séance du jour aide à reproduire tes premières séries dans de bonnes conditions. Le guide donne le déroulé en 3 étapes et une vidéo par exercice.",app:"#echauffement",u:"https://app.thelfmethod.com/#echauffement"},
           vids:[['leg-extension-amplitude','Leg extension',"Récupérer l'amplitude que la machine te vole."],['rowing-reglages','Rowing buste supporté','Régler la machine avant de charger.'],['elevation-poulie-standardiser','Élévations à la poulie','Refaire le même mouvement à chaque série.']],
           check:["Je note mes réglages (siège, dossier, poulie, prise…)","Je sais où se trouve mon amplitude de travail","Je garde la même trajectoire d'une série à l'autre","J'ai mes repères personnels pour me replacer vite"],
           after:"<p class='key'>Contrôle ne veut pas forcément dire tempo lent. Le but est une exécution précise, que Leni peut vraiment juger.</p>"},
@@ -281,7 +281,7 @@
           "<p><b>Hydratation</b> : vise une habitude régulière plutôt qu'un chiffre parfait. Note-la si ton plan le demande ; signale les journées très chaudes ou très actives.</p>"+
           "<p><b>Restaurant, repas de famille, événement</b> : estime au mieux (portion, type de plat), profite du moment et reprends le plan au repas suivant.</p>"+
           "<p class='key'>Une photo seule ne permet pas d'estimer : c'est la photo analysée par Leni ou par l'IA qui donne une estimation. Pour que ce soit possible, prends la photo avec ta main ou un objet à côté du plat pour donner l'échelle, et ajoute une courte description. Même ainsi, elle ne permet pas une compensation exacte. Pas besoin de « rattraper » en sautant des repas.</p>",
-          res:{t:"Ouvrir la fiche cheat meals",d:"Un repas plus gros que prévu n'efface pas ton plan. Si tu le sais à l'avance, Leni peut répartir l'écart sur plusieurs jours ; sinon tu reprends ton plan au repas suivant, sans sauter de repas. La fiche détaille trois niveaux d'écart (petit écart, repas complet, journée ou week-end).",u:"https://drive.google.com/file/d/1zEDz6D7Yu91gtVfNE9jhiY569GR-0wuC/preview"},
+          res:{t:"Ouvrir la fiche cheat meals",d:"Un repas plus gros que prévu n'efface pas ton plan. Si tu le sais à l'avance, Leni peut répartir l'écart sur plusieurs jours ; sinon tu reprends ton plan au repas suivant, sans sauter de repas. La fiche détaille trois niveaux d'écart (petit écart, repas complet, journée ou week-end).",app:"#cheatmeals",u:"https://app.thelfmethod.com/#cheatmeals"},
           check:["Je prends une photo du plat avec ma main ou un objet à côté, et une courte description, ou j'estime la portion","Je profite du moment","Je reprends mon plan au repas suivant","Je ne saute pas de repas pour « rattraper »"]},
         {t:"Action : une substitution bien faite",proof:'Stratégie LF',action:true,html:
           "<p>Cette semaine, fais une substitution d'aliment en suivant la hiérarchie de la leçon 3, puis signale-la.</p>",
@@ -332,6 +332,7 @@
           "<li><b>Mensurations</b> : utiles si prises toujours au même endroit et dans les mêmes conditions.</li>"+
           "<li><b>Sensations, faim, sommeil, énergie</b> : contexte indispensable pour interpréter le reste.</li></ul>"+
           "<p class='key'>Aucun indicateur ne décide seul. Leni les croise.</p>",
+          res:{t:"Ouvrir le guide mensurations",d:"Pour prendre tes mensurations toujours de la même façon, le guide montre où et comment mesurer.",app:"#mensurations",u:"https://app.thelfmethod.com/guides/mensurations.html",frame:true},
           quiz:{q:"Ton poids moyen a baissé cette semaine. Ça te dit…",o:["Que tu as perdu du gras","Que tu manges probablement moins de calories que tu n'en dépenses, à croiser avec les autres indicateurs","Que tu as perdu du muscle"],a:1,
             fb:"Le poids moyen montre si tu manges plus ou moins de calories que tu n'en dépenses. Il ne mesure ni le gras ni le muscle, et aucun indicateur ne décide seul."}},
         {t:"Un plateau n'est pas un échec",proof:'Stratégie LF',html:
@@ -598,11 +599,14 @@
   }
 
   function openRes(r){
+    if(document.querySelector('.academy-box')){location.hash=r.app;return}
+    if(!r.frame){window.open(r.u,'_blank','noopener');return}
     var ov=document.createElement('div');ov.id='lfa-ov';ov.setAttribute('role','dialog');ov.setAttribute('aria-label',r.t);
     ov.innerHTML="<div class='ov-head'><button type='button' class='btn' id='lfa-ov-back'>Retour à la leçon</button><b>"+esc(r.t)+"</b></div><iframe src='"+esc(r.u)+"' title='"+esc(r.t)+"' allow='fullscreen'></iframe><div class='ov-foot'>Le document ne s'affiche pas ? <a href='"+esc(r.u)+"' target='_blank' rel='noopener'>Ouvre-le dans un nouvel onglet</a>.</div>";
     document.body.appendChild(ov);
     document.getElementById('lfa-ov-back').onclick=function(){ov.remove()};
   }
+  window.lfaOpen=function(code,n){var k=String(code).toLowerCase();if(!MODULES[k]||!live(k))return false;open(k);cur=Math.min(Math.max((+n||1)-1,0),M.lessons.length-1);render();return true};
   function bind(){
     app.querySelectorAll('[data-res]').forEach(function(b){b.onclick=function(){openRes(M.lessons[cur].res)}});
     app.querySelectorAll('[data-go]').forEach(function(b){b.onclick=function(){cur=+b.getAttribute('data-go');render();top()}});
