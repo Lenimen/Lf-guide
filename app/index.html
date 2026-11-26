@@ -173,6 +173,8 @@ a.line:active{transform:scale(.985);background:var(--carte-2)}
 .step.done .chk{background:var(--creme);border-color:var(--creme)}
 .step .chk svg{width:22px;height:22px;stroke-dasharray:24;stroke-dashoffset:24;transition:stroke-dashoffset .35s var(--ease) .05s}
 .step.done .chk svg{stroke-dashoffset:0}
+.step .chk.lock{cursor:default;border-style:dashed}.step.done .chk.lock{border-style:solid}.step .chk.lock:active{transform:none}
+.step .auto-note{font-size:.82rem;opacity:.75;margin-top:6px}
 .step .t{display:grid;gap:3px;padding-top:2px}
 .step .who{font-size:10px;letter-spacing:.14em;text-transform:uppercase;font-weight:600;color:var(--doux)}
 .step.next .who{color:var(--creme)}
@@ -1042,14 +1044,14 @@ var GUIDES = [
 
 var ETAPES = [
   {id:'tuto',      t:"Regarder le tuto de l'app", d:"1 min 30 pour savoir où tout se trouve. L'étape se coche toute seule quand tu as vu la vidéo.", qui:'Toi', l:'tutoApp', b:'Voir le tuto'},
-  {id:'contrat',   t:'Signer ton contrat', d:"Tu l'as reçu par e-mail après l'appel. Vérifie aussi tes spams.", qui:'Toi'},
+  {id:'contrat',   t:'Signer ton contrat', d:"Tu l'as reçu par e-mail après l'appel. Vérifie aussi tes spams.", qui:'Toi', verrou:"Se coche toute seule quand ta signature arrive sur DocuSeal (vérifié chaque jour)."},
   {id:'start',     t:'Écrire « LF START » sur WhatsApp', d:"Au numéro que je t'ai donné pendant l'appel. Le message d'accueil arrive tout de suite. Si tu es connecté ici, c'est que c'est fait : l'étape se coche toute seule.", qui:'Toi'},
   {id:'bienvenue', t:'Regarder la vidéo de bienvenue', d:'Comment on va travailler ensemble pendant 6 mois.', qui:'Toi', l:'bienvenue', b:'Voir la vidéo'},
   {id:'academy',   t:"Commencer l'Academy : C01 à C03", d:'Ton accès arrive par e-mail. Ces 3 modules suffisent avant de démarrer.', qui:'Toi', l:'academy', b:"Ouvrir l'Academy"},
   {id:'appli',     t:"Installer l'app de suivi (Fitbrothers)", d:"Tu reçois l'invitation par e-mail. Le tuto montre le poids du matin et le bilan de la semaine.", qui:'Toi', l:'tutoSuivi', b:'Voir le tuto'},
   {id:'depart',    t:'Remplir le questionnaire de départ', d:"60 questions dans l'app de suivi, 30 minutes au calme. Plus tu es précis, plus ton plan sera adapté. Puis envoie-moi « Questionnaire terminé » sur WhatsApp.", qui:'Toi'},
   {id:'mesures',   t:'Prendre tes mensurations', d:'Au mètre ruban, le matin à jeun. Le guide te montre où mesurer.', qui:'Toi', l:'mensurations', b:'Ouvrir le guide'},
-  {id:'video',     t:'Recevoir ta vidéo perso du plan', d:"Je te l'envoie le mardi ou le samedi. Réponds à mes 3 questions de fin sur WhatsApp.", qui:'Leni'},
+  {id:'video',     t:'Recevoir ta vidéo perso du plan', d:"Je te l'envoie le mardi ou le samedi. Réponds à mes 3 questions de fin sur WhatsApp.", qui:'Leni', verrou:"Je coche cette étape moi-même quand je t'ai envoyé ta vidéo."},
   {id:'go',        t:'Jour 1 : photos de départ et première séance', d:'Face, dos, deux profils, le matin à jeun, lumière de face. Puis tu lances ta première séance.', qui:'Toi', l:'photosDepart', b:'Voir comment faire les photos'}
 ];
 
@@ -1320,9 +1322,9 @@ function renderSteps(anim){
   var nextId=null;for(var j=0;j<ETAPES.length;j++){if(!done[ETAPES[j].id]){nextId=ETAPES[j].id;break}}
   $('#steps').innerHTML=ETAPES.map(function(e,i){
     var on=!!done[e.id],nx=e.id===nextId;
-    return '<div class="step'+(on?' done':'')+(nx?' next':'')+'"><button class="chk" type="button" data-step="'+e.id+'" aria-pressed="'+on+'" aria-label="'+(on?'Décocher':'Cocher')+' : '+esc(e.t)+'"><svg viewBox="0 0 24 24" fill="none" stroke="#192E33" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></button>'+
+    return '<div class="step'+(on?' done':'')+(nx?' next':'')+'">'+(e.verrou?'<span class="chk lock" role="img" aria-label="'+(on?'Faite':'Pas encore faite')+' : '+esc(e.t)+'">':'<button class="chk" type="button" data-step="'+e.id+'" aria-pressed="'+on+'" aria-label="'+(on?'Décocher':'Cocher')+' : '+esc(e.t)+'">')+'<svg viewBox="0 0 24 24" fill="none" stroke="#192E33" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>'+(e.verrou?'</span>':'</button>')+
       '<div class="t"><span class="who">'+(nx?'Prochaine étape · ':'Étape '+(i+1)+' · ')+(e.qui==='Leni'?'Leni s\'en occupe':'à toi')+'</span><h3>'+esc(e.t)+'</h3></div>'+
-      '<div class="body">'+(VERIF[e.id]?'<p class="verif">'+esc(VERIF[e.id].m)+(VERIF[e.id].l?' <a href="'+esc(VERIF[e.id].l)+'"'+(VERIF[e.id].l.charAt(0)==='#'?'':' target="_blank" rel="noopener"')+'>Ouvrir</a>':'')+'</p>':'')+'<p>'+esc(e.d)+'</p>'+(e.id==='contrat'&&!on&&lienContrat()?'<div class="row"><a class="btn small" href="'+esc(lienContrat())+'" target="_blank" rel="noopener">Signer mon contrat</a></div>':'')+(e.l?'<div class="row"><a class="btn small'+(nx?'':' ghost')+'" href="'+esc(lien(e.l))+'"'+(lien(e.l).charAt(0)==='#'?'':' target="_blank" rel="noopener"')+'>'+esc(e.b)+'</a></div>':'')+'</div></div>';
+      '<div class="body">'+(VERIF[e.id]?'<p class="verif">'+esc(VERIF[e.id].m)+(VERIF[e.id].l?' <a href="'+esc(VERIF[e.id].l)+'"'+(VERIF[e.id].l.charAt(0)==='#'?'':' target="_blank" rel="noopener"')+'>Ouvrir</a>':'')+'</p>':'')+'<p>'+esc(e.d)+'</p>'+(e.verrou&&!on?'<p class="auto-note">'+esc(e.verrou)+'</p>':'')+(e.id==='contrat'&&!on&&lienContrat()?'<div class="row"><a class="btn small" href="'+esc(lienContrat())+'" target="_blank" rel="noopener">Signer mon contrat</a></div>':'')+(e.l?'<div class="row"><a class="btn small'+(nx?'':' ghost')+'" href="'+esc(lien(e.l))+'"'+(lien(e.l).charAt(0)==='#'?'':' target="_blank" rel="noopener"')+'>'+esc(e.b)+'</a></div>':'')+'</div></div>';
   }).join('');
 }
 /* Synchro des étapes avec le serveur (table etapes_eleve) : l'élève coche sans attendre,
@@ -1340,9 +1342,11 @@ function chargerEtapes(){
   if(!sb||MOI.role!=='eleve')return Promise.resolve();
   return sb.from('etapes_eleve').select('etape,coche,par,message,lien').eq('email',MOI.email).then(function(r){
     var rows=r.data||[],vus={};VERIF={};
+    /* étapes verrouillées (contrat = DocuSeal, vidéo = Leni) : jamais d'une coche locale, seulement du serveur */
+    var pre=(MOI.eleve&&MOI.eleve.etapes_faites)||[];ETAPES.forEach(function(e){if(e.verrou&&pre.indexOf(e.id)<0)delete done[e.id]});
     rows.forEach(function(x){vus[x.etape]=1;if(x.coche)done[x.etape]=1;else{delete done[x.etape];if(x.message)VERIF[x.etape]={m:x.message,l:x.lien}}});
     /* coches faites avant la connexion : envoyées une fois */
-    Object.keys(done).forEach(function(id){if(!vus[id]&&((MOI.eleve&&MOI.eleve.etapes_faites)||[]).indexOf(id)<0)syncEtape(id,true,'eleve')});
+    Object.keys(done).forEach(function(id){if(!vus[id]&&!ETAPES.some(function(e){return e.id===id&&e.verrou})&&((MOI.eleve&&MOI.eleve.etapes_faites)||[]).indexOf(id)<0)syncEtape(id,true,'eleve')});
     store('lf-onboarding',done);autoEtapes();renderSteps(false);
   },function(){});
 }
@@ -1359,7 +1363,7 @@ document.addEventListener('timeupdate',function(e){var v=e.target;if(!v||v.tagNa
   if(v.duration&&v.currentTime/v.duration>=.9&&!done.tuto){done.tuto=1;store('lf-onboarding',done);syncEtape('tuto',true,'auto');renderSteps(false);toast('Tuto vu : étape cochée')}},true);
 $('#steps').addEventListener('click',function(ev){
   var b=ev.target.closest('[data-step]');if(!b)return;
-  var id=b.getAttribute('data-step');var was=!!done[id];
+  var id=b.getAttribute('data-step');if(ETAPES.some(function(e){return e.id===id&&e.verrou}))return;var was=!!done[id];
   if(was)delete done[id];else done[id]=1;store('lf-onboarding',done);syncEtape(id,!was,'eleve');
   var n=Object.keys(done).length;
   renderSteps(was?null:n-1);

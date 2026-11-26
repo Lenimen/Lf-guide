@@ -64,6 +64,8 @@ for(const w of [390,320,820,1280,1920,2560,'390-app-installee']){
               const n=(o.replace(/rgba?\([^)]*\)/,'').match(/-?[\d.]+px/g)||[]).map(parseFloat),bas=(n[1]||0)+(n[3]||0)+(n[2]||0)*.6;if(bas>g)out.push('lueur claire de « '+nom(a)+' » qui déborde sur le titre « '+nom(b)+' »')})}}}
         /* la carte « Ton avis » ne demande jamais la date de début ni la durée (elles viennent de l'espace coach), quel que soit le rôle */
         if([...document.querySelectorAll('#satis-debut,#satis-duree,#satis-mod')].some(e=>e.offsetParent))out.push('la carte « Ton avis » demande la date de début ou la durée ('+document.body.dataset.role+')');
+        /* « Démarrer » : l'élève ne peut pas cocher lui-même le contrat (DocuSeal seulement) ni la vidéo perso (Leni seulement) — bug Noah 26/11 */
+        if(v==='demarrer'){const lib=[...document.querySelectorAll('#steps button[data-step]')].map(x=>x.getAttribute('data-step')).filter(x=>x==='contrat'||x==='video');if(lib.length)out.push('étape cochable par l\'élève alors qu\'elle doit être vérifiée : '+lib.join(', '))}
         /* grand écran : menu à gauche (pas de barre du bas façon téléphone), et l'espace coach prend la largeur */
         if(W>=1200){const t=document.querySelector('.tabs').getBoundingClientRect();if(!(t.height>innerHeight*.8&&t.width<320&&t.left<=1))out.push('grand écran : barre d\'onglets en bas au lieu du menu à gauche');
           if(v==='coach'&&v0){const dispo=W-t.width,l=v0.getBoundingClientRect().width;if(l<dispo*.8)out.push('grand écran : l\'espace coach n\'occupe que '+Math.round(l/dispo*100)+' % de la largeur')}}
