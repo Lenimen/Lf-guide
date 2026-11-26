@@ -1,5 +1,5 @@
 /* Vérification avant chaque mise en ligne de l'app : capture chaque vue en largeur iPhone
-   (390 px et 320 px), en visiteur, en élève et en coach (données fictives), et signale :
+   (390 et 320 px), iPad (820 px) et ordinateur (1280 px), en visiteur, en élève et en coach (données fictives), et signale :
    - un débordement horizontal de la page ;
    - un élément qui sort de sa carte ou de sa colonne (champ date, select, image...) ;
    - une classe d'en-tête global (.top) réutilisée dans une vue.
@@ -20,7 +20,7 @@ function faux(contenus,eleves){
 }
 const ROLES={visiteur:['accueil','appel','guides','contact','connexion','mensurations','potentiel','posing'],eleve:['demarrer','formation','ressources','bikini','echauffement','parrainage','vacuum','cheatmeals','notifs','parametres'],coach:['coach','notifs']};
 (async()=>{const b=await chromium.launch();let pb=0;const log=m=>{console.log(m)};
-for(const w of [390,320]){
+for(const w of [390,320,820,1280]){
   const p=await b.newPage({viewport:{width:w,height:844}});const errs=[];p.on('pageerror',e=>errs.push(e.message+(process.env.PILE?' @ '+(e.stack||'').split('\n').slice(1,3).join(' '):'')));
   await p.route('https://raw.githubusercontent.com/**',r=>r.fulfill({status:200,contentType:'text/html',body:fs.readFileSync(path.join(__dirname,'..','academy.html'),'utf8')}));
   await p.goto('http://localhost:8768/');await p.waitForTimeout(800);
