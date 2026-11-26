@@ -290,7 +290,7 @@ a.line:active{transform:scale(.985);background:var(--carte-2)}
 .toast{position:fixed;left:50%;bottom:calc(var(--tab-h) + 18px + env(safe-area-inset-bottom,0px));transform:translateX(-50%) translateY(16px);background:var(--creme);color:var(--petrole);padding:11px 18px;border-radius:999px;font-weight:700;font-size:14px;opacity:0;pointer-events:none;transition:.3s var(--ease);z-index:40;max-width:calc(100% - 32px);text-align:center;box-shadow:0 12px 30px -10px rgba(0,0,0,.6)}
 .ech-z{padding:0;overflow:hidden}.ech-z>summary{list-style:none;cursor:pointer;padding:14px 16px;display:flex;justify-content:space-between;align-items:center;font-weight:700;font-size:16px}.ech-z>summary::-webkit-details-marker{display:none}.ech-z>summary small{font-weight:500;opacity:.7;font-size:12px}
 .ech-z>summary>span:first-child{flex:1}.ech-z>summary>span[aria-hidden]{order:2;margin-left:10px;transition:transform .2s}.ech-z[open]>summary>span[aria-hidden]{transform:rotate(90deg)}
-.ech-z.du-jour>summary:after{order:1;content:"Séance du jour";font-size:11px;font-weight:600;background:var(--creme);color:var(--petrole);padding:3px 8px;border-radius:999px;margin-left:8px}
+.ech-z.du-jour>summary:after{order:1;content:"À préparer";font-size:11px;font-weight:600;background:var(--creme);color:var(--petrole);padding:3px 8px;border-radius:999px;margin-left:8px}
 .ech-ex{border-top:1px solid var(--filet);padding:12px 16px;display:grid;gap:4px}.ech-ex .t{display:flex;justify-content:space-between;gap:10px;align-items:baseline}.ech-ex b{font-size:15px}.ech-ex .vol{font-weight:700;white-space:nowrap}.ech-ex p{font-size:13px;opacity:.8}
 .ech-ex button{justify-self:start;margin-top:4px}.ech-vid{position:relative;width:100%;aspect-ratio:9/16;max-height:70vh;border-radius:12px;overflow:hidden;background:#000;margin-top:6px}.ech-vid iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
 .bug-bar{text-align:center;font-size:13px;margin:8px 0 0;opacity:.85}
@@ -591,12 +591,13 @@ footer{font-size:11px;color:var(--doux);text-align:center;padding-top:4px}
     </div>
     <div class="card cream">
       <div class="eyebrow">Les 3 étapes</div>
-      <ul class="rule" style="--x:0"><li><b>Température, 3 à 5 min.</b> Air bike, rameur tranquille, marche inclinée ou corde à sauter. Un peu chaud, pas essoufflé.</li><li><b>Les zones du jour, 4 à 6 min.</b> 2 ou 3 zones selon ta séance, 2 ou 3 exercices par zone. Pas besoin de tout faire.</li><li><b>Séries d'approche.</b> Sur ton premier exercice, tu montes en charge avant ta première série de travail.</li></ul>
+      <ul class="rule" style="--x:0"><li><b>Température, 3 à 5 min.</b> Air bike, rameur tranquille, marche inclinée ou corde à sauter. Un peu chaud, pas essoufflé.</li><li><b>Les articulations de tes muscles du jour, 4 à 6 min.</b> 2 ou 3 zones selon ta séance, 2 ou 3 exercices par zone. Pas besoin de tout faire.</li><li><b>Séries d'approche.</b> Sur ton premier exercice, tu montes en charge avant ta première série de travail.</li></ul>
     </div>
     <section>
-      <div class="sec-head"><h2>Ta séance du jour</h2></div>
+      <div class="sec-head"><h2>Tes muscles du jour</h2></div>
+      <p class="soft" style="font-size:13px;margin-bottom:8px">Coche les groupes musculaires de ta séance : l'app ouvre les articulations à préparer.</p>
       <div class="chips" id="ech-seances"></div>
-      <p class="soft" style="font-size:13px;margin-top:8px">Une zone te gêne en ce moment ? Ajoute-la, même si elle n'est pas dans la séance.</p>
+      <p class="soft" style="font-size:13px;margin-top:8px">Une zone te gêne en ce moment ? Ouvre-la aussi, même si elle n'est pas dans ta liste.</p>
     </section>
     <div class="stack" id="ech-zones"><p class="soft">Chargement du guide…</p></div>
     <div class="card">
@@ -1131,7 +1132,9 @@ $('#bug-btn').addEventListener('click',function(){
 var ECH=null;
 function echRendu(){
   if(!ECH)return;
-  var sel=($('input[name=ech-s]:checked')||{}).value||'',duJour=ECH.seances[sel]||[];
+  var G=ECH.groupes||ECH.seances,duJour=[];
+  $$('input[name=ech-s]:checked').forEach(function(c){(G[c.value]||[]).forEach(function(z){if(duJour.indexOf(z)<0)duJour.push(z)})});
+  try{localStorage.setItem('lf-ech-groupes',JSON.stringify($$('input[name=ech-s]:checked').map(function(c){return c.value})))}catch(e){}
   $('#ech-zones').innerHTML=ECH.zones.map(function(z){
     var j=duJour.indexOf(z.z)>=0;
     return '<details class="card ech-z'+(j?' du-jour':'')+'"'+(j?' open':'')+'><summary><span>'+esc(z.z)+' <small>'+z.ex.length+' exercices</small></span><span aria-hidden="true">›</span></summary>'+
@@ -1143,7 +1146,8 @@ function chargerEchauffement(){
   if(!sb){$('#ech-zones').innerHTML='<p class="soft">Ce guide est réservé aux élèves connectés.</p>';return}
   contenu('echauffement.json').then(function(c){
     ECH=JSON.parse(c.donnees);
-    $('#ech-seances').innerHTML=Object.keys(ECH.seances).map(function(k,i){return '<label><input type="radio" name="ech-s" value="'+esc(k)+'"><span>'+esc(k)+'</span></label>'}).join('');
+    var G=ECH.groupes||ECH.seances,deja=[];try{deja=JSON.parse(localStorage.getItem('lf-ech-groupes')||'[]')||[]}catch(e){}
+    $('#ech-seances').innerHTML=Object.keys(G).map(function(k){return '<label><input type="checkbox" name="ech-s" value="'+esc(k)+'"'+(deja.indexOf(k)>=0?' checked':'')+'><span>'+esc(k)+'</span></label>'}).join('');
     if(ECH.pdf)$('#ech-pdf').href=ECH.pdf;else $('#ech-pdf').hidden=true;
     echRendu();
   }).catch(function(){$('#ech-zones').innerHTML='<p class="soft">Guide indisponible pour le moment.</p>'});
