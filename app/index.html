@@ -338,7 +338,7 @@ footer{font-size:11px;color:var(--doux);text-align:center;padding-top:4px}
         <p>Programme, nutrition, posing et suivi chaque semaine, avec moi. Six mois pour changer de niveau.</p>
         <div class="row">
           <a class="btn" href="#appel"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M8 3v4M16 3v4M3 10h18"/></svg>Réserver un appel</a>
-          <a class="btn ghost" href="#guides">Guides gratuits</a>
+          <a class="btn ghost" href="#guides">Ressources gratuites</a>
         </div>
       </div>
     </div>
@@ -352,21 +352,28 @@ footer{font-size:11px;color:var(--doux);text-align:center;padding-top:4px}
     <div class="grid2">
       <a class="card" href="#guides">
         <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 5a2 2 0 0 1 2-2h12v15H6a2 2 0 0 0-2 2z"/><path d="M4 20a2 2 0 0 1 2-2h12v3H6a2 2 0 0 1-2-1z"/></svg></span>
-        <div><h3>Guides gratuits</h3><p class="soft" style="font-size:13px">Test, potentiel, posing</p></div>
+        <div><h3>Ressources gratuites</h3><p class="soft" style="font-size:13px">Analyse offerte, test, posing</p></div>
       </a>
       <a class="card" href="#contact">
         <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/></svg></span>
         <div><h3>Me contacter</h3><p class="soft" style="font-size:13px">Instagram ou e-mail</p></div>
       </a>
-      <a class="card" data-cfg="depart" href="#">
+      <a class="card eleve-seul" data-cfg="depart" href="#">
         <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 8h6M9 12h6M9 16h3"/></svg></span>
         <div><h3>Questionnaire de départ</h3><p class="soft" style="font-size:13px">Pour les nouveaux élèves</p></div>
       </a>
-      <a class="card" href="#demarrer">
+      <a class="card eleve-seul" href="#demarrer">
         <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 12h20M5 8v8M8 6v12M16 6v12M19 8v8"/></svg></span>
         <div><h3>Ton démarrage</h3><p class="soft" style="font-size:13px">Charge ta barre, étape par étape</p></div>
       </a>
     </div>
+
+    <div class="visiteur-seul"><a class="card cream" href="https://ig.me/m/leni_fit_" target="_blank" rel="noopener" data-ev="analyse" style="text-decoration:none">
+      <div class="eyebrow">Offert · réponse en vidéo sous 72 h</div>
+      <h2>Analyse physique + stratégie offertes</h2>
+      <p class="soft">Tu m'écris ANALYSE en DM, tu réponds à quelques questions et tu m'envoies tes photos. Je te réponds en vidéo : ce que je vois, ta priorité n°1 et comment je m'y prendrais.</p>
+      <span class="arrow">Écrire ANALYSE en DM</span>
+    </a></div>
 
     <a class="card cream parr-card" href="#parrainage" id="parr-accueil" hidden><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="13" rx="2"/><path d="M3 12h18M12 8v13M12 8c-2-4-6-4-6-1.5S9 8 12 8zM12 8c2-4 6-4 6-1.5S15 8 12 8z"/></svg></span><div style="min-width:0"><div class="eyebrow">Parrainage élèves</div><h3>Un pote démarre, tu gagnes un mois</h3><p class="soft" style="font-size:13px">Ton code perso et ton lien à partager</p></div></a>
 
@@ -413,16 +420,28 @@ footer{font-size:11px;color:var(--doux);text-align:center;padding-top:4px}
   <!-- ============ GUIDES (public) ============ -->
   <main class="view" id="v-guides" hidden>
     <div class="page-head">
-      <div class="eyebrow">Gratuit</div>
-      <h1>Mes guides</h1>
-      <p class="lede">Si tu ne sais pas par où commencer, commence par le test.</p>
+      <div class="eyebrow">Gratuit · par Leni Fauconnier</div>
+      <h1>Mes ressources gratuites</h1>
+      <p class="lede">Tout ce que je partage pour t'aider à progresser en naturel, au même endroit. Tu veux mon avis sur ton physique ? Commence par l'analyse offerte. Sinon, le test.</p>
     </div>
+    <a class="card cream" href="https://ig.me/m/leni_fit_" target="_blank" rel="noopener" data-ev="analyse" style="text-decoration:none">
+      <div class="eyebrow">Offert · réponse en vidéo sous 72 h</div>
+      <h2>Analyse physique + stratégie offertes</h2>
+      <p class="soft">Tu m'écris ANALYSE en DM, tu réponds à quelques questions et tu m'envoies tes photos. Je te réponds en vidéo : ce que je vois, ta priorité n°1 et comment je m'y prendrais.</p>
+      <span class="arrow">Écrire ANALYSE en DM</span>
+    </a>
     <div class="stack" id="guides-list"></div>
     <a class="card cream" data-cfg="correctionPosing" href="#" style="text-decoration:none">
       <div class="eyebrow">Offre ponctuelle · 49 €</div>
       <h2>Correction posing en vidéo</h2>
       <p class="soft">Tu m'envoies tes poses filmées, je te renvoie une vidéo où je les corrige une par une, puis un contrôle 14 jours après.</p>
       <span class="arrow">Voir l'offre</span>
+    </a>
+    <a class="card" href="#appel" data-ev="candidature" style="text-decoration:none">
+      <div class="eyebrow">Coaching individuel</div>
+      <h2>Tu veux qu'on aille plus loin ensemble ?</h2>
+      <p class="soft">Les guides te donnent la méthode. L'accompagnement l'adapte à toi : ton physique, ta salle, ton emploi du temps. Quelques questions, puis on regarde ensemble si c'est fait pour toi.</p>
+      <span class="arrow">Réserver mon appel</span>
     </a>
   </main>
 
@@ -565,7 +584,7 @@ footer{font-size:11px;color:var(--doux);text-align:center;padding-top:4px}
       <div class="eyebrow">Compte pas encore activé</div>
       <h3>Je ne te trouve pas dans mes élèves</h3>
       <p class="soft" style="font-size:14px">Si tu viens de t'inscrire, je t'ajoute en général dans la journée. Écris-moi sur WhatsApp ou Instagram si ça bloque. Tu peux déjà profiter des guides gratuits.</p>
-      <div class="row"><a class="btn ghost" href="#guides">Guides gratuits</a><button class="btn ghost" type="button" data-deco>Se déconnecter</button></div>
+      <div class="row"><a class="btn ghost" href="#guides">Ressources gratuites</a><button class="btn ghost" type="button" data-deco>Se déconnecter</button></div>
     </div>
     <p class="soft" style="font-size:12px;text-align:center">Pas encore élève ? <a href="#appel" style="color:var(--creme)">Réserve un appel découverte</a>.</p>
   </main>
@@ -631,6 +650,13 @@ footer{font-size:11px;color:var(--doux);text-align:center;padding-top:4px}
     <div id="bikini-body"><p class="soft">Chargement du guide…</p></div>
     <button class="btn ghost block no-print" type="button" data-pdf-page>Télécharger en PDF</button>
   </main>
+  <!-- ============ OUTIL PUBLIC (guides/<fichier>.html, copié depuis la racine du dépôt à la mise en ligne) ============ -->
+  <main class="view" id="v-outil" hidden>
+    <a class="back" href="#guides" id="outil-back">‹ Retour</a>
+    <iframe id="outil-frame" title="Guide" src="about:blank" style="width:calc(100% + 32px);margin:0 -16px;border:0;min-height:80vh;display:block;background:var(--petrole)"></iframe>
+    <button class="btn ghost block no-print" type="button" id="outil-pdf">Télécharger en PDF</button>
+  </main>
+
   <!-- ============ FICHE NATIVE (contenu dans Supabase : fiche-<nom>.html) ============ -->
   <main class="view" id="v-fiche" hidden>
     <a class="back" href="#ressources">‹ Tes ressources</a>
@@ -658,7 +684,10 @@ var MARQUE = {
   nom: 'LF Coaching',                                  // nom affiché partout (décision du 1/12)
   sousTitre: 'Coaching en ligne · bodybuilding naturel' // sous-titre sous le logo
 };
-var SRC = 'app'; // ajouté en ?source= sur les liens Systeme.io
+var SRC = (function(){ // ajouté en ?source= sur les liens Systeme.io ; ?source=bio dans le lien de la bio
+  var m=(location.search.match(/[?&]source=([\w-]{1,40})/)||[])[1];
+  try{if(m&&!localStorage.getItem('lf-src'))localStorage.setItem('lf-src',m);return localStorage.getItem('lf-src')||m||'app'}catch(e){return m||'app'}
+})();
 var LIENS = {
   whatsappLeni:     '32488870608', // numéro WhatsApp de Leni au format international sans + ni espaces (ex. 32470123456) ; vide = WhatsApp demande à qui envoyer
   candidature:      'https://lfauconnier27.systeme.io/98dd870d',
@@ -668,10 +697,10 @@ var LIENS = {
   agendaFin:        'https://cal.com/leni-fauconnier/decouverte', // à remplacer par un événement « fin d'accompagnement »
   depart:           'https://lfauconnier27.systeme.io/5e2d6ea8?g=depart',
   testGuide:        'https://lfauconnier27.systeme.io/5e2d6ea8',
-  mensurations:     'https://lfauconnier27.systeme.io/0fa00707',
-  potentiel:        'https://lfauconnier27.systeme.io/5e2d6ea8?g=potentiel',
+  mensurations:     '#mensurations',
+  potentiel:        '#potentiel',
   satisfaction:     'https://lfauconnier27.systeme.io/5e2d6ea8?g=satisfaction',
-  posing:           'https://lfauconnier27.systeme.io/5e2d6ea8?g=posing',
+  posing:           '#posing',
   correctionPosing: 'https://lfauconnier27.systeme.io/5e2d6ea8?g=correction-posing',
   academy:          'https://lfauconnier27.systeme.io/school/course/lf-athlete-academy',
   bienvenue:        '',   /* liens élèves : chargés depuis Supabase après connexion (contenu « liens ») */
@@ -748,7 +777,7 @@ $$('[data-brand]').forEach(function(el){el.textContent=MARQUE[el.getAttribute('d
 $$('[data-cfg]').forEach(function(a){a.href=lien(a.getAttribute('data-cfg'));a.target='_blank';a.rel='noopener'});
 
 function line(o,i,href,target){
-  return '<a class="line'+(o.feat?' feat':'')+'" href="'+esc(href)+'"'+(target?' target="_blank" rel="noopener"':'')+'><span class="badge">'+o.badge+'</span><h3>'+esc(o.t)+'</h3><span class="end'+(o.feat?'':'')+'">'+esc(o.end)+'</span><p>'+esc(o.d)+'</p></a>';
+  return '<a class="line'+(o.feat?' feat':'')+'" href="'+esc(href)+'"'+(target&&href.charAt(0)!=='#'?' target="_blank" rel="noopener"':'')+'><span class="badge">'+o.badge+'</span><h3>'+esc(o.t)+'</h3><span class="end'+(o.feat?'':'')+'">'+esc(o.end)+'</span><p>'+esc(o.d)+'</p></a>';
 }
 $('#guides-list').innerHTML=GUIDES.map(function(g,i){g.badge=String(i+1).padStart(2,'0');return line(g,i,lien(g.l),true)}).join('');
 function renderRes(){$('#res-list').innerHTML=RESSOURCES.map(function(r,i){
@@ -813,7 +842,7 @@ function openMotif(id){
 }
 $('#motifs').addEventListener('click',function(e){var b=e.target.closest('[data-motif]');if(b)openMotif(b.getAttribute('data-motif'))});
 $('#rdv-back').addEventListener('click',function(){$('#motifs').hidden=false;$('#rdv-form').hidden=true;$('#cal-slot').innerHTML='';motif=null});
-$('#rdv-form').addEventListener('submit',function(e){
+$('#rdv-form').addEventListener('submit',function(e){stat('clic','creneau-'+(motif&&motif.id||'rdv'));
   e.preventDefault();var f=e.target,v={};
   Array.prototype.forEach.call(f.elements,function(el){if(!el.name)return;if(el.type==='radio'){if(el.checked)v[el.name]=el.value}else v[el.name]=el.value.trim()});
   if(!v.prenom||!/.+@.+\..+/.test(v.email||'')){$('#rdv-err').hidden=false;return}
@@ -894,7 +923,7 @@ function renderSteps(anim){
     var on=!!done[e.id],nx=e.id===nextId;
     return '<div class="step'+(on?' done':'')+(nx?' next':'')+'"><button class="chk" type="button" data-step="'+e.id+'" aria-pressed="'+on+'" aria-label="'+(on?'Décocher':'Cocher')+' : '+esc(e.t)+'"><svg viewBox="0 0 24 24" fill="none" stroke="#192E33" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></button>'+
       '<div class="t"><span class="who">'+(nx?'Prochaine étape · ':'Étape '+(i+1)+' · ')+(e.qui==='Leni'?'Leni s\'en occupe':'à toi')+'</span><h3>'+esc(e.t)+'</h3></div>'+
-      '<div class="body"><p>'+esc(e.d)+'</p>'+(e.l?'<div class="row"><a class="btn small'+(nx?'':' ghost')+'" href="'+esc(lien(e.l))+'" target="_blank" rel="noopener">'+esc(e.b)+'</a></div>':'')+'</div></div>';
+      '<div class="body"><p>'+esc(e.d)+'</p>'+(e.l?'<div class="row"><a class="btn small'+(nx?'':' ghost')+'" href="'+esc(lien(e.l))+'"'+(lien(e.l).charAt(0)==='#'?'':' target="_blank" rel="noopener"')+'>'+esc(e.b)+'</a></div>':'')+'</div></div>';
   }).join('');
 }
 $('#steps').addEventListener('click',function(ev){
@@ -1002,6 +1031,8 @@ function appliquerRole(){
   if(MOI.role==='coach'){w.textContent='Coach';w.href='#coach'}
   else if(MOI.role==='eleve'||(MOI.role==='ouvert'&&store('lf-eleve'))){w.textContent='Mon espace';w.href='#demarrer'}
   else{w.textContent='Espace élève';w.href=MOI.role==='ouvert'?'#demarrer':'#connexion'}
+  var el=aAcces()&&(MOI.role!=='ouvert'||store('lf-eleve'));
+  $$('.eleve-seul').forEach(function(x){x.hidden=!el});$$('.visiteur-seul').forEach(function(x){x.hidden=el});
   var ml=$('#moi-ligne');ml.hidden=!(sb&&MOI.email&&aAcces());
   if(!ml.hidden)ml.innerHTML='Connecté : '+esc(MOI.eleve&&MOI.eleve.prenom||MOI.email)+' · <button class="lien" type="button" data-deco>Se déconnecter</button>';
   var su=$('#mon-suivi'),lk=MOI.eleve&&MOI.eleve.lien_suivi;if(lk&&/^https:\/\//.test(lk)){su.href=lk;su.hidden=false}else su.hidden=true;
@@ -1043,6 +1074,23 @@ document.addEventListener('click',function(e){
   var titre=document.title,h=$('main.view:not([hidden]) h1');if(h)document.title=h.textContent.trim()+' - '+MARQUE.nom;
   setTimeout(function(){window.print();document.title=titre;fermes.forEach(function(d){d.open=false})},150);
 });
+function ouvrirOutil(n){
+  var f=$('#outil-frame'),u='guides/'+OUTILS[n]+'?source='+encodeURIComponent(SRC)+'-app';
+  $('#outil-back').href=aAcces()&&(MOI.role!=='ouvert'||store('lf-eleve'))?'#ressources':'#guides';
+  $('#outil-back').textContent=$('#outil-back').getAttribute('href')==='#ressources'?'‹ Tes ressources':'‹ Ressources gratuites';
+  if(f.dataset.n===n)return;f.dataset.n=n;f.style.height='80vh';f.src=u;
+}
+(function(){
+  var f=$('#outil-frame');
+  function ajuste(){try{var d=f.contentDocument;if(!d||!d.body)return;var h=Math.max(d.documentElement.scrollHeight,d.body.scrollHeight);if(h>200)f.style.height=h+'px'}catch(e){}}
+  f.addEventListener('load',function(){
+    try{var d=f.contentDocument;if(!d)return;
+      d.querySelectorAll('a[href^="http"]').forEach(function(a){a.target='_blank';a.rel='noopener'});
+      if(window.ResizeObserver)new ResizeObserver(ajuste).observe(d.body);ajuste();setTimeout(ajuste,600);
+    }catch(e){}
+  });
+  $('#outil-pdf').addEventListener('click',function(){try{f.contentWindow.focus();f.contentWindow.print()}catch(e){window.print()}});
+})();
 function chargerBikini(){
   var box=$('#bikini-body');if(box.dataset.ok==='1')return;
   if(!sb){box.innerHTML='<p class="soft">Ce guide est réservé aux élèves connectés.</p>';return}
@@ -1189,9 +1237,21 @@ $('#ech-zones').addEventListener('click',function(e){
 });
 
 /* Navigation */
+/* Outils publics : vue = nom, fichier servi dans guides/ */
+var OUTILS={mensurations:'mensurations.html',potentiel:'potentiel.html',posing:'posing.html'};
 var VUES=['accueil','appel','guides','contact','demarrer','formation','ressources','bikini','echauffement','parrainage','connexion','coach'].concat(Object.keys(FICHES));
 var TAB_DE={guides:'accueil',contact:'accueil',bikini:'ressources',echauffement:'ressources',parrainage:'ressources',coach:'accueil'};
 Object.keys(FICHES).forEach(function(k){TAB_DE[k]='ressources'});
+Object.keys(OUTILS).forEach(function(k){TAB_DE[k]='accueil'});
+/* Statistiques anonymes (aucune donnée personnelle, pas de cookie) : arrivée du jour + source,
+   pages vues, clics importants (analyse offerte, candidature, créneau). Le coach n'est pas compté. */
+var STAT_VUES={};
+function stat(type,cible){
+  if(!sb||MOI.role==='coach'||!ONSITE)return;
+  try{sb.from('stats').insert({type:type,cible:String(cible).slice(0,40),source:String(SRC).slice(0,40),role:MOI.role}).then(function(){},function(){})}catch(e){}
+}
+(function(){var j=new Date().toISOString().slice(0,10);if(store('lf-visite')!==j){store('lf-visite',j);setTimeout(function(){stat('visite',(location.hash||'#accueil').slice(1)||'accueil')},1500)}})();
+document.addEventListener('click',function(e){var a=e.target.closest('[data-ev]');if(a)stat('clic',a.getAttribute('data-ev'))});
 function route(){
   var v=(location.hash||'').replace('#','');if(VUES.indexOf(v)<0)v='accueil';
   if(VUES_ELEVE.indexOf(v)>=0&&!aAcces()){apresCx=v;v='connexion'}
@@ -1199,12 +1259,15 @@ function route(){
   $('#cx-refus').hidden=!(v==='connexion'&&MOI.email&&MOI.role==='visiteur');
   if(v==='connexion'&&cxEmail&&!MOI.email&&$('#cx-code').hidden){$('#cx-code').hidden=false;$('#cx-envoye').textContent='Code envoyé à '+cxEmail+'. Regarde aussi dans les spams.'}
   $('#cx-form').hidden=!$('#cx-refus').hidden||!$('#cx-code').hidden;
-  VUES.forEach(function(k){var el=$('#v-'+k);if(el)el.hidden=(k!==v)});$('#v-fiche').hidden=!FICHES[v];
+  if(OUTILS[v]&&VUES.indexOf(v)<0)VUES.push(v);
+  VUES.forEach(function(k){var el=$('#v-'+k);if(el)el.hidden=(k!==v)});$('#v-fiche').hidden=!FICHES[v];$('#v-outil').hidden=!OUTILS[v];
+  if(OUTILS[v])ouvrirOutil(v);
   var t=TAB_DE[v]||v;
   $$('.tabs a').forEach(function(a){if(a.getAttribute('data-tab')===t)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current')});
   if(MOI.role==='ouvert'&&VUES_ELEVE.indexOf(v)>=0)store('lf-eleve',true);
   $('#parr-accueil').hidden=!(MOI.role==='eleve'||MOI.role==='coach'||(MOI.role==='ouvert'&&store('lf-eleve')));
   $('#bug-bar').hidden=!(VUES_ELEVE.indexOf(v)>=0||v==='coach');
+  if(!STAT_VUES[v]){STAT_VUES[v]=1;stat('vue',v)}
   if(v==='bikini')chargerBikini();
   if(v==='echauffement')chargerEchauffement();
   if(v==='formation'&&aAcces())chargerFormation();
