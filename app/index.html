@@ -262,6 +262,7 @@ body.apercu main.view{padding-bottom:70px}
 .co-kpi .alerte b{color:#E8B48A}.co-kpi i{display:block;height:5px;border-radius:3px;background:rgba(235,227,208,.15);overflow:hidden}.co-kpi i em{display:block;height:100%;background:var(--creme)}
 .co-bars{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:6px 10px;align-items:center;margin:10px 0 4px;font-size:12px;color:var(--doux)}
 .co-bars i{display:block;height:6px;border-radius:3px;background:rgba(235,227,208,.15);overflow:hidden}.co-bars i em{display:block;height:100%;background:var(--creme)}.co-bars i em.ko{background:#E8B48A}
+.co-j{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:10px;align-items:center;padding:10px 0;border-top:1px solid var(--filet);font-size:14px}.co-j small{display:block;color:var(--doux);font-size:12px}
 .co-fin{font-size:13px;margin:4px 0 0;color:var(--doux)}.co-fin.ko{color:#E8B48A}
 .acc-suivi i{display:block;height:8px;border-radius:4px;background:rgba(235,227,208,.15);overflow:hidden}.acc-suivi i em{display:block;height:100%;background:var(--creme)}
 .co-gerer>summary{cursor:pointer;font-size:14px;font-weight:600;color:var(--creme);padding:8px 0}
@@ -490,13 +491,14 @@ body[data-role=coach] .tabs nav{grid-template-columns:repeat(3,1fr)}
   #v-coach>#co-paie{grid-column:3;grid-row:1/3;max-height:420px;overflow:auto}
   #v-coach>#co-revoir[hidden]+#co-paie{grid-column:2/4}
   #v-coach>#co-kpi{grid-row:3}
-  #v-coach>#co-form{grid-row:4}
-  #v-coach>.co-barre{grid-row:5}
-  #v-coach>#co-list{grid-row:6}
-  #v-coach>#co-act{grid-row:7}
-  #v-coach>.co-vue{grid-column:1/3;grid-row:8}
-  #v-coach>#co-contenus{grid-column:3;grid-row:8}
-  #v-coach>p{grid-row:9}
+  #v-coach>#co-jour{grid-row:4}
+  #v-coach>#co-form{grid-row:5}
+  #v-coach>.co-barre{grid-row:6}
+  #v-coach>#co-list{grid-row:7}
+  #v-coach>#co-act{grid-row:8}
+  #v-coach>.co-vue{grid-column:1/3;grid-row:9}
+  #v-coach>#co-contenus{grid-column:3;grid-row:9}
+  #v-coach>p{grid-row:10}
   .co-kpi{grid-template-columns:repeat(4,minmax(0,1fr))}
 }
 .tabs a.verrou{color:rgba(169,182,176,.55)}
@@ -883,6 +885,7 @@ footer{font-size:11px;color:var(--doux);text-align:center;padding-top:4px}
       <p class="lede">Connexion en coach. Ajoute ici chaque élève qui démarre : il pourra se connecter avec son e-mail. Désactive-le à la fin de son suivi.</p>
     </div>
     <div class="co-kpi" id="co-kpi" hidden></div>
+    <div class="card" id="co-jour" hidden></div>
     <div class="card" id="co-revoir" hidden></div>
     <div class="card" id="co-paie" hidden></div>
     <div class="co-barre">
@@ -1314,6 +1317,8 @@ $('#rdv-form').addEventListener('submit',function(e){stat('clic','creneau-'+(mot
     window.open(url,'_blank','noopener')||(location.href=url);return;
   }
   var base=LIENS[motif.agenda]||LIENS.agenda;
+  /* Demande d'appel visible dans l'espace coach (go de Leni 27/11) */
+  if(sb&&MOI.role==='eleve'&&MOI.email&&!APERCU)sb.from('demandes_appel').insert({email:MOI.email,motif:motif.id,reponses:v}).then(function(){},function(){});
   var q='name='+encodeURIComponent(v.prenom)+'&email='+encodeURIComponent(v.email)+'&notes='+encodeURIComponent(lignes.join('\n'));
   url=base+'?'+q;
   if(AGENDA_INTEGRE&&ONSITE){
@@ -1757,7 +1762,7 @@ navigator.serviceWorker&&navigator.serviceWorker.addEventListener&&navigator.ser
 /* Espace coach */
 function coachRendu(){
   var box=$('#co-list');if(!sb)return;
-  Promise.all([sb.from('eleves').select('*').order('actif',{ascending:false}).order('cree_le',{ascending:false}),sb.from('etapes_eleve').select('email,etape,coche,par,quand'),sb.from('reglages').select('email,push,maj_le'),sb.from('formation_eleve').select('email,module,fait_le,envoye_le'),sb.from('formation_envois').select('id,email,lecon,texte,envoye_le,vu_le').is('vu_le',null).order('envoye_le'),sb.from('paiements').select('id,email,echeance,montant,moyen,paye_le,lien').order('echeance'),sb.from('prepa_etapes').select('id,email,jour,titre,detail,scene,fait').order('jour')]).then(function(rr){
+  Promise.all([sb.from('eleves').select('*').order('actif',{ascending:false}).order('cree_le',{ascending:false}),sb.from('etapes_eleve').select('email,etape,coche,par,quand'),sb.from('reglages').select('email,push,maj_le'),sb.from('formation_eleve').select('email,module,fait_le,envoye_le'),sb.from('formation_envois').select('id,email,lecon,texte,envoye_le,vu_le').is('vu_le',null).order('envoye_le'),sb.from('paiements').select('id,email,echeance,montant,moyen,paye_le,lien').order('echeance'),sb.from('prepa_etapes').select('id,email,jour,titre,detail,scene,fait').order('jour'),sb.from('demandes_appel').select('id,email,motif,reponses,cree_le').is('traite_le',null).order('cree_le')]).then(function(rr){
     var PR={};((rr[6]&&rr[6].data)||[]).forEach(function(x){(PR[x.email]=PR[x.email]||[]).push(x)});
     var PA={},pal=(rr[5]&&rr[5].data)||[];pal.forEach(function(x){(PA[x.email]=PA[x.email]||[]).push(x)});coPaieRendu(pal,(rr[0]&&rr[0].data)||[]);
     revoirRendu((rr[4]&&rr[4].data)||[],(rr[0]&&rr[0].data)||[]);
@@ -1776,6 +1781,7 @@ function coachRendu(){
       x._sem=x.date_debut?Math.floor((Date.now()-Date.parse(x.date_debut))/6048e5)+1:null});
     CO.l=l;coachAffiche();
     kpiRendu(l,pal);
+    jourRendu(l,pal,(rr[7]&&rr[7].data)||[],((rr[4]&&rr[4].data)||[]).length);
     actRendu(l,(rr[4]&&rr[4].data)||[]);
     var se=$('#apercu-el');if(se)se.innerHTML='<option value="">Un élève précis…</option>'+l.filter(function(x){return x.actif}).sort(function(a,b){return (b.test?1:0)-(a.test?1:0)}).map(function(x){return '<option value="'+esc(x.email)+'">'+esc(x.prenom)+(x.test?' (faux élève)':'')+'</option>'}).join('');
   });
@@ -1854,6 +1860,19 @@ function coCarte(x){
 function coBar(lab,n,t,ko){var p=t?Math.max(0,Math.min(100,Math.round(n/t*100))):0;return '<span>'+lab+'</span><i><em'+(ko?' class="ko"':'')+' style="width:'+p+'%"></em></i><span>'+n+'/'+t+'</span>'}
 function coBars(x){var sem=x._sem===null?0:Math.max(0,Math.min(x._sem,x.duree_sem||26));
   return '<div class="co-bars">'+coBar('Suivi',sem,x.duree_sem||26)+coBar('Démarrer',x._n,ETAPES.length)+coBar('Formation',x._fo.length,MODULES.length,x._foBloque)+'</div>'}
+/* « À traiter aujourd'hui » (go de Leni 27/11) : une seule liste, ce qui demande une action de Leni. Faux élèves exclus. */
+var MOTIF_NOM={posing:'Posing',point:'Point de suivi',decouverte:'Découverte'};
+function jourRendu(l,pal,dem,nRev){var box=$('#co-jour');if(!box)return;var T={},P={};l.forEach(function(x){P[x.email]=x.prenom;if(x.test)T[x.email]=1});
+  var it=[],auj=new Date().toISOString().slice(0,10);
+  dem.filter(function(d){return !T[d.email]}).forEach(function(d){var r=d.reponses||{},det=[r.sujet,r.categorie,r.detail||r.question].filter(Boolean).join(' · ');
+    it.push('<div class="co-j"><span class="pa-s ko">Appel</span><div><b>'+esc(P[d.email]||d.email)+'</b> · '+esc(MOTIF_NOM[d.motif]||d.motif)+(det?'<small>'+esc(det)+'</small>':'')+'</div><button class="lien" type="button" data-da="'+d.id+'">Traité</button></div>')});
+  l.filter(function(x){return x.actif&&!x.test}).forEach(function(x){var f=finSuivi(x);if(!f)return;var j=joursAvant(f);
+    if(j<=30)it.push('<div class="co-j"><span class="pa-s ko">Fin</span><div><b>'+esc(x.prenom)+'</b> · '+(j<0?'suivi terminé le '+dateFr(f):'fin le '+dateFr(f)+', dans '+j+' j')+'<small>Renouvellement : 50 €/mois autonomie ou 200 €/mois complet</small></div><span></span></div>')});
+  (pal||[]).filter(function(x){return !x.paye_le&&x.echeance<auj&&!T[x.email]}).forEach(function(x){it.push('<div class="co-j"><span class="pa-s ko">Paiement</span><div><b>'+esc(P[x.email]||x.email)+'</b> · '+euros(x.montant)+' du '+esc(jourFr(x.echeance))+'</div><span></span></div>')});
+  if(nRev)it.push('<div class="co-j"><span class="pa-s">Formation</span><div>'+nRev+' exercice'+(nRev>1?'s':'')+' à revoir au bilan</div><span></span></div>');
+  box.hidden=false;box.innerHTML='<div class="eyebrow">À traiter aujourd\'hui · '+(it.length||'rien')+'</div>'+(it.length?it.join(''):'<p class="soft" style="margin:6px 0 0">Rien d\'urgent. Bonne journée.</p>')}
+document.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('[data-da]');if(!b||MOI.role!=='coach')return;
+  sb.from('demandes_appel').update({traite_le:new Date().toISOString()}).eq('id',+b.getAttribute('data-da')).then(function(r){toast(r&&r.error?'Erreur, réessaie':'Demande traitée');if(!(r&&r.error))b.closest('.co-j').remove()})});
 function kpiRendu(l,pal){var box=$('#co-kpi');if(!box)return;var tst={};l.forEach(function(x){if(x.test)tst[x.email]=1});pal=(pal||[]).filter(function(x){return !tst[x.email]});var a=l.filter(function(x){return x.actif&&!x.test});
   var dem=a.filter(function(x){return x._n<ETAPES.length}).length,cal=a.filter(function(x){return !x._act||Date.now()-x._act>=7*864e5}).length;
   var fo=a.length?Math.round(a.reduce(function(s,x){return s+x._fo.length/MODULES.length},0)/a.length*100):0;
