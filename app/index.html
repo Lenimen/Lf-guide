@@ -256,6 +256,13 @@ body.apercu main.view{padding-bottom:70px}
 .co-tbl tbody tr:hover{background:rgba(235,227,208,.05)}
 .co-tbl tbody tr.sel{background:rgba(235,227,208,.12)}
 .co-tbl tr.off{opacity:.5}
+.co-kpi{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-bottom:14px}.co-kpi[hidden]{display:none}
+.co-kpi button{all:unset;cursor:pointer;display:grid;gap:6px;padding:14px;border-radius:16px;background:var(--lueur);border:1px solid var(--filet);min-width:0}
+.co-kpi b{font-size:28px;line-height:1;font-weight:800;color:var(--creme)}.co-kpi span{font-size:12px;color:var(--doux);letter-spacing:.02em}
+.co-kpi .alerte b{color:#E8B48A}.co-kpi i{display:block;height:5px;border-radius:3px;background:rgba(235,227,208,.15);overflow:hidden}.co-kpi i em{display:block;height:100%;background:var(--creme)}
+.co-bars{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:6px 10px;align-items:center;margin:10px 0 4px;font-size:12px;color:var(--doux)}
+.co-bars i{display:block;height:6px;border-radius:3px;background:rgba(235,227,208,.15);overflow:hidden}.co-bars i em{display:block;height:100%;background:var(--creme)}.co-bars i em.ko{background:#E8B48A}
+.co-gerer>summary{cursor:pointer;font-size:14px;font-weight:600;color:var(--creme);padding:8px 0}
 .co-jauge{display:flex;align-items:center;gap:8px}
 .co-jauge i{display:block;width:60px;height:6px;border-radius:3px;background:rgba(235,227,208,.15);overflow:hidden}
 .co-jauge i b{display:block;height:100%;background:var(--creme)}
@@ -480,13 +487,15 @@ body[data-role=coach] .tabs nav{grid-template-columns:repeat(3,1fr)}
   #v-coach>#co-revoir{grid-column:2;grid-row:1/3}
   #v-coach>#co-paie{grid-column:3;grid-row:1/3;max-height:420px;overflow:auto}
   #v-coach>#co-revoir[hidden]+#co-paie{grid-column:2/4}
-  #v-coach>#co-form{grid-row:3}
-  #v-coach>.co-barre{grid-row:4}
-  #v-coach>#co-list{grid-row:5}
-  #v-coach>#co-act{grid-row:6}
-  #v-coach>.co-vue{grid-column:1/3;grid-row:7}
-  #v-coach>#co-contenus{grid-column:3;grid-row:7}
-  #v-coach>p{grid-row:8}
+  #v-coach>#co-kpi{grid-row:3}
+  #v-coach>#co-form{grid-row:4}
+  #v-coach>.co-barre{grid-row:5}
+  #v-coach>#co-list{grid-row:6}
+  #v-coach>#co-act{grid-row:7}
+  #v-coach>.co-vue{grid-column:1/3;grid-row:8}
+  #v-coach>#co-contenus{grid-column:3;grid-row:8}
+  #v-coach>p{grid-row:9}
+  .co-kpi{grid-template-columns:repeat(4,minmax(0,1fr))}
 }
 .tabs a.verrou{color:rgba(169,182,176,.55)}
 .tabs a.verrou .ti{position:relative}
@@ -870,6 +879,7 @@ footer{font-size:11px;color:var(--doux);text-align:center;padding-top:4px}
       <h1>Tes élèves</h1>
       <p class="lede">Connexion en coach. Ajoute ici chaque élève qui démarre : il pourra se connecter avec son e-mail. Désactive-le à la fin de son suivi.</p>
     </div>
+    <div class="co-kpi" id="co-kpi" hidden></div>
     <div class="card" id="co-revoir" hidden></div>
     <div class="card" id="co-paie" hidden></div>
     <div class="co-barre">
@@ -1746,6 +1756,7 @@ function coachRendu(){
       x._foBloque=x.actif&&x._fo.length<MODULES.length&&ref>0&&Date.now()-ref>14*864e5;
       x._sem=x.date_debut?Math.floor((Date.now()-Date.parse(x.date_debut))/6048e5)+1:null});
     CO.l=l;coachAffiche();
+    kpiRendu(l,pal);
     actRendu(l,(rr[4]&&rr[4].data)||[]);
     var se=$('#apercu-el');if(se)se.innerHTML='<option value="">Un élève précis…</option>'+l.filter(function(x){return x.actif}).map(function(x){return '<option value="'+esc(x.email)+'">'+esc(x.prenom)+'</option>'}).join('');
   });
@@ -1803,7 +1814,8 @@ $('#co-q').addEventListener('input',coachAffiche);
 $('#co-filtres').addEventListener('change',coachAffiche);
 function coCarte(x){
       return '<div class="card co-el'+(x.actif?'':' off')+(x.email===CO.sel?' sel':'')+'" data-email="'+esc(x.email)+'"><div class="co-top"><h3>'+esc(x.prenom)+'</h3><small>'+esc(x.email)+'</small></div>'+
-        '<p class="soft" style="font-size:13px;margin:0">'+coSem(x)+' · '+coAct(x)+'</p>'+
+        '<p class="soft" style="font-size:13px;margin:0">'+coSem(x)+' · '+coAct(x)+'</p>'+coBars(x)+
+        '<details class="co-gerer"'+(window.innerWidth>=1200?' open':'')+'><summary>Ouvrir sa fiche</summary>'+
         '<details class="co-et"><summary>Formation : '+x._fo.length+'/'+MODULES.length+' modules terminés'+(x._foBloque?' · <span class="co-alerte">rien depuis plus de 14 j</span>':'')+'</summary><div class="stack" style="margin-top:8px;gap:4px">'+
           MODULES.map(function(m){var f=x._fo.filter(function(y){return y.module===m.c})[0];return '<p class="soft" style="font-size:13px;margin:0">'+(f?'✓ ':'○ ')+esc(m.c)+' · '+esc(m.t)+(f&&f.fait_le?' · le '+new Date(f.fait_le).toLocaleDateString('fr-BE',{day:'numeric',month:'numeric'}):'')+(f&&f.envoye_le?' · exercice envoyé':'')+'</p>'}).join('')+'</div></details>'+
 
@@ -1814,8 +1826,22 @@ function coCarte(x){
         '<details class="co-et"><summary>Étapes « Démarrer » faites : '+Object.keys(x._f).length+'/'+ETAPES.length+'</summary><div class="chips">'+ETAPES.map(function(t){var m=x._m[t.id],qui=m?({eleve:'par l\'élève',auto:'par l\'app',coach:'par toi',verif:'vérification'}[m.par]||'')+' le '+new Date(m.quand).toLocaleDateString('fr-BE',{day:'numeric',month:'numeric'}):'';return '<label><input type="checkbox" data-et="'+esc(t.id)+'"'+(x._f[t.id]?' checked':'')+'><span>'+esc(t.t)+(qui?'<small class="co-qui">'+(m.coche?'Cochée ':'Décochée ')+esc(qui)+'</small>':'')+'</span></label>'}).join('')+'</div></details>'+
         coPaieEleve(x)+coPrepa(x)+
         '<details class="co-msg"><summary class="co-et-s">Écrire un message dans son app</summary><div class="stack" style="margin-top:10px"><textarea data-k="msg" maxlength="500" placeholder="Il le verra dans ses notifications."></textarea><button class="btn ghost small" type="button" data-co="msg">Envoyer dans l\'app</button></div></details>'+
-        '<div class="row"><button class="btn ghost" type="button" data-co="save">Enregistrer</button><button class="btn ghost" type="button" data-co="actif">'+(x.actif?'Désactiver':'Réactiver')+'</button></div></div>';
+        '<div class="row"><button class="btn ghost" type="button" data-co="save">Enregistrer</button><button class="btn ghost" type="button" data-co="actif">'+(x.actif?'Désactiver':'Réactiver')+'</button></div></details></div>';
 }
+/* Indicateurs visuels (Leni 27/11 : « pas super visuel » sur téléphone) : suivi, démarrage, formation */
+function coBar(lab,n,t,ko){var p=t?Math.max(0,Math.min(100,Math.round(n/t*100))):0;return '<span>'+lab+'</span><i><em'+(ko?' class="ko"':'')+' style="width:'+p+'%"></em></i><span>'+n+'/'+t+'</span>'}
+function coBars(x){var sem=x._sem===null?0:Math.max(0,Math.min(x._sem,x.duree_sem||26));
+  return '<div class="co-bars">'+coBar('Suivi',sem,x.duree_sem||26)+coBar('Démarrer',x._n,ETAPES.length)+coBar('Formation',x._fo.length,MODULES.length,x._foBloque)+'</div>'}
+function kpiRendu(l,pal){var box=$('#co-kpi');if(!box)return;var a=l.filter(function(x){return x.actif});
+  var dem=a.filter(function(x){return x._n<ETAPES.length}).length,cal=a.filter(function(x){return !x._act||Date.now()-x._act>=7*864e5}).length;
+  var fo=a.length?Math.round(a.reduce(function(s,x){return s+x._fo.length/MODULES.length},0)/a.length*100):0;
+  var auj=new Date().toISOString().slice(0,10),ret=(pal||[]).filter(function(x){return !x.paye_le&&x.echeance<auj}).length;
+  box.hidden=false;
+  box.innerHTML='<button type="button" data-kf="actifs"><b>'+a.length+'</b><span>Élèves actifs</span></button>'+
+    '<button type="button" data-kf="demarrage"><b>'+dem+'</b><span>En démarrage</span></button>'+
+    '<button type="button" data-kf="fo"><b>'+fo+' %</b><span>Formation, en moyenne</span><i><em style="width:'+fo+'%"></em></i></button>'+
+    '<button type="button" data-kf="calme"'+(cal?' class="alerte"':'')+'><b>'+cal+'</b><span>Pas vus depuis 7 j'+(ret?' · '+ret+' paiement'+(ret>1?'s':'')+' en retard':'')+'</span></button>'}
+document.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('[data-kf]');if(!b)return;var r=$('[name=co-f][value="'+b.getAttribute('data-kf')+'"]');if(r){r.checked=true;coachAffiche();var t=$('#co-list');if(t)t.scrollIntoView({behavior:'smooth',block:'start'})}});
 $('#co-list').addEventListener('click',function(e){
   var th=e.target.closest('th[data-tri]');if(th){CO.tri=th.getAttribute('data-tri');coachAffiche();return}
   var tr=e.target.closest('tr[data-sel]');
