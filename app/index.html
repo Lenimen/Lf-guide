@@ -1022,7 +1022,7 @@ var LIENS = {
   satisfaction:     'https://lfauconnier27.systeme.io/5e2d6ea8?g=satisfaction',
   posing:           '#posing',
   correctionPosing: 'https://lfauconnier27.systeme.io/5e2d6ea8?g=correction-posing',
-  academy:          'https://lfauconnier27.systeme.io/school/course/lf-athlete-academy',
+  academy:          '#formation',   /* l'Academy est dans l'app depuis le 26/11 (plus Systeme.io) */
   bienvenue:        '',   /* liens élèves : chargés depuis Supabase après connexion (contenu « liens ») */
   tutoSuivi:        '',
   tutoApp:          '#tuto',
@@ -1048,7 +1048,7 @@ var ETAPES = [
   {id:'contrat',   t:'Signer ton contrat', d:"Tu l'as reçu par e-mail après l'appel. Vérifie aussi tes spams.", qui:'Toi', verrou:"Se coche toute seule quand ta signature arrive sur DocuSeal (vérifié chaque jour)."},
   {id:'start',     t:'Écrire « LF START » sur WhatsApp', d:"Au numéro que je t'ai donné pendant l'appel. Le message d'accueil arrive tout de suite. Si tu es connecté ici, c'est que c'est fait : l'étape se coche toute seule.", qui:'Toi'},
   {id:'bienvenue', t:'Regarder la vidéo de bienvenue', d:'Comment on va travailler ensemble pendant 6 mois.', qui:'Toi', l:'bienvenue', b:'Voir la vidéo'},
-  {id:'academy',   t:"Commencer l'Academy : C01 à C03", d:'Ton accès arrive par e-mail. Ces 3 modules suffisent avant de démarrer.', qui:'Toi', l:'academy', b:"Ouvrir l'Academy"},
+  {id:'academy',   t:"Commencer l'Academy : C01 à C03", d:"Dans l'onglet Formation de l'app. Ces 3 modules suffisent avant de démarrer. L'étape se coche toute seule quand tu as fini C03.", qui:'Toi', l:'academy', b:'Ouvrir la formation'},
   {id:'appli',     t:"Installer l'app de suivi (Fitbrothers)", d:"Tu reçois l'invitation par e-mail. Le tuto montre le poids du matin et le bilan de la semaine.", qui:'Toi', l:'tutoSuivi', b:'Voir le tuto'},
   {id:'depart',    t:'Remplir le questionnaire de départ', d:"60 questions dans l'app de suivi, 30 minutes au calme. Plus tu es précis, plus ton plan sera adapté. Puis envoie-moi « Questionnaire terminé » sur WhatsApp.", qui:'Toi'},
   {id:'mesures',   t:'Prendre tes mensurations', d:'Au mètre ruban, le matin à jeun. Le guide te montre où mesurer.', qui:'Toi', l:'mensurations', b:'Ouvrir le guide'},
