@@ -446,8 +446,11 @@ main.view>.back{display:none} /* remplacé par la flèche retour de l'en-tête *
 .tabs a svg{width:22px;height:22px}
 .tabs a[aria-current="page"]{color:var(--creme)}
 .tabs a[aria-current="page"] .ti{background:rgba(235,227,208,.16)}
-/* Le lien « Mes élèves » n'existe que dans le menu latéral (grand écran, compte coach) */
-.tabs a.tab-coach{display:none}
+/* Onglets coach (Leni 27/11) : le compte coach n'a que ses onglets à lui ; l'espace élève se voit avec « Vue élève » (aperçu en lecture seule) */
+.tabs a.tab-coach,.tabs a.tab-co{display:none}
+body[data-role=coach] .tabs a{display:none}
+body[data-role=coach] .tabs a.tab-coach,body[data-role=coach] .tabs a.tab-co{display:grid}
+body[data-role=coach] .tabs nav{grid-template-columns:repeat(3,1fr)}
 /* ===== Vue ordinateur (1200 px et plus) : menu à gauche à la place de la barre du bas =====
    Le contrôle avant mise en ligne teste 1280, 1920 et 2560 px et refuse une barre en bas ou un espace coach étroit. */
 @media (min-width:1200px){
@@ -460,7 +463,7 @@ main.view>.back{display:none} /* remplacé par la flèche retour de l'en-tête *
   .tabs a:hover{background:rgba(235,227,208,.06);color:var(--creme)}
   .tabs a[aria-current="page"]{background:rgba(235,227,208,.1)}
   .tabs a[aria-current="page"] .ti{background:none}
-  body[data-role=coach] .tabs a.tab-coach{display:flex}
+  body[data-role=coach] .tabs a.tab-coach,body[data-role=coach] .tabs a.tab-co{display:flex}
   .wrap{max-width:820px;padding-bottom:64px}
   .apercu-barre{bottom:16px!important;left:calc(var(--menu-l) + 16px)!important}
   body.apercu main.view{padding-bottom:0}
@@ -867,29 +870,6 @@ footer{font-size:11px;color:var(--doux);text-align:center;padding-top:4px}
       <h1>Tes élèves</h1>
       <p class="lede">Connexion en coach. Ajoute ici chaque élève qui démarre : il pourra se connecter avec son e-mail. Désactive-le à la fin de son suivi.</p>
     </div>
-    <div class="card co-vue">
-      <div class="eyebrow">Voir l'app comme</div>
-      <p class="soft" style="font-size:14px;margin:0">En lecture seule : rien n'est modifié chez l'élève, et tu reviens en coach avec le bandeau en bas.</p>
-      <div class="row"><button class="btn ghost small" type="button" data-apercu="visiteur">Un visiteur</button><button class="btn ghost small" type="button" data-apercu="eleve">Un élève type</button></div>
-      <div class="row"><select id="apercu-el" aria-label="Choisir un élève"><option value="">Un élève précis…</option></select><button class="btn ghost small" type="button" data-apercu="choisi">Voir comme lui</button></div>
-    </div>
-    <div class="card" id="co-contenus">
-      <div class="eyebrow">Contenus de l'espace élève</div>
-      <p class="soft" style="font-size:14px" id="co-ct-etat">Vérification…</p>
-      <button class="btn ghost block" type="button" id="co-ct-install" hidden>Installer les ressources et les photos du guide bikini</button>
-      <label class="q"><span>Ajouter ou remplacer une fiche PDF ou une image</span><input type="file" id="co-ct-fichier" accept="application/pdf,image/jpeg,image/png,image/webp" multiple></label>
-    </div>
-    <button class="btn block" type="button" id="co-ajout">+ Ajouter un élève</button>
-    <form class="card co" id="co-form" novalidate hidden>
-      <div class="eyebrow">Nouvel élève (ses infos, pas les tiennes)</div>
-      <label class="q"><span>Prénom</span><input type="text" id="co-prenom" maxlength="60" autocomplete="off"></label>
-      <label class="q"><span>E-mail (celui du contrat)</span><input type="email" id="co-email" autocomplete="off"></label>
-      <div class="grid2">
-        <label class="q"><span>Début du plan</span><input type="date" id="co-debut"></label>
-        <label class="q"><span>Durée</span><select id="co-duree"><option value="16">16 sem.</option><option value="20">20 sem.</option><option value="24">24 sem.</option><option value="26" selected>6 mois</option></select></label>
-      </div>
-      <button class="btn block" type="submit">Ajouter l'élève</button>
-    </form>
     <div class="card" id="co-revoir" hidden></div>
     <div class="card" id="co-paie" hidden></div>
     <div class="co-barre">
@@ -905,6 +885,29 @@ footer{font-size:11px;color:var(--doux);text-align:center;padding-top:4px}
     </div>
     <div class="stack" id="co-list"><p class="soft">Chargement…</p></div>
     <details class="card" id="co-act" hidden><summary class="eyebrow" style="cursor:pointer;margin:0">Activité récente</summary><div id="co-act-l" style="margin-top:8px"></div></details>
+    <button class="btn block" type="button" id="co-ajout">+ Ajouter un élève</button>
+    <form class="card co" id="co-form" novalidate hidden>
+      <div class="eyebrow">Nouvel élève (ses infos, pas les tiennes)</div>
+      <label class="q"><span>Prénom</span><input type="text" id="co-prenom" maxlength="60" autocomplete="off"></label>
+      <label class="q"><span>E-mail (celui du contrat)</span><input type="email" id="co-email" autocomplete="off"></label>
+      <div class="grid2">
+        <label class="q"><span>Début du plan</span><input type="date" id="co-debut"></label>
+        <label class="q"><span>Durée</span><select id="co-duree"><option value="16">16 sem.</option><option value="20">20 sem.</option><option value="24">24 sem.</option><option value="26" selected>6 mois</option></select></label>
+      </div>
+      <button class="btn block" type="submit">Ajouter l'élève</button>
+    </form>
+    <div class="card co-vue">
+      <div class="eyebrow">Voir l'app comme</div>
+      <p class="soft" style="font-size:14px;margin:0">En lecture seule : rien n'est modifié chez l'élève, et tu reviens en coach avec le bandeau en bas.</p>
+      <div class="row"><button class="btn ghost small" type="button" data-apercu="visiteur">Un visiteur</button><button class="btn ghost small" type="button" data-apercu="eleve">Un élève type</button></div>
+      <div class="row"><select id="apercu-el" aria-label="Choisir un élève"><option value="">Un élève précis…</option></select><button class="btn ghost small" type="button" data-apercu="choisi">Voir comme lui</button></div>
+    </div>
+    <div class="card" id="co-contenus">
+      <div class="eyebrow">Contenus de l'espace élève</div>
+      <p class="soft" style="font-size:14px" id="co-ct-etat">Vérification…</p>
+      <button class="btn ghost block" type="button" id="co-ct-install" hidden>Installer les ressources et les photos du guide bikini</button>
+      <label class="q"><span>Ajouter ou remplacer une fiche PDF ou une image</span><input type="file" id="co-ct-fichier" accept="application/pdf,image/jpeg,image/png,image/webp" multiple></label>
+    </div>
     <p class="soft" style="font-size:12px;text-align:center">Tu vois aussi tout l'espace élève (onglets Démarrer, Formation, Ressources). <button class="lien" type="button" data-deco>Se déconnecter</button></p>
   </main>
 
@@ -983,6 +986,8 @@ footer{font-size:11px;color:var(--doux);text-align:center;padding-top:4px}
   <a href="#demarrer" data-tab="demarrer"><span class="ti"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 12h20M5 8v8M8 6v12M16 6v12M19 8v8"/></svg></span>Démarrer</a>
   <a href="#formation" data-tab="formation"><span class="ti"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11v5c3 2 9 2 12 0v-5"/></svg></span>Formation</a>
   <a href="#coach" data-tab="coach" class="tab-coach"><span class="ti"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.9M16 3.1a4 4 0 0 1 0 7.8"/></svg></span>Mes élèves</a>
+  <a href="#notifs" data-tab="notifs" class="tab-co"><span class="ti"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg></span>Notifications</a>
+  <a href="#coach" data-apercu="eleve" class="tab-co"><span class="ti"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg></span>Vue élève</a>
   <a href="#ressources" data-tab="ressources"><span class="ti"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg></span>Ressources</a>
 </nav></div>
 <div class="toast" id="toast" role="status"></div>
@@ -1241,9 +1246,12 @@ var MOTIFS=[
 ];
 var motif=null;
 var ICO_M={decouverte:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 12h20M5 8v8M8 6v12M16 6v12M19 8v8"/></svg>',posing:ICO.pose,point:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/></svg>',fin:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 21V4M5 4h11l-2 4 2 4H5"/></svg>'};
-$('#motifs').innerHTML=MOTIFS.map(function(m,i){
+/* Un élève déjà coaché ne voit pas « Je veux être coaché » (Leni 27/11) */
+function renderMotifs(){var l=MOTIFS.filter(function(m){return !(m.candidature&&MOI.role==='eleve')});
+$('#motifs').innerHTML=l.map(function(m,i){
   return '<button type="button" class="line motif'+(i===0?' feat':'')+'" data-motif="'+m.id+'"><span class="badge">'+ICO_M[m.id]+'</span><h3>'+esc(m.t)+'</h3><span class="end">'+(m.eleve?'Élève':'')+'</span><p>'+esc(m.d)+'</p></button>';
-}).join('');
+}).join('')}
+renderMotifs();
 function chips(k,opts){return '<div class="chips">'+opts.map(function(o,i){return '<label><input type="radio" name="'+k+'" value="'+esc(o)+'" id="'+k+'-'+i+'"><span>'+esc(o)+'</span></label>'}).join('')+'</div>'}
 function qhtml(q){
   if(q.type==='chips')return '<fieldset class="q"><legend>'+esc(q.l)+'</legend>'+chips(q.k,q.o)+'</fieldset>';
@@ -1503,7 +1511,8 @@ function majSession(){
   }).catch(function(){}).then(appliquerRole);
 }
 function appliquerRole(){
-  var w=$('#who-link');document.body.dataset.role=MOI.role;prepaCarte();
+  var w=$('#who-link');document.body.dataset.role=MOI.role;prepaCarte();renderMotifs();
+  if(MOI.role==='coach'&&['','#','#accueil','#appel','#demarrer','#formation','#ressources'].indexOf(location.hash)>=0)location.hash='#coach';
   document.body.classList.toggle('apercu',!!(APERCU&&MOI.vrai==='coach'));$('#apercu').hidden=!(APERCU&&MOI.vrai==='coach');
   if(APERCU&&MOI.vrai==='coach')$('#apercu-t').textContent='Aperçu '+(APERCU.role==='visiteur'?'visiteur':'élève · '+((MOI.eleve&&MOI.eleve.prenom)||APERCU.email||'type'))+' · lecture seule';
   if(MOI.role==='coach'){w.textContent='Coach';w.href='#coach'}
@@ -1929,6 +1938,7 @@ function stat(type,cible){
 document.addEventListener('click',function(e){var a=e.target.closest('[data-ev]');if(a)stat('clic',a.getAttribute('data-ev'))});
 function route(){
   var v=(location.hash||'').replace('#','');if(VUES.indexOf(v)<0)v='accueil';
+  if(MOI.role==='coach'&&['accueil','appel','demarrer','formation','ressources'].indexOf(v)>=0){location.replace('#coach');return}
   if(VUES_ELEVE.indexOf(v)>=0&&!aAcces()){apresCx=v;v='connexion'}
   if(v==='coach'&&MOI.role!=='coach')v=MOI.role==='ouvert'?'accueil':'connexion';
   $('#cx-refus').hidden=!(v==='connexion'&&MOI.email&&MOI.role==='visiteur');
