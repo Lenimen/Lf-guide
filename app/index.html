@@ -262,6 +262,8 @@ body.apercu main.view{padding-bottom:70px}
 .co-kpi .alerte b{color:#E8B48A}.co-kpi i{display:block;height:5px;border-radius:3px;background:rgba(235,227,208,.15);overflow:hidden}.co-kpi i em{display:block;height:100%;background:var(--creme)}
 .co-bars{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:6px 10px;align-items:center;margin:10px 0 4px;font-size:12px;color:var(--doux)}
 .co-bars i{display:block;height:6px;border-radius:3px;background:rgba(235,227,208,.15);overflow:hidden}.co-bars i em{display:block;height:100%;background:var(--creme)}.co-bars i em.ko{background:#E8B48A}
+.co-fin{font-size:13px;margin:4px 0 0;color:var(--doux)}.co-fin.ko{color:#E8B48A}
+.acc-suivi i{display:block;height:8px;border-radius:4px;background:rgba(235,227,208,.15);overflow:hidden}.acc-suivi i em{display:block;height:100%;background:var(--creme)}
 .co-gerer>summary{cursor:pointer;font-size:14px;font-weight:600;color:var(--creme);padding:8px 0}
 .co-jauge{display:flex;align-items:center;gap:8px}
 .co-jauge i{display:block;width:60px;height:6px;border-radius:3px;background:rgba(235,227,208,.15);overflow:hidden}
@@ -563,6 +565,7 @@ footer{font-size:11px;color:var(--doux);text-align:center;padding-top:4px}
       <button type="button" class="x" id="install-x" aria-label="Masquer">×</button>
     </div>
 
+    <div class="card acc-suivi" id="acc-suivi" hidden><div class="eyebrow">Ton suivi</div><h3 id="acc-suivi-t"></h3><div class="co-bars" id="acc-suivi-b" style="grid-template-columns:minmax(0,1fr) auto"></div><p class="soft" id="acc-suivi-p" style="font-size:14px;margin:6px 0 0"></p></div>
     <div class="grid2">
       <a class="card visiteur-seul" href="#guides">
         <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 5a2 2 0 0 1 2-2h12v15H6a2 2 0 0 0-2 2z"/><path d="M4 20a2 2 0 0 1 2-2h12v3H6a2 2 0 0 1-2-1z"/></svg></span>
@@ -1131,6 +1134,21 @@ document.addEventListener('click',function(e){var a=e.target.closest&&e.target.c
    Table prepa_etapes : étapes datées jusqu'au jour J (scene = jour J). Posées par Leni après l'appel de construction,
    visibles en lecture seule par l'élève (accueil + page « Ta prépa »). */
 function jSemaines(d){var j=Math.round((new Date(d+'T12:00:00')-new Date(new Date().toISOString().slice(0,10)+'T12:00:00'))/864e5);return j}
+/* Fin d'engagement et renouvellement (go de Leni 27/11) : fin = début + durée (semaines). Visible par l'élève et par Leni.
+   Prix (Leni 27/11) : après 6 mois, suivi autonomie 50 €/mois (bilans mensuels) ou accompagnement complet 200 €/mois ; montrés au coach seulement. */
+function finSuivi(x){if(!x||!x.date_debut)return null;var d=new Date(x.date_debut+'T12:00:00');d.setDate(d.getDate()+7*(x.duree_sem||26));return d}
+function joursAvant(d){return Math.ceil((d-new Date())/864e5)}
+function dateFr(d){return d.toLocaleDateString('fr-BE',{day:'numeric',month:'long'})}
+function suiviCarte(){var c=$('#acc-suivi');if(!c)return;c.hidden=true;var e=MOI.eleve;if(MOI.role!=='eleve'||!e||!e.date_debut)return;
+  var fin=finSuivi(e),tot=e.duree_sem||26,sem=Math.floor((Date.now()-Date.parse(e.date_debut))/6048e5)+1,j=joursAvant(fin);
+  c.hidden=false;
+  if(sem<1){$('#acc-suivi-t').textContent='Ton suivi démarre le '+dateFr(new Date(e.date_debut+'T12:00:00'));$('#acc-suivi-b').innerHTML='';$('#acc-suivi-p').textContent='Fin prévue le '+dateFr(fin)+'.';return}
+  var s=Math.min(sem,tot);$('#acc-suivi-t').textContent=j>0?'Semaine '+s+' sur '+tot:'Ton suivi est terminé';
+  $('#acc-suivi-b').innerHTML='<i><em style="width:'+Math.round(s/tot*100)+'%"></em></i><span>'+Math.round(s/tot*100)+' %</span>';
+  $('#acc-suivi-p').textContent=j>30?'Fin prévue le '+dateFr(fin)+'.':(j>0?'Ton suivi se termine le '+dateFr(fin)+', dans '+j+' jour'+(j>1?'s':'')+'. On en parle ensemble à ton appel de renouvellement.':'On en parle ensemble pour la suite.')}
+function coFin(x){var f=finSuivi(x);if(!f||!x.actif)return '';var j=joursAvant(f);
+  if(j<0)return '<p class="co-fin ko">Suivi terminé le '+dateFr(f)+' · à renouveler ou désactiver</p>';
+  return '<p class="co-fin'+(j<=30?' ko':'')+'">Fin le '+dateFr(f)+' · dans '+j+' j'+(j<=30?' · renouvellement à préparer (50 €/mois autonomie ou 200 €/mois complet)':'')+'</p>'}
 function prepaCarte(){var c=$('#acc-prepa');if(!c)return;c.hidden=true;if(!sb||MOI.role!=='eleve'||!MOI.email)return;
   sb.from('prepa_etapes').select('jour,scene').eq('email',MOI.email).then(function(r){var l=(r&&r.data)||[];if(!l.length)return;c.hidden=false;
     var sc=l.filter(function(x){return x.scene})[0];if(sc){var j=jSemaines(sc.jour);$('#acc-prepa-d').textContent=j>0?'Jour J dans '+(j>13?Math.round(j/7)+' semaines':j+' jours'):(j===0?'C\'est aujourd\'hui':'Jour J passé')}})}
@@ -1522,7 +1540,7 @@ function majSession(){
   }).catch(function(){}).then(appliquerRole);
 }
 function appliquerRole(){
-  var w=$('#who-link');document.body.dataset.role=MOI.role;prepaCarte();renderMotifs();
+  var w=$('#who-link');document.body.dataset.role=MOI.role;prepaCarte();suiviCarte();renderMotifs();
   if(MOI.role==='coach'&&['','#','#accueil','#appel','#demarrer','#formation','#ressources'].indexOf(location.hash)>=0)location.hash='#coach';
   document.body.classList.toggle('apercu',!!(APERCU&&MOI.vrai==='coach'));$('#apercu').hidden=!(APERCU&&MOI.vrai==='coach');
   if(APERCU&&MOI.vrai==='coach')$('#apercu-t').textContent='Aperçu '+(APERCU.role==='visiteur'?'visiteur':'élève · '+((MOI.eleve&&MOI.eleve.prenom)||APERCU.email||'type'))+' · lecture seule';
@@ -1818,7 +1836,7 @@ $('#co-q').addEventListener('input',coachAffiche);
 $('#co-filtres').addEventListener('change',coachAffiche);
 function coCarte(x){
       return '<div class="card co-el'+(x.actif?'':' off')+(x.email===CO.sel?' sel':'')+'" data-email="'+esc(x.email)+'"><div class="co-top"><h3>'+esc(x.prenom)+(x.test?' <span class="pa-s">faux élève</span>':'')+'</h3><small>'+esc(x.email)+'</small></div>'+
-        '<p class="soft" style="font-size:13px;margin:0">'+coSem(x)+' · '+coAct(x)+'</p>'+coBars(x)+
+        '<p class="soft" style="font-size:13px;margin:0">'+coSem(x)+' · '+coAct(x)+'</p>'+coBars(x)+coFin(x)+
         '<details class="co-gerer"'+(window.innerWidth>=1200?' open':'')+'><summary>Ouvrir sa fiche</summary>'+
         '<details class="co-et"><summary>Formation : '+x._fo.length+'/'+MODULES.length+' modules terminés'+(x._foBloque?' · <span class="co-alerte">rien depuis plus de 14 j</span>':'')+'</summary><div class="stack" style="margin-top:8px;gap:4px">'+
           MODULES.map(function(m){var f=x._fo.filter(function(y){return y.module===m.c})[0];return '<p class="soft" style="font-size:13px;margin:0">'+(f?'✓ ':'○ ')+esc(m.c)+' · '+esc(m.t)+(f&&f.fait_le?' · le '+new Date(f.fait_le).toLocaleDateString('fr-BE',{day:'numeric',month:'numeric'}):'')+(f&&f.envoye_le?' · exercice envoyé':'')+'</p>'}).join('')+'</div></details>'+
