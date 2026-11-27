@@ -260,6 +260,9 @@ body.apercu main.view{padding-bottom:70px}
 .co-kpi button{all:unset;cursor:pointer;display:grid;gap:6px;padding:14px;border-radius:16px;background:var(--lueur);border:1px solid var(--filet);min-width:0}
 .co-kpi b{font-size:28px;line-height:1;font-weight:800;color:var(--creme)}.co-kpi span{font-size:12px;color:var(--doux);letter-spacing:.02em}
 .co-kpi .alerte b{color:#E8B48A}.co-kpi i{display:block;height:5px;border-radius:3px;background:rgba(235,227,208,.15);overflow:hidden}.co-kpi i em{display:block;height:100%;background:var(--creme)}
+.pg-j{border-top:1px solid var(--filet);padding:8px 0}.pg-e{display:grid;grid-template-columns:minmax(0,3fr) repeat(3,minmax(0,1fr));gap:6px;margin-top:6px}.pg-e input{min-width:0;appearance:none;-webkit-appearance:none}.pg-e [data-pe=reg]{grid-column:1/-1}
+.nu-g{display:grid;grid-template-columns:auto repeat(3,minmax(0,1fr)) auto;gap:6px;align-items:center;font-size:12px;margin-top:8px}.nu-g input{min-width:0;appearance:none;-webkit-appearance:none}.nu-s{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px;margin-top:8px;text-align:center;font-size:11px;color:var(--doux)}.nu-s button{all:unset;cursor:pointer;padding:6px 0;border-radius:8px;background:var(--creme);color:#192E33;font-weight:700;font-size:11px;text-align:center}.nu-s button.off{background:transparent;color:var(--creme);border:1px solid var(--filet)}
+.rg-m{border-top:1px solid var(--filet);padding:8px 0}.rg-m textarea{min-height:140px}
 .bi{border-top:1px solid var(--filet);padding:12px 0;display:grid;gap:8px}.bi-h{display:flex;justify-content:space-between;gap:8px;align-items:baseline}.bi-h small{color:var(--doux);font-size:12px}
 .bi-k{display:grid;grid-template-columns:repeat(auto-fit,minmax(78px,1fr));gap:6px}.bi-k span{background:var(--lueur);border:1px solid var(--filet);border-radius:12px;padding:8px;display:grid;gap:2px;font-size:11px;color:var(--doux);min-width:0}.bi-k b{font-size:17px;color:var(--creme)}.bi-k .ko b{color:#E8B48A}
 .bi-ia{margin:0;font-size:13px;line-height:1.45;background:rgba(235,227,208,.06);border-left:3px solid var(--creme);border-radius:8px;padding:8px 10px}.bi-ia em{font-style:normal;font-weight:700;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--doux);display:block;margin-bottom:2px}
@@ -506,9 +509,10 @@ body[data-role=coach] .tabs nav{grid-template-columns:repeat(3,1fr)}
   #v-coach>#co-list{grid-row:9}
   #v-coach>#co-act{grid-row:10}
   #v-coach>#co-auto{grid-row:11}
-  #v-coach>.co-vue{grid-column:1/3;grid-row:12}
-  #v-coach>#co-contenus{grid-column:3;grid-row:12}
-  #v-coach>p{grid-row:13}
+  #v-coach>#co-reglages{grid-row:12}
+  #v-coach>.co-vue{grid-column:1/3;grid-row:13}
+  #v-coach>#co-contenus{grid-column:3;grid-row:13}
+  #v-coach>p{grid-row:14}
   .co-kpi{grid-template-columns:repeat(4,minmax(0,1fr))}
 }
 .tabs a.verrou{color:rgba(169,182,176,.55)}
@@ -578,6 +582,7 @@ footer{font-size:11px;color:var(--doux);text-align:center;padding-top:4px}
     </div>
 
     <div class="card acc-suivi" id="acc-suivi" hidden><div class="eyebrow">Ton suivi</div><h3 id="acc-suivi-t"></h3><div class="co-bars" id="acc-suivi-b" style="grid-template-columns:minmax(0,1fr) auto"></div><p class="soft" id="acc-suivi-p" style="font-size:14px;margin:6px 0 0"></p></div>
+    <div class="card" id="acc-mot" hidden><div class="eyebrow">Le mot de Leni</div><p id="acc-mot-t" style="margin:6px 0 0;white-space:pre-wrap;font-size:15px;line-height:1.5"></p></div>
     <div class="card" id="acc-missions" hidden><div class="eyebrow" id="acc-missions-t">Tes missions de la semaine</div><div id="acc-missions-l" style="margin-top:6px"></div></div>
     <div class="grid2">
       <a class="card visiteur-seul" href="#guides">
@@ -916,6 +921,12 @@ footer{font-size:11px;color:var(--doux);text-align:center;padding-top:4px}
     <div class="stack" id="co-list"><p class="soft">Chargement…</p></div>
     <details class="card" id="co-act" hidden><summary class="eyebrow" style="cursor:pointer;margin:0">Activité récente</summary><div id="co-act-l" style="margin-top:8px"></div></details>
     <details class="card" id="co-auto"><summary class="eyebrow" style="cursor:pointer;margin:0">Automatisations par semaine de suivi</summary><p class="soft" style="font-size:13px;margin:8px 0">Un message part tout seul dans l'app de chaque élève, la semaine choisie de son suivi. Rien ne part tant qu'une règle n'est pas activée.</p><div id="co-auto-l"></div><div class="pa-form" style="margin-top:10px"><input type="number" data-au="semaine" min="0" max="60" placeholder="Semaine" inputmode="numeric" aria-label="Semaine du suivi"><input type="text" data-au="lien" placeholder="Lien (ex. #formation)" aria-label="Lien"><input class="large" type="text" data-au="titre" maxlength="120" placeholder="Titre du message" aria-label="Titre"><input class="large" type="text" data-au="texte" maxlength="500" placeholder="Texte (optionnel)" aria-label="Texte"><button class="btn ghost small large" type="button" id="au-ajout">Ajouter la règle</button></div></details>
+    <details class="card" id="co-reglages"><summary class="eyebrow" style="cursor:pointer;margin:0">Réglages : message d'accueil et modèles de bilan</summary>
+      <label class="q" style="margin-top:10px"><span>Ton message d'accueil (en haut de l'accueil de chaque élève)</span><textarea id="rg-accueil" maxlength="600" placeholder="Ex. Bienvenue dans ton espace. Ici tu retrouves ta formation, tes missions et mes guides."></textarea></label>
+      <button class="btn ghost small" type="button" id="rg-accueil-ok">Enregistrer le message</button>
+      <p class="soft" style="font-size:12px;margin:14px 0 4px">Modèles de bilan (utilisés à la bascule) : une question par ligne. « (1-5) » = note, « (photo) » ou « (vidéo) » = envoi de fichier.</p>
+      <div id="rg-modeles"></div>
+      <button class="lien" type="button" id="rg-nouveau">+ Nouveau modèle</button></details>
     <button class="btn block" type="button" id="co-ajout">+ Ajouter un élève</button>
     <form class="card co" id="co-form" novalidate hidden>
       <div class="eyebrow">Nouvel élève (ses infos, pas les tiennes)</div>
@@ -1583,7 +1594,7 @@ function majSession(){
   }).catch(function(){}).then(appliquerRole);
 }
 function appliquerRole(){
-  var w=$('#who-link');document.body.dataset.role=MOI.role;prepaCarte();suiviCarte();missionsCarte();renderMotifs();
+  var w=$('#who-link');document.body.dataset.role=MOI.role;prepaCarte();suiviCarte();missionsCarte();motCarte();renderMotifs();
   if(MOI.role==='coach'&&['','#','#accueil','#appel','#demarrer','#formation','#ressources'].indexOf(location.hash)>=0)location.hash='#coach';
   document.body.classList.toggle('apercu',!!(APERCU&&MOI.vrai==='coach'));$('#apercu').hidden=!(APERCU&&MOI.vrai==='coach');
   if(APERCU&&MOI.vrai==='coach')$('#apercu-t').textContent='Aperçu '+(APERCU.role==='visiteur'?'visiteur':'élève · '+((MOI.eleve&&MOI.eleve.prenom)||APERCU.email||'type'))+' · lecture seule';
@@ -1800,9 +1811,9 @@ navigator.serviceWorker&&navigator.serviceWorker.addEventListener&&navigator.ser
 /* Espace coach */
 function coachRendu(){
   var box=$('#co-list');if(!sb)return;
-  Promise.all([sb.from('eleves').select('*').order('actif',{ascending:false}).order('cree_le',{ascending:false}),sb.from('etapes_eleve').select('email,etape,coche,par,quand'),sb.from('reglages').select('email,push,maj_le'),sb.from('formation_eleve').select('email,module,fait_le,envoye_le'),sb.from('formation_envois').select('id,email,lecon,texte,envoye_le,vu_le').is('vu_le',null).order('envoye_le'),sb.from('paiements').select('id,email,echeance,montant,moyen,paye_le,lien').order('echeance'),sb.from('prepa_etapes').select('id,email,jour,titre,detail,scene,fait').order('jour'),sb.from('demandes_appel').select('id,email,motif,reponses,cree_le').is('traite_le',null).order('cree_le'),sb.from('automatisations').select('id,semaine,titre,texte,lien,actif').order('semaine'),sb.from('missions').select('id,email,semaine_du,texte,fait_le').gte('semaine_du',lundi(-7)).order('id'),sb.from('bilans').select('*').gte('semaine_du',lundi(-56)).order('semaine_du',{ascending:false}),sb.from('mesures').select('*').order('jour'),sb.from('executions').select('*').order('cree_le')]).then(function(rr){
+  Promise.all([sb.from('eleves').select('*').order('actif',{ascending:false}).order('cree_le',{ascending:false}),sb.from('etapes_eleve').select('email,etape,coche,par,quand'),sb.from('reglages').select('email,push,maj_le'),sb.from('formation_eleve').select('email,module,fait_le,envoye_le'),sb.from('formation_envois').select('id,email,lecon,texte,envoye_le,vu_le').is('vu_le',null).order('envoye_le'),sb.from('paiements').select('id,email,echeance,montant,moyen,paye_le,lien').order('echeance'),sb.from('prepa_etapes').select('id,email,jour,titre,detail,scene,fait').order('jour'),sb.from('demandes_appel').select('id,email,motif,reponses,cree_le').is('traite_le',null).order('cree_le'),sb.from('automatisations').select('id,semaine,titre,texte,lien,actif').order('semaine'),sb.from('missions').select('id,email,semaine_du,texte,fait_le').gte('semaine_du',lundi(-7)).order('id'),sb.from('bilans').select('*').gte('semaine_du',lundi(-56)).order('semaine_du',{ascending:false}),sb.from('mesures').select('*').order('jour'),sb.from('executions').select('*').order('cree_le'),sb.from('programmes').select('*').order('version',{ascending:false}),sb.from('modeles_bilan').select('*').order('id'),sb.from('contenus').select('donnees').eq('cle','message-accueil').maybeSingle()]).then(function(rr){
     autoRendu((rr[8]&&rr[8].data)||[]);var MI={};((rr[9]&&rr[9].data)||[]).forEach(function(x){(MI[x.email]=MI[x.email]||[]).push(x)});
-    var BI={},ME={},EX={};[[10,BI],[11,ME],[12,EX]].forEach(function(q){((rr[q[0]]&&rr[q[0]].data)||[]).forEach(function(x){(q[1][x.email]=q[1][x.email]||[]).push(x)})});
+    var BI={},ME={},EX={},PG={};modelesRendu((rr[14]&&rr[14].data)||[]);var ma=$('#rg-accueil');if(ma&&!ma.dataset.lu){ma.value=(rr[15]&&rr[15].data&&rr[15].data.donnees)||'';ma.dataset.lu=1}[[10,BI],[11,ME],[12,EX],[13,PG]].forEach(function(q){((rr[q[0]]&&rr[q[0]].data)||[]).forEach(function(x){(q[1][x.email]=q[1][x.email]||[]).push(x)})});
     var PR={};((rr[6]&&rr[6].data)||[]).forEach(function(x){(PR[x.email]=PR[x.email]||[]).push(x)});
     var PA={},pal=(rr[5]&&rr[5].data)||[];pal.forEach(function(x){(PA[x.email]=PA[x.email]||[]).push(x)});coPaieRendu(pal,(rr[0]&&rr[0].data)||[]);
     revoirRendu((rr[4]&&rr[4].data)||[],(rr[0]&&rr[0].data)||[]);
@@ -1814,7 +1825,7 @@ function coachRendu(){
     l.forEach(function(x){var f={};(x.etapes_faites||[]).forEach(function(id){f[id]=1});var m=EE[x.email]||{};Object.keys(m).forEach(function(id){if(m[id].coche)f[id]=1;else delete f[id]});x._f=f;x._m=m;
       x._n=Object.keys(f).filter(function(id){return ETAPES.some(function(e){return e.id===id})}).length;
       var dates=Object.keys(m).filter(function(id){return m[id].par==='eleve'||m[id].par==='auto'}).map(function(id){return Date.parse(m[id].quand)});if(RG[x.email])dates.push(Date.parse(RG[x.email].maj_le));
-      x._act=dates.length?Math.max.apply(null,dates):0;x._push=!!(RG[x.email]&&RG[x.email].push);x._pa=PA[x.email]||[];x._pr=PR[x.email]||[];x._mi=MI[x.email]||[];x._bi=BI[x.email]||[];x._me=ME[x.email]||[];x._ex=EX[x.email]||[];x._fo=(FO[x.email]||[]).sort(function(a,b){return a.module<b.module?-1:1});
+      x._act=dates.length?Math.max.apply(null,dates):0;x._push=!!(RG[x.email]&&RG[x.email].push);x._pa=PA[x.email]||[];x._pr=PR[x.email]||[];x._mi=MI[x.email]||[];x._bi=BI[x.email]||[];x._me=ME[x.email]||[];x._ex=EX[x.email]||[];x._pg=PG[x.email]||[];x._fo=(FO[x.email]||[]).sort(function(a,b){return a.module<b.module?-1:1});
       var fd=x._fo.filter(function(f){return f.fait_le}).sort(function(a,b){return Date.parse(b.fait_le)-Date.parse(a.fait_le)});x._foDer=fd[0]||null;
       var ref=x._foDer?Date.parse(x._foDer.fait_le):(x.date_debut?Date.parse(x.date_debut):0);
       x._foBloque=x.actif&&x._fo.length<MODULES.length&&ref>0&&Date.now()-ref>14*864e5;
@@ -1892,7 +1903,7 @@ function coCarte(x){
         '<label class="q"><span>Lien de signature de son contrat (DocuSeal, tant qu\'il n\'a pas signé)</span><input type="url" data-k="lien_contrat" placeholder="https://docuseal.com/s/…" value="'+esc(x.lien_contrat||'')+'"></label>'+
         '<label class="q"><span>Lien de son fichier de suivi (optionnel)</span><input type="url" data-k="lien_suivi" placeholder="https://docs.google.com/…" value="'+esc(x.lien_suivi||'')+'"></label>'+
         '<details class="co-et"><summary>Étapes « Démarrer » faites : '+Object.keys(x._f).length+'/'+ETAPES.length+'</summary><div class="chips">'+ETAPES.map(function(t){var m=x._m[t.id],qui=m?({eleve:'par l\'élève',auto:'par l\'app',coach:'par toi',verif:'vérification'}[m.par]||'')+' le '+new Date(m.quand).toLocaleDateString('fr-BE',{day:'numeric',month:'numeric'}):'';return '<label><input type="checkbox" data-et="'+esc(t.id)+'"'+(x._f[t.id]?' checked':'')+'><span>'+esc(t.t)+(qui?'<small class="co-qui">'+(m.coche?'Cochée ':'Décochée ')+esc(qui)+'</small>':'')+'</span></label>'}).join('')+'</div></details>'+
-        coMissions(x)+coSuivi(x)+coPaieEleve(x)+coPrepa(x)+
+        coMissions(x)+coProgramme(x)+coSuivi(x)+coPaieEleve(x)+coPrepa(x)+
         '<details class="co-msg"><summary class="co-et-s">Écrire un message dans son app</summary><div class="stack" style="margin-top:10px"><textarea data-k="msg" maxlength="500" placeholder="Il le verra dans ses notifications."></textarea><button class="btn ghost small" type="button" data-co="msg">Envoyer dans l\'app</button></div></details>'+
         '<div class="row"><button class="btn ghost" type="button" data-co="save">Enregistrer</button><button class="btn ghost" type="button" data-co="actif">'+(x.actif?'Désactiver':'Réactiver')+'</button></div></details></div>';
 }
@@ -1901,6 +1912,34 @@ function coBar(lab,n,t,ko){var p=t?Math.max(0,Math.min(100,Math.round(n/t*100)))
 function coBars(x){var sem=x._sem===null?0:Math.max(0,Math.min(x._sem,x.duree_sem||26));
   return '<div class="co-bars">'+coBar('Suivi',sem,x.duree_sem||26)+coBar('Démarrer',x._n,ETAPES.length)+coBar('Formation',x._fo.length,MODULES.length,x._foBloque)+'</div>'}
 
+
+/* Programme d'entraînement et semaine type nutrition (reco analyse des apps 27/11) : versions gardées, faux élèves seulement avant la bascule */
+var JRS=['L','M','M','J','V','S','D'];
+function pgExo(e){var v=function(k){return esc(e[k]===null||e[k]===undefined?'':String(e[k]))};return '<div class="pg-e"><input type="text" data-pe="n" placeholder="Exercice" value="'+v('n')+'" aria-label="Exercice"><input type="number" data-pe="s" placeholder="Séries" value="'+v('s')+'" inputmode="numeric" aria-label="Séries"><input type="text" data-pe="r" placeholder="Reps" value="'+v('r')+'" aria-label="Répétitions"><input type="number" data-pe="rir" placeholder="RIR" value="'+v('rir')+'" inputmode="numeric" aria-label="RIR"><input type="text" data-pe="reg" placeholder="Réglage machine, note" value="'+v('reg')+'" aria-label="Réglage machine"></div>'}
+function pgJour(j){return '<div class="pg-j"><input type="text" data-pj value="'+esc(j.nom||'')+'" aria-label="Nom du jour" style="font-weight:700"><div class="pg-exos">'+(j.exos||[]).map(pgExo).join('')+'</div><button class="lien" type="button" data-co="pg-exo">+ Exercice</button></div>'}
+function kcal(m){return Math.round(4*(m.p||0)+4*(m.g||0)+9*(m.l||0))}
+function coProgramme(x){var pg=x._pg||[];if(!x.test&&!pg.length)return '';
+  var e=pg.filter(function(p){return p.type==='entrainement'})[0],n=pg.filter(function(p){return p.type==='nutrition'})[0],nv=pg.filter(function(p){return p.type==='entrainement'}).length;
+  var c=(n&&n.contenu)||{on:{},off:{},jours:['on','on','off','on','on','off','off']},m=function(k,t){return '<input type="number" data-nu="'+k+t+'" value="'+esc(String((c[k]||{})[t]||''))+'" inputmode="numeric" aria-label="'+k+' '+t+'">'};
+  return '<details class="co-et"><summary>Programme et nutrition'+(e?' · v'+e.version:'')+(x.test?' (faux élève)':'')+'</summary>'+
+    '<p class="soft" style="font-size:12px;margin:8px 0 0">'+(e?esc(e.nom||'Programme')+' · version '+e.version+' du '+jourCourt(e.debut||e.cree_le)+(nv>1?' · '+(nv-1)+' version(s) précédente(s) gardée(s)':''):'Pas encore de programme.')+'</p>'+
+    '<div data-pg-ed>'+((e&&e.contenu.jours)||[{nom:'Jour 1',exos:[{}]}]).map(pgJour).join('')+'</div>'+
+    '<div class="row" style="margin-top:6px"><button class="btn ghost small" type="button" data-co="pg-jour">+ Jour</button><button class="btn ghost small" type="button" data-co="pg-save">Enregistrer une nouvelle version</button></div>'+
+    '<p class="soft" style="font-size:12px;margin:14px 0 0">Semaine type nutrition (jours ON = entraînement, OFF = repos). Les kcal se calculent depuis les macros.</p>'+
+    '<div class="nu-g"><span></span><span>Prot. (g)</span><span>Gluc. (g)</span><span>Lip. (g)</span><span>kcal</span><b>ON</b>'+m('on','p')+m('on','g')+m('on','l')+'<b>'+kcal(c.on||{})+'</b><b>OFF</b>'+m('off','p')+m('off','g')+m('off','l')+'<b>'+kcal(c.off||{})+'</b></div>'+
+    '<div class="nu-s">'+JRS.map(function(j,i){var on=(c.jours||[])[i]!=='off';return '<div>'+j+'<br><button type="button" data-co="nu-jour" class="'+(on?'':'off')+'">'+(on?'ON':'OFF')+'</button></div>'}).join('')+'</div>'+
+    '<button class="btn ghost small" type="button" data-co="nu-save" style="margin-top:8px">Enregistrer la semaine type</button></details>'}
+/* Réglages coach : message d'accueil (contenus « message-accueil ») et modèles de bilan */
+function modelesRendu(l){var box=$('#rg-modeles');if(!box)return;var F={hebdo:'Chaque semaine',bimensuel:'Toutes les 2 semaines',mensuel:'Chaque mois'};
+  box.innerHTML=l.map(function(m){return '<details class="rg-m" data-mo="'+m.id+'"><summary><b>'+esc(m.nom)+'</b> · '+(F[m.frequence]||m.frequence)+' · '+(m.questions||[]).length+' questions</summary>'+rgForm(m)+'</details>'}).join('')}
+function rgForm(m){var F={hebdo:'Chaque semaine',bimensuel:'Toutes les 2 semaines',mensuel:'Chaque mois'};return '<div class="stack" style="margin-top:8px;gap:6px"><input type="text" data-rg="nom" value="'+esc(m.nom||'')+'" placeholder="Nom du modèle" aria-label="Nom du modèle"><select data-rg="frequence" aria-label="Fréquence">'+Object.keys(F).map(function(k){return '<option value="'+k+'"'+(m.frequence===k?' selected':'')+'>'+F[k]+'</option>'}).join('')+'</select><textarea data-rg="questions" aria-label="Questions">'+esc((m.questions||[]).join('\n'))+'</textarea><button class="btn ghost small" type="button" data-rg-ok="'+(m.id||'')+'">Enregistrer le modèle</button></div>'}
+$('#rg-accueil-ok').addEventListener('click',function(){var t=$('#rg-accueil').value.trim();sb.from('contenus').upsert({cle:'message-accueil',mime:'text/plain',donnees:t,base64:false,maj_le:new Date().toISOString()}).then(function(r){toast(r&&r.error?'Erreur, réessaie':(t?'Message enregistré':'Message retiré'))})});
+$('#rg-nouveau').addEventListener('click',function(){var box=$('#rg-modeles');if($('[data-mo=""]',box))return;box.insertAdjacentHTML('beforeend','<details class="rg-m" data-mo="" open><summary><b>Nouveau modèle</b></summary>'+rgForm({frequence:'hebdo',questions:[]})+'</details>')});
+$('#rg-modeles').addEventListener('click',function(e){var b=e.target.closest('[data-rg-ok]');if(!b)return;var d=b.closest('.rg-m'),g=function(k){return $('[data-rg='+k+']',d).value.trim()};
+  var o={nom:g('nom'),frequence:g('frequence'),questions:g('questions').split('\n').map(function(q){return q.trim()}).filter(Boolean)};if(!o.nom||!o.questions.length){toast('Nom et au moins une question');return}
+  var id=b.getAttribute('data-rg-ok'),q=id?sb.from('modeles_bilan').update(o).eq('id',+id):sb.from('modeles_bilan').insert(o);q.then(function(r){toast(r&&r.error?'Erreur, réessaie':'Modèle enregistré');if(!(r&&r.error))coachRendu()})});
+function motCarte(){var c=$('#acc-mot');if(!c)return;c.hidden=true;if(!sb||MOI.role!=='eleve')return;
+  contenu('message-accueil').then(function(d){var t=(d&&d.donnees||'').trim();if(t){$('#acc-mot-t').textContent=t;c.hidden=false}},function(){})}
 /* ===== Suivi santé : FAUX ÉLÈVES SEULEMENT jusqu'à la bascule (Supabase Pro + consentement, décision de Leni 27/11).
    Tables bilans, mesures, executions : un déclencheur refuse toute ligne d'un vrai élève. ===== */
 function nb(n,d){return n===null||n===undefined?'–':(+n).toLocaleString('fr-BE',{maximumFractionDigits:d===undefined?1:d})}
@@ -1990,6 +2029,14 @@ $('#co-list').addEventListener('click',function(e){
     /* les coches changées par Leni sont aussi notées dans etapes_eleve (elles priment sur celles de l'élève) */
     var now=new Date().toISOString(),ch=$$('[data-et]',c).filter(function(i){return i.checked!==i.defaultChecked}).map(function(i){return {email:em,etape:i.getAttribute('data-et'),coche:i.checked,par:'coach',quand:now,message:null,lien:null}});
     if(ch.length)sb.from('etapes_eleve').upsert(ch).then(function(){},function(){})}
+  else if(b.getAttribute('data-co')==='pg-jour'){var pg=$('[data-pg-ed]',c);pg.insertAdjacentHTML('beforeend',pgJour({nom:'Nouveau jour',exos:[{}]}));return}
+  else if(b.getAttribute('data-co')==='pg-exo'){b.closest('.pg-j').querySelector('.pg-exos').insertAdjacentHTML('beforeend',pgExo({}));return}
+  else if(b.getAttribute('data-co')==='pg-save'){var jours=$$('.pg-j',c).map(function(j){return {nom:$('[data-pj]',j).value.trim()||'Jour',exos:$$('.pg-e',j).map(function(e){var g=function(k){return $('[data-pe='+k+']',e).value.trim()};return {n:g('n'),s:+g('s')||null,r:g('r'),rir:g('rir')===''?null:+g('rir'),reg:g('reg')}}).filter(function(e){return e.n})}});
+    var der=(CO.l.filter(function(y){return y.email===em})[0]._pg||[]).filter(function(p){return p.type==='entrainement'})[0];
+    sb.from('programmes').insert({email:em,type:'entrainement',nom:(der&&der.nom)||'Programme',version:((der&&der.version)||0)+1,debut:new Date().toISOString().slice(0,10),contenu:{jours:jours}}).then(function(r){toast(r&&r.error?'Erreur, réessaie':'Nouvelle version enregistrée');if(!(r&&r.error))coachRendu()});return}
+  else if(b.getAttribute('data-co')==='nu-jour'){b.textContent=b.textContent==='ON'?'OFF':'ON';b.classList.toggle('off');return}
+  else if(b.getAttribute('data-co')==='nu-save'){var gv=function(k){return +$('[data-nu='+k+']',c).value||0};var der2=(CO.l.filter(function(y){return y.email===em})[0]._pg||[]).filter(function(p){return p.type==='nutrition'})[0];
+    sb.from('programmes').insert({email:em,type:'nutrition',nom:'Semaine type',version:((der2&&der2.version)||0)+1,debut:new Date().toISOString().slice(0,10),contenu:{on:{p:gv('onp'),g:gv('ong'),l:gv('onl')},off:{p:gv('offp'),g:gv('offg'),l:gv('offl')},jours:$$('[data-co=nu-jour]',c).map(function(x){return x.textContent==='ON'?'on':'off'})}}).then(function(r){toast(r&&r.error?'Erreur, réessaie':'Semaine type enregistrée');if(!(r&&r.error))coachRendu()});return}
   else if(b.getAttribute('data-co')==='ex-cor'){var id=+b.getAttribute('data-ex'),ct=$('[data-exc="'+id+'"]',c).value.trim();if(!ct){toast('Écris ta correction');return}
     sb.from('executions').update({correction:ct,corrige_le:new Date().toISOString()}).eq('id',id).then(function(r){toast(r&&r.error?'Erreur, réessaie':'Correction envoyée');if(!(r&&r.error))coachRendu()});return}
   else if(b.getAttribute('data-co')==='ex-cmp'){var w=$('[data-cmp="'+b.getAttribute('data-ex')+'"]',c);if(w)w.hidden=!w.hidden;return}
