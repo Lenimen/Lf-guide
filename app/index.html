@@ -263,6 +263,7 @@ body.apercu main.view{padding-bottom:70px}
 .co-bars{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:6px 10px;align-items:center;margin:10px 0 4px;font-size:12px;color:var(--doux)}
 .co-bars i{display:block;height:6px;border-radius:3px;background:rgba(235,227,208,.15);overflow:hidden}.co-bars i em{display:block;height:100%;background:var(--creme)}.co-bars i em.ko{background:#E8B48A}
 .co-j{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:10px;align-items:center;padding:10px 0;border-top:1px solid var(--filet);font-size:14px}.co-j small{display:block;color:var(--doux);font-size:12px}
+.mi-l{display:flex;gap:10px;align-items:flex-start;padding:8px 0;border-top:1px solid var(--filet);font-size:15px}.mi-l:first-child{border-top:0}.mi-l input{width:20px;height:20px;flex:none;margin-top:2px;accent-color:#EBE3D0}
 .co-fin{font-size:13px;margin:4px 0 0;color:var(--doux)}.co-fin.ko{color:#E8B48A}
 .acc-suivi i{display:block;height:8px;border-radius:4px;background:rgba(235,227,208,.15);overflow:hidden}.acc-suivi i em{display:block;height:100%;background:var(--creme)}
 .co-gerer>summary{cursor:pointer;font-size:14px;font-weight:600;color:var(--creme);padding:8px 0}
@@ -496,9 +497,10 @@ body[data-role=coach] .tabs nav{grid-template-columns:repeat(3,1fr)}
   #v-coach>.co-barre{grid-row:6}
   #v-coach>#co-list{grid-row:7}
   #v-coach>#co-act{grid-row:8}
-  #v-coach>.co-vue{grid-column:1/3;grid-row:9}
-  #v-coach>#co-contenus{grid-column:3;grid-row:9}
-  #v-coach>p{grid-row:10}
+  #v-coach>#co-auto{grid-row:9}
+  #v-coach>.co-vue{grid-column:1/3;grid-row:10}
+  #v-coach>#co-contenus{grid-column:3;grid-row:10}
+  #v-coach>p{grid-row:11}
   .co-kpi{grid-template-columns:repeat(4,minmax(0,1fr))}
 }
 .tabs a.verrou{color:rgba(169,182,176,.55)}
@@ -568,6 +570,7 @@ footer{font-size:11px;color:var(--doux);text-align:center;padding-top:4px}
     </div>
 
     <div class="card acc-suivi" id="acc-suivi" hidden><div class="eyebrow">Ton suivi</div><h3 id="acc-suivi-t"></h3><div class="co-bars" id="acc-suivi-b" style="grid-template-columns:minmax(0,1fr) auto"></div><p class="soft" id="acc-suivi-p" style="font-size:14px;margin:6px 0 0"></p></div>
+    <div class="card" id="acc-missions" hidden><div class="eyebrow" id="acc-missions-t">Tes missions de la semaine</div><div id="acc-missions-l" style="margin-top:6px"></div></div>
     <div class="grid2">
       <a class="card visiteur-seul" href="#guides">
         <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 5a2 2 0 0 1 2-2h12v15H6a2 2 0 0 0-2 2z"/><path d="M4 20a2 2 0 0 1 2-2h12v3H6a2 2 0 0 1-2-1z"/></svg></span>
@@ -902,6 +905,7 @@ footer{font-size:11px;color:var(--doux);text-align:center;padding-top:4px}
     </div>
     <div class="stack" id="co-list"><p class="soft">Chargement…</p></div>
     <details class="card" id="co-act" hidden><summary class="eyebrow" style="cursor:pointer;margin:0">Activité récente</summary><div id="co-act-l" style="margin-top:8px"></div></details>
+    <details class="card" id="co-auto"><summary class="eyebrow" style="cursor:pointer;margin:0">Automatisations par semaine de suivi</summary><p class="soft" style="font-size:13px;margin:8px 0">Un message part tout seul dans l'app de chaque élève, la semaine choisie de son suivi. Rien ne part tant qu'une règle n'est pas activée.</p><div id="co-auto-l"></div><div class="pa-form" style="margin-top:10px"><input type="number" data-au="semaine" min="0" max="60" placeholder="Semaine" inputmode="numeric" aria-label="Semaine du suivi"><input type="text" data-au="lien" placeholder="Lien (ex. #formation)" aria-label="Lien"><input class="large" type="text" data-au="titre" maxlength="120" placeholder="Titre du message" aria-label="Titre"><input class="large" type="text" data-au="texte" maxlength="500" placeholder="Texte (optionnel)" aria-label="Texte"><button class="btn ghost small large" type="button" id="au-ajout">Ajouter la règle</button></div></details>
     <button class="btn block" type="button" id="co-ajout">+ Ajouter un élève</button>
     <form class="card co" id="co-form" novalidate hidden>
       <div class="eyebrow">Nouvel élève (ses infos, pas les tiennes)</div>
@@ -1152,6 +1156,30 @@ function suiviCarte(){var c=$('#acc-suivi');if(!c)return;c.hidden=true;var e=MOI
 function coFin(x){var f=finSuivi(x);if(!f||!x.actif)return '';var j=joursAvant(f);
   if(j<0)return '<p class="co-fin ko">Suivi terminé le '+dateFr(f)+' · à renouveler ou désactiver</p>';
   return '<p class="co-fin'+(j<=30?' ko':'')+'">Fin le '+dateFr(f)+' · dans '+j+' j'+(j<=30?' · renouvellement à préparer (50 €/mois autonomie ou 200 €/mois complet)':'')+'</p>'}
+/* Lundi de la semaine (décalage en jours), format AAAA-MM-JJ */
+function lundi(dec){var d=new Date();d.setHours(12,0,0,0);d.setDate(d.getDate()-((d.getDay()+6)%7)+(dec||0));return d.toISOString().slice(0,10)}
+/* Automatisations par semaine de suivi (go de Leni 27/11) : règles posées par Leni, envoyées chaque jour par lf_automatisations() en base */
+function autoRendu(l){var box=$('#co-auto-l');if(!box)return;
+  box.innerHTML=l.length?l.map(function(a){return '<div class="co-j"><span class="pa-s'+(a.actif?' ok':'')+'">S'+a.semaine+'</span><div><b>'+esc(a.titre)+'</b>'+(a.texte?'<small>'+esc(a.texte)+'</small>':'')+'</div><label style="font-size:13px;display:flex;gap:6px;align-items:center;white-space:nowrap"><input type="checkbox" data-au-actif="'+a.id+'"'+(a.actif?' checked':'')+'> Active</label></div>'}).join(''):'<p class="soft" style="margin:0">Aucune règle pour l\'instant.</p>'}
+document.addEventListener('change',function(e){var c=e.target.closest&&e.target.closest('[data-au-actif]');if(!c||MOI.role!=='coach')return;
+  sb.from('automatisations').update({actif:c.checked}).eq('id',+c.getAttribute('data-au-actif')).then(function(r){toast(r&&r.error?'Erreur, réessaie':(c.checked?'Règle activée':'Règle en pause'));if(!(r&&r.error))coachRendu()})});
+document.addEventListener('click',function(e){if(!(e.target.closest&&e.target.closest('#au-ajout'))||MOI.role!=='coach')return;var g=function(k){return $('[data-au='+k+']').value.trim()};
+  var se=parseInt(g('semaine'),10);if(isNaN(se)||!g('titre')){toast('Semaine et titre obligatoires');return}
+  sb.from('automatisations').insert({semaine:se,titre:g('titre'),texte:g('texte')||null,lien:g('lien')||null,actif:false}).then(function(r){toast(r&&r.error?'Erreur, réessaie':'Règle ajoutée (en pause)');if(!(r&&r.error))coachRendu()})});
+/* Missions de la semaine (go de Leni 27/11) : posées par Leni dans la fiche, cochées par l'élève sur son accueil */
+function coMissions(x){var l=(x._mi||[]).filter(function(m){return m.semaine_du===lundi(0)}),av=(x._mi||[]).filter(function(m){return m.semaine_du===lundi(-7)});
+  var fa=av.filter(function(m){return m.fait_le}).length;
+  return '<details class="co-et"><summary>Missions de la semaine : '+(l.length?l.filter(function(m){return m.fait_le}).length+'/'+l.length+' faites':'aucune')+(av.length?' · semaine passée '+fa+'/'+av.length:'')+'</summary><div style="margin-top:8px">'+
+    l.map(function(m){return '<p class="soft" style="font-size:13px;margin:4px 0">'+(m.fait_le?'✓ ':'○ ')+esc(m.texte)+' <button class="lien" type="button" data-mi-suppr="'+m.id+'">Retirer</button></p>'}).join('')+
+    '<div class="pa-form" style="margin-top:8px"><input class="large" type="text" data-mi="texte" maxlength="160" placeholder="Nouvelle mission (ex. 3 photos lundi matin)" aria-label="Mission"><button class="btn ghost small large" type="button" data-co="mi-ajout">Ajouter la mission</button></div></div></details>'}
+document.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('[data-mi-suppr]');if(!b||MOI.role!=='coach')return;
+  sb.from('missions').delete().eq('id',+b.getAttribute('data-mi-suppr')).then(function(r){toast(r&&r.error?'Erreur, réessaie':'Mission retirée');if(!(r&&r.error))coachRendu()})});
+function missionsCarte(){var c=$('#acc-missions');if(!c)return;c.hidden=true;if(!sb||MOI.role!=='eleve'||!MOI.email)return;
+  sb.from('missions').select('id,texte,fait_le').eq('email',MOI.email).eq('semaine_du',lundi(0)).order('id').then(function(r){var l=(r&&r.data)||[];if(!l.length)return;c.hidden=false;
+    var n=l.filter(function(m){return m.fait_le}).length;$('#acc-missions-t').textContent='Tes missions de la semaine · '+n+'/'+l.length;
+    $('#acc-missions-l').innerHTML=l.map(function(m){return '<label class="mi-l"><input type="checkbox" data-mi-fait="'+m.id+'"'+(m.fait_le?' checked':'')+'><span>'+esc(m.texte)+'</span></label>'}).join('')})}
+document.addEventListener('change',function(e){var c=e.target.closest&&e.target.closest('[data-mi-fait]');if(!c||MOI.role!=='eleve')return;
+  sb.from('missions').update({fait_le:c.checked?new Date().toISOString():null}).eq('id',+c.getAttribute('data-mi-fait')).then(function(r){toast(r&&r.error?'Erreur, réessaie':(c.checked?'Mission faite':'Mission à refaire'));if(!(r&&r.error))missionsCarte()})});
 function prepaCarte(){var c=$('#acc-prepa');if(!c)return;c.hidden=true;if(!sb||MOI.role!=='eleve'||!MOI.email)return;
   sb.from('prepa_etapes').select('jour,scene').eq('email',MOI.email).then(function(r){var l=(r&&r.data)||[];if(!l.length)return;c.hidden=false;
     var sc=l.filter(function(x){return x.scene})[0];if(sc){var j=jSemaines(sc.jour);$('#acc-prepa-d').textContent=j>0?'Jour J dans '+(j>13?Math.round(j/7)+' semaines':j+' jours'):(j===0?'C\'est aujourd\'hui':'Jour J passé')}})}
@@ -1545,7 +1573,7 @@ function majSession(){
   }).catch(function(){}).then(appliquerRole);
 }
 function appliquerRole(){
-  var w=$('#who-link');document.body.dataset.role=MOI.role;prepaCarte();suiviCarte();renderMotifs();
+  var w=$('#who-link');document.body.dataset.role=MOI.role;prepaCarte();suiviCarte();missionsCarte();renderMotifs();
   if(MOI.role==='coach'&&['','#','#accueil','#appel','#demarrer','#formation','#ressources'].indexOf(location.hash)>=0)location.hash='#coach';
   document.body.classList.toggle('apercu',!!(APERCU&&MOI.vrai==='coach'));$('#apercu').hidden=!(APERCU&&MOI.vrai==='coach');
   if(APERCU&&MOI.vrai==='coach')$('#apercu-t').textContent='Aperçu '+(APERCU.role==='visiteur'?'visiteur':'élève · '+((MOI.eleve&&MOI.eleve.prenom)||APERCU.email||'type'))+' · lecture seule';
@@ -1762,7 +1790,8 @@ navigator.serviceWorker&&navigator.serviceWorker.addEventListener&&navigator.ser
 /* Espace coach */
 function coachRendu(){
   var box=$('#co-list');if(!sb)return;
-  Promise.all([sb.from('eleves').select('*').order('actif',{ascending:false}).order('cree_le',{ascending:false}),sb.from('etapes_eleve').select('email,etape,coche,par,quand'),sb.from('reglages').select('email,push,maj_le'),sb.from('formation_eleve').select('email,module,fait_le,envoye_le'),sb.from('formation_envois').select('id,email,lecon,texte,envoye_le,vu_le').is('vu_le',null).order('envoye_le'),sb.from('paiements').select('id,email,echeance,montant,moyen,paye_le,lien').order('echeance'),sb.from('prepa_etapes').select('id,email,jour,titre,detail,scene,fait').order('jour'),sb.from('demandes_appel').select('id,email,motif,reponses,cree_le').is('traite_le',null).order('cree_le')]).then(function(rr){
+  Promise.all([sb.from('eleves').select('*').order('actif',{ascending:false}).order('cree_le',{ascending:false}),sb.from('etapes_eleve').select('email,etape,coche,par,quand'),sb.from('reglages').select('email,push,maj_le'),sb.from('formation_eleve').select('email,module,fait_le,envoye_le'),sb.from('formation_envois').select('id,email,lecon,texte,envoye_le,vu_le').is('vu_le',null).order('envoye_le'),sb.from('paiements').select('id,email,echeance,montant,moyen,paye_le,lien').order('echeance'),sb.from('prepa_etapes').select('id,email,jour,titre,detail,scene,fait').order('jour'),sb.from('demandes_appel').select('id,email,motif,reponses,cree_le').is('traite_le',null).order('cree_le'),sb.from('automatisations').select('id,semaine,titre,texte,lien,actif').order('semaine'),sb.from('missions').select('id,email,semaine_du,texte,fait_le').gte('semaine_du',lundi(-7)).order('id')]).then(function(rr){
+    autoRendu((rr[8]&&rr[8].data)||[]);var MI={};((rr[9]&&rr[9].data)||[]).forEach(function(x){(MI[x.email]=MI[x.email]||[]).push(x)});
     var PR={};((rr[6]&&rr[6].data)||[]).forEach(function(x){(PR[x.email]=PR[x.email]||[]).push(x)});
     var PA={},pal=(rr[5]&&rr[5].data)||[];pal.forEach(function(x){(PA[x.email]=PA[x.email]||[]).push(x)});coPaieRendu(pal,(rr[0]&&rr[0].data)||[]);
     revoirRendu((rr[4]&&rr[4].data)||[],(rr[0]&&rr[0].data)||[]);
@@ -1774,7 +1803,7 @@ function coachRendu(){
     l.forEach(function(x){var f={};(x.etapes_faites||[]).forEach(function(id){f[id]=1});var m=EE[x.email]||{};Object.keys(m).forEach(function(id){if(m[id].coche)f[id]=1;else delete f[id]});x._f=f;x._m=m;
       x._n=Object.keys(f).filter(function(id){return ETAPES.some(function(e){return e.id===id})}).length;
       var dates=Object.keys(m).filter(function(id){return m[id].par==='eleve'||m[id].par==='auto'}).map(function(id){return Date.parse(m[id].quand)});if(RG[x.email])dates.push(Date.parse(RG[x.email].maj_le));
-      x._act=dates.length?Math.max.apply(null,dates):0;x._push=!!(RG[x.email]&&RG[x.email].push);x._pa=PA[x.email]||[];x._pr=PR[x.email]||[];x._fo=(FO[x.email]||[]).sort(function(a,b){return a.module<b.module?-1:1});
+      x._act=dates.length?Math.max.apply(null,dates):0;x._push=!!(RG[x.email]&&RG[x.email].push);x._pa=PA[x.email]||[];x._pr=PR[x.email]||[];x._mi=MI[x.email]||[];x._fo=(FO[x.email]||[]).sort(function(a,b){return a.module<b.module?-1:1});
       var fd=x._fo.filter(function(f){return f.fait_le}).sort(function(a,b){return Date.parse(b.fait_le)-Date.parse(a.fait_le)});x._foDer=fd[0]||null;
       var ref=x._foDer?Date.parse(x._foDer.fait_le):(x.date_debut?Date.parse(x.date_debut):0);
       x._foBloque=x.actif&&x._fo.length<MODULES.length&&ref>0&&Date.now()-ref>14*864e5;
@@ -1852,7 +1881,7 @@ function coCarte(x){
         '<label class="q"><span>Lien de signature de son contrat (DocuSeal, tant qu\'il n\'a pas signé)</span><input type="url" data-k="lien_contrat" placeholder="https://docuseal.com/s/…" value="'+esc(x.lien_contrat||'')+'"></label>'+
         '<label class="q"><span>Lien de son fichier de suivi (optionnel)</span><input type="url" data-k="lien_suivi" placeholder="https://docs.google.com/…" value="'+esc(x.lien_suivi||'')+'"></label>'+
         '<details class="co-et"><summary>Étapes « Démarrer » faites : '+Object.keys(x._f).length+'/'+ETAPES.length+'</summary><div class="chips">'+ETAPES.map(function(t){var m=x._m[t.id],qui=m?({eleve:'par l\'élève',auto:'par l\'app',coach:'par toi',verif:'vérification'}[m.par]||'')+' le '+new Date(m.quand).toLocaleDateString('fr-BE',{day:'numeric',month:'numeric'}):'';return '<label><input type="checkbox" data-et="'+esc(t.id)+'"'+(x._f[t.id]?' checked':'')+'><span>'+esc(t.t)+(qui?'<small class="co-qui">'+(m.coche?'Cochée ':'Décochée ')+esc(qui)+'</small>':'')+'</span></label>'}).join('')+'</div></details>'+
-        coPaieEleve(x)+coPrepa(x)+
+        coMissions(x)+coPaieEleve(x)+coPrepa(x)+
         '<details class="co-msg"><summary class="co-et-s">Écrire un message dans son app</summary><div class="stack" style="margin-top:10px"><textarea data-k="msg" maxlength="500" placeholder="Il le verra dans ses notifications."></textarea><button class="btn ghost small" type="button" data-co="msg">Envoyer dans l\'app</button></div></details>'+
         '<div class="row"><button class="btn ghost" type="button" data-co="save">Enregistrer</button><button class="btn ghost" type="button" data-co="actif">'+(x.actif?'Désactiver':'Réactiver')+'</button></div></details></div>';
 }
@@ -1892,6 +1921,8 @@ $('#co-list').addEventListener('click',function(e){
     /* les coches changées par Leni sont aussi notées dans etapes_eleve (elles priment sur celles de l'élève) */
     var now=new Date().toISOString(),ch=$$('[data-et]',c).filter(function(i){return i.checked!==i.defaultChecked}).map(function(i){return {email:em,etape:i.getAttribute('data-et'),coche:i.checked,par:'coach',quand:now,message:null,lien:null}});
     if(ch.length)sb.from('etapes_eleve').upsert(ch).then(function(){},function(){})}
+  else if(b.getAttribute('data-co')==='mi-ajout'){var mt=$('[data-mi=texte]',c).value.trim();if(!mt){toast('Écris la mission');return}
+    sb.from('missions').insert({email:em,semaine_du:lundi(0),texte:mt}).then(function(r){toast(r&&r.error?'Erreur, réessaie':'Mission ajoutée');if(!(r&&r.error))coachRendu()});return}
   else if(b.getAttribute('data-co')==='pr-ajout'){var g2=function(k){return $('[data-pr='+k+']',c).value.trim()};
     if(!g2('jour')||!g2('titre')){toast('Date et titre obligatoires');return}
     sb.from('prepa_etapes').insert({email:em,jour:g2('jour'),titre:g2('titre'),detail:g2('detail')||null,scene:g2('scene')==='1'}).then(function(r){toast(r&&r.error?'Erreur, réessaie':'Étape ajoutée');if(!(r&&r.error))coachRendu()});return}
