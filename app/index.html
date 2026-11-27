@@ -260,6 +260,9 @@ body.apercu main.view{padding-bottom:70px}
 .co-kpi button{all:unset;cursor:pointer;display:grid;gap:6px;padding:14px;border-radius:16px;background:var(--lueur);border:1px solid var(--filet);min-width:0}
 .co-kpi b{font-size:28px;line-height:1;font-weight:800;color:var(--creme)}.co-kpi span{font-size:12px;color:var(--doux);letter-spacing:.02em}
 .co-kpi .alerte b{color:#E8B48A}.co-kpi i{display:block;height:5px;border-radius:3px;background:rgba(235,227,208,.15);overflow:hidden}.co-kpi i em{display:block;height:100%;background:var(--creme)}
+.su-mode{display:flex;gap:6px}.su-mode button{all:unset;cursor:pointer;padding:6px 12px;border-radius:999px;border:1px solid var(--filet);font-size:13px}.su-mode button.on{background:var(--creme);color:#192E33;font-weight:700}
+.su-n5{display:flex;gap:6px}.su-n5 button{all:unset;cursor:pointer;width:38px;height:38px;border-radius:10px;border:1px solid var(--filet);display:grid;place-items:center;font-weight:700}.su-n5 button.on{background:var(--creme);color:#192E33}
+.su-reste{font-size:13px;color:var(--doux)}.su-bulle{margin-top:6px;font-size:13px;background:rgba(235,227,208,.06);border-radius:10px;padding:8px 10px}.su-bulle p{margin:4px 0 0}
 .pg-j{border-top:1px solid var(--filet);padding:8px 0}.pg-e{display:grid;grid-template-columns:minmax(0,3fr) repeat(3,minmax(0,1fr));gap:6px;margin-top:6px}.pg-e input{min-width:0;appearance:none;-webkit-appearance:none}.pg-e [data-pe=reg]{grid-column:1/-1}
 .nu-g{display:grid;grid-template-columns:auto repeat(3,minmax(0,1fr)) auto;gap:6px;align-items:center;font-size:12px;margin-top:8px}.nu-g input{min-width:0;appearance:none;-webkit-appearance:none}.nu-s{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px;margin-top:8px;text-align:center;font-size:11px;color:var(--doux)}.nu-s button{all:unset;cursor:pointer;padding:6px 0;border-radius:8px;background:var(--creme);color:#192E33;font-weight:700;font-size:11px;text-align:center}.nu-s button.off{background:transparent;color:var(--creme);border:1px solid var(--filet)}
 .rg-m{border-top:1px solid var(--filet);padding:8px 0}.rg-m textarea{min-height:140px}
@@ -430,6 +433,8 @@ main.view>.back{display:none} /* remplacé par la flèche retour de l'en-tête *
 .grid2>*{min-width:0}
 .q>span,.q legend{font-size:14px;font-weight:600;padding:0}
 .q input[type=file]{width:100%;min-width:0;max-width:100%;font-size:14px;color:var(--doux)}
+.pg-e input,.nu-g input,[data-pj],[data-exc],#su-poids,#rg-modeles input,#rg-modeles select,#rg-modeles textarea,[data-mi=texte]{width:100%;min-width:0;max-width:100%;font:inherit;font-size:16px;color:var(--creme);background:rgba(0,0,0,.22);border:1px solid var(--filet);border-radius:10px;padding:9px 11px;appearance:none;-webkit-appearance:none}
+.nu-g input{padding:7px 8px}
 .q input[type=text],.q input[type=email],.q textarea{width:100%;min-width:0;max-width:100%;font:inherit;font-size:16px;color:var(--creme);background:rgba(0,0,0,.22);border:1px solid var(--filet);border-radius:12px;padding:12px 14px}
 .q textarea{min-height:84px;resize:vertical}
 .q input:focus,.q textarea:focus{outline:none;border-color:rgba(235,227,208,.6)}
@@ -582,6 +587,7 @@ footer{font-size:11px;color:var(--doux);text-align:center;padding-top:4px}
     </div>
 
     <div class="card acc-suivi" id="acc-suivi" hidden><div class="eyebrow">Ton suivi</div><h3 id="acc-suivi-t"></h3><div class="co-bars" id="acc-suivi-b" style="grid-template-columns:minmax(0,1fr) auto"></div><p class="soft" id="acc-suivi-p" style="font-size:14px;margin:6px 0 0"></p></div>
+    <a class="card" id="acc-suivi-app" href="#suivi" hidden style="display:block;text-decoration:none;color:inherit"><div class="eyebrow">Aperçu · faux élève</div><h3 style="margin:4px 0">Mon suivi</h3><p class="soft" style="margin:0;font-size:14px">Bilan, programme, nutrition et poids, tels que les élèves les verront à la bascule.</p></a>
     <div class="card" id="acc-mot" hidden><div class="eyebrow">Le mot de Leni</div><p id="acc-mot-t" style="margin:6px 0 0;white-space:pre-wrap;font-size:15px;line-height:1.5"></p></div>
     <div class="card" id="acc-missions" hidden><div class="eyebrow" id="acc-missions-t">Tes missions de la semaine</div><div id="acc-missions-l" style="margin-top:6px"></div></div>
     <div class="grid2">
@@ -994,6 +1000,14 @@ footer{font-size:11px;color:var(--doux);text-align:center;padding-top:4px}
   </main>
 
   <!-- ============ TA PRÉPA COMPÉTITION (élève, lecture seule) ============ -->
+  <main class="view" id="v-suivi" hidden>
+    <div class="page-head">
+      <div class="eyebrow">Espace élève · Aperçu</div>
+      <h1>Mon suivi</h1>
+      <p class="lede">Ton bilan, ton programme, ta nutrition et ton poids au même endroit.</p>
+    </div>
+    <div id="su-body" class="stack"></div>
+  </main>
   <main class="view" id="v-prepa" hidden>
     <div class="page-head">
       <div class="eyebrow">Espace élève · Compétition</div>
@@ -1558,7 +1572,7 @@ satisRendu();
 /* ================= COMPTES : visiteur / élève / coach ================= */
 /* Ressources natives : vue = nom, contenu = fiche-<nom>.html dans Supabase. Le PDF se fabrique depuis la page (bouton Télécharger en PDF). */
 var FICHES={tuto:{t:"Tuto de l'app"},vacuum:{t:'Ressource vacuum'},cheatmeals:{t:'Ressource cheat meals',cle:'cheat-meals'}};
-var VUES_ELEVE=['prepa','paiements','demarrer','formation','ressources','bikini','echauffement','parrainage','notifs','parametres'].concat(Object.keys(FICHES));
+var VUES_ELEVE=['suivi','prepa','paiements','demarrer','formation','ressources','bikini','echauffement','parrainage','notifs','parametres'].concat(Object.keys(FICHES));
 var sb=null,apresCx=null;
 if(SUPA.url&&SUPA.anon){MOI.role='visiteur';if(window.supabase){try{sb=window.supabase.createClient(SUPA.url,SUPA.anon,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}})}catch(e){sb=null}}}
 function aAcces(){return MOI.role==='eleve'||MOI.role==='coach'||MOI.role==='ouvert'}
@@ -1587,14 +1601,14 @@ function majSession(){
         MOI.role='eleve';
         if(!APERCU.email){MOI.email=null;MOI.eleve={prenom:'Élève type',date_debut:null,duree_sem:26,lien_suivi:null,lien_contrat:null,etapes_faites:[]};return}
         MOI.email=APERCU.email;}
-      if(MOI.role==='eleve')return sb.from('eleves').select('prenom,date_debut,duree_sem,lien_suivi,lien_contrat,etapes_faites').eq('email',MOI.email).maybeSingle().then(function(e){MOI.eleve=e.data||null;
+      if(MOI.role==='eleve')return sb.from('eleves').select('prenom,date_debut,duree_sem,lien_suivi,lien_contrat,etapes_faites,test').eq('email',MOI.email).maybeSingle().then(function(e){MOI.eleve=e.data||null;
         var f=(MOI.eleve&&MOI.eleve.etapes_faites)||[],chg=0;f.forEach(function(id){if(!done[id]){done[id]=1;chg=1}});if(chg){store('lf-onboarding',done);renderSteps(false)}
         return chargerEtapes()});
     }).then(function(){if(MOI.role==='eleve'||MOI.role==='coach')return chargerLiens()});
   }).catch(function(){}).then(appliquerRole);
 }
 function appliquerRole(){
-  var w=$('#who-link');document.body.dataset.role=MOI.role;prepaCarte();suiviCarte();missionsCarte();motCarte();renderMotifs();
+  var w=$('#who-link');document.body.dataset.role=MOI.role;prepaCarte();suiviCarte();missionsCarte();motCarte();var sa=$('#acc-suivi-app');if(sa)sa.hidden=!(MOI.role==='eleve'&&MOI.eleve&&MOI.eleve.test);renderMotifs();
   if(MOI.role==='coach'&&['','#','#accueil','#appel','#demarrer','#formation','#ressources'].indexOf(location.hash)>=0)location.hash='#coach';
   document.body.classList.toggle('apercu',!!(APERCU&&MOI.vrai==='coach'));$('#apercu').hidden=!(APERCU&&MOI.vrai==='coach');
   if(APERCU&&MOI.vrai==='coach')$('#apercu-t').textContent='Aperçu '+(APERCU.role==='visiteur'?'visiteur':'élève · '+((MOI.eleve&&MOI.eleve.prenom)||APERCU.email||'type'))+' · lecture seule';
@@ -1940,6 +1954,44 @@ $('#rg-modeles').addEventListener('click',function(e){var b=e.target.closest('[d
   var id=b.getAttribute('data-rg-ok'),q=id?sb.from('modeles_bilan').update(o).eq('id',+id):sb.from('modeles_bilan').insert(o);q.then(function(r){toast(r&&r.error?'Erreur, réessaie':'Modèle enregistré');if(!(r&&r.error))coachRendu()})});
 function motCarte(){var c=$('#acc-mot');if(!c)return;c.hidden=true;if(!sb||MOI.role!=='eleve')return;
   contenu('message-accueil').then(function(d){var t=(d&&d.donnees||'').trim();if(t){$('#acc-mot-t').textContent=t;c.hidden=false}},function(){})}
+
+/* « Mon suivi » côté élève : construit maintenant, visible SEULEMENT par les faux élèves (eleves.test) jusqu'à la bascule.
+   Reco analyse des apps (27/11) : mode Normal par défaut / Avancé en option, « il te reste X », nutrition masquée tant que Leni n'a pas fixé les calories,
+   corrections des semaines passées dans une bulle sur chaque exercice, bouton « Filmer mon exécution ». */
+function suMode(){return store('lf-mode')==='avance'?'avance':'normal'}
+function suiviRendu(){var box=$('#su-body');if(!box)return;
+  if(!(MOI.role==='eleve'&&MOI.eleve&&MOI.eleve.test&&MOI.email)){box.innerHTML='<div class="card"><p class="soft" style="margin:0">Ton suivi arrive bientôt dans l\'app. En attendant, il reste dans ton app de suivi habituelle.</p></div>';return}
+  box.innerHTML='<p class="soft">Chargement…</p>';var em=MOI.email;
+  Promise.all([sb.from('modeles_bilan').select('*').order('id'),sb.from('programmes').select('*').eq('email',em).order('version',{ascending:false}),sb.from('executions').select('*').eq('email',em).order('cree_le',{ascending:false}),sb.from('mesures').select('*').eq('email',em).order('jour'),sb.from('bilans').select('id,semaine_du').eq('email',em).gte('semaine_du',lundi(0))]).then(function(r){
+    var mo=((r[0].data||[])[0])||{questions:[]},pg=r[1].data||[],ex=r[2].data||[],me=r[3].data||[],fait=(r[4].data||[]).length>0,av=suMode()==='avance';
+    var pe=pg.filter(function(p){return p.type==='entrainement'})[0],pn=pg.filter(function(p){return p.type==='nutrition'})[0];
+    var qs=(mo.questions||[]).filter(function(q){return av||!/digestion|faim|satiété|fc repos/i.test(q)});
+    var champ=function(q,i){var t=/\(1-5\)/.test(q)?'n5':(/\((photo|vidéo)\)/.test(q)?'f':(/\((kg|%)\)|séances|pas par|minutes/i.test(q)?'nb':'tx'));
+      return '<label class="q" data-sq="'+i+'" data-t="'+t+'"><span>'+esc(q.replace(/\s*\((1-5|photo|vidéo)\)/,''))+'</span>'+
+        (t==='n5'?'<div class="su-n5">'+[1,2,3,4,5].map(function(n){return '<button type="button" data-n5="'+n+'">'+n+'</button>'}).join('')+'</div>':t==='f'?'<input type="file" accept="'+(/vidéo/.test(q)?'video/*':'image/*')+'" multiple>':t==='nb'?'<input type="text" inputmode="decimal" placeholder="Ex. 79,2">':'<textarea maxlength="600"></textarea>')+'</label>'};
+    var bil='<div class="card"><div class="eyebrow">Bilan de la semaine'+(fait?' · envoyé ✓':'')+'</div>'+(fait?'<p class="soft" style="margin:6px 0 0">Leni te répond en vidéo sous 24 h.</p>':'<p class="su-reste" id="su-reste"></p><div class="stack" id="su-form">'+qs.map(champ).join('')+'</div><button class="btn" type="button" id="su-envoi" style="margin-top:10px">Envoyer mon bilan à Leni</button>')+'</div>';
+    var cor=function(n){var l=ex.filter(function(e){return e.exercice===n&&(e.correction||e.synthese)});if(!l.length)return '';return '<details class="su-bulle"><summary>💬 '+l.length+' correction'+(l.length>1?'s':'')+' des semaines passées</summary>'+l.map(function(e){return '<p><small class="soft">'+jourCourt(e.cree_le)+'</small> '+esc(e.correction||'')+(e.synthese?' <span class="soft">· résumé : '+esc(e.synthese)+'</span>':'')+'</p>'}).join('')+'</details>'};
+    var prog='<div class="card"><div class="eyebrow">Mon programme'+(pe?' · v'+pe.version:'')+'</div>'+(pe?(pe.contenu.jours||[]).map(function(j){return '<details class="co-et"><summary>'+esc(j.nom)+'</summary>'+(j.exos||[]).map(function(e){return '<div class="su-ex"><b>'+esc(e.n)+'</b><div class="soft" style="font-size:13px">'+(e.s||'–')+' × '+esc(e.r||'–')+(av&&e.rir!==null&&e.rir!==undefined?' · RIR '+e.rir:'')+(av&&e.reg?' · '+esc(e.reg):'')+'</div>'+cor(e.n)+'<label class="lien" style="cursor:pointer;display:inline-block;margin-top:6px"><input type="file" accept="video/*" capture="environment" hidden data-film="'+esc(e.n)+'">🎥 Filmer mon exécution</label></div>'}).join('')+'</details>'}).join(''):'<p class="soft" style="margin:6px 0 0">Leni prépare ton programme.</p>')+'</div>';
+    var nut;if(!pn)nut='<div class="card"><div class="eyebrow">Ma nutrition</div><p class="soft" style="margin:6px 0 0">Leni fixe tes calories à ton premier bilan. Ta nutrition s\'affichera ici.</p></div>';
+    else{var c=pn.contenu,jd=(new Date().getDay()+6)%7,on=(c.jours||[])[jd]!=='off',m=on?c.on:c.off;
+      nut='<div class="card"><div class="eyebrow">Ma nutrition · aujourd\'hui jour '+(on?'ON':'OFF')+'</div><div class="bi-k" style="margin-top:8px"><span>Calories<b>'+kcal(m)+'</b></span><span>Protéines<b>'+m.p+' g</b></span><span>Glucides<b>'+m.g+' g</b></span><span>Lipides<b>'+m.l+' g</b></span></div><div class="nu-s">'+JRS.map(function(j,i){var o=(c.jours||[])[i]!=='off';return '<div>'+j+'<br><button type="button" tabindex="-1" class="'+(o?'':'off')+'"'+(i===jd?' style="outline:2px solid var(--creme)"':'')+'>'+(o?'ON':'OFF')+'</button></div>'}).join('')+'</div></div>'}
+    var po=me.filter(function(x){return x.poids}).map(function(x){return {d:x.jour,v:x.poids}});
+    var poids='<div class="card"><div class="eyebrow">Mon poids</div>'+(po.length>1?courbe(po,'Ta courbe de poids'):'<p class="soft" style="margin:6px 0 0">Ta courbe apparaît dès 2 pesées.</p>')+'<div class="row"><input type="text" id="su-poids" inputmode="decimal" placeholder="Poids du jour (kg)" aria-label="Poids du jour"><button class="btn ghost small" type="button" id="su-poids-ok">Ajouter</button></div></div>';
+    box.innerHTML='<div class="su-mode" role="group" aria-label="Affichage"><button type="button" data-mode="normal" class="'+(av?'':'on')+'">Normal</button><button type="button" data-mode="avance" class="'+(av?'on':'')+'">Avancé</button></div>'+bil+prog+nut+poids;
+    suReste()})}
+function suReste(){var r=$('#su-reste');if(!r)return;var n=$$('#su-form [data-sq]').filter(function(l){var t=l.getAttribute('data-t');if(t==='n5')return !$('.on',l);var i=$('input,textarea',l);return t==='f'?!(i.files&&i.files.length):!i.value.trim()}).length;r.textContent=n?'Il te reste '+n+' réponse'+(n>1?'s':'')+' à remplir.':'Tout est rempli, tu peux envoyer.'}
+$('#su-body').addEventListener('input',suReste);
+$('#su-body').addEventListener('change',function(e){suReste();var f=e.target.closest('[data-film]');if(f&&f.files&&f.files[0]){
+  sb.from('executions').insert({email:MOI.email,exercice:f.getAttribute('data-film'),note:'Vidéo filmée depuis la séance'}).then(function(r){toast(r&&r.error?'Erreur, réessaie':'Vidéo envoyée à Leni (aperçu : le fichier sera envoyé à la bascule)');if(!(r&&r.error))suiviRendu()})}});
+$('#su-body').addEventListener('click',function(e){var m=e.target.closest('[data-mode]');if(m){store('lf-mode',m.getAttribute('data-mode'));suiviRendu();return}
+  var n=e.target.closest('[data-n5]');if(n){$$('[data-n5]',n.parentNode).forEach(function(b){b.classList.toggle('on',b===n)});suReste();return}
+  if(e.target.id==='su-poids-ok'){var v=parseFloat(($('#su-poids').value||'').replace(',','.'));if(!(v>30&&v<300)){toast('Écris ton poids en kg');return}
+    sb.from('mesures').insert({email:MOI.email,jour:new Date().toISOString().slice(0,10),poids:v}).then(function(r){toast(r&&r.error?'Erreur, réessaie':'Poids ajouté');if(!(r&&r.error))suiviRendu()});return}
+  if(e.target.id==='su-envoi'){var o={email:MOI.email,semaine_du:lundi(0)},rep=[];
+    $$('#su-form [data-sq]').forEach(function(l){var q=$('span',l).textContent,t=l.getAttribute('data-t'),v=t==='n5'?(($('.on',l)||{}).textContent||''):(t==='f'?'':($('input,textarea',l).value||'').trim());if(!v)return;rep.push(q+' : '+v);
+      var nb=parseFloat(v.replace(',','.'));if(/^poids/i.test(q))o.poids=nb;else if(/^séances/i.test(q))o.seances=parseInt(v,10);else if(/^diète/i.test(q))o.diete=parseInt(v,10);else if(/^énergie/i.test(q))o.energie=+v;else if(/^sommeil/i.test(q))o.sommeil=+v;else if(/^faim/i.test(q))o.faim=+v});
+    if(!rep.length){toast('Remplis au moins une réponse');return}o.ressenti=rep.join('\n');
+    sb.from('bilans').insert(o).then(function(r){toast(r&&r.error?'Erreur, réessaie':'Bilan envoyé à Leni');if(!(r&&r.error))suiviRendu()})}});
 /* ===== Suivi santé : FAUX ÉLÈVES SEULEMENT jusqu'à la bascule (Supabase Pro + consentement, décision de Leni 27/11).
    Tables bilans, mesures, executions : un déclencheur refuse toute ligne d'un vrai élève. ===== */
 function nb(n,d){return n===null||n===undefined?'–':(+n).toLocaleString('fr-BE',{maximumFractionDigits:d===undefined?1:d})}
@@ -2141,7 +2193,7 @@ $('#ech-zones').addEventListener('click',function(e){
 /* Navigation */
 /* Outils publics : vue = nom, fichier servi dans guides/ */
 var OUTILS={mensurations:'mensurations.html',potentiel:'potentiel.html',posing:'posing.html'};
-var VUES=['prepa','paiements','accueil','appel','guides','contact','demarrer','formation','ressources','bikini','echauffement','parrainage','connexion','coach','notifs','parametres'].concat(Object.keys(FICHES),Object.keys(OUTILS));
+var VUES=['suivi','prepa','paiements','accueil','appel','guides','contact','demarrer','formation','ressources','bikini','echauffement','parrainage','connexion','coach','notifs','parametres'].concat(Object.keys(FICHES),Object.keys(OUTILS));
 var TAB_DE={guides:'accueil',contact:'accueil',bikini:'ressources',echauffement:'ressources',parrainage:'ressources',coach:'coach',notifs:'accueil',parametres:'accueil'};
 Object.keys(FICHES).forEach(function(k){TAB_DE[k]='ressources'});
 Object.keys(OUTILS).forEach(function(k){TAB_DE[k]='accueil'});
@@ -2184,6 +2236,7 @@ function route(){
   if(v==='accueil'||v==='ressources')satisRendu();
   if(v==='paiements')paiementsRendu();
   if(v==='prepa')prepaRendu();
+  if(v==='suivi')suiviRendu();
   remonter();
 }
 /* Chaque page s'ouvre tout en haut, sous l'en-tête (Safari peut rétablir l'ancienne position après le changement de page) */
