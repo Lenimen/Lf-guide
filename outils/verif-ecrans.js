@@ -67,6 +67,7 @@ for(const w of [390,320,820,1280,1920,2560,'390-app-installee']){
         /* « Démarrer » : l'élève ne peut pas cocher lui-même le contrat (DocuSeal seulement) ni la vidéo perso (Leni seulement) — bug Noah 26/11 */
         if(v==='paiements'){const pro=document.getElementById('pa-pro');if(!pro)out.push('prochaine échéance non affichée');else if(!/BE97 1030 8541 6349/.test(pro.textContent)||!/\+32 488 87 06 08/.test(pro.textContent)||!pro.querySelector('[data-pa-copy]'))out.push('échéance Wero/virement sans IBAN à copier (moyen habituel non affiché)')}
         if(document.querySelector('main.view:not([hidden]) a[href*="systeme.io/school"]'))out.push('lien vers l\'ancienne Academy Systeme.io (la formation est dans l\'app)');
+        if(v==='coach'){const a=document.getElementById('co-act');if(!a||a.hidden)out.push('carte « Activité récente » absente de l\'espace coach')}
         if(v==='demarrer'){const lib=[...document.querySelectorAll('#steps button[data-step]')].map(x=>x.getAttribute('data-step')).filter(x=>x==='contrat'||x==='video');if(lib.length)out.push('étape cochable par l\'élève alors qu\'elle doit être vérifiée : '+lib.join(', '))}
         /* grand écran : menu à gauche (pas de barre du bas façon téléphone), et l'espace coach prend la largeur */
         if(W>=1200){const t=document.querySelector('.tabs').getBoundingClientRect();if(!(t.height>innerHeight*.8&&t.width<320&&t.left<=1))out.push('grand écran : barre d\'onglets en bas au lieu du menu à gauche');

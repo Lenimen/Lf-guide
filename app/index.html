@@ -243,6 +243,7 @@ body.apercu main.view{padding-bottom:70px}
 .co-rev{border-top:1px solid var(--filet);padding-top:10px}
 .co-rev summary{cursor:pointer;font-size:15px}
 .co-rev summary small{color:var(--doux)}
+.co-ev{display:grid;grid-template-columns:auto minmax(0,1fr);gap:2px 10px;padding:8px 0;border-bottom:1px solid var(--filet);font-size:14px}.co-ev:last-child{border-bottom:0}.co-ev small{color:var(--doux);white-space:nowrap}
 .co-barre input[type=search]{width:100%;min-width:0;padding:12px 14px;border-radius:12px;border:1px solid var(--filet);background:rgba(0,0,0,.15);color:var(--creme);font:inherit;font-size:16px;-webkit-appearance:none;appearance:none}
 .co-barre .chips span{font-size:13px;padding:7px 11px}
 .co-tbl-wrap{display:none}
@@ -479,9 +480,10 @@ main.view>.back{display:none} /* remplacé par la flèche retour de l'en-tête *
   #v-coach>#co-form{grid-row:3}
   #v-coach>.co-barre{grid-row:4}
   #v-coach>#co-list{grid-row:5}
-  #v-coach>.co-vue{grid-column:1/3;grid-row:6}
-  #v-coach>#co-contenus{grid-column:3;grid-row:6}
-  #v-coach>p{grid-row:7}
+  #v-coach>#co-act{grid-row:6}
+  #v-coach>.co-vue{grid-column:1/3;grid-row:7}
+  #v-coach>#co-contenus{grid-column:3;grid-row:7}
+  #v-coach>p{grid-row:8}
 }
 .tabs a.verrou{color:rgba(169,182,176,.55)}
 .tabs a.verrou .ti{position:relative}
@@ -902,6 +904,7 @@ footer{font-size:11px;color:var(--doux);text-align:center;padding-top:4px}
       </div>
     </div>
     <div class="stack" id="co-list"><p class="soft">Chargement…</p></div>
+    <details class="card" id="co-act" hidden><summary class="eyebrow" style="cursor:pointer;margin:0">Activité récente</summary><div id="co-act-l" style="margin-top:8px"></div></details>
     <p class="soft" style="font-size:12px;text-align:center">Tu vois aussi tout l'espace élève (onglets Démarrer, Formation, Ressources). <button class="lien" type="button" data-deco>Se déconnecter</button></p>
   </main>
 
@@ -1734,10 +1737,21 @@ function coachRendu(){
       x._foBloque=x.actif&&x._fo.length<MODULES.length&&ref>0&&Date.now()-ref>14*864e5;
       x._sem=x.date_debut?Math.floor((Date.now()-Date.parse(x.date_debut))/6048e5)+1:null});
     CO.l=l;coachAffiche();
+    actRendu(l,(rr[4]&&rr[4].data)||[]);
     var se=$('#apercu-el');if(se)se.innerHTML='<option value="">Un élève précis…</option>'+l.filter(function(x){return x.actif}).map(function(x){return '<option value="'+esc(x.email)+'">'+esc(x.prenom)+'</option>'}).join('');
   });
 }
 var CO={l:[],sel:null,tri:'debut'};
+/* Activité récente (liste Fitbrothers du 27/11, flux « ce que les élèves ont fait ») : 7 derniers jours, données de l'app seulement,
+   sans données de santé : étapes cochées par l'élève ou automatiquement, modules terminés, exercices envoyés. */
+function actRendu(l,env){var box=$('#co-act');if(!box)return;var lim=Date.now()-7*864e5,ev=[],P={};
+  l.forEach(function(x){P[x.email]=x.prenom;var m=x._m||{};
+    Object.keys(m).forEach(function(id){var e=m[id];if(e.coche&&(e.par==='eleve'||e.par==='auto')&&Date.parse(e.quand)>lim){var et=ETAPES.filter(function(z){return z.id===id})[0];ev.push({t:Date.parse(e.quand),p:x.prenom,d:'Étape cochée : '+(et?et.t:id)})}});
+    (x._fo||[]).forEach(function(f){if(f.fait_le&&Date.parse(f.fait_le)>lim)ev.push({t:Date.parse(f.fait_le),p:x.prenom,d:'Module '+f.module.toUpperCase()+' terminé'})})});
+  env.forEach(function(x){if(Date.parse(x.envoye_le)>lim)ev.push({t:Date.parse(x.envoye_le),p:P[x.email]||x.email,d:'Exercice '+x.lecon+' envoyé (à revoir)'})});
+  ev.sort(function(a,b){return b.t-a.t});
+  box.hidden=false;box.querySelector('summary').textContent='Activité récente · '+(ev.length?ev.length+' sur 7 jours':'rien sur 7 jours');
+  $('#co-act-l').innerHTML=ev.length?ev.slice(0,60).map(function(e){return '<div class="co-ev"><small>'+new Date(e.t).toLocaleDateString('fr-BE',{day:'numeric',month:'short'})+'</small><span><b>'+esc(e.p)+'</b> · '+esc(e.d)+'</span></div>'}).join(''):'<p class="soft" style="margin:0">Aucune action d\'élève dans l\'app ces 7 derniers jours.</p>'}
 /* « À revoir » : exercices de formation envoyés par les élèves, traités le jour du bilan */
 function revoirRendu(l,el){
   var box=$('#co-revoir'),P={};el.forEach(function(x){P[x.email]=x.prenom});
