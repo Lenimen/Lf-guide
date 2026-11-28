@@ -1825,9 +1825,9 @@ navigator.serviceWorker&&navigator.serviceWorker.addEventListener&&navigator.ser
 /* Espace coach */
 function coachRendu(){
   var box=$('#co-list');if(!sb)return;
-  Promise.all([sb.from('eleves').select('*').order('actif',{ascending:false}).order('cree_le',{ascending:false}),sb.from('etapes_eleve').select('email,etape,coche,par,quand'),sb.from('reglages').select('email,push,maj_le'),sb.from('formation_eleve').select('email,module,fait_le,envoye_le'),sb.from('formation_envois').select('id,email,lecon,texte,envoye_le,vu_le').is('vu_le',null).order('envoye_le'),sb.from('paiements').select('id,email,echeance,montant,moyen,paye_le,lien').order('echeance'),sb.from('prepa_etapes').select('id,email,jour,titre,detail,scene,fait').order('jour'),sb.from('demandes_appel').select('id,email,motif,reponses,cree_le').is('traite_le',null).order('cree_le'),sb.from('automatisations').select('id,semaine,titre,texte,lien,actif').order('semaine'),sb.from('missions').select('id,email,semaine_du,texte,fait_le').gte('semaine_du',lundi(-7)).order('id'),sb.from('bilans').select('*').gte('semaine_du',lundi(-56)).order('semaine_du',{ascending:false}),sb.from('mesures').select('*').order('jour'),sb.from('executions').select('*').order('cree_le'),sb.from('programmes').select('*').order('version',{ascending:false}),sb.from('modeles_bilan').select('*').order('id'),sb.from('contenus').select('donnees').eq('cle','message-accueil').maybeSingle()]).then(function(rr){
+  Promise.all([sb.from('eleves').select('*').order('actif',{ascending:false}).order('cree_le',{ascending:false}),sb.from('etapes_eleve').select('email,etape,coche,par,quand'),sb.from('reglages').select('email,push,maj_le'),sb.from('formation_eleve').select('email,module,fait_le,envoye_le'),sb.from('formation_envois').select('id,email,lecon,texte,envoye_le,vu_le').is('vu_le',null).order('envoye_le'),sb.from('paiements').select('id,email,echeance,montant,moyen,paye_le,lien').order('echeance'),sb.from('prepa_etapes').select('id,email,jour,titre,detail,scene,fait').order('jour'),sb.from('demandes_appel').select('id,email,motif,reponses,cree_le').is('traite_le',null).order('cree_le'),sb.from('automatisations').select('id,semaine,titre,texte,lien,actif').order('semaine'),sb.from('missions').select('id,email,semaine_du,texte,fait_le').gte('semaine_du',lundi(-7)).order('id'),sb.from('bilans').select('*').gte('semaine_du',lundi(-56)).order('semaine_du',{ascending:false}),sb.from('mesures').select('*').order('jour'),sb.from('executions').select('*').order('cree_le'),sb.from('programmes').select('*').order('version',{ascending:false}),sb.from('modeles_bilan').select('*').order('id'),sb.from('contenus').select('donnees').eq('cle','message-accueil').maybeSingle(),sb.from('alertes_vues').select('email,cle'),sb.from('reperes').select('*').eq('actif',true).order('jour')]).then(function(rr){
     autoRendu((rr[8]&&rr[8].data)||[]);var MI={};((rr[9]&&rr[9].data)||[]).forEach(function(x){(MI[x.email]=MI[x.email]||[]).push(x)});
-    var BI={},ME={},EX={},PG={};modelesRendu((rr[14]&&rr[14].data)||[]);var ma=$('#rg-accueil');if(ma&&!ma.dataset.lu){ma.value=(rr[15]&&rr[15].data&&rr[15].data.donnees)||'';ma.dataset.lu=1}[[10,BI],[11,ME],[12,EX],[13,PG]].forEach(function(q){((rr[q[0]]&&rr[q[0]].data)||[]).forEach(function(x){(q[1][x.email]=q[1][x.email]||[]).push(x)})});
+    var BI={},ME={},EX={},PG={},RE={};AVU={};((rr[16]&&rr[16].data)||[]).forEach(function(a){AVU[a.email+'|'+a.cle]=1});modelesRendu((rr[14]&&rr[14].data)||[]);var ma=$('#rg-accueil');if(ma&&!ma.dataset.lu){ma.value=(rr[15]&&rr[15].data&&rr[15].data.donnees)||'';ma.dataset.lu=1}[[10,BI],[11,ME],[12,EX],[13,PG],[17,RE]].forEach(function(q){((rr[q[0]]&&rr[q[0]].data)||[]).forEach(function(x){(q[1][x.email]=q[1][x.email]||[]).push(x)})});
     var PR={};((rr[6]&&rr[6].data)||[]).forEach(function(x){(PR[x.email]=PR[x.email]||[]).push(x)});
     var PA={},pal=(rr[5]&&rr[5].data)||[];pal.forEach(function(x){(PA[x.email]=PA[x.email]||[]).push(x)});coPaieRendu(pal,(rr[0]&&rr[0].data)||[]);
     revoirRendu((rr[4]&&rr[4].data)||[],(rr[0]&&rr[0].data)||[]);
@@ -1839,7 +1839,7 @@ function coachRendu(){
     l.forEach(function(x){var f={};(x.etapes_faites||[]).forEach(function(id){f[id]=1});var m=EE[x.email]||{};Object.keys(m).forEach(function(id){if(m[id].coche)f[id]=1;else delete f[id]});x._f=f;x._m=m;
       x._n=Object.keys(f).filter(function(id){return ETAPES.some(function(e){return e.id===id})}).length;
       var dates=Object.keys(m).filter(function(id){return m[id].par==='eleve'||m[id].par==='auto'}).map(function(id){return Date.parse(m[id].quand)});if(RG[x.email])dates.push(Date.parse(RG[x.email].maj_le));
-      x._act=dates.length?Math.max.apply(null,dates):0;x._push=!!(RG[x.email]&&RG[x.email].push);x._pa=PA[x.email]||[];x._pr=PR[x.email]||[];x._mi=MI[x.email]||[];x._bi=BI[x.email]||[];x._me=ME[x.email]||[];x._ex=EX[x.email]||[];x._pg=PG[x.email]||[];x._fo=(FO[x.email]||[]).sort(function(a,b){return a.module<b.module?-1:1});
+      x._act=dates.length?Math.max.apply(null,dates):0;x._push=!!(RG[x.email]&&RG[x.email].push);x._pa=PA[x.email]||[];x._pr=PR[x.email]||[];x._mi=MI[x.email]||[];x._bi=BI[x.email]||[];x._me=ME[x.email]||[];x._ex=EX[x.email]||[];x._pg=PG[x.email]||[];x._re=RE[x.email]||[];x._fo=(FO[x.email]||[]).sort(function(a,b){return a.module<b.module?-1:1});
       var fd=x._fo.filter(function(f){return f.fait_le}).sort(function(a,b){return Date.parse(b.fait_le)-Date.parse(a.fait_le)});x._foDer=fd[0]||null;
       var ref=x._foDer?Date.parse(x._foDer.fait_le):(x.date_debut?Date.parse(x.date_debut):0);
       x._foBloque=x.actif&&x._fo.length<MODULES.length&&ref>0&&Date.now()-ref>14*864e5;
@@ -1878,6 +1878,10 @@ function coSem(x){if(x._sem===null)return '<span class="soft">Pas de date</span>
 /* Formation : modules terminés / total, dernier module terminé, repère si rien depuis 14 jours */
 function coFo(x){var n=x._fo.length,t=MODULES.length,d=x._foDer;
   return '<span class="co-jauge"><i><b style="width:'+Math.round(n/t*100)+'%"></b></i>'+n+'/'+t+'</span>'+(d?'<small>'+esc(d.module)+' le '+new Date(d.fait_le).toLocaleDateString('fr-BE',{day:'numeric',month:'numeric'})+'</small>':'')+(x._foBloque?'<small class="co-alerte">Rien depuis plus de 14 j</small>':'')}
+function actJours(x,n){var lim=Date.now()-n*864e5,J={},add=function(d){var t=Date.parse(d);if(t>lim)J[new Date(t).toISOString().slice(0,10)]=1},m=x._m||{};
+  Object.keys(m).forEach(function(id){if(m[id].par==='eleve'||m[id].par==='auto')add(m[id].quand)});(x._fo||[]).forEach(function(f){if(f.fait_le)add(f.fait_le)});
+  (x._bi||[]).forEach(function(b){add(b.cree_le)});(x._ex||[]).forEach(function(e){add(e.cree_le)});(x._me||[]).forEach(function(e){add(e.jour)});(x._mi||[]).forEach(function(e){if(e.fait_le)add(e.fait_le)});return Object.keys(J).length}
+function coAct730(x){var a=actJours(x,7),b=actJours(x,30);return '<span'+(b&&!a?' class="co-alerte"':'')+'>'+a+' j / '+b+' j</span>'}
 function coAct(x){if(!x._act)return '<span class="soft">N\'a pas encore ouvert l\'app</span>';var j=Math.floor((Date.now()-x._act)/864e5);return '<span'+(j>=7?' class="co-alerte"':'')+'>'+(j<1?'Aujourd\'hui':(j<2?'Hier':'Il y a '+j+' j'))+'</span>'}
 function coachAffiche(){
   var box=$('#co-list'),q=($('#co-q').value||'').trim().toLowerCase(),f=(($$('[name=co-f]').filter(function(i){return i.checked})[0])||{}).value||'actifs';
@@ -1897,17 +1901,17 @@ function coachAffiche(){
   if(!CO.sel||!l.some(function(x){return x.email===CO.sel}))CO.sel=l[0].email;
   var th=function(k,t){return '<th'+(k?' data-tri="'+k+'"'+(CO.tri===k?' class="on"':''):'')+'>'+t+'</th>'};
   box.innerHTML='<div class="sec-head"><h2>'+l.length+' élève'+(l.length>1?'s':'')+'</h2></div><div class="co-grid">'+
-    '<div class="co-tbl-wrap"><table class="co-tbl"><thead><tr>'+th('prenom','Élève')+th('debut','Début')+th('','Semaine')+th('etapes','Étapes')+th('fo','Formation')+th('act','Dernière activité')+th('','Notifs')+'</tr></thead><tbody>'+
+    '<div class="co-tbl-wrap"><table class="co-tbl"><thead><tr>'+th('prenom','Élève')+th('debut','Début')+th('','Semaine')+th('etapes','Étapes')+th('fo','Formation')+th('act','Dernière activité')+th('','Actif 7 j / 30 j')+th('','Notifs')+'</tr></thead><tbody>'+
     l.map(function(x){return '<tr data-sel="'+esc(x.email)+'" class="'+(x.email===CO.sel?'sel':'')+(x.actif?'':' off')+'"><td><b>'+esc(x.prenom)+'</b><small>'+esc(x.email)+'</small></td>'+
       '<td>'+(x.date_debut?new Date(x.date_debut).toLocaleDateString('fr-BE',{day:'numeric',month:'short',year:'2-digit'}):'<span class="soft">À poser</span>')+'</td><td>'+coSem(x)+'</td>'+
-      '<td><span class="co-jauge"><i><b style="width:'+Math.round(x._n/ETAPES.length*100)+'%"></b></i>'+x._n+'/'+ETAPES.length+'</span></td><td>'+coFo(x)+'</td><td>'+coAct(x)+'</td><td>'+(x._push?'Oui':'<span class="soft">Non</span>')+'</td></tr>'}).join('')+
+      '<td><span class="co-jauge"><i><b style="width:'+Math.round(x._n/ETAPES.length*100)+'%"></b></i>'+x._n+'/'+ETAPES.length+'</span></td><td>'+coFo(x)+'</td><td>'+coAct(x)+'</td><td>'+coAct730(x)+'</td><td>'+(x._push?'Oui':'<span class="soft">Non</span>')+'</td></tr>'}).join('')+
     '</tbody></table></div><div class="co-cards stack">'+l.map(coCarte).join('')+'</div></div>';
 }
 $('#co-q').addEventListener('input',coachAffiche);
 $('#co-filtres').addEventListener('change',coachAffiche);
 function coCarte(x){
       return '<div class="card co-el'+(x.actif?'':' off')+(x.email===CO.sel?' sel':'')+'" data-email="'+esc(x.email)+'"><div class="co-top"><h3>'+esc(x.prenom)+(x.test?' <span class="pa-s">faux élève</span>':'')+'</h3><small>'+esc(x.email)+'</small></div>'+
-        '<p class="soft" style="font-size:13px;margin:0">'+coSem(x)+' · '+coAct(x)+'</p>'+coBars(x)+coFin(x)+
+        '<p class="soft" style="font-size:13px;margin:0">'+coSem(x)+' · '+coAct(x)+' · actif '+coAct730(x)+'</p>'+coBars(x)+coFin(x)+
         '<details class="co-gerer"'+(window.innerWidth>=1200?' open':'')+'><summary>Ouvrir sa fiche</summary>'+
         '<details class="co-et"><summary>Formation : '+x._fo.length+'/'+MODULES.length+' modules terminés'+(x._foBloque?' · <span class="co-alerte">rien depuis plus de 14 j</span>':'')+'</summary><div class="stack" style="margin-top:8px;gap:4px">'+
           MODULES.map(function(m){var f=x._fo.filter(function(y){return y.module===m.c})[0];return '<p class="soft" style="font-size:13px;margin:0">'+(f?'✓ ':'○ ')+esc(m.c)+' · '+esc(m.t)+(f&&f.fait_le?' · le '+new Date(f.fait_le).toLocaleDateString('fr-BE',{day:'numeric',month:'numeric'}):'')+(f&&f.envoye_le?' · exercice envoyé':'')+'</p>'}).join('')+'</div></details>'+
@@ -1917,7 +1921,7 @@ function coCarte(x){
         '<label class="q"><span>Lien de signature de son contrat (DocuSeal, tant qu\'il n\'a pas signé)</span><input type="url" data-k="lien_contrat" placeholder="https://docuseal.com/s/…" value="'+esc(x.lien_contrat||'')+'"></label>'+
         '<label class="q"><span>Lien de son fichier de suivi (optionnel)</span><input type="url" data-k="lien_suivi" placeholder="https://docs.google.com/…" value="'+esc(x.lien_suivi||'')+'"></label>'+
         '<details class="co-et"><summary>Étapes « Démarrer » faites : '+Object.keys(x._f).length+'/'+ETAPES.length+'</summary><div class="chips">'+ETAPES.map(function(t){var m=x._m[t.id],qui=m?({eleve:'par l\'élève',auto:'par l\'app',coach:'par toi',verif:'vérification'}[m.par]||'')+' le '+new Date(m.quand).toLocaleDateString('fr-BE',{day:'numeric',month:'numeric'}):'';return '<label><input type="checkbox" data-et="'+esc(t.id)+'"'+(x._f[t.id]?' checked':'')+'><span>'+esc(t.t)+(qui?'<small class="co-qui">'+(m.coche?'Cochée ':'Décochée ')+esc(qui)+'</small>':'')+'</span></label>'}).join('')+'</div></details>'+
-        coMissions(x)+coProgramme(x)+coSuivi(x)+coPaieEleve(x)+coPrepa(x)+
+        coMissions(x)+coReperes(x)+coProgramme(x)+coSuivi(x)+coPaieEleve(x)+coPrepa(x)+
         '<details class="co-msg"><summary class="co-et-s">Écrire un message dans son app</summary><div class="stack" style="margin-top:10px"><textarea data-k="msg" maxlength="500" placeholder="Il le verra dans ses notifications."></textarea><button class="btn ghost small" type="button" data-co="msg">Envoyer dans l\'app</button></div></details>'+
         '<div class="row"><button class="btn ghost" type="button" data-co="save">Enregistrer</button><button class="btn ghost" type="button" data-co="actif">'+(x.actif?'Désactiver':'Réactiver')+'</button></div></details></div>';
 }
@@ -1927,6 +1931,16 @@ function coBars(x){var sem=x._sem===null?0:Math.max(0,Math.min(x._sem,x.duree_se
   return '<div class="co-bars">'+coBar('Suivi',sem,x.duree_sem||26)+coBar('Démarrer',x._n,ETAPES.length)+coBar('Formation',x._fo.length,MODULES.length,x._foBloque)+'</div>'}
 
 
+
+/* Objectif avec compte à rebours, blessures et limitations datées, notes privées (reco Everfit, analyse 28/11). Faux élèves seulement avant la bascule. */
+function coReperes(x){var re=x._re||[];if(!x.test&&!re.length)return '';
+  var ob=re.filter(function(r){return r.type==='objectif'}),bl=re.filter(function(r){return r.type==='blessure'}),no=re.filter(function(r){return r.type==='note'});
+  var li=function(r,t){return '<div class="co-j" style="grid-template-columns:minmax(0,1fr) auto"><div>'+t+'</div><button class="lien" type="button" data-co="re-fin" data-re-id="'+r.id+'">Retirer</button></div>'};
+  return '<details class="co-et" open><summary>Objectif, blessures et notes'+(bl.length?' · <span class="co-alerte">'+bl.length+' limitation'+(bl.length>1?'s':'')+'</span>':'')+'</summary>'+
+    ob.map(function(r){var j=r.jour?joursAvant(new Date(r.jour+'T12:00:00')):null;return li(r,'🎯 <b>'+esc(r.texte)+'</b>'+(j!==null?'<small>'+(j>=0?'dans '+j+' jours, le '+jourCourt(r.jour):'date passée ('+jourCourt(r.jour)+')')+'</small>':''))}).join('')+
+    bl.map(function(r){return li(r,'⚠️ '+esc(r.texte)+(r.jour?'<small>depuis le '+jourCourt(r.jour)+'</small>':''))}).join('')+
+    no.map(function(r){return li(r,'📝 '+esc(r.texte)+(r.jour?'<small>'+jourCourt(r.jour)+'</small>':''))}).join('')+
+    '<div class="pa-form" style="margin-top:8px"><select data-re="type" aria-label="Type"><option value="objectif">Objectif</option><option value="blessure">Blessure ou limitation</option><option value="note">Note privée</option></select><input type="date" data-re="jour" aria-label="Date"><input class="large" type="text" data-re="texte" maxlength="300" placeholder="Ex. gêne épaule droite au développé" aria-label="Repère"><button class="btn ghost small large" type="button" data-co="re-ajout">Ajouter</button></div></details>'}
 /* Programme d'entraînement et semaine type nutrition (reco analyse des apps 27/11) : versions gardées, faux élèves seulement avant la bascule */
 var JRS=['L','M','M','J','V','S','D'];
 function pgExo(e){var v=function(k){return esc(e[k]===null||e[k]===undefined?'':String(e[k]))};return '<div class="pg-e"><input type="text" data-pe="n" placeholder="Exercice" value="'+v('n')+'" aria-label="Exercice"><input type="number" data-pe="s" placeholder="Séries" value="'+v('s')+'" inputmode="numeric" aria-label="Séries"><input type="text" data-pe="r" placeholder="Reps" value="'+v('r')+'" aria-label="Répétitions"><input type="number" data-pe="rir" placeholder="RIR" value="'+v('rir')+'" inputmode="numeric" aria-label="RIR"><input type="text" data-pe="reg" placeholder="Réglage machine, note" value="'+v('reg')+'" aria-label="Réglage machine"></div>'}
@@ -2003,23 +2017,29 @@ function signaux(x){var s=[],j;
   var av=(x._mi||[]).filter(function(m){return m.semaine_du===lundi(-7)});if(av.length&&av.some(function(m){return !m.fait_le}))s.push(av.filter(function(m){return !m.fait_le}).length+' mission(s) non faite(s) la semaine passée');
   var b=(x._bi||[])[0];
   if(x.test&&x.actif&&!(x._bi||[]).some(function(y){return y.semaine_du>=lundi(-7)}))s.push('Bilan non rendu');
+  var b2=(x._bi||[])[1];
+  if(b&&b2){if(b.energie&&b2.energie&&b.energie<b2.energie)s.push('Énergie en baisse ('+b2.energie+' → '+b.energie+'/5)');if(b.sommeil&&b2.sommeil&&b.sommeil<b2.sommeil)s.push('Sommeil en baisse ('+b2.sommeil+' → '+b.sommeil+'/5)');if(b.seances_obj&&b.seances<b.seances_obj&&b2.seances_obj&&b2.seances<b2.seances_obj)s.push('Séances manquées 2 semaines de suite')}
   if(b){if(b.seances_obj&&b.seances<b.seances_obj)s.push(b.seances+' séance(s) sur '+b.seances_obj);if(b.energie&&b.energie<=2)s.push('Énergie '+b.energie+'/5');if(b.diete&&b.diete<80)s.push('Diète suivie à '+b.diete+' %')}
   var me=(x._me||[]).filter(function(m){return m.poids}),a=me[me.length-1],p=me[me.length-2];
   if(a&&p&&Math.abs(a.poids-p.poids)/p.poids>0.03)s.push('Poids '+(a.poids>p.poids?'+':'')+nb((a.poids-p.poids)/p.poids*100)+' % en '+Math.round((Date.parse(a.jour)-Date.parse(p.jour))/864e5)+' j');
   return s}
 function alertesRendu(l){var box=$('#co-alertes');if(!box)return;
-  var r=l.filter(function(x){return x.actif}).map(function(x){return {x:x,s:signaux(x)}}).filter(function(o){return o.s.length>=2}).sort(function(a,b){return b.s.length-a.s.length});
+  var r=l.filter(function(x){return x.actif}).map(function(x){var s=signaux(x);return {x:x,s:s,k:s.join('|').slice(0,300)}}).filter(function(o){return o.s.length>=2}).sort(function(a,b){return b.s.length-a.s.length});
+  var nv=r.filter(function(o){return AVU[o.x.email+'|'+o.k]}).length;r=r.filter(function(o){return !AVU[o.x.email+'|'+o.k]});
   box.hidden=false;box.innerHTML='<div class="eyebrow">Élèves à surveiller · '+(r.length||'aucun')+'</div><p class="soft" style="font-size:12px;margin:4px 0 0">Une alerte seulement quand au moins 2 signaux se croisent (app, formation, missions, bilans, poids, diète). WhatsApp s\'ajoutera aux signaux à la bascule.</p>'+
-    r.map(function(o){return '<div class="al"><b>'+esc(o.x.prenom)+'</b>'+(o.x.test?' <span class="pa-s">faux élève</span>':'')+' · '+o.s.length+' signaux<div class="chips">'+o.s.map(function(t){return '<span>'+esc(t)+'</span>'}).join('')+'</div></div>'}).join('')}
+    r.map(function(o){return '<div class="al"><b>'+esc(o.x.prenom)+'</b>'+(o.x.test?' <span class="pa-s">faux élève</span>':'')+' · '+o.s.length+' signaux <button class="lien" type="button" data-av="'+esc(o.x.email)+'" data-avk="'+esc(o.k)+'" style="float:right">Marquer comme vu</button><div class="chips">'+o.s.map(function(t){return '<span>'+esc(t)+'</span>'}).join('')+'</div></div>'}).join('')+(nv?'<p class="soft" style="font-size:12px;margin:8px 0 0">'+nv+' alerte'+(nv>1?'s':'')+' déjà vue'+(nv>1?'s':'')+'. Elle'+(nv>1?'s':'')+' revien'+(nv>1?'nent':'t')+' si un signal change.</p>':'')}
+var AVU={};
+$('#co-alertes').addEventListener('click',function(e){var b=e.target.closest('[data-av]');if(!b)return;
+  sb.from('alertes_vues').upsert({email:b.getAttribute('data-av'),cle:b.getAttribute('data-avk')}).then(function(r){toast(r&&r.error?'Erreur, réessaie':'Alerte marquée comme vue');if(!(r&&r.error))coachRendu()})});
 /* Jour de bilan « en 5 secondes » : chaque bilan à traiter, chiffres clés, avis de Claude, vidéo de retour, traité */
 function bilanRendu(l){var box=$('#co-bilan');if(!box)return;var it=[];
   l.forEach(function(x){(x._bi||[]).filter(function(b){return !b.traite_le}).forEach(function(b){it.push({x:x,b:b})})});
   if(!it.length){box.hidden=true;return}
-  var tu=function(lab,v,ko){return '<span'+(ko?' class="ko"':'')+'>'+lab+'<b>'+v+'</b></span>'};
+  var tu=function(lab,v,ko,av){return '<span'+(ko?' class="ko"':'')+'>'+lab+'<b>'+v+'</b>'+(av!==undefined&&av!==null&&av!==''?'<small>sem. dern. '+av+'</small>':'')+'</span>'};
   box.hidden=false;box.innerHTML='<div class="eyebrow">Jour de bilan · '+it.length+' à faire</div><p class="soft" style="font-size:12px;margin:4px 0 0">Aperçu sur les faux élèves. Les vrais bilans arrivent ici à la bascule.</p>'+
-    it.map(function(o){var b=o.b,x=o.x,pr=(x._bi||[]).filter(function(y){return y.semaine_du<b.semaine_du&&y.poids})[0],d=pr&&b.poids?b.poids-pr.poids:null;
+    it.map(function(o){var b=o.b,x=o.x,pr=(x._bi||[]).filter(function(y){return y.semaine_du<b.semaine_du&&y.poids})[0],d=pr&&b.poids?b.poids-pr.poids:null,P=pr||{},f5=function(v){return v?v+'/5':''};
       return '<div class="bi"><div class="bi-h"><b>'+esc(x.prenom)+(x.test?' <span class="pa-s">faux élève</span>':'')+'</b><small>'+(x._sem?'S'+x._sem+' · ':'')+'semaine du '+jourCourt(b.semaine_du)+'</small></div>'+
-        '<div class="bi-k">'+tu('Poids',nb(b.poids)+(d!==null?' <small>('+(d>0?'+':'')+nb(d)+')</small>':''))+tu('Séances',(b.seances===null?'–':b.seances)+'/'+(b.seances_obj||'–'),b.seances_obj&&b.seances<b.seances_obj)+tu('Diète',(b.diete===null?'–':b.diete+' %'),b.diete<80)+tu('Énergie',(b.energie||'–')+'/5',b.energie&&b.energie<=2)+tu('Sommeil',(b.sommeil||'–')+'/5',b.sommeil&&b.sommeil<=2)+'</div>'+
+        '<div class="bi-k">'+tu('Poids',nb(b.poids)+(d!==null?' <small>('+(d>0?'+':'')+nb(d)+')</small>':''),0,P.poids?nb(P.poids):'')+tu('Séances',(b.seances===null?'–':b.seances)+'/'+(b.seances_obj||'–'),b.seances_obj&&b.seances<b.seances_obj,P.seances!=null?P.seances+'/'+(P.seances_obj||'–'):'')+tu('Diète',(b.diete===null?'–':b.diete+' %'),b.diete<80,P.diete!=null?P.diete+' %':'')+tu('Énergie',(b.energie||'–')+'/5',b.energie&&b.energie<=2,f5(P.energie))+tu('Sommeil',(b.sommeil||'–')+'/5',b.sommeil&&b.sommeil<=2,f5(P.sommeil))+'</div>'+
         (b.synthese?'<p class="bi-ia"><em>L\'avis de Claude</em>'+esc(b.synthese)+'</p>':'')+
         (b.ressenti?'<details class="co-et"><summary>Son ressenti</summary><p style="font-size:14px;margin:6px 0 0;white-space:pre-wrap">'+esc(b.ressenti)+'</p></details>':'')+
         '<div class="bi-bt"><label class="btn small"><input type="file" accept="video/*" capture="user" hidden data-bv="'+b.id+'">Enregistrer la vidéo bilan</label><button class="btn ghost small" type="button" data-bt="'+b.id+'">Marquer traité</button></div></div>'}).join('')}
@@ -2081,6 +2101,9 @@ $('#co-list').addEventListener('click',function(e){
     /* les coches changées par Leni sont aussi notées dans etapes_eleve (elles priment sur celles de l'élève) */
     var now=new Date().toISOString(),ch=$$('[data-et]',c).filter(function(i){return i.checked!==i.defaultChecked}).map(function(i){return {email:em,etape:i.getAttribute('data-et'),coche:i.checked,par:'coach',quand:now,message:null,lien:null}});
     if(ch.length)sb.from('etapes_eleve').upsert(ch).then(function(){},function(){})}
+  else if(b.getAttribute('data-co')==='re-ajout'){var rt=$('[data-re=texte]',c).value.trim();if(!rt){toast('Écris le repère');return}
+    sb.from('reperes').insert({email:em,type:$('[data-re=type]',c).value,texte:rt,jour:$('[data-re=jour]',c).value||null}).then(function(r){toast(r&&r.error?'Erreur, réessaie':'Repère ajouté');if(!(r&&r.error))coachRendu()});return}
+  else if(b.getAttribute('data-co')==='re-fin'){sb.from('reperes').update({actif:false}).eq('id',+b.getAttribute('data-re-id')).then(function(r){toast(r&&r.error?'Erreur, réessaie':'Repère retiré');if(!(r&&r.error))coachRendu()});return}
   else if(b.getAttribute('data-co')==='pg-jour'){var pg=$('[data-pg-ed]',c);pg.insertAdjacentHTML('beforeend',pgJour({nom:'Nouveau jour',exos:[{}]}));return}
   else if(b.getAttribute('data-co')==='pg-exo'){b.closest('.pg-j').querySelector('.pg-exos').insertAdjacentHTML('beforeend',pgExo({}));return}
   else if(b.getAttribute('data-co')==='pg-save'){var jours=$$('.pg-j',c).map(function(j){return {nom:$('[data-pj]',j).value.trim()||'Jour',exos:$$('.pg-e',j).map(function(e){var g=function(k){return $('[data-pe='+k+']',e).value.trim()};return {n:g('n'),s:+g('s')||null,r:g('r'),rir:g('rir')===''?null:+g('rir'),reg:g('reg')}}).filter(function(e){return e.n})}});
