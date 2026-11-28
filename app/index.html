@@ -653,6 +653,7 @@ footer{font-size:11px;color:var(--doux);text-align:center;padding-top:4px}
     </div>
 
     <div class="card acc-suivi" id="acc-suivi" hidden><div class="eyebrow">Ton suivi</div><h3 id="acc-suivi-t"></h3><div class="co-bars" id="acc-suivi-b" style="grid-template-columns:minmax(0,1fr) auto"></div><p class="soft" id="acc-suivi-p" style="font-size:14px;margin:6px 0 0"></p></div>
+    <a class="card" id="acc-prog" href="#suivi" hidden style="display:block;text-decoration:none;color:inherit"><div class="eyebrow">Entraînement</div><h3 style="margin:4px 0">Mon programme</h3><p class="soft" style="margin:0;font-size:14px">Tes séances, exercices, séries et réglages.</p></a>
     <a class="card" id="acc-msg" href="#messages" hidden style="display:block;text-decoration:none;color:inherit"><div class="eyebrow">Messages</div><h3 style="margin:4px 0">Écrire à Leni</h3><p class="soft" style="margin:0;font-size:14px" id="acc-msg-p">Une question, une photo : tout au même endroit.</p></a>
     <a class="card" id="acc-suivi-app" href="#suivi" hidden style="display:block;text-decoration:none;color:inherit"><div class="eyebrow">Aperçu · faux élève</div><h3 style="margin:4px 0">Mon suivi</h3><p class="soft" style="margin:0;font-size:14px">Bilan, programme, nutrition et poids, tels que les élèves les verront à la bascule.</p></a>
     <div class="card" id="acc-mot" hidden><div class="eyebrow">Le mot de Leni</div><p id="acc-mot-t" style="margin:6px 0 0;white-space:pre-wrap;font-size:15px;line-height:1.5"></p></div>
@@ -1693,7 +1694,7 @@ function majSession(){
   }).catch(function(){}).then(appliquerRole);
 }
 function appliquerRole(){
-  var w=$('#who-link');document.body.dataset.role=MOI.role;prepaCarte();suiviCarte();missionsCarte();motCarte();var sa=$('#acc-suivi-app');if(sa)sa.hidden=!(MOI.role==='eleve'&&MOI.eleve&&MOI.eleve.test);msgCarte();renderMotifs();
+  var w=$('#who-link');document.body.dataset.role=MOI.role;prepaCarte();suiviCarte();missionsCarte();motCarte();var sa=$('#acc-suivi-app');if(sa)sa.hidden=!(MOI.role==='eleve'&&MOI.eleve&&MOI.eleve.test);msgCarte();progCarte();renderMotifs();
   if(MOI.role==='coach'&&['','#','#accueil','#appel','#demarrer','#formation','#ressources'].indexOf(location.hash)>=0)location.hash='#coach';
   document.body.classList.toggle('apercu',!!(APERCU&&MOI.vrai==='coach'));$('#apercu').hidden=!(APERCU&&MOI.vrai==='coach');
   if(APERCU&&MOI.vrai==='coach')$('#apercu-t').textContent='Aperçu '+(APERCU.role==='visiteur'?'visiteur':'élève · '+((MOI.eleve&&MOI.eleve.prenom)||APERCU.email||'type'))+' · lecture seule';
@@ -1964,6 +1965,12 @@ function cpCarte(l){var el=$('#cp-map');if(!el)return;
   l.forEach(function(c){if(!c.xy)return;pts.push(c.xy);L.circleMarker(c.xy,{radius:7,color:'#192E33',weight:2,fillColor:c.c==='systematique'?'#EBE3D0':'#A9B6B0',fillOpacity:1}).bindPopup('<b>'+esc(c.n)+'</b><br>'+esc(cpDate(c))+'<br>'+esc(c.v||c.p)).addTo(CP_MAP._lfc)});
   if(pts.length>1)CP_MAP.fitBounds(pts,{padding:[24,24],maxZoom:5});else if(pts.length)CP_MAP.setView(pts[0],5)}
 document.addEventListener('change',function(e){var b=e.target;if(b.name!=='cp-f')return;CP_F=b.value;cpRendu()});
+/* Programme en lecture (vrais élèves avant la bascule : rien à noter ni à filmer dans l'app). Sobre, comme le Sheet. */
+function progLecture(pe){return '<div class="card"><div class="eyebrow">Mon programme · v'+esc(pe.version)+'</div>'+(pe.nom?'<p class="soft" style="margin:4px 0 0;font-size:13px">'+esc(pe.nom)+'</p>':'')+
+  ((pe.contenu&&pe.contenu.jours)||[]).map(function(j){return '<details class="co-et"><summary>'+esc(j.nom)+' · '+totSeries(j)+' séries</summary>'+ssWrap(j.exos||[],function(e){
+    return '<div class="su-ex"><b>'+esc(e.n)+'</b>'+musc(e)+'<div class="soft" style="font-size:13px;overflow-wrap:anywhere">'+esc(/×|x\s*\d/i.test(String(e.s||''))?e.s:(e.s||'–')+' × '+(e.r||'–'))+(e.int?' · '+esc(e.int):'')+(e.rep?' · repos '+esc(e.rep):'')+(e.reg?'<br>Réglage : '+esc(e.reg):'')+(e.note?'<br>'+esc(e.note):'')+'</div></div>'})+'</details>'}).join('')+'</div>'}
+function progCarte(){var c=$('#acc-prog');if(!c)return;c.hidden=true;if(!(MOI.role==='eleve'&&MOI.email&&sb&&!(MOI.eleve&&MOI.eleve.test)))return;
+  sb.from('programmes').select('id',{count:'exact',head:true}).eq('email',MOI.email).eq('type','entrainement').then(function(r){c.hidden=!(r&&r.count)},function(){})}
 /* Messagerie (Leni 28/11, étape 1 : texte + photos). Table messages ; faux élèves seulement avant la bascule (déclencheur).
    La notification sur le téléphone ne montre jamais le contenu (titre seul). Sobre : un fil, une zone d'écriture. */
 var MSG_T=null,MSG_CO=null,MSG_PH={};
@@ -2200,8 +2207,10 @@ function fourchette(e,sl){var auj=new Date().toISOString().slice(0,10);
    Reco analyse des apps (27/11) : mode Normal par défaut / Avancé en option, « il te reste X », nutrition masquée tant que Leni n'a pas fixé les calories,
    corrections des semaines passées dans une bulle sur chaque exercice, bouton « Filmer mon exécution ». */
 function suMode(){return store('lf-mode')==='avance'?'avance':'normal'}
-function suiviRendu(){var box=$('#su-body');if(!box)return;
-  if(!(MOI.role==='eleve'&&MOI.eleve&&MOI.eleve.test&&MOI.email)){box.innerHTML='<div class="card"><p class="soft" style="margin:0">Ton suivi se fait dans ton app de suivi habituelle.</p></div>';return}
+function suiviRendu(){var box=$('#su-body');if(!box)return;var vrai=!(MOI.eleve&&MOI.eleve.test),ph=$('#v-suivi .page-head');if(ph){$('.eyebrow',ph).textContent=vrai?'Espace élève':'Espace élève · Aperçu';$('h1',ph).textContent=vrai?'Mon programme':'Mon suivi';$('.lede',ph).textContent=vrai?'Tes séances : exercices, séries, intensité, repos et réglages.':'Ton bilan, ton programme, ta nutrition et ton poids au même endroit.'}
+  if(!(MOI.role==='eleve'&&MOI.eleve&&MOI.eleve.test&&MOI.email)){var hab='<div class="card"><p class="soft" style="margin:0">Ton suivi (séances, poids, bilans) se fait dans ton app de suivi habituelle.'+(MOI.eleve&&MOI.eleve.lien_suivi?' <a href="'+esc(MOI.eleve.lien_suivi)+'" target="_blank" rel="noopener">Ouvrir mon suivi</a>':'')+'</p></div>';
+    if(!(MOI.role==='eleve'&&MOI.email&&sb)){box.innerHTML=hab;return}
+    sb.from('programmes').select('nom,version,contenu,type').eq('email',MOI.email).eq('type','entrainement').order('version',{ascending:false}).limit(1).then(function(r){var pe=r&&r.data&&r.data[0];box.innerHTML=(pe?progLecture(pe):'')+hab},function(){box.innerHTML=hab});return}
   box.innerHTML='<p class="soft">Chargement…</p>';var em=MOI.email;
   Promise.all([sb.from('modeles_bilan').select('*').order('id'),sb.from('programmes').select('*').eq('email',em).order('version',{ascending:false}),sb.from('executions').select('*').eq('email',em).order('cree_le',{ascending:false}),sb.from('mesures').select('*').eq('email',em).order('jour'),sb.from('seances_log').select('jour,exercice,series').eq('email',em).order('jour',{ascending:false}).limit(200),sb.from('suivi_jour').select('*').eq('email',em).eq('jour',new Date().toISOString().slice(0,10)).maybeSingle(),sb.from('bilans').select('id,semaine_du,reponse,traite_le').eq('email',em).gte('semaine_du',lundi(-7)).order('semaine_du',{ascending:false})]).then(function(r){
     var mo=((r[0].data||[])[0])||{questions:[]},pg=r[1].data||[],ex=r[2].data||[],me=r[3].data||[],bl=r[6].data||[],sjj=r[5].data||{},SLx=r[4].data||[],fait=bl.some(function(b){return b.semaine_du>=lundi(0)}),rep=bl.filter(function(b){return b.reponse})[0],av=suMode()==='avance';
