@@ -285,6 +285,25 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
 .mp-ed{display:grid;gap:8px}.mp-ed>summary{cursor:pointer;font-weight:700;font-size:14px}.mp-st{font-size:12px;margin:8px 0 0}
 .mp-r{display:grid;grid-template-columns:minmax(0,1fr) 150px 44px;gap:6px;margin-bottom:6px}.mp-r textarea{resize:none;min-height:44px;line-height:1.35;field-sizing:content;overflow-wrap:anywhere;min-width:0}.mp-ed select{width:100%;min-width:0}
 @media (max-width:420px){.mp-r{grid-template-columns:minmax(0,1fr) 44px}.mp-r input{grid-column:1;grid-row:2}.mp-r button{grid-row:1/3;grid-column:2}}
+.mg{display:grid;gap:10px}
+.mg-fil{display:flex;flex-direction:column;gap:6px;max-height:min(520px,max(220px,calc(100svh - 440px)));overflow-y:auto;padding:2px 2px 6px}
+.mg-j{align-self:center;margin:8px 0 2px;font-size:11px;color:var(--doux);text-transform:capitalize}
+.mg-b{align-self:flex-start;max-width:min(80%,520px);background:var(--carte-2);border:1px solid var(--filet);border-radius:16px 16px 16px 4px;padding:8px 12px;display:grid;gap:4px;overflow-wrap:anywhere}
+.mg-b.mg-moi{align-self:flex-end;background:var(--creme);color:var(--petrole);border-color:transparent;border-radius:16px 16px 4px 16px}
+.mg-b p{margin:0;font-size:15px;line-height:1.4}.mg-b small{font-size:11px;opacity:.7;justify-self:end}
+.mg-b img{display:block;max-width:100%;max-height:300px;border-radius:10px;cursor:zoom-in}
+.mg-vide{margin:6px 0}
+.mg-z{display:grid;gap:8px;border-top:1px solid var(--filet);padding-top:10px}
+.mg-zr{display:grid;grid-template-columns:44px minmax(0,1fr) auto;gap:8px;align-items:end}
+.mg-zr textarea{resize:none;min-height:44px;max-height:160px;line-height:1.35;min-width:0;overflow-wrap:anywhere}
+.mg-ph{display:grid;place-items:center;width:44px;height:44px;border-radius:12px;border:1px solid var(--filet);cursor:pointer;color:var(--creme)}
+.mg-pv{display:flex;align-items:center;gap:10px}.mg-pv img{height:64px;border-radius:8px}
+.mg-h{display:flex;align-items:center;gap:10px}
+.mg-li{display:grid;gap:6px}
+.mg-it{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 8px;text-align:left;font:inherit;color:inherit;background:var(--carte);border:1px solid var(--filet);border-radius:14px;padding:10px 12px;cursor:pointer}
+.mg-it .soft{grid-column:1/-1;font-size:13px;overflow-wrap:anywhere}
+.mg-n{background:var(--creme);color:var(--petrole);border-radius:999px;font-size:12px;font-weight:800;padding:1px 8px;align-self:center}
+.mg-zoom{position:fixed;inset:0;z-index:90;background:rgba(0,0,0,.88);display:grid;place-items:center;cursor:zoom-out;padding:16px}.mg-zoom img{max-width:100%;max-height:100%;border-radius:8px}
 .pg-ton{display:flex;flex-wrap:wrap;gap:6px;margin:4px 0}.pg-ton span{font-size:12px;padding:3px 8px;border-radius:999px;border:1px solid var(--filet);white-space:nowrap}
 .nu-g{display:grid;grid-template-columns:auto repeat(3,minmax(0,1fr)) auto;gap:6px;align-items:center;font-size:12px;margin-top:8px}.nu-g input{min-width:0;appearance:none;-webkit-appearance:none}.nu-s{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px;margin-top:8px;text-align:center;font-size:11px;color:var(--doux)}.nu-s button{all:unset;cursor:pointer;padding:6px 0;border-radius:8px;background:var(--creme);color:#192E33;font-weight:700;font-size:11px;text-align:center}.nu-s button.off{background:transparent;color:var(--creme);border:1px solid var(--filet)}
 .rg-m{border-top:1px solid var(--filet);padding:8px 0}.rg-m textarea{min-height:140px}
@@ -542,19 +561,20 @@ body[data-role=coach] .tabs nav{grid-template-columns:repeat(3,1fr)}
   #v-coach>#co-paie{grid-column:3;grid-row:1/3;max-height:420px;overflow:auto}
   #v-coach>#co-revoir[hidden]+#co-paie{grid-column:2/4}
   #v-coach>#co-prepa{grid-row:3}
-  #v-coach>#co-kpi{grid-row:4}
-  #v-coach>#co-jour{grid-row:5}
-  #v-coach>#co-alertes{grid-row:6}
-  #v-coach>#co-bilan{grid-row:7}
-  #v-coach>#co-form{grid-row:8}
-  #v-coach>.co-barre{grid-row:9}
-  #v-coach>#co-list{grid-row:10}
-  #v-coach>#co-act{grid-row:11}
-  #v-coach>#co-auto{grid-row:12}
-  #v-coach>#co-reglages{grid-row:13}
-  #v-coach>.co-vue{grid-column:1/3;grid-row:14}
-  #v-coach>#co-contenus{grid-column:3;grid-row:14}
-  #v-coach>p{grid-row:15}
+  #v-coach>#co-msg{grid-row:4}
+  #v-coach>#co-kpi{grid-row:5}
+  #v-coach>#co-jour{grid-row:6}
+  #v-coach>#co-alertes{grid-row:7}
+  #v-coach>#co-bilan{grid-row:8}
+  #v-coach>#co-form{grid-row:9}
+  #v-coach>.co-barre{grid-row:10}
+  #v-coach>#co-list{grid-row:11}
+  #v-coach>#co-act{grid-row:12}
+  #v-coach>#co-auto{grid-row:13}
+  #v-coach>#co-reglages{grid-row:14}
+  #v-coach>.co-vue{grid-column:1/3;grid-row:15}
+  #v-coach>#co-contenus{grid-column:3;grid-row:15}
+  #v-coach>p{grid-row:16}
   .co-kpi{grid-template-columns:repeat(4,minmax(0,1fr))}
 }
 .tabs a.verrou{color:rgba(169,182,176,.55)}
@@ -624,6 +644,7 @@ footer{font-size:11px;color:var(--doux);text-align:center;padding-top:4px}
     </div>
 
     <div class="card acc-suivi" id="acc-suivi" hidden><div class="eyebrow">Ton suivi</div><h3 id="acc-suivi-t"></h3><div class="co-bars" id="acc-suivi-b" style="grid-template-columns:minmax(0,1fr) auto"></div><p class="soft" id="acc-suivi-p" style="font-size:14px;margin:6px 0 0"></p></div>
+    <a class="card" id="acc-msg" href="#messages" hidden style="display:block;text-decoration:none;color:inherit"><div class="eyebrow">Messages</div><h3 style="margin:4px 0">Écrire à Leni</h3><p class="soft" style="margin:0;font-size:14px" id="acc-msg-p">Une question, une photo : tout au même endroit.</p></a>
     <a class="card" id="acc-suivi-app" href="#suivi" hidden style="display:block;text-decoration:none;color:inherit"><div class="eyebrow">Aperçu · faux élève</div><h3 style="margin:4px 0">Mon suivi</h3><p class="soft" style="margin:0;font-size:14px">Bilan, programme, nutrition et poids, tels que les élèves les verront à la bascule.</p></a>
     <div class="card" id="acc-mot" hidden><div class="eyebrow">Le mot de Leni</div><p id="acc-mot-t" style="margin:6px 0 0;white-space:pre-wrap;font-size:15px;line-height:1.5"></p></div>
     <div class="card" id="acc-missions" hidden><div class="eyebrow" id="acc-missions-t">Tes missions de la semaine</div><div id="acc-missions-l" style="margin-top:6px"></div></div>
@@ -830,7 +851,7 @@ footer{font-size:11px;color:var(--doux);text-align:center;padding-top:4px}
     <div class="page-head">
       <div class="eyebrow">Espace élève</div>
       <h1>Notifications</h1>
-      <p class="lede">Ce que tu as à faire et ce qui est nouveau. Jamais plus d'une notification par jour sur ton téléphone.</p>
+      <p class="lede">Ce que tu as à faire et ce qui est nouveau. Au plus une notification par jour sur ton téléphone, sauf quand je t'écris.</p>
     </div>
     <div class="stack" id="notifs-list"><p class="soft">Chargement…</p></div>
     <div class="row"><button class="btn ghost small" type="button" id="notifs-lu">Tout marquer comme lu</button><a class="btn ghost small" href="#parametres">Paramètres</a></div>
@@ -936,6 +957,7 @@ footer{font-size:11px;color:var(--doux);text-align:center;padding-top:4px}
       <p class="lede">Connexion en coach. Ajoute ici chaque élève qui démarre : il pourra se connecter avec son e-mail. Désactive-le à la fin de son suivi.</p>
     </div>
     <div class="card" id="co-prepa" hidden></div>
+    <div class="card mg" id="co-msg" hidden></div>
     <div class="co-kpi" id="co-kpi" hidden></div>
     <div class="card" id="co-jour" hidden></div>
     <div class="card" id="co-alertes" hidden></div>
@@ -1037,6 +1059,14 @@ footer{font-size:11px;color:var(--doux);text-align:center;padding-top:4px}
       <p class="lede">Ton bilan, ton programme, ta nutrition et ton poids au même endroit.</p>
     </div>
     <div id="su-body" class="stack"></div>
+  </main>
+  <main class="view" id="v-messages" hidden>
+    <div class="page-head">
+      <div class="eyebrow">Espace élève</div>
+      <h1>Messages</h1>
+      <p class="lede">Écris-moi ici : une question, une photo, un ressenti. Je réponds dès que je passe.</p>
+    </div>
+    <div class="card mg" id="mg-eleve"><p class="soft">Chargement…</p></div>
   </main>
   <main class="view" id="v-prepa" hidden>
     <div class="page-head">
@@ -1606,7 +1636,7 @@ satisRendu();
 /* ================= COMPTES : visiteur / élève / coach ================= */
 /* Ressources natives : vue = nom, contenu = fiche-<nom>.html dans Supabase. Le PDF se fabrique depuis la page (bouton Télécharger en PDF). */
 var FICHES={tuto:{t:"Tuto de l'app"},vacuum:{t:'Ressource vacuum'},cheatmeals:{t:'Ressource cheat meals',cle:'cheat-meals'}};
-var VUES_ELEVE=['suivi','prepa','paiements','demarrer','formation','ressources','bikini','echauffement','parrainage','notifs','parametres'].concat(Object.keys(FICHES));
+var VUES_ELEVE=['messages','suivi','prepa','paiements','demarrer','formation','ressources','bikini','echauffement','parrainage','notifs','parametres'].concat(Object.keys(FICHES));
 var sb=null,apresCx=null;
 if(SUPA.url&&SUPA.anon){MOI.role='visiteur';if(window.supabase){try{sb=window.supabase.createClient(SUPA.url,SUPA.anon,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}})}catch(e){sb=null}}}
 function aAcces(){return MOI.role==='eleve'||MOI.role==='coach'||MOI.role==='ouvert'}
@@ -1642,7 +1672,7 @@ function majSession(){
   }).catch(function(){}).then(appliquerRole);
 }
 function appliquerRole(){
-  var w=$('#who-link');document.body.dataset.role=MOI.role;prepaCarte();suiviCarte();missionsCarte();motCarte();var sa=$('#acc-suivi-app');if(sa)sa.hidden=!(MOI.role==='eleve'&&MOI.eleve&&MOI.eleve.test);renderMotifs();
+  var w=$('#who-link');document.body.dataset.role=MOI.role;prepaCarte();suiviCarte();missionsCarte();motCarte();var sa=$('#acc-suivi-app');if(sa)sa.hidden=!(MOI.role==='eleve'&&MOI.eleve&&MOI.eleve.test);msgCarte();renderMotifs();
   if(MOI.role==='coach'&&['','#','#accueil','#appel','#demarrer','#formation','#ressources'].indexOf(location.hash)>=0)location.hash='#coach';
   document.body.classList.toggle('apercu',!!(APERCU&&MOI.vrai==='coach'));$('#apercu').hidden=!(APERCU&&MOI.vrai==='coach');
   if(APERCU&&MOI.vrai==='coach')$('#apercu-t').textContent='Aperçu '+(APERCU.role==='visiteur'?'visiteur':'élève · '+((MOI.eleve&&MOI.eleve.prenom)||APERCU.email||'type'))+' · lecture seule';
@@ -1889,7 +1919,58 @@ document.addEventListener('click',function(e){var b=e.target.closest&&e.target.c
   if(b.hasAttribute('data-mp-add')){$(b.getAttribute('data-mp-add')==='c'?'[data-mp-c]':'[data-mp-p]').insertAdjacentHTML('beforeend',mpLigne({}));return}
   var d={email:String(MOI.email||'').toLowerCase(),competitions:mpLit('[data-mp-c]',1),phases:mpLit('[data-mp-p]'),maj_le:new Date().toISOString()};
   sb.from('ma_prepa').upsert(d).then(function(r){if(r&&r.error){toast('Erreur, réessaie');return}MP=d;prepaRendu();toast('Prépa enregistrée')})});
-function coachRendu(){prepaCharge();
+/* Messagerie (Leni 28/11, étape 1 : texte + photos). Table messages ; faux élèves seulement avant la bascule (déclencheur).
+   La notification sur le téléphone ne montre jamais le contenu (titre seul). Sobre : un fil, une zone d'écriture. */
+var MSG_T=null,MSG_CO=null,MSG_PH={};
+function msgHeure(d){var t=new Date(d);return t.toLocaleTimeString('fr-BE',{hour:'2-digit',minute:'2-digit'})}
+function msgJour(d){var t=new Date(d),a=new Date();a.setHours(0,0,0,0);var j=Math.round((a-new Date(t.getFullYear(),t.getMonth(),t.getDate()))/864e5);return j===0?'Aujourd\'hui':(j===1?'Hier':t.toLocaleDateString('fr-BE',{weekday:'long',day:'numeric',month:'long'}))}
+function msgFil(l,moi){if(!l.length)return '<p class="soft mg-vide">'+(moi==='eleve'?'Pas encore de message. Écris-moi ce que tu veux, je te réponds ici.':'Pas encore de message dans cette conversation.')+'</p>';
+  var o='',jr='';l.forEach(function(m){var j=msgJour(m.cree_le);if(j!==jr){o+='<p class="mg-j">'+esc(j)+'</p>';jr=j}
+    o+='<div class="mg-b'+(m.de===moi?' mg-moi':'')+'">'+(m.photo?'<img src="'+esc(m.photo)+'" alt="Photo" data-mg-zoom loading="lazy">':'')+(m.texte?'<p>'+esc(m.texte).replace(/\n/g,'<br>')+'</p>':'')+'<small>'+msgHeure(m.cree_le)+(m.de===moi&&m.lu_le?' · lu':'')+'</small></div>'});return o}
+function msgZone(k){var ph=MSG_PH[k];return '<div class="mg-z" data-mg-z="'+esc(k)+'">'+(ph?'<div class="mg-pv"><img src="'+esc(ph)+'" alt="Photo à envoyer"><button type="button" class="btn ghost small" data-mg-phx>Retirer</button></div>':'')+
+  '<div class="mg-zr"><label class="mg-ph" aria-label="Ajouter une photo"><input type="file" accept="image/*" data-mg-file hidden><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="15" rx="3"/><circle cx="12" cy="12.5" r="3.5"/><path d="M8 5l1.5-2h5L16 5"/></svg></label>'+
+  '<textarea rows="1" data-mg-t placeholder="Ton message" aria-label="Message"></textarea><button type="button" class="btn" data-mg-env>Envoyer</button></div></div>'}
+function msgDefile(box){var f=$('.mg-fil',box);if(f)f.scrollTop=f.scrollHeight}
+/* élève */
+function msgCarte(){var c=$('#acc-msg');if(!c)return;var ok=MOI.role==='eleve'&&MOI.eleve&&MOI.eleve.test;c.hidden=!ok;if(!ok||!sb)return;
+  sb.from('messages').select('id',{count:'exact',head:true}).eq('de','coach').is('lu_le',null).then(function(r){var n=(r&&r.count)||0;$('#acc-msg-p').textContent=n?n+' nouveau'+(n>1?'x':'')+' message'+(n>1?'s':'')+' de Leni':'Une question, une photo : tout au même endroit.'},function(){})}
+function msgEleve(maj){var box=$('#mg-eleve');if(!box||!sb||!MOI.email)return;
+  if(!(MOI.eleve&&MOI.eleve.test)){box.innerHTML='<p class="soft">Pour l\'instant, on échange sur WhatsApp.</p>';return}
+  sb.from('messages').select('id,de,texte,photo,cree_le,lu_le').eq('email',MOI.email).order('cree_le').then(function(r){var l=(r&&r.data)||[],sig=l.length+'|'+(l.length?l[l.length-1].id+(l[l.length-1].lu_le||''):'');
+    if(maj&&box.dataset.sig===sig)return;box.dataset.sig=sig;
+    var z=$('.mg-z',box),gard=z?$('[data-mg-t]',z).value:'';
+    box.innerHTML='<div class="mg-fil">'+msgFil(l,'eleve')+'</div>'+msgZone('eleve');if(gard)$('[data-mg-t]',box).value=gard;msgDefile(box);
+    if(!APERCU&&l.some(function(m){return m.de==='coach'&&!m.lu_le}))sb.rpc('messages_lus').then(function(){msgCarte()},function(){})})}
+/* coach */
+function msgCoach(){var box=$('#co-msg');if(!box||!sb)return;box.hidden=false;
+  Promise.all([sb.from('eleves').select('email,prenom,test,actif').eq('test',true),sb.from('messages').select('id,email,de,cree_le,lu_le,texte,photo').order('cree_le')]).then(function(rr){
+    var el=(rr[0]&&rr[0].data)||[],ms=(rr[1]&&rr[1].data)||[],C={};
+    el.forEach(function(e){C[e.email]={email:e.email,prenom:e.prenom,l:[]}});ms.forEach(function(m){(C[m.email]=C[m.email]||{email:m.email,prenom:m.email.split('@')[0],l:[]}).l.push(m)});
+    var cs=Object.keys(C).map(function(k){return C[k]}).sort(function(a,b){var x=a.l.length?a.l[a.l.length-1].cree_le:'',y=b.l.length?b.l[b.l.length-1].cree_le:'';return x<y?1:-1});
+    var nl=function(c){return c.l.filter(function(m){return m.de==='eleve'&&!m.lu_le}).length},tot=cs.reduce(function(a,c){return a+nl(c)},0);
+    if(MSG_CO&&C[MSG_CO]){var c=C[MSG_CO],z=$('.mg-z',box),gard=z?$('[data-mg-t]',z).value:'';
+      box.innerHTML='<div class="mg-h"><button type="button" class="btn ghost small" data-mg-liste>‹ Messages</button><b>'+esc(c.prenom||c.email)+'</b></div><div class="mg-fil">'+msgFil(c.l,'coach')+'</div>'+msgZone(c.email);if(gard)$('[data-mg-t]',box).value=gard;msgDefile(box);
+      var nonlus=c.l.filter(function(m){return m.de==='eleve'&&!m.lu_le}).map(function(m){return m.id});if(nonlus.length&&!APERCU)sb.from('messages').update({lu_le:new Date().toISOString()}).in('id',nonlus).then(function(){},function(){});return}
+    box.innerHTML='<div class="eyebrow">Messages'+(tot?' · '+tot+' non lu'+(tot>1?'s':''):'')+'</div>'+(cs.length?'<div class="mg-li">'+cs.map(function(c){var d=c.l[c.l.length-1],n=nl(c);
+      return '<button type="button" class="mg-it" data-mg-co="'+esc(c.email)+'"><b>'+esc(c.prenom||c.email)+'</b>'+(n?'<span class="mg-n">'+n+'</span>':'')+'<span class="soft">'+(d?esc((d.de==='coach'?'Toi : ':'')+(d.texte||'📷 Photo')).slice(0,90)+' · '+esc(msgJour(d.cree_le).toLowerCase()):'Aucun message')+'</span></button>'}).join('')+'</div>':'<p class="soft">Aucune conversation.</p>')+
+      '<p class="soft" style="font-size:12px;margin:0">Avant la bascule, seuls les faux élèves ont la messagerie.</p>'})}
+/* envoi (élève ou coach) */
+function msgPhoto(f,k){var r=new FileReader();r.onload=function(){var im=new Image();im.onload=function(){var q=[[1600,.82],[1280,.7],[1024,.6]],out='';for(var i=0;i<q.length;i++){var sc=Math.min(1,q[i][0]/Math.max(im.width,im.height)),cv=document.createElement('canvas');cv.width=Math.round(im.width*sc);cv.height=Math.round(im.height*sc);cv.getContext('2d').drawImage(im,0,0,cv.width,cv.height);out=cv.toDataURL('image/jpeg',q[i][1]);if(out.length<850000)break}
+  if(out.length>=850000){toast('Photo trop lourde');return}MSG_PH[k]=out;k==='eleve'?msgEleve():msgCoach()};im.onerror=function(){toast('Photo illisible')};im.src=r.result};r.readAsDataURL(f)}
+document.addEventListener('change',function(e){var t=e.target;if(t.matches&&t.matches('[data-mg-file]')&&t.files&&t.files[0]){var z=t.closest('[data-mg-z]'),tx=$('[data-mg-t]',z).value;msgPhoto(t.files[0],z.getAttribute('data-mg-z'));setTimeout(function(){var n=$('[data-mg-z] [data-mg-t]');if(n&&!n.value)n.value=tx},400)}});
+document.addEventListener('input',function(e){var t=e.target;if(t.matches&&t.matches('[data-mg-t]')){t.style.height='auto';t.style.height=Math.min(t.scrollHeight+2,160)+'px'}});
+document.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('[data-mg-env],[data-mg-co],[data-mg-liste],[data-mg-phx],[data-mg-zoom],.mg-zoom');if(!b)return;
+  if(b.classList.contains('mg-zoom')){b.remove();return}
+  if(b.hasAttribute('data-mg-zoom')){var d=document.createElement('div');d.className='mg-zoom';d.innerHTML='<img src="'+esc(b.getAttribute('src'))+'" alt="Photo">';document.body.appendChild(d);return}
+  if(b.hasAttribute('data-mg-co')){MSG_CO=b.getAttribute('data-mg-co');msgCoach();return}
+  if(b.hasAttribute('data-mg-liste')){MSG_CO=null;msgCoach();return}
+  var z=b.closest('[data-mg-z]'),k=z.getAttribute('data-mg-z');
+  if(b.hasAttribute('data-mg-phx')){delete MSG_PH[k];k==='eleve'?msgEleve():msgCoach();return}
+  var t=$('[data-mg-t]',z),tx=t.value.trim(),ph=MSG_PH[k]||null;if(!tx&&!ph)return;
+  if(APERCU){toast('Aperçu : rien n\'est envoyé');return}
+  var coach=k!=='eleve',row={email:coach?k:MOI.email,de:coach?'coach':'eleve',texte:tx||null,photo:ph};b.disabled=true;
+  sb.from('messages').insert(row).then(function(r){b.disabled=false;if(r&&r.error){toast('Pas envoyé, réessaie');return}t.value='';delete MSG_PH[k];coach?msgCoach():msgEleve()},function(){b.disabled=false;toast('Pas envoyé, réessaie')})});
+function coachRendu(){msgCoach();prepaCharge();
   var box=$('#co-list');if(!sb)return;
   Promise.all([sb.from('eleves').select('*').order('actif',{ascending:false}).order('cree_le',{ascending:false}),sb.from('etapes_eleve').select('email,etape,coche,par,quand'),sb.from('reglages').select('email,push,maj_le'),sb.from('formation_eleve').select('email,module,fait_le,envoye_le'),sb.from('formation_envois').select('id,email,lecon,texte,envoye_le,vu_le').is('vu_le',null).order('envoye_le'),sb.from('paiements').select('id,email,echeance,montant,moyen,paye_le,lien').order('echeance'),sb.from('prepa_etapes').select('id,email,jour,titre,detail,scene,fait').order('jour'),sb.from('demandes_appel').select('id,email,motif,reponses,cree_le').is('traite_le',null).order('cree_le'),sb.from('automatisations').select('id,semaine,titre,texte,lien,actif').order('semaine'),sb.from('missions').select('id,email,semaine_du,texte,fait_le').gte('semaine_du',lundi(-7)).order('id'),sb.from('bilans').select('*').gte('semaine_du',lundi(-56)).order('semaine_du',{ascending:false}),sb.from('mesures').select('*').order('jour'),sb.from('executions').select('*').order('cree_le'),sb.from('programmes').select('*').order('version',{ascending:false}),sb.from('modeles_bilan').select('*').order('id'),sb.from('contenus').select('donnees').eq('cle','message-accueil').maybeSingle(),sb.from('alertes_vues').select('email,cle'),sb.from('reperes').select('*').eq('actif',true).order('jour'),sb.from('seances_log').select('email,jour,seance,exercice,groupe,series').gte('jour',lundi(-63)).order('jour'),sb.from('suivi_jour').select('*').gte('jour',lundi(-63)).order('jour'),sb.from('remarques').select('*').is('vu_le',null).order('jour',{ascending:false})]).then(function(rr){
     autoRendu((rr[8]&&rr[8].data)||[],(rr[0]&&rr[0].data)||[]);var MI={};((rr[9]&&rr[9].data)||[]).forEach(function(x){(MI[x.email]=MI[x.email]||[]).push(x)});
@@ -2489,8 +2570,8 @@ $('#ech-zones').addEventListener('click',function(e){
 /* Navigation */
 /* Outils publics : vue = nom, fichier servi dans guides/ */
 var OUTILS={mensurations:'mensurations.html',potentiel:'potentiel.html',posing:'posing.html'};
-var VUES=['suivi','prepa','paiements','accueil','appel','guides','contact','demarrer','formation','ressources','bikini','echauffement','parrainage','connexion','coach','notifs','parametres'].concat(Object.keys(FICHES),Object.keys(OUTILS));
-var TAB_DE={guides:'accueil',contact:'accueil',bikini:'ressources',echauffement:'ressources',parrainage:'ressources',coach:'coach',notifs:'accueil',parametres:'accueil'};
+var VUES=['messages','suivi','prepa','paiements','accueil','appel','guides','contact','demarrer','formation','ressources','bikini','echauffement','parrainage','connexion','coach','notifs','parametres'].concat(Object.keys(FICHES),Object.keys(OUTILS));
+var TAB_DE={messages:'accueil',guides:'accueil',contact:'accueil',bikini:'ressources',echauffement:'ressources',parrainage:'ressources',coach:'coach',notifs:'accueil',parametres:'accueil'};
 Object.keys(FICHES).forEach(function(k){TAB_DE[k]='ressources'});
 Object.keys(OUTILS).forEach(function(k){TAB_DE[k]='accueil'});
 /* Statistiques anonymes (aucune donnée personnelle, pas de cookie) : arrivée du jour + source,
@@ -2533,6 +2614,7 @@ function route(){
   if(v==='paiements')paiementsRendu();
   if(v==='prepa')prepaRendu();
   if(v==='suivi')suiviRendu();
+  clearInterval(MSG_T);if(v==='messages'){msgEleve();MSG_T=setInterval(function(){if(!document.hidden)msgEleve(1)},20000)}
   remonter();
 }
 /* Chaque page s'ouvre tout en haut, sous l'en-tête (Safari peut rétablir l'ancienne position après le changement de page) */
