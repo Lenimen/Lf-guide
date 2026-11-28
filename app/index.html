@@ -861,7 +861,7 @@ footer{font-size:11px;color:var(--doux);text-align:center;padding-top:4px}
     <div class="page-head">
       <div class="eyebrow">Espace élève</div>
       <h1>Notifications</h1>
-      <p class="lede">Ce que tu as à faire et ce qui est nouveau. Au plus une notification par jour sur ton téléphone, sauf quand je t'écris.</p>
+      <p class="lede">Ce que tu as à faire et ce qui est nouveau. Une notification sur ton téléphone seulement quand il y a une vraie raison.</p>
     </div>
     <div class="stack" id="notifs-list"><p class="soft">Chargement…</p></div>
     <div class="row"><button class="btn ghost small" type="button" id="notifs-lu">Tout marquer comme lu</button><a class="btn ghost small" href="#parametres">Paramètres</a></div>
@@ -889,7 +889,7 @@ footer{font-size:11px;color:var(--doux);text-align:center;padding-top:4px}
     <div class="card">
       <div class="eyebrow">À quelle fréquence</div>
       <div class="chips" id="pa-freq">
-        <label><input type="radio" name="pa-freq" value="jour"><span>1 par jour maximum</span></label>
+        <label><input type="radio" name="pa-freq" value="jour"><span>Dès qu'il y a une raison</span></label>
         <label><input type="radio" name="pa-freq" value="semaine"><span>1 résumé par semaine</span></label>
         <label><input type="radio" name="pa-freq" value="app"><span>Seulement dans l'app</span></label>
       </div>
@@ -1731,7 +1731,7 @@ function chargerFiche(n){
 }
 /* Formation : même fichier que l'Academy Systeme.io (academy.html du dépôt), affiché dans l'app.
    L'e-mail de l'élève connecté est prérempli pour le suivi et « Envoyer à Leni ». */
-/* Formation : quand l'élève clique « Envoyer à Leni », Leni reçoit une notification (groupée, 1 par jour max).
+/* Formation : quand l'élève clique « Envoyer à Leni », Leni reçoit une notification (immédiate depuis le 28/11).
    Les modules terminés sont recopiés pour être visibles dans l'espace coach. */
 document.addEventListener('click',function(e){
   var b=e.target.closest&&e.target.closest('#lfa-send');if(!b||!sb||MOI.role!=='eleve')return;
@@ -1883,7 +1883,7 @@ function pushRendu(){
   navigator.serviceWorker.ready.then(function(sw){return sw.pushManager.getSubscription()}).then(function(sub){
     if(sub&&REG.push){t.textContent='Notifications activées';d.textContent='Ce téléphone reçoit au maximum une notification par jour, selon tes choix ci-dessous.';
       b.innerHTML='<button class="btn ghost small" type="button" id="pa-test">M\'envoyer un test</button><button class="btn ghost small" type="button" id="pa-off">Désactiver</button>'}
-    else{t.textContent='Activer les notifications';d.textContent='Pour savoir tout de suite quand Leni t\'écrit ou qu\'une étape t\'attend. Jamais plus d\'une par jour.';
+    else{t.textContent='Activer les notifications';d.textContent='Pour savoir tout de suite quand Leni t\'écrit ou qu\'une étape t\'attend. Seulement quand il y a une vraie raison.';
       b.innerHTML='<button class="btn small" type="button" id="pa-on">Activer sur ce téléphone</button>'}
   }).catch(function(){b.innerHTML='';d.textContent='Ouvre l\'app depuis son icône pour activer les notifications.'});
 }
