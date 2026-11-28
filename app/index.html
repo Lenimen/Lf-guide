@@ -278,6 +278,13 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
 .pg-ss{display:grid;grid-template-columns:28px minmax(0,1fr);gap:8px;border:1px solid var(--filet);border-radius:12px;padding:4px 8px 4px 4px;margin:6px 0}
 .pg-ss-l{writing-mode:vertical-rl;transform:rotate(180deg);text-align:center;font-weight:800;letter-spacing:.18em;font-size:11px;color:var(--creme);background:rgba(235,227,208,.08);border-radius:8px;padding:6px 0}
 .pg-vt td,.pg-vt th{font-size:12px}
+.mp-big{font-size:34px;line-height:1.1;font-weight:800;color:var(--creme)}.mp-big b{font-size:52px;font-weight:900}.mp-big small{font-size:16px;font-weight:600;color:var(--doux)}
+.mp-l{margin:0;font-size:14px;overflow-wrap:anywhere}
+.mp-bar{position:relative;display:flex;gap:2px;height:10px;margin:6px 0 2px}.mp-bar i{display:block;background:var(--creme);border-radius:4px;min-width:2px}.mp-bar b{position:absolute;top:-4px;width:3px;height:18px;margin-left:-1px;background:#fff;border-radius:2px;box-shadow:0 0 0 2px var(--carte)}
+.mp-li{list-style:none;margin:0;padding:0;display:grid;gap:6px}.mp-li li{display:grid;gap:0;font-size:14px;overflow-wrap:anywhere}.mp-li li .soft{font-size:12px}
+.mp-ed{display:grid;gap:8px}.mp-ed>summary{cursor:pointer;font-weight:700;font-size:14px}.mp-st{font-size:12px;margin:8px 0 0}
+.mp-r{display:grid;grid-template-columns:minmax(0,1fr) 150px 44px;gap:6px;margin-bottom:6px}.mp-r textarea{resize:none;min-height:44px;line-height:1.35;field-sizing:content;overflow-wrap:anywhere;min-width:0}.mp-ed select{width:100%;min-width:0}
+@media (max-width:420px){.mp-r{grid-template-columns:minmax(0,1fr) 44px}.mp-r input{grid-column:1;grid-row:2}.mp-r button{grid-row:1/3;grid-column:2}}
 .pg-ton{display:flex;flex-wrap:wrap;gap:6px;margin:4px 0}.pg-ton span{font-size:12px;padding:3px 8px;border-radius:999px;border:1px solid var(--filet);white-space:nowrap}
 .nu-g{display:grid;grid-template-columns:auto repeat(3,minmax(0,1fr)) auto;gap:6px;align-items:center;font-size:12px;margin-top:8px}.nu-g input{min-width:0;appearance:none;-webkit-appearance:none}.nu-s{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px;margin-top:8px;text-align:center;font-size:11px;color:var(--doux)}.nu-s button{all:unset;cursor:pointer;padding:6px 0;border-radius:8px;background:var(--creme);color:#192E33;font-weight:700;font-size:11px;text-align:center}.nu-s button.off{background:transparent;color:var(--creme);border:1px solid var(--filet)}
 .rg-m{border-top:1px solid var(--filet);padding:8px 0}.rg-m textarea{min-height:140px}
@@ -534,19 +541,20 @@ body[data-role=coach] .tabs nav{grid-template-columns:repeat(3,1fr)}
   #v-coach>#co-revoir{grid-column:2;grid-row:1/3}
   #v-coach>#co-paie{grid-column:3;grid-row:1/3;max-height:420px;overflow:auto}
   #v-coach>#co-revoir[hidden]+#co-paie{grid-column:2/4}
-  #v-coach>#co-kpi{grid-row:3}
-  #v-coach>#co-jour{grid-row:4}
-  #v-coach>#co-alertes{grid-row:5}
-  #v-coach>#co-bilan{grid-row:6}
-  #v-coach>#co-form{grid-row:7}
-  #v-coach>.co-barre{grid-row:8}
-  #v-coach>#co-list{grid-row:9}
-  #v-coach>#co-act{grid-row:10}
-  #v-coach>#co-auto{grid-row:11}
-  #v-coach>#co-reglages{grid-row:12}
-  #v-coach>.co-vue{grid-column:1/3;grid-row:13}
-  #v-coach>#co-contenus{grid-column:3;grid-row:13}
-  #v-coach>p{grid-row:14}
+  #v-coach>#co-prepa{grid-row:3}
+  #v-coach>#co-kpi{grid-row:4}
+  #v-coach>#co-jour{grid-row:5}
+  #v-coach>#co-alertes{grid-row:6}
+  #v-coach>#co-bilan{grid-row:7}
+  #v-coach>#co-form{grid-row:8}
+  #v-coach>.co-barre{grid-row:9}
+  #v-coach>#co-list{grid-row:10}
+  #v-coach>#co-act{grid-row:11}
+  #v-coach>#co-auto{grid-row:12}
+  #v-coach>#co-reglages{grid-row:13}
+  #v-coach>.co-vue{grid-column:1/3;grid-row:14}
+  #v-coach>#co-contenus{grid-column:3;grid-row:14}
+  #v-coach>p{grid-row:15}
   .co-kpi{grid-template-columns:repeat(4,minmax(0,1fr))}
 }
 .tabs a.verrou{color:rgba(169,182,176,.55)}
@@ -927,6 +935,7 @@ footer{font-size:11px;color:var(--doux);text-align:center;padding-top:4px}
       <h1>Tes élèves</h1>
       <p class="lede">Connexion en coach. Ajoute ici chaque élève qui démarre : il pourra se connecter avec son e-mail. Désactive-le à la fin de son suivi.</p>
     </div>
+    <div class="card" id="co-prepa" hidden></div>
     <div class="co-kpi" id="co-kpi" hidden></div>
     <div class="card" id="co-jour" hidden></div>
     <div class="card" id="co-alertes" hidden></div>
@@ -1848,7 +1857,39 @@ $('#pa-push').addEventListener('click',function(e){
 navigator.serviceWorker&&navigator.serviceWorker.addEventListener&&navigator.serviceWorker.addEventListener('message',function(e){if(e.data&&e.data.lien){location.hash=e.data.lien}});
 
 /* Espace coach */
-function coachRendu(){
+/* Ma prépa (Leni 28/11) : la coach en athlète. Dates de compète et phases seulement (pas de donnée de santé), table ma_prepa, visible par elle seule. Sobre (retour de Maxime : Fitbrothers trop chargé). */
+var MP_SHOWS=[["2027-04-17", "Miami Natural Muscle Mayhem (WNBF USA)", "Miami", 1], ["2027-04-18", "Natural Legends Cup 2027", "Purmerend", 1], ["2027-05-01", "Hudson Valley Spring Spectacular (WNBF USA)", "Hudson Valley (NY ?)", 1], ["2027-05-01", "Natural Show AFBBN", "Le Perray-en-Yvelines (78) (lieu à confirmer)", 1], ["2027-05-08", "ANB Victoria State Pro Qualifier (Season A)", "Melbourne (Lower Plenty)", 1], ["2027-05-08", "WNBF Australia Season A – Melbourne", "Melbourne (Moonee Ponds)", 1], ["2027-05-14", "2027 NPC World Natural Championships", "Pittsburgh (PA)", 1], ["2027-05-15", "ANB New South Wales State Pro Qualifier (Season A)", "", 1], ["2027-05-15", "WNBF Australia Season A – Brisbane", "Brisbane", 1], ["2027-05-23", "Physique Mania Grand Prix 2027 (NCOBB)", "Bredene (MEC Staf Versluys)", 1], ["2027-05-28", "Wellness Cup – AINBB", "Rimini", 0], ["2027-05-29", "ANB North Queensland Pro Qualifier", "Townsville (The Townsville Collective)", 1], ["2027-05-29", "INBA Mexico – Pro/Am Natty-Mania « The Natural Bodybuilding Experience » 2027", "Mexico (Centro Cultural Carranza)", 0], ["2027-06-04", "European Championships Am/Pro Physique Mania 2027", "Valence", 0], ["2027-06-06", "WNBF UK First Timers & Novice Championships 2027", "", 1], ["2027-06-12", "Natural Columbia Classic (WNBF USA)", "?", 1], ["2027-06-26", "Inter Natural Cup de Watten – AFBBN", "Watten (59)", 0], ["2027-06-26", "WNBF Belgium – prochaine compétition 2027 (nom du show non annoncé)", "", 1], ["2027-06-26", "WNBF Hercules Open Pro & Masters Pro Am", "", 1], ["2027-07-17", "WNBF Shannon Kelly Classic", "", 1], ["2027-07-24", "The Night of the Natural – AINBB", "Perugia", 0], ["2027-08-07", "WNBF LA Natural Muscle Mayhem", "Los Angeles", 1], ["2027-08-21", "The Open Natural 2027", "Kirkland (WA)", 1], ["2027-09-01", "WNBF European Championships Pro-Am 2027", "Tarragone", 1], ["2027-09-05", "Universe – Physique Mania 2027", "Los Angeles", 1], ["2027-09-25", "WNBF Sands of Strength", "", 1], ["2027-10-02", "WNBF Australia Season C – Brisbane", "Brisbane", 1], ["2027-10-02", "WNBF UAE Gulf Super Pro (Dubaï)", "Dubaï", 0], ["2027-10-09", "The Best Natural in Show – AINBB", "Brendola", 0], ["2027-10-09", "WNBF UK SuperNaturals Open International Pro/Am Championships 2027", "", 0], ["2027-10-16", "Natural Cup AFBBN (Montady)", "Montady (34)", 0], ["2027-10-17", "WNBF Australia Season C – Melbourne", "Melbourne (Moonee Ponds)", 1], ["2027-10-23", "Belgian Championships Amateur/Pro (NCOBB)", "Bredene", 1], ["2027-10-23", "WNBF Monaco Open International Championships", "Monaco", 1], ["2027-10-29", "World Championships Am/Pro Physique Mania 2027", "Venise", 0], ["2027-10-30", "DFAC European Championships 2027 (natural bodybuilding)", "Erding (près de Munich)", 1], ["2027-12-06", "Winter Cup – AINBB", "Brendola", 1], ["2028-06-30", "European Championships Amateur/Pro 2028 (NCOBB)", "Bredene", 0]];
+var MP=null;
+function mpJours(d){var t=new Date();t.setHours(0,0,0,0);var x=new Date(d+'T00:00:00');return Math.round((x-t)/864e5)}
+function mpWo(d){if(!d)return 'date à confirmer';var n=mpJours(d);if(n<0)return 'passée';var w=Math.floor(n/7),r=n%7;return w+' weeks out'+(r?' +'+r+' j':'')}
+function mpDate(d){return d?new Date(d+'T00:00:00').toLocaleDateString('fr-BE',{weekday:'short',day:'numeric',month:'numeric',year:'numeric'}):'date à confirmer'}
+function mpDefaut(){var t=new Date().toISOString().slice(0,10);return {competitions:[{nom:'WNBF UAE Gulf Super Pro (Dubaï)',date:'2027-10-02'},{nom:'WNBF Monaco',date:'2027-10-23'},{nom:'WNBF France',date:''}],phases:[{nom:'Prise de masse',date:t},{nom:'Sèche',date:'2027-05-16'},{nom:'Peak week',date:'2027-09-25'},{nom:'Reverse',date:'2027-10-24'}],defaut:1}}
+function prepaCharge(){if(!sb||!MOI||MOI.role!=='coach')return;sb.from('ma_prepa').select('competitions,phases').eq('email',String(MOI.email||'').toLowerCase()).maybeSingle().then(function(r){MP=(r&&r.data&&(r.data.competitions||[]).length)?r.data:mpDefaut();prepaRendu()})}
+function prepaRendu(){var box=$('#co-prepa');if(!box||!MP)return;box.hidden=false;
+  var tri=function(a,b){return !a.date?1:(!b.date?-1:(a.date<b.date?-1:1))};
+  var cs=(MP.competitions||[]).slice().sort(tri),dat=cs.filter(function(c){return c.date}),fut=dat.filter(function(c){return mpJours(c.date)>=0}),c0=fut[0];
+  var ph=(MP.phases||[]).filter(function(f){return f.date}).sort(tri),now=ph.filter(function(f){return mpJours(f.date)<=0}).pop(),nx=ph.filter(function(f){return mpJours(f.date)>0})[0];
+  var n=c0?mpJours(c0.date):0,w=Math.floor(n/7),r=n%7;
+  var bar='';if(c0&&ph.length){var a=new Date(ph[0].date+'T00:00:00')-0,z=new Date(dat[dat.length-1].date+'T00:00:00')-0,tot=Math.max(z-a,1),t=new Date();t.setHours(0,0,0,0);
+    bar='<div class="mp-bar" aria-hidden="true">'+ph.map(function(f,k){var d=new Date(f.date+'T00:00:00')-0,e=k+1<ph.length?new Date(ph[k+1].date+'T00:00:00')-0:z;return '<i style="flex:'+Math.max(e-d,0)+';opacity:'+(0.25+0.75*(k+1)/ph.length)+'"></i>'}).join('')+'<b style="left:'+Math.min(100,Math.max(0,(t-a)/tot*100))+'%"></b></div>'}
+  box.innerHTML='<div class="eyebrow">Ma prépa</div>'+(c0?'<div class="mp-big"><b>'+w+'</b> weeks out'+(r?' <small>+'+r+' j</small>':'')+'</div><p class="soft mp-l">'+esc(c0.nom)+' · '+mpDate(c0.date)+'</p>':'<p class="soft">Ajoute la date de ta prochaine compète pour voir le compte à rebours.</p>')+
+    (now?'<p class="mp-l">Phase : <b>'+esc(now.nom)+'</b>'+(nx?' · '+esc(nx.nom)+' dans '+Math.ceil(mpJours(nx.date)/7)+' sem. ('+jourCourt(nx.date)+')':'')+'</p>':'')+bar+
+    (cs.length>1?'<ul class="mp-li">'+cs.map(function(c){return '<li><span>'+esc(c.nom)+'</span><span class="soft">'+(c.date?mpDate(c.date)+' · ':'')+mpWo(c.date)+'</span></li>'}).join('')+'</ul>':'')+
+    (MP.defaut?'<p class="soft" style="font-size:12px;margin:0">Pré-rempli avec ton plan du 31/10 (sèche le 16/05). Ajuste et enregistre.</p>':'')+
+    '<details class="mp-ed"><summary>Modifier</summary><p class="soft mp-st">Compétitions (date vide = à confirmer)</p><div data-mp-c>'+(MP.competitions||[]).map(mpLigne).join('')+'</div>'+
+    '<select data-mp-cal aria-label="Ajouter une compétition du calendrier"><option value="">+ Depuis le calendrier</option>'+MP_SHOWS.map(function(x,k){return '<option value="'+k+'">'+jourCourt(x[0])+(x[3]?' ≈':'')+' · '+esc(x[1])+'</option>'}).join('')+'</select>'+
+    '<button class="btn ghost" type="button" data-mp-add="c">+ Autre compète</button>'+
+    '<p class="soft mp-st">Phases (date de début)</p><div data-mp-p>'+(MP.phases||[]).map(mpLigne).join('')+'</div><button class="btn ghost" type="button" data-mp-add="p">+ Phase</button>'+
+    '<button class="btn block" type="button" data-mp-save>Enregistrer</button></details>'}
+function mpLigne(x){return '<div class="mp-r"><textarea rows="1" data-mp-n aria-label="Nom">'+esc(x.nom||'')+'</textarea><input type="date" data-mp-d value="'+esc(x.date||'')+'" aria-label="Date"><button class="btn ghost" type="button" data-mp-x aria-label="Retirer">×</button></div>'}
+function mpLit(sel,sansDate){return [].slice.call(document.querySelectorAll(sel+' .mp-r')).map(function(r){return {nom:$('[data-mp-n]',r).value.trim(),date:$('[data-mp-d]',r).value}}).filter(function(x){return x.nom&&(x.date||sansDate)})}
+document.addEventListener('change',function(e){var t=e.target;if(t.matches&&t.matches('[data-mp-cal]')&&t.value!==''){var x=MP_SHOWS[+t.value];$('[data-mp-c]').insertAdjacentHTML('beforeend',mpLigne({nom:x[1],date:x[0]}));t.value=''}});
+document.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('[data-mp-add],[data-mp-x],[data-mp-save]');if(!b)return;
+  if(b.hasAttribute('data-mp-x')){b.closest('.mp-r').remove();return}
+  if(b.hasAttribute('data-mp-add')){$(b.getAttribute('data-mp-add')==='c'?'[data-mp-c]':'[data-mp-p]').insertAdjacentHTML('beforeend',mpLigne({}));return}
+  var d={email:String(MOI.email||'').toLowerCase(),competitions:mpLit('[data-mp-c]',1),phases:mpLit('[data-mp-p]'),maj_le:new Date().toISOString()};
+  sb.from('ma_prepa').upsert(d).then(function(r){if(r&&r.error){toast('Erreur, réessaie');return}MP=d;prepaRendu();toast('Prépa enregistrée')})});
+function coachRendu(){prepaCharge();
   var box=$('#co-list');if(!sb)return;
   Promise.all([sb.from('eleves').select('*').order('actif',{ascending:false}).order('cree_le',{ascending:false}),sb.from('etapes_eleve').select('email,etape,coche,par,quand'),sb.from('reglages').select('email,push,maj_le'),sb.from('formation_eleve').select('email,module,fait_le,envoye_le'),sb.from('formation_envois').select('id,email,lecon,texte,envoye_le,vu_le').is('vu_le',null).order('envoye_le'),sb.from('paiements').select('id,email,echeance,montant,moyen,paye_le,lien').order('echeance'),sb.from('prepa_etapes').select('id,email,jour,titre,detail,scene,fait').order('jour'),sb.from('demandes_appel').select('id,email,motif,reponses,cree_le').is('traite_le',null).order('cree_le'),sb.from('automatisations').select('id,semaine,titre,texte,lien,actif').order('semaine'),sb.from('missions').select('id,email,semaine_du,texte,fait_le').gte('semaine_du',lundi(-7)).order('id'),sb.from('bilans').select('*').gte('semaine_du',lundi(-56)).order('semaine_du',{ascending:false}),sb.from('mesures').select('*').order('jour'),sb.from('executions').select('*').order('cree_le'),sb.from('programmes').select('*').order('version',{ascending:false}),sb.from('modeles_bilan').select('*').order('id'),sb.from('contenus').select('donnees').eq('cle','message-accueil').maybeSingle(),sb.from('alertes_vues').select('email,cle'),sb.from('reperes').select('*').eq('actif',true).order('jour'),sb.from('seances_log').select('email,jour,seance,exercice,groupe,series').gte('jour',lundi(-63)).order('jour'),sb.from('suivi_jour').select('*').gte('jour',lundi(-63)).order('jour'),sb.from('remarques').select('*').is('vu_le',null).order('jour',{ascending:false})]).then(function(rr){
     autoRendu((rr[8]&&rr[8].data)||[],(rr[0]&&rr[0].data)||[]);var MI={};((rr[9]&&rr[9].data)||[]).forEach(function(x){(MI[x.email]=MI[x.email]||[]).push(x)});
