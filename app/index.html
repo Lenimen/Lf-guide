@@ -814,14 +814,6 @@ footer{font-size:11px;color:var(--doux);text-align:center;padding-top:4px}
       <p class="soft" style="font-size:13px">Prépa ensemble d'au moins 16 semaines, dans une fédération naturelle testée, une compète en 2027. C'est écrit dans un avenant au contrat.</p>
       <span class="arrow">En parler avec moi</span>
     </a>
-    <section>
-      <div class="sec-head"><h2>Bientôt dans l'app</h2></div>
-      <div class="card dash" id="slot-suivi">
-        <div class="eyebrow">En préparation</div>
-        <h3>Ton suivi</h3>
-        <p class="soft" style="font-size:14px">Séances, poids du matin, nutrition, photos et bilans au même endroit. En attendant, tout se passe dans l'app de suivi que tu utilises déjà.</p>
-      </div>
-    </section>
   </main>
 
   <!-- ============ PARRAINAGE (espace élève) ============ -->
@@ -2042,7 +2034,7 @@ function fourchette(e,sl){var auj=new Date().toISOString().slice(0,10);
    corrections des semaines passées dans une bulle sur chaque exercice, bouton « Filmer mon exécution ». */
 function suMode(){return store('lf-mode')==='avance'?'avance':'normal'}
 function suiviRendu(){var box=$('#su-body');if(!box)return;
-  if(!(MOI.role==='eleve'&&MOI.eleve&&MOI.eleve.test&&MOI.email)){box.innerHTML='<div class="card"><p class="soft" style="margin:0">Ton suivi arrive bientôt dans l\'app. En attendant, il reste dans ton app de suivi habituelle.</p></div>';return}
+  if(!(MOI.role==='eleve'&&MOI.eleve&&MOI.eleve.test&&MOI.email)){box.innerHTML='<div class="card"><p class="soft" style="margin:0">Ton suivi se fait dans ton app de suivi habituelle.</p></div>';return}
   box.innerHTML='<p class="soft">Chargement…</p>';var em=MOI.email;
   Promise.all([sb.from('modeles_bilan').select('*').order('id'),sb.from('programmes').select('*').eq('email',em).order('version',{ascending:false}),sb.from('executions').select('*').eq('email',em).order('cree_le',{ascending:false}),sb.from('mesures').select('*').eq('email',em).order('jour'),sb.from('seances_log').select('jour,exercice,series').eq('email',em).order('jour',{ascending:false}).limit(200),sb.from('suivi_jour').select('*').eq('email',em).eq('jour',new Date().toISOString().slice(0,10)).maybeSingle(),sb.from('bilans').select('id,semaine_du,reponse,traite_le').eq('email',em).gte('semaine_du',lundi(-7)).order('semaine_du',{ascending:false})]).then(function(r){
     var mo=((r[0].data||[])[0])||{questions:[]},pg=r[1].data||[],ex=r[2].data||[],me=r[3].data||[],bl=r[6].data||[],sjj=r[5].data||{},SLx=r[4].data||[],fait=bl.some(function(b){return b.semaine_du>=lundi(0)}),rep=bl.filter(function(b){return b.reponse})[0],av=suMode()==='avance';
